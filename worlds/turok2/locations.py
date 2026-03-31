@@ -15,18 +15,11 @@ if TYPE_CHECKING:
 class Turok2Location(Location):
     game = "Turok 2"
 
-LOCATION_TABLE = json.loads(
-    pkgutil.get_data(__name__, "data/locations.json").decode()
-)
-LOCATION_NAME_TO_ID = {
-    name: data["ap_id"] for name, data in LOCATION_TABLE.items()
-}
-
-def load_all_location_data():
+def _load_all_location_data():
     """
     Loads all regions from the "locations_level" files in the data path.
     """
-    all_locations = []
+    all_locations = {}
     data_package = __package__ + ".data"
 
     for file in resources.files(data_package).iterdir():
@@ -35,6 +28,11 @@ def load_all_location_data():
             all_locations.update(data)
 
     return all_locations
+
+LOCATION_TABLE = _load_all_location_data()
+LOCATION_NAME_TO_ID = {
+    name: data["ap_id"] for name, data in LOCATION_TABLE.items()
+}
 
 def load_all_region_data():
     """
