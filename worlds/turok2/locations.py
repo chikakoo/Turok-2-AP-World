@@ -22,6 +22,20 @@ LOCATION_NAME_TO_ID = {
     name: data["ap_id"] for name, data in LOCATION_TABLE.items()
 }
 
+def load_all_location_data():
+    """
+    Loads all regions from the "locations_level" files in the data path.
+    """
+    all_locations = []
+    data_package = __package__ + ".data"
+
+    for file in resources.files(data_package).iterdir():
+        if file.name.startswith("locations_level") and file.name.endswith(".json"):
+            data = json.loads(file.read_text())
+            all_locations.update(data)
+
+    return all_locations
+
 def load_all_region_data():
     """
     Loads all regions from the "level" files in the data path.
