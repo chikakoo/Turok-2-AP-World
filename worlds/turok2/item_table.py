@@ -354,6 +354,14 @@ ITEM_TABLE = {
         "class": ItemClassification.progression,
         "count": 3
     },
+    "Cave Door Key": {
+        "id": 200400,
+        "actor_id": 4020,
+        "type": ItemType.MISSION_ITEM.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 6 # The 7th is never randomized to prevent softlocks
+    },
 
     # Weapons
     "War Blade": {
