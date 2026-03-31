@@ -1,0 +1,8 @@
+{
+    "PoA Primagen Key Leap - LF10 Trail 1": {
+        "or": [
+            {"has": "Leap of Faith"},
+            "advanced_game_logic"
+        ]
+    }
+}

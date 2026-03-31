@@ -1,0 +1,98 @@
+{
+	"regions": [
+		{
+			"name": "PoA Start",
+			"exits": [{ "to": "PoA Water Hub" }]
+		},
+		{
+			"name": "PoA Water Hub",
+			"exits": [{ "to": "PoA Ships" }]
+		},
+		{
+			"name":  "PoA Ships",
+			"exits": [{ "to": "PoA Water Hub Upper" }]
+			
+		},
+		{
+			"name":  "PoA Water Hub Upper",
+			"exits": [{ "to": "PoA Talisman Portal Map"	}]
+		},
+		{
+			"name":  "PoA Talisman Portal Map",
+			"exits": [
+				{ "to": "PoA Bird Door" },
+				{ "to": "PoA Upper Primagen Key" },
+				{ "to": "PoA Child 3 Map" }
+			]
+		},
+		{
+			"name": "PoA Bird Door",
+			"exits": []
+		},
+		{
+			"name":  "PoA Upper Primagen Key",
+			"exits": [
+				{ 
+					"to": "PoA Primagen Key Leap of Faith", 
+					"rule": { "has": "Leap of Faith" }
+				}
+			]
+		},
+		{
+			"name":  "PoA Primagen Key Leap of Faith",
+			"exits": []
+		},
+		{
+			"name":  "PoA Child 3 Map",
+			"exits": [
+				{ "to": "PoA Archery and Bridge" }
+			]
+		},
+		{
+			"name":  "PoA Archery and Bridge",
+			"exits": [
+				{ "to": "PoA Child 4 Map" }
+			]
+		},
+		{
+			"name":  "PoA Child 4 Map",
+			"exits": [
+				{ "to": "PoA Gated City" }
+			]
+		},
+		{
+			"name":  "PoA Gated City",
+			"exits": [
+				{ "to": "PoA Catwalks" }
+			]
+		},
+		{
+			"name": "PoA Catwalks",
+			"exits": [
+				{ "to": "PoA Oblivion" },
+				{
+					"to": "PoA Totem",
+					"rule": {
+						"mission_item_requirement": {
+							"item": "Beacon Power Cell",
+							"count": 3
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "PoA Oblivion",
+			"exits": []
+		},
+		{
+			"name": "PoA Totem",
+			"exits":[{ "to": "Hub" }],
+			"events": {
+				"Level Complete": {
+					"location_name": "PoA Complete"
+				}
+			}
+		}
+	]
+}

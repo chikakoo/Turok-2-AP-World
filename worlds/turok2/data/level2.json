@@ -1,0 +1,187 @@
+{
+    "regions": [
+        {
+            "name": "RoS Start",
+            "exits": [{ "to": "RoS After Riding Gun" }]
+        },
+        {
+            "name": "RoS After Riding Gun",
+            "exits": [{ "to": "RoS Level Key Loop" }]
+        },
+        {
+            "name": "RoS Level Key Loop",
+            "exits": [
+                { 
+                    "to": "RoS Level Key Loop in River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { "to": "RoS River and Checkpoint" }
+            ]
+        },
+        {
+            "name": "RoS Level Key Loop in River",
+            "exits": []
+        },
+        {
+            "name": "RoS River and Checkpoint",
+            "exits": [
+                { 
+                    "to": "RoS River and Checkpoint in River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { 
+                    "to": "RoS Gate Key Door",
+                    "rule": {
+                        "has": {
+                            "item": "Gate Key",
+                            "count": 2
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "RoS River and Checkpoint in River",
+            "exits": []
+        },
+        {
+            "name": "RoS Gate Key Door",
+            "exits": [
+                { "to": "RoS Oblivion" },
+                { "to": "RoS Soul Gate 1" }
+            ]
+        },
+        {
+            "name": "RoS Oblivion",
+            "exits": []
+        },
+        {
+            "name": "RoS Soul Gate 1",
+            "exits": [
+                { 
+                    "to": "RoS Mag 60 River Path",
+                    "rule": 
+                    { 
+                        "has": [
+                            "Leap of Faith",
+                            "Breath of Life"
+                        ]
+                    }
+                },
+                { "to": "RoS Long Path" }
+            ]
+        },
+        {
+            "name": "RoS Mag 60 River Path",
+            "exits": []
+        },
+        {
+            "name": "RoS Long Path",
+            "exits": [{ "to": "RoS Graveyard 1" }]
+        },
+        {
+            "name": "RoS Graveyard 1",
+            "exits": [{ "to": "RoS LF Jumps" }]
+        },
+        {
+            "name": "RoS LF Jumps",
+            "exits": [
+                { 
+                    "to": "RoS LF Jumps Leap of Faith",
+                    "rule": { "has": "Leap of Faith" }
+                },
+                {
+                    "to": "RoS LF Jumps River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { "to": "RoS Graveyard 2" },
+                { "to": "RoS Talisman Portal" }
+            ]
+        },
+        {
+            "name": "RoS LF Jumps Leap of Faith",
+            "exits": []
+        },
+        {
+            "name": "RoS LF Jumps River",
+            "exits": []
+        },
+        {
+            "name": "RoS Graveyard 2",
+            "exits": []
+        },
+        {
+            "name": "RoS Talisman Portal",
+            "exits": [
+                { 
+                    "to": "RoS Primagen Key River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { 
+                    "to": "RoS Talisman",
+                    "rule": { "has": "Level 2 Eagle Feather" }
+                },
+                { "to": "RoS Graveyard 3" },
+                { 
+                    "to": "RoS Totem",
+                    "rule": {
+                        "has": {
+                            "item": "Graveyard Key",
+                            "count": 2
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "RoS Primagen Key River",
+            "exits": [{ 
+                "to": "RoS Primagen Key Leap",
+                "rule": { "has": "Leap of Faith" }
+            }]
+        },
+        {
+            "name": "RoS Primagen Key Leap",
+            "exits": []
+        },
+        {
+            "name": "RoS Talisman",
+            "exits": []
+        },
+        {
+            "name": "RoS Graveyard 3",
+            "exits": [
+                { 
+                    "to": "RoS Graveyard 3 Water",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { 
+                    "to": "RoS Graveyard 3 End",
+                    "rule": {
+                        "has": {
+                            "item": "Graveyard Key",
+                            "count": 2
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "RoS Graveyard 3 Water",
+            "exits": []
+        },
+        {
+            "name": "RoS Graveyard 3 End",
+            "exits": []
+        },
+        {
+            "name": "RoS Totem",
+            "exits": [{ "to": "Hub" }],
+            "events": {
+				"Level Complete": {
+					"location_name": "RoS Complete"
+				}
+			}
+        }
+    ]
+}

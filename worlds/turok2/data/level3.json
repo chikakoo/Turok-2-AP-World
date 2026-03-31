@@ -1,0 +1,134 @@
+{
+    "regions": [
+        {
+            "name": "DM Start",
+            "exits": [
+                { 
+                    "to": "DM Start River",
+                    "rule": { "has": "Breath of Life" }
+
+                },
+                { 
+                    "to": "DM Ammo Facility 1",
+                    "rule": {
+                        "has": {
+                            "item": "L3 Satchel Charge",
+                            "count": 3
+                        }
+                    }
+                },
+                { "to": "DM Checkpoint 1" }
+            ]
+        },
+        {
+            "name": "DM Start River",
+            "exits": []
+        },
+        {
+            "name": "DM Ammo Facility 1",
+            "exits": []
+        },
+        {
+            "name": "DM Checkpoint 1",
+            "exits": [{ "to": "DM Oblivion Portal" }]
+        },
+        {
+            "name": "DM Oblivion Portal",
+            "exits": [
+                { 
+                    "to": "DM Oblivion Portal River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { 
+                    "to": "DM Primagen Key",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { "to": "DM Oblivion" },
+                { "to": "DM Outside Ammo Facility 2" }
+            ]
+        },
+        {
+            "name": "DM Oblivion Portal River",
+            "exits": []
+        },
+        {
+            "name": "DM Primagen Key",
+            "exits": []
+        },
+        {
+            "name": "DM Oblivion",
+            "exits": []
+        },
+        {
+            "name": "DM Outside Ammo Facility 2",
+            "exits": [
+                { 
+                    "to": "DM Ammo Facility 2",
+                    "rule": {
+                        "has": {
+                            "item": "L3 Satchel Charge",
+                            "count": 3
+                        }
+                    }
+                },
+                { "to": "DM Long Bridge" }
+            ]
+        },
+        {
+            "name": "DM Ammo Facility 2",
+            "exits": []
+        },
+        {
+            "name": "DM Long Bridge",
+            "exits": [{ "to": "DM Two Cells" }]
+        },
+        {
+            "name": "DM Two Cells",
+            "exits": [
+                { 
+                    "to": "DM Talisman",
+                    "rule": { "has": "Level 3 Eagle Feather" }
+                },
+                { "to": "DM Outside Ammo Facility 3" }
+            ]
+        },
+        {
+            "name": "DM Talisman",
+            "exits": []
+        },
+        {
+            "name": "DM Outside Ammo Facility 3",
+            "exits": [
+                { "to": "DM Outside Ammo Facility 3 Eye of Truth" },
+                { "to": "DM Ratpor Rooms" }
+            ]
+        },
+        {
+            "name": "DM Outside Ammo Facility 3 Eye of Truth",
+            "exits": []
+        },
+        {
+            "name": "DM Ratpor Rooms",
+            "exits": [
+                { 
+                    "to": "DM Totem",
+                    "rule": {
+                        "has": {
+                            "item": "L3 Satchel Charge",
+                            "count": 3
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "DM Totem",
+            "exits": [{ "to": "Hub" }],
+            "events": {
+				"Level Complete": {
+					"location_name": "DM Complete"
+				}
+			}
+        }
+    ]
+}
