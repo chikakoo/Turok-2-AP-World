@@ -295,11 +295,17 @@ def mission_item_requirement(world: Turok2World, args: dict):
     # This is meant to cover whether we can progress with any of the items
     #event_items = args.get("event_items", [])
     #return lambda state: all(state.has(event, player) for event in event_items)
+
+def open_hub(world: Turok2World):
+    """Checks the open hub setting"""
+    open_hub = world.options.open_hub
+    return lambda state: open_hub
     
 NAMED_RULES = {
     "advanced_game_logic": advanced_game_logic,
     "advanced_weapon_logic": advanced_weapon_logic,
     "weapon_requirement": weapon_requirement,
     "vanilla_mission_items": vanilla_mission_items,
-    "mission_item_requirement": mission_item_requirement
+    "mission_item_requirement": mission_item_requirement,
+    "open_hub": open_hub
 }

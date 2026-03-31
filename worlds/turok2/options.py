@@ -248,6 +248,14 @@ class NukeBehavior(Choice):
     option_weapon_pickup = 2
     
     default = option_nuke_part_hunt
+
+class OpenHub(Toggle):
+    """
+    Whether the Level 1 door to the hub should be opened without completing the level.
+    Remember to go through it to activate the checkpoint station for convenience.
+    """
+    display_name = "Open Hub"
+    default = False
     
 class BaseWeight(Choice):
     """
@@ -339,6 +347,7 @@ class Turok2Options(PerGameCommonOptions):
     
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
+    open_hub: OpenHub
     
     junk_item_pool_health_weight: JunkItemPoolHealthWeight
     junk_item_pool_ammo_weight: JunkItemPoolAmmoWeight
@@ -375,7 +384,8 @@ option_groups = [
     ]),
     OptionGroup("Progression Options", [
         ForceEarlyWeapon,
-        NukeBehavior
+        NukeBehavior,
+        OpenHub
     ]),
     OptionGroup("Junk Item Pool Weights", [
         JunkItemPoolHealthWeight,

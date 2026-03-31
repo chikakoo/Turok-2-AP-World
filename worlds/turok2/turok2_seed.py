@@ -107,6 +107,9 @@ def get_settings_string(self: "Turok2World") -> str:
     Inclue weapon and ammo locations:
     - Used to determine whether to replace some generators with the random ammo pack
       to prevent ammo starvation in some maps where you get temporarily trapped inside
+
+    Open hub:
+    - Whether the level 1 door to the hub should start opened
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
@@ -114,6 +117,7 @@ def get_settings_string(self: "Turok2World") -> str:
     levels_goal = 0
     levels_give_primagen_keys = "false"
     weapon_and_ammo_setting = "false"
+    open_hub = "false"
 
     # Levels goal - just set the goal
     if self.options.goal == Goal.option_levels:
@@ -136,8 +140,13 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.include_weapon_and_ammo_locations:
         weapon_and_ammo_setting = "true"
 
+    # Open hub
+    if self.options.open_hub:
+        open_hub = "true"
+
     return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {levels_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
-        f"#define OPTION_INCLUDE_WEAPONS_AND_AMMO {weapon_and_ammo_setting}\n")
+        f"#define OPTION_INCLUDE_WEAPONS_AND_AMMO {weapon_and_ammo_setting}\n" +
+        f"#define OPTION_OPEN_HUB {open_hub}\n")

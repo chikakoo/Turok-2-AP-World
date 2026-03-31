@@ -253,12 +253,6 @@ def force_early_weapons(world: Turok2World, itempool: list[Item]):
 
         print(f"Early weapon {weapon.name} for Player {world.player}")
 
-def force_early_key_items(world: Turok2World):
-    """
-    Forces the Beacon Power Cells early, since you will always want them early.
-    """
-    world.multiworld.early_items[world.player]["Beacon Power Cell"] = 3
-
 def create_all_items(world: Turok2World) -> None:
     """
     Creates all of the items that will go into the item pool.
@@ -326,9 +320,8 @@ def create_all_items(world: Turok2World) -> None:
     force_local_items(world, itempool, ItemType.AMMO.value, world.options.local_ammo_percentage)
     force_local_weapons(world, itempool)
     
-    # Force 3 early weapons, and make one in the first area if the setting ison
+    # Force 3 early weapons, and make one in the first area if the setting is on
     force_early_weapons(world, itempool)
-    force_early_key_items(world)
     
     world.multiworld.itempool += itempool
     

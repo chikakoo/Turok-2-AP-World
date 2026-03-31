@@ -2,7 +2,13 @@
 	"regions": [
 		{
 			"name": "PoA Start",
-			"exits": [{ "to": "PoA Water Hub" }]
+			"exits": [
+				{ "to": "PoA Water Hub" },
+				{
+					"to": "Hub",
+					"rule": "open_hub"
+				}
+			]
 		},
 		{
 			"name": "PoA Water Hub",
