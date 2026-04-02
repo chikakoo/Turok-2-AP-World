@@ -94,8 +94,8 @@ def create_item_with_correct_classification(world: Turok2World, name: str) -> Tu
     """
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
     
-    # TODO: Change this when level 4 exists
-    if name == "Torpedo Launcher":
+    # The torpedo launcher is not progressive if we aren't including it in logic
+    if name == "Torpedo Launcher" and not world.options.guarantee_torpedo_launcher:
         classification = ItemClassification.useful
 
     return Turok2Item(

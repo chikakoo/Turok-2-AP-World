@@ -1,0 +1,195 @@
+{
+	"regions": [
+		{
+			"name": "LBO Start",
+			"locations": {},
+			"exits": [
+				{
+					"to": "LBO Whispers",
+					"rule": { "has": "Whispers" }
+				},
+				{ "to": "LBO Water" }
+			]
+		},
+        {
+            "name": "LBO Whispers",
+            "exits": []
+        },
+        {
+            "name": "LBO Water",
+            "exits": [
+                { 
+                    "to": "LBO Talisman",
+                    "rule": { "has": "Level 2 Eagle Feather" }
+                },
+                { "to": "LBO Before Falling Rocks" }
+            ]
+        },
+        {
+            "name": "LBO Talisman",
+            "exits": []
+        },
+        {
+            "name": "LBO Before Falling Rocks",
+            "exits": [
+                { 
+                    "to": "LBO Falling Rocks",
+                    "rule": { "has": "Cave Door Key" }
+                }
+            ]
+        },
+        {
+            "name": "LBO Falling Rocks",
+            "exits": [{ "to": "LBO Waterfalls" }]
+        },
+        {
+            "name": "LBO Waterfalls",
+            "exits": [
+                { "to": "LBO Before Vent 1" },
+                { "to": "LBO Water Tunnels" }
+            ]
+        },
+        {
+            "name": "LBO Before Vent 1",
+            "exits": [
+                { 
+                    "to": "LBO Vent 1",
+                    "rule": {
+                        "has": "Cave Door Key",
+                        "count": 6
+                    }
+                }
+            ]
+        },
+        {
+            "name": "LBO Vent 1",
+            "exits": []
+        },
+        {
+            "name": "LBO Water Tunnels",
+            "exits": [
+                { 
+                    "to": "LBO Water Tunnel Intersection",
+                    "rule": {
+                        "or": [
+                            "guarantee_torpedo_launcher",
+                            { "has": "Torpedo Launcher" }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "LBO Water Tunnel Intersection",
+            "exits": [
+                { "to": "LBO Vent 2" },
+                { 
+                    "to": "LBO Platforming",
+                    "rule": {
+                        "has": "Cave Door Key",
+                        "count": 3
+                    }
+                }
+            ]
+        },
+        {
+            "name": "LBO Vent 2",
+            "exits": []
+        },
+        {
+            "name": "LBO Platforming",
+            "exits": [
+                { "to": "LBO Oblivion" },
+                { "to": "LBO Fireborn" }
+            ]
+        },
+        {
+            "name": "LBO Oblivion",
+            "exits": []
+        },
+        {
+            "name": "LBO Fireborn",
+            "exits": [
+                { 
+                    "to": "LBO Fireborn Lava",
+                    "rule": { "has": "Heart of Fire" }
+                },
+                { "to": "LBO Blue Cave" }
+            ]
+        },
+        {
+            "name": "LBO Fireborn Lava",
+            "exits": []
+        },
+        {
+            "name": "LBO Blue Cave",
+            "exits": [
+                { 
+                    "to": "LBO Blue Cave After Door",
+                    "rule": {
+                        "has": "Cave Door Key",
+                        "count": 4
+                    }
+                }
+            ]
+        },
+        {
+            "name": "LBO Blue Cave After Door",
+            "exits": [{ "to": "LBO Vent 3 Start" }]
+        },
+        {
+            "name": "LBO Vent 3 Start",
+            "exits": [
+                { 
+                    "to": "LBO Vent 3",
+                    "rule": {
+                        "has": "Cave Door Key",
+                        "count": 6
+                    }
+                },
+                { "to": "LBO Blue Cave After Vent 3" }
+            ]
+        },
+        {
+            "name": "LBO Vent 3",
+            "exits": []
+        },
+        {
+            "name": "LBO Blue Cave After Vent 3",
+            "exits": [{ "to": "LBO Rotating Platforms" }]
+        },
+        {
+            "name": "LBO Rotating Platforms",
+            "exits": [
+                { 
+                    "to": "LBO Boss",
+					"rule": {
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "Cave Door Key",
+                                    "count": 6
+                                }
+                            },
+                            {
+                                "mission_item_requirement": {
+                                    "item": "L3 Satchel Charge",
+                                    "count": 3
+                                }
+                            }
+                        ]
+					}
+                }
+            ]
+        },
+        {
+            "name": "LBO Boss",
+            "exits": [{ "to": "Hub" }],
+            "events": {
+				"Level Complete": {
+					"location_name": "LBO Complete"
+				}
+			}
+        }
+	]
+}

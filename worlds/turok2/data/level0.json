@@ -2,7 +2,6 @@
 	"regions": [
 		{
 			"name": "Hub",
-			"locations": {},
 			"exits": [
 				{
 					"to": "RoS Start",
@@ -18,6 +17,15 @@
 					"rule": {
 						"has": {
 							"item": "Level 3 Key",
+							"count": 3
+						}
+					}
+				},
+				{
+					"to": "LBO Start",
+					"rule": {
+						"has": {
+							"item": "Level 4 Key",
 							"count": 3
 						}
 					}

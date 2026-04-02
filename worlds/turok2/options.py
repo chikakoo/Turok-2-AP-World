@@ -39,7 +39,7 @@ class PrimagenLair(Choice):
     If the goal is Primagen, sets how you get to the lair.
     - Keys in Pool: The Primagen keys will be in the item pool to find.
     - Keys Vanilla: The Primagen keys will be in their vanilla locations.
-                    NOTE: Not fully implemented; you will have to play vanilla levels to get keys 4-6
+                    NOTE: Not fully implemented; you will have to play vanilla levels to get keys 5 and 6
     - Levels: The Primagen keys will be given to you after you complete the number of levels 
               specified in the LevelsGoal setting
     """
@@ -55,13 +55,14 @@ class LevelsGoal(Range):
     """
     Used when the goal is levels, or when the Primagen Keys are given when all required levels are completed.
     
-    The number of levels you need to complete. The current limit is 3, as that's all that's in the AP world so far.
+    The number of levels you need to complete. The current limit is 4, as that's all that's in the AP world so far.
     """
     display_name = "Levels Goal"
     
     range_start = 1
-    range_end = 3
-    default = 3
+    range_end = 4
+    
+    default = 4
     
 class GameLogicDifficulty(Choice):
     """
@@ -256,6 +257,14 @@ class OpenHub(Toggle):
     """
     display_name = "Open Hub"
     default = False
+
+class GuaranteeTorpedoLauncher(Toggle):
+    """
+    Whether the Torpedo Launcher is in logic for the last part of the water maze in Level 4.
+    The two switches before you can drop back down to the start are always in logic.
+    """
+    display_name = "Guarantee Torpedo Launcher"
+    default = True
     
 class BaseWeight(Choice):
     """
@@ -348,6 +357,7 @@ class Turok2Options(PerGameCommonOptions):
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
     open_hub: OpenHub
+    guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
     
     junk_item_pool_health_weight: JunkItemPoolHealthWeight
     junk_item_pool_ammo_weight: JunkItemPoolAmmoWeight
@@ -408,6 +418,7 @@ option_presets = {
     "advanced": {
         "game_logic_difficulty": GameLogicDifficulty.option_advanced,
         "weapon_logic_difficulty": GameLogicDifficulty.option_advanced,
-        "force_early_weapon": False
+        "force_early_weapon": False,
+        "guarantee_torpedo_launcher": False
     }
 }
