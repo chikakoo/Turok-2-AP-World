@@ -55,14 +55,14 @@ class LevelsGoal(Range):
     """
     Used when the goal is levels, or when the Primagen Keys are given when all required levels are completed.
     
-    The number of levels you need to complete. The current limit is 4, as that's all that's in the AP world so far.
+    The number of levels you need to complete. The current limit is 5, as that's all that's in the AP world so far.
     """
     display_name = "Levels Goal"
     
     range_start = 1
-    range_end = 4
+    range_end = 5
     
-    default = 4
+    default = 5
     
 class GameLogicDifficulty(Choice):
     """

@@ -3,6 +3,7 @@
 		{
 			"name": "Hub",
 			"exits": [
+				{ "to": "PoA Start" },
 				{
 					"to": "RoS Start",
 					"rule": {
@@ -26,6 +27,15 @@
 					"rule": {
 						"has": {
 							"item": "Level 4 Key",
+							"count": 3
+						}
+					}
+				},
+				{
+					"to": "HM Start",
+					"rule": {
+						"has": {
+							"item": "Level 5 Key",
 							"count": 3
 						}
 					}

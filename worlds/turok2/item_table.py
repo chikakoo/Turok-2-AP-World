@@ -362,6 +362,22 @@ ITEM_TABLE = {
         "class": ItemClassification.progression,
         "count": 6 # The 7th is never randomized to prevent softlocks
     },
+    "L4 Satchel Charge": {
+        "id": 200401,
+        "actor_id": 4111,
+        "type": ItemType.MISSION_ITEM.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 3
+    },
+    "L5 Satchel Charge": {
+        "id": 200500,
+        "actor_id": 4110,
+        "type": ItemType.MISSION_ITEM.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 4
+    },
 
     # Weapons
     "War Blade": {

@@ -1,0 +1,152 @@
+{
+	"regions": [
+		{
+			"name": "HM Start",
+			"exits": [{ "to": "HM Force Fields" }]
+		},
+        {
+			"name": "HM Force Fields",
+			"exits": [{ "to": "HM Pit 1" }]
+		},
+        {
+			"name": "HM Pit 1",
+			"exits": [{ "to": "HM Switch Loop" }]
+		},
+        {
+			"name": "HM Switch Loop",
+			"exits": [{ "to": "HM Pit 2" }]
+		},
+        {
+			"name": "HM Pit 2",
+			"exits": [
+                { "to": "HM Oblivion" },
+                { "to": "HM Pit 3" }
+            ]
+		},
+        {
+			"name": "HM Oblivion",
+			"exits": []
+		},
+        {
+			"name": "HM Pit 3",
+			"exits": [
+                { 
+                    "to": "HM Talisman",
+                    "rule": { "has": "Level 5 Eagle Feather" }
+                },
+                { "to": "HM Water" }
+            ]
+		},
+        {
+			"name": "HM Talisman",
+			"exits": []
+		},
+        {
+			"name": "HM Water",
+			"exits": [{ "to": "HM Inner Hive" }]
+		},
+        {
+			"name": "HM Inner Hive",
+			"exits": [{ "to": "HM Embryo 1" }]
+		},
+        {
+			"name": "HM Embryo 1",
+			"exits": [{ "to": "HM Exit Map" }]
+		},
+        {
+			"name": "HM Exit Map",
+			"exits": [
+                { "to": "HM Embryo 2" },
+                { 
+                    "to": "HM Exit Map Leap of Faith",
+                    "rule": { "has": "Leap of Faith" }
+                },
+                { 
+                    "to": "HM Exit Map Lava",
+                    "rule": { "has": "Heart of Fire" }
+                },
+                { 
+                    "to": "HM Exit Map River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { "to": "HM Embryo 3" },
+                { 
+                    "to": "HM Boss",
+                    "rule": {
+                        "has": {
+                            "item": "L5 Satchel Charge",
+                            "count": 4
+                        }
+                    }
+                }
+            ]
+		},
+        {
+			"name": "HM Embryo 2",
+			"exits": [
+                { 
+                    "to": "HM Embryo 2 Leap of Faith",
+                    "rule": { "has": "Leap of Faith" }
+                },
+                { "to": "HM Embryo 2 Return" }
+            ]
+		},
+        {
+			"name": "HM Embryo 2 Leap of Faith",
+			"exits": []
+		},
+        {
+			"name": "HM Embryo 2 Return",
+			"exits": []
+		},
+        {
+			"name": "HM Exit Map Leap of Faith",
+			"exits": []
+		},
+        {
+			"name": "HM Exit Map Lava",
+			"exits": []
+		},
+        {
+			"name": "HM Exit Map River",
+			"exits": [
+                { "to": "HM Primagen Key Start" }
+            ]
+		},
+        {
+			"name": "HM Primagen Key Start",
+			"exits": [
+                { 
+                    "to": "HM Primagen Key",
+                    "rule": { "has": "Eye of Truth" }
+                }
+            ]
+		},
+        {
+			"name": "HM Primagen Key",
+			"exits": []
+		},
+        {
+			"name": "HM Embryo 3",
+			"exits": [
+                { 
+                    "to": "HM Embryo 3 Lava",
+                    "rule": { "has": "Heart of Fire" }
+                }
+            ]
+		},
+        {
+			"name": "HM Embryo 3 Lava",
+			"exits": []
+		},
+        {
+			"name": "HM Boss",
+			"exits": [{ "to": "Hub" }],
+            "events": {
+				"Level Complete": {
+					"location_name": "HM Complete"
+				}
+			}
+		}
+	]
+}
