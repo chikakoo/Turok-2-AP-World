@@ -142,7 +142,13 @@
         },
         {
             "name": "RoS Primagen Key Leap",
-            "exits": []
+            "exits": [],
+            "events": {
+				"Primagen Key 2": {
+					"location_name": "Primagen Key 2",
+					"type": "primagen_key_event"
+				}
+			}
         },
         {
             "name": "RoS Talisman",

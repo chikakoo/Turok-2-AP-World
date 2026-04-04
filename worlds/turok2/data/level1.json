@@ -46,7 +46,13 @@
 		},
 		{
 			"name":  "PoA Primagen Key Leap of Faith",
-			"exits": []
+			"exits": [],
+			"events": {
+				"Primagen Key 1": {
+					"location_name": "Primagen Key 1",
+					"type": "primagen_key_event"
+				}
+			}
 		},
 		{
 			"name":  "PoA Child 3 Map",

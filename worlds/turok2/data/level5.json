@@ -124,7 +124,13 @@
 		},
         {
 			"name": "HM Primagen Key",
-			"exits": []
+			"exits": [],
+			"events": {
+				"Primagen Key 5": {
+					"location_name": "Primagen Key 5",
+					"type": "primagen_key_event"
+				}
+			}
 		},
         {
 			"name": "HM Embryo 3",

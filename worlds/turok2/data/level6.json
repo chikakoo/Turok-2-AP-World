@@ -2,7 +2,14 @@
     "regions": [
         {
             "name": "PL Start",
-            "exits": [{ "to": "PL Wing 1" }]
+            "exits": [{ "to": "PL Wing 1" }],
+            "events": {
+				"Primagen Key 6": {
+					"location_name": "Primagen Key 6",
+					"type": "primagen_key_event",
+                    "rule": "can_reach_level_6_primagen_key"
+				}
+			}
         },
         {
             "name": "PL Wing 1",

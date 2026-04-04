@@ -53,7 +53,13 @@
         },
         {
             "name": "DM Primagen Key",
-            "exits": []
+            "exits": [],
+            "events": {
+				"Primagen Key 3": {
+					"location_name": "Primagen Key 3",
+					"type": "primagen_key_event"
+				}
+			}
         },
         {
             "name": "DM Oblivion",

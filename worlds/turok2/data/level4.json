@@ -13,7 +13,13 @@
 		},
         {
             "name": "LBO Whispers",
-            "exits": []
+            "exits": [],
+            "events": {
+				"Primagen Key 4": {
+					"location_name": "Primagen Key 4",
+					"type": "primagen_key_event"
+				}
+			}
         },
         {
             "name": "LBO Water",

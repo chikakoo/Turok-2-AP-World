@@ -119,6 +119,9 @@ def create_events(world: Turok2World) -> None:
             if event_info.get("rule") == "vanilla_mission_items" and world.options.include_mission_item_locations:
                 continue
 
+            if event_info.get("type") == "primagen_key_event" and world.options.primagen_lair != PrimagenLair.option_keys_vanilla:
+                continue
+
             rule_func = None
             if "rule" in event_info:
                 rule_func = build_rule(event_info["rule"], world)
