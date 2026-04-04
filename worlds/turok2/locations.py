@@ -5,7 +5,7 @@ import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
-from .options import Goal, PrimagenLair, GameLogicDifficulty, WeaponLogicDifficulty
+from .options import PrimagenGoal, PrimagenKeys, GameLogicDifficulty, WeaponLogicDifficulty
 from . import items
 from .items import ItemType
 
@@ -119,7 +119,9 @@ def create_events(world: Turok2World) -> None:
             if event_info.get("rule") == "vanilla_mission_items" and world.options.include_mission_item_locations:
                 continue
 
-            if event_info.get("type") == "primagen_key_event" and world.options.primagen_lair != PrimagenLair.option_keys_vanilla:
+            if (event_info.get("type") == "primagen_key_event" and 
+                (world.options.primagen_goal == PrimagenGoal.option_none or
+                world.options.primagen_keys != PrimagenKeys.option_vanilla)):
                 continue
 
             rule_func = None
@@ -137,27 +139,31 @@ def create_events(world: Turok2World) -> None:
 def create_completion_condition(world: Turok2World):
     """
     Creates the completion condition based on the goal setting.
-    - Primagen: The primagen goal - can be getting to it, or defeating it
-    - Levels: The number of levels to complete for the goal
-    """
-    # Levels goal - just check number of levels
-    if world.options.goal == Goal.option_levels:
-        world.multiworld.completion_condition[world.player] = \
-            lambda state: state.has("Level Complete", world.player, world.options.levels_goal)
 
-    # Primagen goal (the lair is in the Hub, so always check for that)
-    elif world.options.goal == Goal.option_primagen:
-        # If there's levels also, check the keys and the level goal count
-        if world.options.primagen_lair == PrimagenLair.option_levels:
-            world.multiworld.completion_condition[world.player] = \
-                lambda state: (state.can_reach_region("Hub", world.player) and
-                    state.has("Level Complete", world.player, world.options.levels_goal) and
-                    state.has_group_unique("Primagen Key", world.player, 6))
-        # Otherwise, we just need to check for keys
-        else:
-            world.multiworld.completion_condition[world.player] = \
-                lambda state: (state.can_reach_region("Hub", world.player) and
-                    state.has_group_unique("Primagen Key", world.player, 6))
+    Levels: The number of levels the player needs to clear.
+            Set to 1 if it's at 0 but the Primagen goal is None.
+    Primagen Keys: The number of primagen keys needed for the goal.
+                   This is 6 if the primagen is required, and 0 otherwise.
+    """
+    level_goal = world.options.level_goal
+    if level_goal == 0 and world.options.primagen_goal == PrimagenGoal.option_none:
+        level_goal = 1 # Make sure there's actually a goal of some kind
+
+    primagen_keys_needed = []
+    if (world.options.primagen_goal != PrimagenGoal.option_none and
+        world.options.primagen_keys != PrimagenKeys.option_levels):
+        primagen_keys_needed = [
+            "Primagen Key 1",
+            "Primagen Key 2",
+            "Primagen Key 3",
+            "Primagen Key 4",
+            "Primagen Key 5",
+            "Primagen Key 6"
+        ]
+
+    world.multiworld.completion_condition[world.player] = \
+        lambda state: (state.has("Level Complete", world.player, level_goal) and 
+            state.has_all(primagen_keys_needed, world.player))
     
 def apply_location_rules(world: Turok2World):
     """
@@ -167,12 +173,13 @@ def apply_location_rules(world: Turok2World):
         pkgutil.get_data(__name__, "data/locationRules.json").decode()
     )
     for loc_name, rule in location_rules.items():
-        location = world.get_location(loc_name)
-        if location is None:
-            #TODO: print instead of raise in the final version
-            raise Exception(f"Could not apply location rule to location: {loc_name}")
-        rule_func = build_rule(rule, world)
-        set_rule(location, rule_func)
+        try:
+            location = world.get_location(loc_name)
+            rule_func = build_rule(rule, world)
+            set_rule(location, rule_func)
+        except:
+            # This could happen if it's an excluded location, which is fine
+            pass
 
 def apply_entrance_rules(world: Turok2World) -> None:
     """

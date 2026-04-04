@@ -7,61 +7,49 @@ from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
 # death link
 # whether to mark the pickups as important in the game
 
-class Goal(Choice):
+class LevelGoal(Range):
     """
-    Defines the goal of the seed.
-    - Primagen: Defeat the Primagen (see the PrimagenGoal setting for options)
-    - Levels: Complete the number of levels specified in the LevelsGoal setting
-    """
-    display_name = "Goal"
-    
-    option_primagen = 0
-    option_levels = 1
-    
-    default = option_primagen
+    The number of levels you need to complete for your goal.
 
-class PrimagenGoal(Choice):
-    """
-    If the goal is Primagen, sets what you need to do to win.
-    See the PrimagenLair setting for options on how to get to the lair.
-    - Defeat: Defeat the Primagen and view the ending cutscene
-    - Get to Lair: Arriving at the lair will complete the goal (becomes a hunt for the Primagen keys)
-    """
-    display_name = "Primagen Goal"
-
-    option_defeat = 0
-    option_get_to_lair = 1
-
-    default = option_defeat
-
-class PrimagenLair(Choice):
-    """
-    If the goal is Primagen, sets how you get to the lair.
-    - Keys in Pool: The Primagen keys will be in the item pool to find.
-    - Keys Vanilla: The Primagen keys will be in their vanilla locations.
-    - Levels: The Primagen keys will be given to you after you complete the number of levels 
-              specified in the LevelsGoal setting
-    """
-    display_name = "Primagen Lair"
-
-    option_keys_in_pool = 0
-    option_keys_vanilla = 1
-    option_levels = 2
-
-    default = option_keys_in_pool
-
-class LevelsGoal(Range):
-    """
-    Used when the goal is levels, or when the Primagen Keys are given when all required levels are completed.
-    
-    The number of levels you need to complete.
+    If the Primagen goal is None, the minimum value is 1.
     """
     display_name = "Levels Goal"
     
-    range_start = 1
+    range_start = 0
     range_end = 6
     
     default = 6
+
+class PrimagenGoal(Choice):
+    """
+    Sets the Primagen goal. See the PrimagenKeys setting for options on how to get to the lair.
+    - None: The Primagen is not part of the goal. Primagen Keys are not in the item pool.
+    - Defeat: Defeat the Primagen and view the ending cutscene.
+    - Get to Lair: Arriving at the lair will complete the goal.
+    """
+    display_name = "Primagen Goal"
+
+    option_none = 0
+    option_defeat = 1
+    option_get_to_lair = 2
+
+    default = option_defeat
+
+class PrimagenKeys(Choice):
+    """
+    If the Primagen goal is not None, sets how you get the Primagen Keys.
+    - Vanilla: The Primagen keys will be in their vanilla locations.
+    - In Pool: The Primagen keys will be in the item pool to find.
+    - Levels: The Primagen keys will be given to you after you complete the number of levels 
+              specified in the LevelGoal setting
+    """
+    display_name = "Primagen Keys"
+
+    option_vanilla = 0
+    option_in_pool = 1
+    option_levels = 2
+
+    default = option_in_pool
     
 class GameLogicDifficulty(Choice):
     """
@@ -332,10 +320,9 @@ class SpamTrapWeight(BaseWeight):
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
-    goal: Goal
+    level_goal: LevelGoal
     primagen_goal: PrimagenGoal
-    primagen_lair: PrimagenLair
-    levels_goal: LevelsGoal
+    primagen_keys: PrimagenKeys
     
     game_logic_difficulty: GameLogicDifficulty
     weapon_logic_difficulty: WeaponLogicDifficulty
@@ -368,10 +355,9 @@ class Turok2Options(PerGameCommonOptions):
     
 option_groups = [
     OptionGroup("Goal", [
-        Goal,
+        LevelGoal,
         PrimagenGoal,
-        PrimagenLair,
-        LevelsGoal
+        PrimagenKeys
     ]),
     OptionGroup("Difficulty Options", [
         GameLogicDifficulty,

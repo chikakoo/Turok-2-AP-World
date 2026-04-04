@@ -1,10 +1,8 @@
 from __future__ import annotations
 from .item_table import *
-from collections import Counter
-from typing import TYPE_CHECKING, Callable
-from BaseClasses import Item, ItemClassification
-from .client.ap_memory_constants import APMessageType
-from .options import NukeBehavior, Goal, PrimagenLair
+from typing import TYPE_CHECKING, Callable, Counter
+from BaseClasses import Item
+from .options import NukeBehavior, PrimagenGoal, PrimagenKeys
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -41,8 +39,8 @@ def get_required_seed_items(world: Turok2World):
         
         # Inventory items
         if data["type"] == ItemType.PRIMAGEN_KEY.value:
-            return (world.options.goal == Goal.option_primagen and 
-                world.options.primagen_lair != PrimagenLair.option_keys_vanilla)
+            return (world.options.primagen_goal != PrimagenGoal.option_none and
+                world.options.primagen_keys == PrimagenKeys.option_in_pool)
         
         if data["msg_type"] == APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value:
             return True
@@ -216,7 +214,6 @@ def force_local_weapons(world: Turok2World, itempool: list[Item]):
         world.options.local_items.value.add(weapon.name)
         
     print(f"Forced {count} {ItemType.WEAPON} items locally for Player {world.player}")
-
 
 def force_early_weapons(world: Turok2World, itempool: list[Item]):
     """

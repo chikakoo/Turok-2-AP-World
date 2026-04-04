@@ -6,7 +6,7 @@ from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
 from .items import ITEM_TABLE
-from .options import Goal, PrimagenGoal, PrimagenLair
+from .options import PrimagenGoal, PrimagenKeys
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -91,46 +91,36 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
         
         angelscript_snippets.append(snippet)
         
-    return "\n".join(angelscript_snippets)    
+    return "\n".join(angelscript_snippets)
     
 def get_settings_string(self: "Turok2World") -> str:
     """
-    Gets the macro file with any settings the game needs to know.
-    
-    Goal:
+    Sets up the macro file with any settings the game needs to know:
     - OPTION_GOAL_PRIMAGEN_LAIR: Whether entering the lair is the goal
     - OPTION_GOAL_DEFEAT_PRIMAGEN: Whether defeating the Primagen is the goal
-    - OPTION_GOAL_LEVELS: How many levels is the goal (0 to disable)
+    - OPTION_GOAL_LEVELS: How many levels is the goal (if no other goal, set to 1)
     - OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS: Whether reaching the level goal should give all primagen keys
     - OPTION_INCLUDE_WEAPONS_AND_AMMO: Whether weapons and ammo are shuffled (used for replacing ammo spawns)
-    
-    Inclue weapon and ammo locations:
-    - Used to determine whether to replace some generators with the random ammo pack
-      to prevent ammo starvation in some maps where you get temporarily trapped inside
-
-    Open hub:
-    - Whether the level 1 door to the hub should start opened
+    - OPTION_OPEN_HUB: Whether the level 1 door to the hub should start opened
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
     defeat_primagen_is_goal = "false"
-    levels_goal = 0
+    level_goal = self.options.level_goal
     levels_give_primagen_keys = "false"
     weapon_and_ammo_setting = "false"
     open_hub = "false"
 
-    # Levels goal - just set the goal
-    if self.options.goal == Goal.option_levels:
-        levels_goal = self.options.levels_goal
-
-    # Primagen goal
-    elif self.options.goal == Goal.option_primagen:
+    # If there's no Primagen or level goal, set the level goal so there is a goal of some kind.
+    if self.options.primagen_goal == PrimagenGoal.option_none:
+        if level_goal == 0:
+            level_goal = 1
+    else:
         # Set whether levels give primagen keys
-        if self.options.primagen_lair == PrimagenLair.option_levels:
-            levels_goal = self.options.levels_goal
+        if self.options.primagen_keys == PrimagenKeys.option_levels:
             levels_give_primagen_keys = "true"
-    
-        # Set whether the goal is to get to the lair or to defeat the Primagen
+
+        # Set what the goal map is
         if self.options.primagen_goal == PrimagenGoal.option_get_to_lair:
             primagen_lair_is_goal = "true"
         elif self.options.primagen_goal == PrimagenGoal.option_defeat:
@@ -146,7 +136,7 @@ def get_settings_string(self: "Turok2World") -> str:
 
     return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
-        f"#define OPTION_GOAL_LEVELS {levels_goal}\n" +
+        f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
         f"#define OPTION_INCLUDE_WEAPONS_AND_AMMO {weapon_and_ammo_setting}\n" +
         f"#define OPTION_OPEN_HUB {open_hub}\n")
