@@ -60,9 +60,23 @@ Health/ammo/weapons will be collected with the usual sound effects. If the in-ga
 
 Due to modding limitations, life tiles will spawn where the player is. They will be instantly picked up when the player moves. If left uncollected before saving, they will be lost.
 
+## Hey! This pickup isn't randomized!
+
+A select few pickups aren't randomized because they only exist in lower difficulties. This was done to keep the seeds difficulty-agnostic. These locations are:
+- Three Blue Healths in the River of Souls' Life Force Leap of Faith room
+- The four Ultra Healths after completing each wing in the Primagen's Lightship
+
+Other exceptions include:
+- The Death Marshes red Life Forces in the cages by the talisman portal switch. These aren't included because they aren't pickups until the cages fall. For simplicity, replacements are only done on a map load.
+- Two yellow Life Forces in the Primagen's Lightship wing 1, in the catwalks room. These are actually sets of two Life Forces on the exact same spot. This makes it difficult to safely do the replacement, so they're excluded for now.
+
+Generators and spawns from destructable objects are not randomized at this time.
+
+Any others may be a mistake, so feel free to ask.
+
 ## My server is messed up! How do I resync?
 
-This mod will listen for when the client has acknowledged that it has processed a check. It will the list of unsent locations when you save your game, and resync any unsent locations when you load. However, in the unlikely case that the server doesn't know that you got a check, you'll need to resync.
+This mod will listen for when the client has acknowledged that it has processed a check. It will save the list of unsent locations when you save your game, and resync any unsent locations when you load. However, in the unlikely case that the server doesn't know that you got a check, you'll need to resync.
 
 To do this manually, load into your save file and **press the tilde (~) key**. This will open the console. Run the following command to resync: **call Resync**.
 
