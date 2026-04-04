@@ -317,6 +317,14 @@ def guarantee_torpedo_launcher(world: Turok2World):
     """Checks whether the Torpedo Launcher is in logic"""
     guarantee_torpedo_launcher = world.options.guarantee_torpedo_launcher
     return lambda state: guarantee_torpedo_launcher
+
+def can_reach_level_6_primagen_key(world: Turok2World):
+    """Checks whether the level 6 primagen key switches can be pressed"""
+    return lambda state: (
+        state.can_reach_region("PL Wing 1 Whispers", world.player) and
+        state.can_reach_region("PL Wing 2 Eye of Truth", world.player) and
+        state.can_reach_region("PL Wing 3 Leap of Faith", world.player) and
+        state.can_reach_region("PL Wing 4 Generator River", world.player))
     
 NAMED_RULES = {
     "advanced_game_logic": advanced_game_logic,
@@ -325,5 +333,6 @@ NAMED_RULES = {
     "vanilla_mission_items": vanilla_mission_items,
     "mission_item_requirement": mission_item_requirement,
     "open_hub": open_hub,
-    "guarantee_torpedo_launcher": guarantee_torpedo_launcher
+    "guarantee_torpedo_launcher": guarantee_torpedo_launcher,
+    "can_reach_level_6_primagen_key": can_reach_level_6_primagen_key
 }

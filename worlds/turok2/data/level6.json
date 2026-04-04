@@ -1,0 +1,160 @@
+{
+    "regions": [
+        {
+            "name": "PL Start",
+            "exits": [{ "to": "PL Wing 1" }]
+        },
+        {
+            "name": "PL Wing 1",
+            "exits": [
+                { 
+                    "to": "PL Wing 1 Whispers",
+                    "rule": { "has": "Whispers" }
+                },
+                { 
+                    "to": "PL Wing 1 Generator River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { "to": "PL Wing 2" }
+            ]
+        },
+        {
+            "name": "PL Wing 1 Whispers",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 1 Generator River",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 2",
+            "exits": [
+                { 
+                    "to": "PL Wing 2 Eye of Truth",
+                    "rule": { "has": "Eye of Truth" }
+                },
+                { "to": "PL Wing 2 Generator" }
+            ]
+        },
+        {
+            "name": "PL Wing 2 Eye of Truth",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 2 Generator",
+            "exits": [
+                { 
+                    "to": "PL Wing 2 Generator River",
+                    "rule": { "has": "Breath of Life" }
+                },
+                { 
+                    "to": "PL Wing 2 Generator Place Capacitor",
+                    "rule": { 
+                        "has": {
+                            "item": "Ion Capacitor",
+                            "count": 13
+                        }
+                    }
+                },
+                { "to": "PL Wing 3" }
+            ]
+        },
+        {
+            "name": "PL Wing 2 Generator River",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 2 Generator Place Capacitor",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 3",
+            "exits": [
+                { 
+                    "to": "PL Wing 3 Leap of Faith",
+                    "rule": { "has": "Leap of Faith" }
+                },
+                { "to": "PL Wing 4" }
+            ]
+        },
+        {
+            "name": "PL Wing 3 Leap of Faith",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 4",
+            "exits": [
+                { 
+                    "to": "PL Wing 4 Talisman",
+                    "rule": { "has": "Level 6 Eagle Feather" }
+                },
+                { "to": "PL Wing 4 Oblivion" },
+                { 
+                    "to": "PL Wing 4 Generator",
+                    "rule": {
+                        "has": {
+                            "item": "Blue Laser Cell",
+                            "count": 2
+                        }
+                    }
+                },
+                { "to": "PL End" }
+            ]
+        },
+        {
+            "name": "PL Wing 4 Talisman",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 4 Oblivion",
+            "exits": []
+        },
+        {
+            "name": "PL Wing 4 Generator",
+            "exits": [{ "to": "PL Wing 4 Generator River" }]
+        },
+        {
+            "name": "PL Wing 4 Generator River",
+            "exits": []
+        },
+        {
+            "name": "PL End",
+            "exits": [
+                { 
+                    "to": "PL Boss",
+                    "rule": {
+                        "and": [
+                            {
+                                "has": {
+                                    "item": "Ion Capacitor",
+                                    "count": 16
+                                }
+                            },
+                            {
+                                "has": {
+                                    "item": "Blue Laser Cell",
+                                    "count": 4
+                                }
+                            },
+                            {
+                                "has": {
+                                    "item": "Red Laser Cell",
+                                    "count": 2
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "PL Boss",
+            "exits": [{ "to": "Hub" }],
+            "events": {
+				"Level Complete": {
+					"location_name": "PL Complete"
+				}
+			}
+        }
+    ]
+}

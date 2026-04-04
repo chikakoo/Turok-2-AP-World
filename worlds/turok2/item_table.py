@@ -378,6 +378,30 @@ ITEM_TABLE = {
         "class": ItemClassification.progression,
         "count": 4
     },
+    "Ion Capacitor": {
+        "id": 200600,
+        "actor_id": 4231,
+        "type": ItemType.MISSION_ITEM.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 16
+    },
+    "Blue Laser Cell": {
+        "id": 200601,
+        "actor_id": 4230,
+        "type": ItemType.MISSION_ITEM.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 4
+    },
+    "Red Laser Cell": {
+        "id": 200602,
+        "actor_id": 4229,
+        "type": ItemType.MISSION_ITEM.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 4
+    },
 
     # Weapons
     "War Blade": {

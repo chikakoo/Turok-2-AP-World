@@ -39,6 +39,15 @@
 							"count": 3
 						}
 					}
+				},
+				{
+					"to": "PL Start",
+					"rule": {
+						"has": {
+							"item": "Level 6 Key",
+							"count": 6
+						}
+					}
 				}
 			]
 		}
