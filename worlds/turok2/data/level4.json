@@ -25,14 +25,19 @@
             "exits": [
                 { 
                     "to": "LBO Talisman",
-                    "rule": { "has": "Level 2 Eagle Feather" }
+                    "rule": { "has": "Level 4 Eagle Feather" }
                 },
                 { "to": "LBO Before Falling Rocks" }
             ]
         },
         {
             "name": "LBO Talisman",
-            "exits": []
+            "exits": [],
+            "events": [{
+                "name": "Heart of Fire",
+                "location_name": "OBO Talisman",
+                "type": "talisman_event"
+            }]
         },
         {
             "name": "LBO Before Falling Rocks",
@@ -57,7 +62,12 @@
             "exits": [
                 { "to": "LBO Before Vent 1" },
                 { "to": "LBO Water Tunnels" }
-            ]
+            ],
+            "events": [{
+                "name": "Level 4 Eagle Feather",
+                "location_name": "LBO Waterfalls Eagle Feather",
+                "type": "eagle_feather_event"
+            }]
         },
         {
             "name": "LBO Before Vent 1",

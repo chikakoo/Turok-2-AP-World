@@ -122,11 +122,21 @@
                     }
                 },
                 { "to": "PL End" }
-            ]
+            ],
+            "events": [{
+                "name": "Level 6 Eagle Feather",
+                "location_name": "PL Wing 4 Outer Assembly 2 Eagle Feather",
+                "type": "eagle_feather_event"
+            }]
         },
         {
             "name": "PL Wing 4 Talisman",
-            "exits": []
+            "exits": [],
+            "events": [{
+                "name": "Eye of Truth",
+                "location_name": "PL Talisman",
+                "type": "talisman_event"
+            }]
         },
         {
             "name": "PL Wing 4 Oblivion",

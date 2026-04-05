@@ -45,11 +45,21 @@
                     "rule": { "has": "Level 5 Eagle Feather" }
                 },
                 { "to": "HM Water" }
-            ]
+            ],
+			"events": [{
+                "name": "Level 5 Eagle Feather",
+                "location_name": "HM Pit 3 Eagle Feather",
+                "type": "eagle_feather_event"
+            }]
 		},
         {
 			"name": "HM Talisman",
-			"exits": []
+			"exits": [],
+            "events": [{
+                "name": "Whispers",
+                "location_name": "HM Talisman",
+                "type": "talisman_event"
+            }]
 		},
         {
 			"name": "HM Water",

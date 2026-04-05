@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
-#todo:
-# settings for... feathers, talismans
+
+# TODO:
 # death link
+# split weapons/ammo
 # whether to mark the pickups as important in the game
 # individual settings for LF10/Full + Ultra Healths in pool
 
@@ -81,9 +82,26 @@ class IncludeLifeForceLocations(Toggle):
 
 class IncludeLevelKeyLocations(Toggle):
     """
-    Whether to include level keys.
+    Whether to include level keys in the list of locations to check.
+    Setting this to False will place them in their vanilla locations.
     """
     display_name = "Include Level Keys"
+    default = True
+
+class IncludeEagleFeatherLocations(Toggle):
+    """
+    Whether to include eagle feathers in the list of locations to check.
+    Setting this to False will place them in their vanilla locations.
+    """
+    display_name = "Include Eagle Feathers"
+    default = True
+
+class IncludeTalismanLocations(Toggle):
+    """
+    Whether to include talismans in the list of locations to check.
+    Setting this to False will place them in their vanilla locations.
+    """
+    display_name = "Include Talismans"
     default = True
     
 class IncludeMissionItemLocations(Toggle):
@@ -324,6 +342,8 @@ class Turok2Options(PerGameCommonOptions):
     include_weapon_and_ammo_locations: IncludeWeaponAndAmmoLocations
     include_life_force_locations: IncludeLifeForceLocations
     include_level_key_locations: IncludeLevelKeyLocations
+    include_eagle_feather_locations: IncludeEagleFeatherLocations
+    include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
     
     local_weapon_percentage: LocalWeaponPercentage
@@ -364,6 +384,8 @@ option_groups = [
         IncludeWeaponAndAmmoLocations,
         IncludeLifeForceLocations,
         IncludeLevelKeyLocations,
+        IncludeEagleFeatherLocations,
+        IncludeTalismanLocations,
         IncludeMissionItemLocations,
     ]),
     OptionGroup("Progression Options", [

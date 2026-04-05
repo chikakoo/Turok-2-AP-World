@@ -105,11 +105,21 @@
                     "rule": { "has": "Level 3 Eagle Feather" }
                 },
                 { "to": "DM Outside Ammo Facility 3" }
-            ]
+            ],
+            "events": [{
+                "name": "Level 3 Eagle Feather",
+                "location_name": "DM on Talisman Portal Wall Eagle Feather",
+                "type": "eagle_feather_event"
+            }]
         },
         {
             "name": "DM Talisman",
-            "exits": []
+            "exits": [],
+            "events": [{
+                "name": "Breath of Life",
+                "location_name": "DM Talisman",
+                "type": "talisman_event"
+            }]
         },
         {
             "name": "DM Outside Ammo Facility 3",

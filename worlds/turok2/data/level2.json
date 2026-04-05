@@ -142,11 +142,18 @@
                     }
                 }
             ],
-            "events": [{
-				"name": "Level 4 Key",
-				"location_name": "RoS Final Level Key Path Level 4 Key",
-				"type": "level_key_event"
-			}]
+            "events": [
+                {
+                    "name": "Level 4 Key",
+                    "location_name": "RoS Final Level Key Path Level 4 Key",
+                    "type": "level_key_event"
+                },
+                {
+                    "name": "Level 2 Eagle Feather",
+                    "location_name": "RoS Eagle Feather",
+                    "type": "eagle_feather_event"
+                }
+            ]
         },
         {
             "name": "RoS Primagen Key River",
@@ -166,7 +173,12 @@
         },
         {
             "name": "RoS Talisman",
-            "exits": []
+            "exits": [],
+            "events": [{
+                "name": "Leap of Faith",
+                "location_name": "RoS Talisman",
+                "type": "talisman_event"
+            }]
         },
         {
             "name": "RoS Graveyard 3",

@@ -30,12 +30,21 @@ def get_required_seed_items(world: Turok2World):
         # Nuke item special cases
         if name == "Nuke":
             return world.options.nuke_behavior == NukeBehavior.option_weapon_pickup
-        if name == "Nuke Part":
+        
+        if data["type"] == ItemType.NUKE_PART.value:
             return world.options.nuke_behavior == NukeBehavior.option_nuke_part_hunt
         
         # Level keys
         if data["type"] == ItemType.LEVEL_KEY.value:
             return world.options.include_level_key_locations
+        
+        # Eagle feathers
+        if data["type"] == ItemType.EAGLE_FEATHER.value:
+            return world.options.include_eagle_feather_locations
+        
+        # Talismans
+        if data["type"] == ItemType.TALISMAN.value:
+            return world.options.include_talisman_locations
         
         # Mission items depend on the setting (they are also inventory items, so do this first)
         if data["type"] == ItemType.MISSION_ITEM.value:
@@ -45,10 +54,6 @@ def get_required_seed_items(world: Turok2World):
         if data["type"] == ItemType.PRIMAGEN_KEY.value:
             return (world.options.primagen_goal != PrimagenGoal.option_none and
                 world.options.primagen_keys == PrimagenKeys.option_in_pool)
-        
-        # Inventory items
-        if data["msg_type"] == APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value:
-            return True
         
         # Other weapons depend on whether they are shuffled
         if data["type"] == ItemType.WEAPON.value:
