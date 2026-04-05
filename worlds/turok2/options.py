@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
 #todo:
-# individual pickup weights (health, life force)
 # settings for... level keys, feathers, talismans
 # death link
 # whether to mark the pickups as important in the game
@@ -151,6 +150,54 @@ class JunkItemPoolHealthWeight(BaseWeight):
     """
     display_name = "Junk Item Pool Health Weight"
     default = 4
+
+class SilverHealthWeight(Range):
+    """
+    The weight of a silver health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Silver Health Weight"
+
+    range_start = 0
+    range_end = 100
+
+    default = 28
+
+class BlueHealthWeight(Range):
+    """
+    The weight of a blue health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Blue Health Weight"
+
+    range_start = 0
+    range_end = 100
+    
+    default = 65
+
+class FullHealthWeight(Range):
+    """
+    The weight of a full health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Full Health Weight"
+
+    range_start = 0
+    range_end = 100
+    
+    default = 5
+
+class UltraHealthWeight(Range):
+    """
+    The weight of an ultra health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Ultra Health Weight"
+
+    range_start = 0
+    range_end = 100
+    
+    default = 2
     
 class JunkItemPoolAmmoWeight(BaseWeight):
     """
@@ -166,6 +213,30 @@ class JunkItemPoolLifeForceWeight(BaseWeight):
     Consider setting this to none if not including Life Force locations.
     """
     display_name = "Junk Item Pool Ammo Weight"
+    default = 8
+
+class LifeForce1Weight(Range):
+    """
+    The weight of a Life Force 1 when Life Forces are rolled.
+    Weighed against all Life Force pickups.
+    """
+    display_name = "Life Force 1 Weight"
+
+    range_start = 0
+    range_end = 100
+    
+    default = 92
+
+class LifeForce10Weight(Range):
+    """
+    The weight of a Life Force 10 when Life Forces are rolled.
+    Weighed against all Life Force pickups.
+    """
+    display_name = "Life Force 10 Weight"
+
+    range_start = 0
+    range_end = 100
+    
     default = 8
 
 class LocalHealthPercentage(Range):
@@ -259,9 +330,19 @@ class Turok2Options(PerGameCommonOptions):
     guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
     
     junk_item_pool_health_weight: JunkItemPoolHealthWeight
+    silver_health_weight: SilverHealthWeight
+    blue_health_weight: BlueHealthWeight
+    full_health_weight: FullHealthWeight
+    ultra_health_weight: UltraHealthWeight
+
     junk_item_pool_ammo_weight: JunkItemPoolAmmoWeight
+
     junk_item_pool_life_force_weight: JunkItemPoolLifeForceWeight
+    life_force_1_weight: LifeForce1Weight
+    life_force_10_weight: LifeForce10Weight
+
     junk_item_pool_trap_weight: JunkItemPoolTrapWeight
+
     enemy_trap_weight: EnemyTrapWeight
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
@@ -285,8 +366,16 @@ option_groups = [
     ]),
     OptionGroup("Junk Item Pool", [
         JunkItemPoolHealthWeight,
+        SilverHealthWeight,
+        BlueHealthWeight,
+        FullHealthWeight,
+        UltraHealthWeight,
+
         JunkItemPoolAmmoWeight,
+
         JunkItemPoolLifeForceWeight,
+        LifeForce1Weight,
+        LifeForce10Weight,
         
         LocalWeaponPercentage,
         LocalHealthPercentage,

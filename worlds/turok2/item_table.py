@@ -33,16 +33,14 @@ ITEM_TABLE = {
         "actor_id": 1705,
         "type": ItemType.LIFE_FORCE.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
-        "class": ItemClassification.filler,
-        "weight": 95
+        "class": ItemClassification.filler
     },
     "Life Force 10": {
         "id": 100001, 
         "actor_id": 1706, 
         "type": ItemType.LIFE_FORCE.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
-        "class": ItemClassification.filler,
-        "weight": 5
+        "class": ItemClassification.filler
     },
     
     "Silver Health": {
@@ -50,32 +48,28 @@ ITEM_TABLE = {
         "actor_id": 1701,
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
-        "class": ItemClassification.filler,
-        "weight": 25
+        "class": ItemClassification.filler
     },
     "Blue Health": {
         "id": 100003,
         "actor_id": 1702,
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
-        "class": ItemClassification.filler,
-        "weight": 65
+        "class": ItemClassification.filler
     },
     "Full Health": {
         "id": 100004,
         "actor_id": 1703,
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
-        "class": ItemClassification.filler,
-        "weight": 7
+        "class": ItemClassification.filler
     },
     "Ultra Health": {
         "id": 100005,
         "actor_id": 1704,
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
-        "class": ItemClassification.filler,
-        "weight": 3
+        "class": ItemClassification.filler
     },
     "Silver Health (L)": {
         "id": 100102,
@@ -83,7 +77,6 @@ ITEM_TABLE = {
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
-        "weight": 25,
         "is_local": True
     },
     "Blue Health (L)": {
@@ -92,7 +85,6 @@ ITEM_TABLE = {
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
-        "weight": 65,
         "is_local": True
     },
     "Full Health (L)": {
@@ -101,7 +93,6 @@ ITEM_TABLE = {
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
-        "weight": 7,
         "is_local": True
     },
     "Ultra Health (L)": {
@@ -110,7 +101,6 @@ ITEM_TABLE = {
         "type": ItemType.HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
-        "weight": 3,
         "is_local": True
     },
     
@@ -120,8 +110,7 @@ ITEM_TABLE = {
         "actor_id": 30000, # This is limited to an int16 in-game
         "type": ItemType.AMMO.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_AMMO.value,
-        "class": ItemClassification.filler,
-        "weight": 4
+        "class": ItemClassification.filler
     },
     "Random Ammo Pack (L)": {
         "id": 400100,
@@ -129,7 +118,6 @@ ITEM_TABLE = {
         "type": ItemType.AMMO.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_AMMO.value,
         "class": ItemClassification.filler,
-        "weight": 4,
         "is_local": True
     },
 
@@ -592,8 +580,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.ENEMY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 25
+        "class": ItemClassification.trap
     },
     "Enemy Trap (Blue Health)": {
         "id": 900001,
@@ -601,8 +588,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.ENEMY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 65
+        "class": ItemClassification.trap
     },
     "Enemy Trap (Full Health)": {
         "id": 900002,
@@ -610,8 +596,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.ENEMY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 7
+        "class": ItemClassification.trap
     },
     "Enemy Trap (Ultra Health)": {
         "id": 900003,
@@ -619,8 +604,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.ENEMY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 3
+        "class": ItemClassification.trap
     },
     
     "Damage Trap (Silver Health)": {
@@ -629,8 +613,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.DAMAGE.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 25
+        "class": ItemClassification.trap
     },
     "Damage Trap (Blue Health)": {
         "id": 900011,
@@ -638,8 +621,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.DAMAGE.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 65
+        "class": ItemClassification.trap
     },
     "Damage Trap (Full Health)": {
         "id": 900012,
@@ -647,8 +629,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.DAMAGE.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 7
+        "class": ItemClassification.trap
     },
     "Damage Trap (Ultra Health)": {
         "id": 900013,
@@ -656,8 +637,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.DAMAGE.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 3
+        "class": ItemClassification.trap
     },
     
     "Spam Trap (Silver Health)": {
@@ -666,8 +646,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.SPAM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 25
+        "class": ItemClassification.trap
     },
     "Spam Trap (Blue Health)": {
         "id": 900021,
@@ -675,8 +654,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.SPAM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 65
+        "class": ItemClassification.trap
     },
     "Spam Trap (Full Health)": {
         "id": 900022,
@@ -684,8 +662,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.SPAM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 7
+        "class": ItemClassification.trap
     },
     "Spam Trap (Ultra Health)": {
         "id": 900023,
@@ -693,8 +670,7 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.SPAM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap,
-        "weight": 3
+        "class": ItemClassification.trap
     }
 }
 

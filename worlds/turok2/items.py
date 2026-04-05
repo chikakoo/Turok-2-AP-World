@@ -78,7 +78,7 @@ def get_random_filler_item_name(world: Turok2World) -> str:
     if chosen_category == ItemType.HEALTH.value:
         return get_random_health_pickup_item_name(world)
     elif chosen_category == ItemType.AMMO.value:
-        return get_random_ammo_pickup_item_name(world)
+        return "Random Ammo Pack"
     elif chosen_category == ItemType.TRAP.value:
         return get_random_trap_item_name(world)
     else:
@@ -136,25 +136,29 @@ def get_random_trap_item_name(world: Turok2World) -> str | None:
     
 def get_random_life_force_item_name(world: Turok2World) -> str:
     """
-    Gets a random life force.
+    Gets a random life force based on the weight settings.
     """
-    names = list(LIFE_FORCES.keys())
-    weights = [data.get("weight", 1) for data in LIFE_FORCES.values()]
+    life_forces = [
+        ("Life Force 1", world.options.life_force_1_weight),
+        ("Life Force 10", world.options.life_force_10_weight)
+    ]
+    names = [name for name, _ in life_forces]
+    weights = [weight for _, weight in life_forces]
     return world.random.choices(names, weights=weights, k=1)[0]
     
 def get_random_health_pickup_item_name(world: Turok2World) -> str:
     """
-    Gets a random health pickup.
+    Gets a random health pickup based on the weight settings.
     """
-    names = list(HEALTH_PICKUPS.keys())
-    weights = [data.get("weight", 1) for data in HEALTH_PICKUPS.values()]
+    health_pickups = [
+        ("Silver Health", world.options.silver_health_weight),
+        ("Blue Health", world.options.blue_health_weight),
+        ("Full Health", world.options.full_health_weight),
+        ("Ultra Health", world.options.ultra_health_weight)
+    ]
+    names = [name for name, _ in health_pickups]
+    weights = [weight for _, weight in health_pickups]
     return world.random.choices(names, weights=weights, k=1)[0]
-    
-def get_random_ammo_pickup_item_name(world: Turok2World) -> str:
-    """
-    Gets a random ammo pickup. There's currently only one, so just return it.
-    """
-    return "Random Ammo Pack"
     
 def force_local_items(world: Turok2World, itempool: list[Item], item_type: int, percentage: int):
     """
@@ -267,17 +271,16 @@ def create_all_items(world: Turok2World) -> None:
     Leave this commented out in released versions
     """
     
-    type_counts: dict[ItemType, int] = Counter()
+    item_counts: dict[str, int] = Counter()
     total_items = len(itempool)
 
     for item in itempool:
-        item_type = ItemType(ITEM_TABLE[item.name]["type"])
-        type_counts[item_type] += 1
+        item_counts[item] += 1
 
     print(f"Item pool summary for player {world.player}:")
-    for item_type, count in type_counts.items():
+    for item, count in item_counts.items():
         percentage = (count / total_items) * 100
-        print(f"{item_type.name}: {count} ({percentage:.1f}%)")
+        print(f"{item.name}: {count} ({percentage:.1f}%)")
     
     
 def map_ap_item_to_game(ap_item_id) -> tuple[int, int]:
