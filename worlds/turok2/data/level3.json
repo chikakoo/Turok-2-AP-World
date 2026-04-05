@@ -18,7 +18,12 @@
                     }
                 },
                 { "to": "DM Checkpoint 1" }
-            ]
+            ],
+            "events": [{
+				"name": "Level 5 Key",
+				"location_name": "DM Across Double River Logs Level 5 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "DM Start River",
@@ -30,7 +35,12 @@
         },
         {
             "name": "DM Checkpoint 1",
-            "exits": [{ "to": "DM Oblivion Portal" }]
+            "exits": [{ "to": "DM Oblivion Portal" }],
+            "events": [{
+				"name": "Level 5 Key",
+				"location_name": "DM After Shredder Loop Level 5 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "DM Oblivion Portal",
@@ -54,12 +64,11 @@
         {
             "name": "DM Primagen Key",
             "exits": [],
-            "events": {
-				"Primagen Key 3": {
-					"location_name": "Primagen Key 3",
-					"type": "primagen_key_event"
-				}
-			}
+            "events": [{
+                "name": "Primagen Key 3",
+                "location_name": "Primagen Key 3",
+                "type": "primagen_key_event"
+            }]
         },
         {
             "name": "DM Oblivion",
@@ -125,16 +134,20 @@
                         }
                     }
                 }
-            ]
+            ],
+            "events": [{
+				"name": "Level 5 Key",
+				"location_name": "DM Ratpor Rooms Level 5 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "DM Totem",
             "exits": [{ "to": "Hub" }],
-            "events": {
-				"Level Complete": {
-					"location_name": "DM Complete"
-				}
-			}
+            "events": [{
+                "name": "Level Complete",
+                "location_name": "DM Complete"
+            }]
         }
     ]
 }

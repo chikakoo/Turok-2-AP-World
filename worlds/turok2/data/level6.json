@@ -3,18 +3,17 @@
         {
             "name": "PL Start",
             "exits": [{ "to": "PL Wing 1" }],
-            "events": {
-				"Primagen Key 6": {
-					"location_name": "Primagen Key 6",
-					"type": "primagen_key_event",
-                    "rule": {
-                        "has": {
-                            "item": "PL Primagen Key Switch",
-                            "count": 4
-                        }
+            "events": [{
+                "name": "Primagen Key 6",
+                "location_name": "Primagen Key 6",
+                "type": "primagen_key_event",
+                "rule": {
+                    "has": {
+                        "item": "PL Primagen Key Switch",
+                        "count": 4
                     }
-				}
-			}
+                }
+            }]
         },
         {
             "name": "PL Wing 1",
@@ -33,11 +32,10 @@
         {
             "name": "PL Wing 1 Whispers",
             "exits": [],
-            "events": {
-				"PL Primagen Key Switch": {
-					"location_name": "PL Wing 1 Primagen Key Switch"
-				}
-			}
+            "events": [{
+                "name": "PL Primagen Key Switch",
+                "location_name": "PL Wing 1 Primagen Key Switch"
+            }]
         },
         {
             "name": "PL Wing 1 Generator River",
@@ -56,11 +54,10 @@
         {
             "name": "PL Wing 2 Eye of Truth",
             "exits": [],
-            "events": {
-				"PL Primagen Key Switch": {
-					"location_name": "PL Wing 2 Primagen Key Switch"
-				}
-			}
+            "events": [{
+                "name": "PL Primagen Key Switch",
+                "location_name": "PL Wing 2 Primagen Key Switch"
+            }]
         },
         {
             "name": "PL Wing 2 Generator",
@@ -102,11 +99,10 @@
         {
             "name": "PL Wing 3 Leap of Faith",
             "exits": [],
-            "events": {
-				"PL Primagen Key Switch": {
-					"location_name": "PL Wing 3 Primagen Key Switch"
-				}
-			}
+            "events": [{
+                "name": "PL Primagen Key Switch",
+                "location_name": "PL Wing 3 Primagen Key Switch"
+            }]
         },
         {
             "name": "PL Wing 4",
@@ -143,11 +139,10 @@
         {
             "name": "PL Wing 4 Generator River",
             "exits": [],
-            "events": {
-				"PL Primagen Key Switch": {
-					"location_name": "PL Wing 4 Primagen Key Switch"
-				}
-			}
+            "events": [{
+                "name": "PL Primagen Key Switch",
+                "location_name": "PL Wing 4 Primagen Key Switch"
+            }]
         },
         {
             "name": "PL End",
@@ -182,11 +177,10 @@
         {
             "name": "PL Boss",
             "exits": [{ "to": "Hub" }],
-            "events": {
-				"Level Complete": {
-					"location_name": "PL Complete"
-				}
-			}
+            "events": [{
+                "name": "Level Complete",
+                "location_name": "PL Complete"
+            }]
         }
     ]
 }

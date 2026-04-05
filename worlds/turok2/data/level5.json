@@ -6,7 +6,12 @@
 		},
         {
 			"name": "HM Force Fields",
-			"exits": [{ "to": "HM Pit 1" }]
+			"exits": [{ "to": "HM Pit 1" }],
+            "events": [{
+				"name": "Level 6 Key",
+				"location_name": "HM First Level Key Level 6 Key",
+				"type": "level_key_event"
+			}]
 		},
         {
 			"name": "HM Pit 1",
@@ -21,7 +26,12 @@
 			"exits": [
                 { "to": "HM Oblivion" },
                 { "to": "HM Pit 3" }
-            ]
+            ],
+            "events": [{
+				"name": "Level 6 Key",
+				"location_name": "HM Pit 2 Level Key Level 6 Key",
+				"type": "level_key_event"
+			}]
 		},
         {
 			"name": "HM Oblivion",
@@ -43,7 +53,12 @@
 		},
         {
 			"name": "HM Water",
-			"exits": [{ "to": "HM Inner Hive" }]
+			"exits": [{ "to": "HM Inner Hive" }],
+            "events": [{
+				"name": "Level 6 Key",
+				"location_name": "HM After Main Generator Level 6 Key",
+				"type": "level_key_event"
+			}]
 		},
         {
 			"name": "HM Inner Hive",
@@ -125,12 +140,11 @@
         {
 			"name": "HM Primagen Key",
 			"exits": [],
-			"events": {
-				"Primagen Key 5": {
-					"location_name": "Primagen Key 5",
-					"type": "primagen_key_event"
-				}
-			}
+			"events": [{
+                "name": "Primagen Key 5",
+                "location_name": "Primagen Key 5",
+                "type": "primagen_key_event"
+            }]
 		},
         {
 			"name": "HM Embryo 3",
@@ -148,11 +162,10 @@
         {
 			"name": "HM Boss",
 			"exits": [{ "to": "Hub" }],
-            "events": {
-				"Level Complete": {
-					"location_name": "HM Complete"
-				}
-			}
+			"events": [{
+                "name": "Level Complete",
+                "location_name": "HM Complete"
+            }]
 		}
 	]
 }

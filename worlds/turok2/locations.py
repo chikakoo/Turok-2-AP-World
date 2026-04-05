@@ -92,6 +92,8 @@ def create_locations(world: Turok2World) -> None:
             continue
         if not world.options.include_life_force_locations and item_type == ItemType.LIFE_FORCE.value:
             continue
+        if not world.options.include_level_key_locations and item_type == ItemType.LEVEL_KEY.value:
+            continue
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
             continue
         if world.options.nuke_behavior == NukeBehavior.option_vanilla and item_type == ItemType.NUKE_PART.value:
@@ -115,7 +117,9 @@ def create_events(world: Turok2World) -> None:
         region_name = region_data["name"]
         region_obj = world.get_region(region_name)
 
-        for event_name, event_info in region_data.get("events", {}).items():
+        for event_info in region_data.get("events", []):
+            event_name = event_info.get("name")
+
             # Do NOT add events that will not be relevent
             if event_info.get("rule") == "vanilla_mission_items" and world.options.include_mission_item_locations:
                 continue
@@ -123,6 +127,10 @@ def create_events(world: Turok2World) -> None:
             if (event_info.get("type") == "primagen_key_event" and 
                 (world.options.primagen_goal == PrimagenGoal.option_none or
                 world.options.primagen_keys != PrimagenKeys.option_vanilla)):
+                continue
+
+            if (event_info.get("type") == "level_key_event" and
+                world.options.include_level_key_locations):
                 continue
 
             rule_func = None

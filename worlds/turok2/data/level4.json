@@ -14,12 +14,11 @@
         {
             "name": "LBO Whispers",
             "exits": [],
-            "events": {
-				"Primagen Key 4": {
-					"location_name": "Primagen Key 4",
-					"type": "primagen_key_event"
-				}
-			}
+            "events": [{
+                "name": "Primagen Key 4",
+                "location_name": "Primagen Key 4",
+                "type": "primagen_key_event"
+            }]
         },
         {
             "name": "LBO Water",
@@ -46,7 +45,12 @@
         },
         {
             "name": "LBO Falling Rocks",
-            "exits": [{ "to": "LBO Waterfalls" }]
+            "exits": [{ "to": "LBO Waterfalls" }],
+            "events": [{
+				"name": "Level 6 Key",
+				"location_name": "LBO Level Key Trap 1 Level 6 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "LBO Waterfalls",
@@ -137,7 +141,12 @@
                         "count": 4
                     }
                 }
-            ]
+            ],
+            "events": [{
+				"name": "Level 6 Key",
+				"location_name": "LBO Level Key Trap 2 Level 6 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "LBO Blue Cave After Door",
@@ -186,16 +195,20 @@
                         ]
 					}
                 }
-            ]
+            ],
+            "events": [{
+				"name": "Level 6 Key",
+				"location_name": "LBO Level Key Trap 3 Level 6 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "LBO Boss",
             "exits": [{ "to": "Hub" }],
-            "events": {
-				"Level Complete": {
-					"location_name": "LBO Complete"
-				}
-			}
+            "events": [{
+                "name": "Level Complete",
+                "location_name": "LBO Complete"
+            }]
         }
 	]
 }

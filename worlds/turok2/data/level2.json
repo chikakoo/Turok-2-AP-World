@@ -16,7 +16,12 @@
                     "rule": { "has": "Breath of Life" }
                 },
                 { "to": "RoS River and Checkpoint" }
-            ]
+            ],
+            "events": [{
+				"name": "Level 4 Key",
+				"location_name": "RoS Level Key Loop Level 4 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "RoS Level Key Loop in River",
@@ -96,7 +101,12 @@
                 },
                 { "to": "RoS Graveyard 2" },
                 { "to": "RoS Talisman Portal" }
-            ]
+            ],
+            "events": [{
+				"name": "Level 4 Key",
+				"location_name": "RoS Fountain Path Level 4 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "RoS LF Jumps Leap of Faith",
@@ -131,7 +141,12 @@
                         }
                     }
                 }
-            ]
+            ],
+            "events": [{
+				"name": "Level 4 Key",
+				"location_name": "RoS Final Level Key Path Level 4 Key",
+				"type": "level_key_event"
+			}]
         },
         {
             "name": "RoS Primagen Key River",
@@ -143,12 +158,11 @@
         {
             "name": "RoS Primagen Key Leap",
             "exits": [],
-            "events": {
-				"Primagen Key 2": {
-					"location_name": "Primagen Key 2",
-					"type": "primagen_key_event"
-				}
-			}
+            "events": [{
+                "name": "Primagen Key 2",
+                "location_name": "Primagen Key 2",
+                "type": "primagen_key_event"
+            }]
         },
         {
             "name": "RoS Talisman",
@@ -183,11 +197,10 @@
         {
             "name": "RoS Totem",
             "exits": [{ "to": "Hub" }],
-            "events": {
-				"Level Complete": {
-					"location_name": "RoS Complete"
-				}
-			}
+            "events": [{
+                "name": "Level Complete",
+                "location_name": "RoS Complete"
+            }]
         }
     ]
 }

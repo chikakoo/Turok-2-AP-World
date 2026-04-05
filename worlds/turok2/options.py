@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
 #todo:
-# settings for... level keys, feathers, talismans
+# settings for... feathers, talismans
 # death link
 # whether to mark the pickups as important in the game
 # individual settings for LF10/Full + Ultra Healths in pool
@@ -78,13 +78,18 @@ class IncludeLifeForceLocations(Toggle):
     """
     display_name = "Include Life Force Locations"
     default = True
+
+class IncludeLevelKeyLocations(Toggle):
+    """
+    Whether to include level keys.
+    """
+    display_name = "Include Level Keys"
+    default = True
     
 class IncludeMissionItemLocations(Toggle):
     """
     Whether to include items needed to finish the level. For example, the beacon power cells
     in level 1 or the graveyard keys in level 2.
-
-    Also includes level keys (for now). See the PrimagenKey setting for how Primagen keys work.
     """
     display_name = "Include Mission Item Locations"
     default = True
@@ -318,6 +323,7 @@ class Turok2Options(PerGameCommonOptions):
     include_health_locations: IncludeHealthLocations
     include_weapon_and_ammo_locations: IncludeWeaponAndAmmoLocations
     include_life_force_locations: IncludeLifeForceLocations
+    include_level_key_locations: IncludeLevelKeyLocations
     include_mission_item_locations: IncludeMissionItemLocations
     
     local_weapon_percentage: LocalWeaponPercentage
@@ -357,6 +363,7 @@ option_groups = [
         IncludeHealthLocations,
         IncludeWeaponAndAmmoLocations,
         IncludeLifeForceLocations,
+        IncludeLevelKeyLocations,
         IncludeMissionItemLocations,
     ]),
     OptionGroup("Progression Options", [
