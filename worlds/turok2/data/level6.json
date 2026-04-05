@@ -7,7 +7,12 @@
 				"Primagen Key 6": {
 					"location_name": "Primagen Key 6",
 					"type": "primagen_key_event",
-                    "rule": "can_reach_level_6_primagen_key"
+                    "rule": {
+                        "has": {
+                            "item": "PL Primagen Key Switch",
+                            "count": 4
+                        }
+                    }
 				}
 			}
         },
@@ -27,7 +32,12 @@
         },
         {
             "name": "PL Wing 1 Whispers",
-            "exits": []
+            "exits": [],
+            "events": {
+				"PL Primagen Key Switch": {
+					"location_name": "PL Wing 1 Primagen Key Switch"
+				}
+			}
         },
         {
             "name": "PL Wing 1 Generator River",
@@ -45,7 +55,12 @@
         },
         {
             "name": "PL Wing 2 Eye of Truth",
-            "exits": []
+            "exits": [],
+            "events": {
+				"PL Primagen Key Switch": {
+					"location_name": "PL Wing 2 Primagen Key Switch"
+				}
+			}
         },
         {
             "name": "PL Wing 2 Generator",
@@ -86,7 +101,12 @@
         },
         {
             "name": "PL Wing 3 Leap of Faith",
-            "exits": []
+            "exits": [],
+            "events": {
+				"PL Primagen Key Switch": {
+					"location_name": "PL Wing 3 Primagen Key Switch"
+				}
+			}
         },
         {
             "name": "PL Wing 4",
@@ -122,7 +142,12 @@
         },
         {
             "name": "PL Wing 4 Generator River",
-            "exits": []
+            "exits": [],
+            "events": {
+				"PL Primagen Key Switch": {
+					"location_name": "PL Wing 4 Primagen Key Switch"
+				}
+			}
         },
         {
             "name": "PL End",

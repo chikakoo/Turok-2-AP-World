@@ -1,3 +1,8 @@
 {
-    "PL End - Primagen Key": "can_reach_level_6_primagen_key"
+    "PL End - Primagen Key": {
+        "has": {
+            "item": "PL Primagen Key Switch",
+            "count": 4
+        }
+    }
 }
