@@ -224,7 +224,7 @@
     "PoA Primagen Key - Tek Arrows on Ground 2": { "region": "PoA Talisman Portal Map", "ap_id": 55045, "position": "55_2768_2730_614", "type": 2 },
     "PoA Primagen Key Upper - Close Tek Arrows": { "region": "PoA Upper Primagen Key", "ap_id": 55046, "position": "55_2764_3027_921", "type": 2 },
     "PoA Primagen Key Upper - Far Tek Arrows": { "region": "PoA Upper Primagen Key", "ap_id": 55047, "position": "55_1130_2199_921", "type": 2 },
-    "PoA Primagen Key Leap - LF10 Trail 1": { "region": "PoA Upper Primagen Key", "ap_id": 55048, "position": "55_2662_2662_1095", "type": 0 },
+    "PoA Primagen Key Leap - LF10 Trail 1": { "region": "PoA Primagen Key Leap of Faith", "ap_id": 55048, "position": "55_2662_2662_1095", "type": 0 },
     "PoA Primagen Key Leap - LF10 Trail 2": { "region": "PoA Primagen Key Leap of Faith", "ap_id": 55049, "position": "55_2662_2508_1208", "type": 0 },
     "PoA Primagen Key Leap - LF10 Trail 3": { "region": "PoA Primagen Key Leap of Faith", "ap_id": 55050, "position": "55_2662_2355_1269", "type": 0 },
     "PoA Primagen Key Leap - LF10 Trail 4": { "region": "PoA Primagen Key Leap of Faith", "ap_id": 55051, "position": "55_2662_2201_1269", "type": 0 },

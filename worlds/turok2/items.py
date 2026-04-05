@@ -156,34 +156,6 @@ def get_random_ammo_pickup_item_name(world: Turok2World) -> str:
     """
     return "Random Ammo Pack"
     
-def add_items_to_itempool(
-    world: Turok2World,
-    itempool: list[Item],
-    number_of_unfilled_locations: int,
-    percentage_sum: int,
-    item_fill_percent: int,
-    get_item_name_function: Callable[[Turok2World], str | None]):
-    """
-    Adds items to the item pool based on the percentage sum, and the percent given.
-    If the sum if > 100, treat the percent as a ratio of the given sum. 
-    Otherwise, use it as the percent.
-    """
-    if item_fill_percent <= 0:
-        return
-    
-    if percentage_sum > 100:
-        ratio = item_fill_percent / percentage_sum
-    else:
-        ratio = item_fill_percent / 100.0
-    
-    # Any rounding error will be lower than expected, which is okay
-    count = int(number_of_unfilled_locations * ratio)
-    
-    for _ in range(count):
-        name = get_item_name_function(world)
-        if name:
-            itempool.append(world.create_item(name))
-    
 def force_local_items(world: Turok2World, itempool: list[Item], item_type: int, percentage: int):
     """
     Forces the percentage of items in the item pool of the given type to be placed in this world.
@@ -275,38 +247,6 @@ def create_all_items(world: Turok2World) -> None:
             itempool.append(world.create_item(name))
          
     # Fill the world with fillers
-    number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
-    number_of_items = len(itempool)
-    needed_number_of_filler_items = max(0, number_of_unfilled_locations - number_of_items)
-    
-    percentage_sum_of_minimum_items = (
-        world.options.minimum_health_percent + 
-        world.options.minimum_ammo_percent + 
-        world.options.minimum_life_force_percent)
-        
-    add_items_to_itempool(
-        world,
-        itempool,
-        needed_number_of_filler_items,
-        percentage_sum_of_minimum_items,
-        world.options.minimum_health_percent,
-        get_random_health_pickup_item_name)
-    add_items_to_itempool(
-        world,
-        itempool,
-        needed_number_of_filler_items,
-        percentage_sum_of_minimum_items,
-        world.options.minimum_ammo_percent,
-        get_random_ammo_pickup_item_name)
-    add_items_to_itempool(
-        world,
-        itempool,
-        needed_number_of_filler_items,
-        percentage_sum_of_minimum_items,
-        world.options.minimum_life_force_percent,
-        get_random_life_force_item_name)
-    
-    # Recompute the number of filler items needed
     number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
     number_of_items = len(itempool)
     needed_number_of_filler_items = max(0, number_of_unfilled_locations - number_of_items)

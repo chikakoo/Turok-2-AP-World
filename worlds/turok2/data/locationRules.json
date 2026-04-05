@@ -1,9 +1,3 @@
 {
-    "PoA Primagen Key Leap - LF10 Trail 1": {
-        "or": [
-            {"has": "Leap of Faith"},
-            "advanced_game_logic"
-        ]
-    },
     "PL End - Primagen Key": "can_reach_level_6_primagen_key"
 }

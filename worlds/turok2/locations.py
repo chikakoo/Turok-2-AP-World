@@ -5,7 +5,7 @@ import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
-from .options import PrimagenGoal, PrimagenKeys, GameLogicDifficulty, WeaponLogicDifficulty
+from .options import PrimagenGoal, PrimagenKeys
 from . import items
 from .items import ItemType
 
@@ -271,16 +271,6 @@ def compute_category_rule(world: Turok2World, category: str, count: int = 1):
     """
     return lambda state: state.has_group_unique(category, world.player, count)
 
-def advanced_game_logic(world: Turok2World):
-    """Checks advanced game logic is on."""
-    enabled = world.options.game_logic_difficulty == GameLogicDifficulty.option_advanced
-    return lambda state: enabled
-    
-def advanced_weapon_logic(world: Turok2World):
-    """Checks advanced weapon logic is on."""
-    enabled = world.options.weapon_logic_difficulty == WeaponLogicDifficulty.option_advanced
-    return lambda state: enabled
-
 def weapon_requirement(world: Turok2World, args: dict):
     """
     Checks whether the weapon requirements are met (categories and count).
@@ -337,8 +327,6 @@ def can_reach_level_6_primagen_key(world: Turok2World):
         state.can_reach_region("PL Wing 4 Generator River", world.player))
     
 NAMED_RULES = {
-    "advanced_game_logic": advanced_game_logic,
-    "advanced_weapon_logic": advanced_weapon_logic,
     "weapon_requirement": weapon_requirement,
     "vanilla_mission_items": vanilla_mission_items,
     "mission_item_requirement": mission_item_requirement,
