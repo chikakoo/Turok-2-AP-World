@@ -1,4 +1,11 @@
 {
+    "LBO Start - Quiver of Tek Arrows": { "region": "LBO Start", "ap_id": 98000, "position": "98_-43_-1265_-617", "type": 2 },
+    "LBO Start - Explosive Shells": { "region": "LBO Start", "ap_id": 98001, "position": "98_1331_-1304_-614", "type": 2 },
+    "LBO Start - Shells": { "region": "LBO Start", "ap_id": 98002, "position": "98_1276_-1091_-615", "type": 2 },
+    "LBO Start - Clip 1": { "region": "LBO Start", "ap_id": 98003, "position": "98_-9_-202_-629", "type": 2 },
+    "LBO Start - Clip 2": { "region": "LBO Start", "ap_id": 98004, "position": "98_221_64_-624", "type": 2 },
+    "LBO Start - Plasma Pak": { "region": "LBO Start", "ap_id": 98005, "position": "98_1359_-175_-625", "type": 2 },
+    "LBO Start - Full Health up Logs": { "region": "LBO Start", "ap_id": 98006, "position": "98_1442_-1167_-253", "type": 1 },
     "LBO Start - Plasma Rifle": { "region": "LBO Start", "ap_id": 98007, "position": "98_742_384_-588", "type": 9 },
     "LBO Checkpoint 1 - Blue Health by Whispers": { "region": "LBO Start", "ap_id": 98008, "position": "98_-562_1581_-614", "type": 1 },
     "LBO Checkpoint 1 - Shells": { "region": "LBO Start", "ap_id": 98009, "position": "98_1075_3399_-614", "type": 2 },

@@ -100,6 +100,10 @@ def create_locations(world: Turok2World) -> None:
             continue
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
             continue
+        if (world.options.primagen_goal != PrimagenGoal.option_none and
+            world.options.primagen_keys == PrimagenKeys.option_vanilla and
+            item_type == ItemType.PRIMAGEN_KEY.value):
+            continue
         if world.options.nuke_behavior == NukeBehavior.option_vanilla and item_type == ItemType.NUKE_PART.value:
             continue
         
