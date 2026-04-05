@@ -5,7 +5,7 @@ import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
-from .options import PrimagenGoal, PrimagenKeys
+from .options import PrimagenGoal, PrimagenKeys, NukeBehavior
 from . import items
 from .items import ItemType
 
@@ -94,7 +94,8 @@ def create_locations(world: Turok2World) -> None:
             continue
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
             continue
-        # TODO: When Nuke Parts can be vanilla, we'd disable their locations here
+        if world.options.nuke_behavior == NukeBehavior.option_vanilla and item_type == ItemType.NUKE_PART.value:
+            continue
         
         region_obj = world.get_region(loc_info["region"])
         location = Turok2Location(

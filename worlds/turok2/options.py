@@ -2,10 +2,10 @@ from dataclasses import dataclass
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
 #todo:
 # individual pickup weights (health, life force)
-# settings for... level keys, feathers, primagen keys, talismans (can't do until all levels are done)
-# nuke vanilla behavior (when every level complete)
+# settings for... level keys, feathers, talismans
 # death link
 # whether to mark the pickups as important in the game
+# individual settings for LF10/Full + Ultra Healths in pool
 
 class LevelGoal(Range):
     """
@@ -54,10 +54,7 @@ class PrimagenKeys(Choice):
 class IncludeHealthLocations(Toggle):
     """
     Whether to include static health pickups in the list of locations to check.
-    Will result in weighted health pickups in the pool (see the relevant setting).
-    
-    Note that this does NOT affect whether they will show up in the item pool.
-    See the Minimum Percent and Junk Weight settings to affect that.
+    Use the JunkItemPoolHealthWeight setting to affect how many will be in the item pool.
     """
     display_name = "Include Health Locations"
     default = True
@@ -65,12 +62,12 @@ class IncludeHealthLocations(Toggle):
 class IncludeWeaponAndAmmoLocations(Toggle):
     """
     Whether to include static weapon and ammo pickups in the list of locations to check.
-    
-    Will result in random weapons, and random ammo pickups in the pool to ensure you can get 
-    ammo for the random weapons rolled.
-    
-    Note that this does NOT affect whether they will show up in the item pool.
-    See the Minimum Percent and Junk Weight settings to affect that.
+
+    Any ammo in the item pool will be random ammo pickups, granting ammo in a random owned
+    weapon (favoring those lacking ammo). This is to ensure that you can always get ammo
+    for the randomly rolled weapons.
+
+    Use the JunkItemPoolAmmoWeight setting to affect how much ammo will be in the item pool.
     """
     display_name = "Include Weapon and Ammo Locations"
     default = True
@@ -78,10 +75,7 @@ class IncludeWeaponAndAmmoLocations(Toggle):
 class IncludeLifeForceLocations(Toggle):
     """
     Whether to include life forces in the list of locations to check.
-    Will result in weighted life forces in the pool (see the relevant setting).
-    
-    Note that this does NOT affect whether they will show up in the item pool.
-    See the Minimum Percent and Junk Weight settings to affect that.
+    Use the JunkItemPoolLifeForceWeight setting to affect how many will be in the item pool.
     """
     display_name = "Include Life Force Locations"
     default = True
@@ -91,7 +85,7 @@ class IncludeMissionItemLocations(Toggle):
     Whether to include items needed to finish the level. For example, the beacon power cells
     in level 1 or the graveyard keys in level 2.
 
-    Also includes level keys (for now). See the PrimagenLair setting for how Primagen keys work.
+    Also includes level keys (for now). See the PrimagenKey setting for how Primagen keys work.
     """
     display_name = "Include Mission Item Locations"
     default = True
@@ -106,23 +100,26 @@ class ForceEarlyWeapon(Toggle):
 class NukeBehavior(Choice):
     """
     Defines how to get the Nuke weapon.
-    Note: Vanilla behavior not available until every level is done.
     - Disabled: There is no Nuke. Oblivion portals will have a random check.
+    - Vanilla: The 6 Nuke Parts are in their vanilla locations.
     - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
-    - Weapon Pickup: The Nuke will be found as its own check. Oblivion portals will have a random check.
+    - Weapon Pickup: The Nuke will be obtaned as a single items. Oblivion portals will have a random check.
     """
     display_name = "Nuke Behavior"
     
     option_disabled = 0
-    option_nuke_part_hunt = 1
-    option_weapon_pickup = 2
+    option_vanilla = 1
+    option_nuke_part_hunt = 2
+    option_weapon_pickup = 3
     
     default = option_nuke_part_hunt
 
 class OpenHub(Toggle):
     """
-    Whether the Level 1 door to the hub should be opened without completing the level.
-    Remember to go through it to activate the checkpoint station for convenience.
+    Whether the Level 1 door to the hub should be opened without completing the level,
+    allowing access to other levels when you obtain their level keys.
+
+    Remember to go through it to activate the hub's checkpoint station for convenience.
     """
     display_name = "Open Hub"
     default = False

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from .item_table import *
-from typing import TYPE_CHECKING, Callable, Counter
+from typing import TYPE_CHECKING, Counter
 from BaseClasses import Item
 from .options import NukeBehavior, PrimagenGoal, PrimagenKeys
 
