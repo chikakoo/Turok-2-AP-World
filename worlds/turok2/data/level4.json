@@ -92,7 +92,7 @@
                     "to": "LBO Water Tunnel Intersection",
                     "rule": {
                         "or": [
-                            "guarantee_torpedo_launcher",
+                            "not_guaranteed_torpedo_launcher",
                             { "has": "Torpedo Launcher" }
                         ]
                     }

@@ -334,15 +334,15 @@ def open_hub(world: Turok2World):
     open_hub = world.options.open_hub
     return lambda state: open_hub
 
-def guarantee_torpedo_launcher(world: Turok2World):
+def not_guaranteed_torpedo_launcher(world: Turok2World):
     """Checks whether the Torpedo Launcher is in logic"""
-    guarantee_torpedo_launcher = world.options.guarantee_torpedo_launcher
-    return lambda state: guarantee_torpedo_launcher
+    not_guaranteed_torpedo_launcher = not world.options.guarantee_torpedo_launcher
+    return lambda state: not_guaranteed_torpedo_launcher
     
 NAMED_RULES = {
     "weapon_requirement": weapon_requirement,
     "vanilla_mission_items": vanilla_mission_items,
     "mission_item_requirement": mission_item_requirement,
     "open_hub": open_hub,
-    "guarantee_torpedo_launcher": guarantee_torpedo_launcher
+    "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher
 }

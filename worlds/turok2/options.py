@@ -391,7 +391,8 @@ option_groups = [
     OptionGroup("Progression Options", [
         ForceEarlyWeapon,
         NukeBehavior,
-        OpenHub
+        OpenHub,
+        GuaranteeTorpedoLauncher
     ]),
     OptionGroup("Junk Item Pool", [
         JunkItemPoolHealthWeight,
