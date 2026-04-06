@@ -58,7 +58,7 @@
                 { 
                     "to": "PL Wing 2 Generator Place Capacitor",
                     "rule": { 
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "Ion Capacitor",
                             "count": 13
                         }
@@ -104,7 +104,7 @@
                 { 
                     "to": "PL Wing 4 Generator",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "Blue Laser Cell",
                             "count": 2
                         }
@@ -141,19 +141,19 @@
                     "rule": {
                         "and": [
                             {
-                                "has": {
+                                "mission_item_requirement": {
                                     "item": "Ion Capacitor",
                                     "count": 16
                                 }
                             },
                             {
-                                "has": {
+                                "mission_item_requirement": {
                                     "item": "Blue Laser Cell",
                                     "count": 4
                                 }
                             },
                             {
-                                "has": {
+                                "mission_item_requirement": {
                                     "item": "Red Laser Cell",
                                     "count": 2
                                 }

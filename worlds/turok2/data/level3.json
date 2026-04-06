@@ -11,7 +11,7 @@
                 { 
                     "to": "DM Ammo Facility 1",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "L3 Satchel Charge",
                             "count": 3
                         }
@@ -65,7 +65,7 @@
                 { 
                     "to": "DM Ammo Facility 2",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "L3 Satchel Charge",
                             "count": 3
                         }
@@ -113,7 +113,7 @@
                 { 
                     "to": "DM Totem",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "L3 Satchel Charge",
                             "count": 3
                         }

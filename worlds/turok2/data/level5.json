@@ -73,7 +73,7 @@
                 { 
                     "to": "HM Boss",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "L5 Satchel Charge",
                             "count": 4
                         }

@@ -32,7 +32,7 @@
                 { 
                     "to": "RoS Gate Key Door",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "Gate Key",
                             "count": 2
                         }
@@ -125,7 +125,7 @@
                 { 
                     "to": "RoS Totem",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "Graveyard Key",
                             "count": 2
                         }

@@ -34,7 +34,9 @@
             "exits": [
                 { 
                     "to": "LBO Falling Rocks",
-                    "rule": { "has": "Cave Door Key" }
+                    "rule": { 
+                        "mission_item_requirement": { "item": "Cave Door Key" }
+                    }
                 }
             ]
         },
@@ -55,8 +57,10 @@
                 { 
                     "to": "LBO Vent 1",
                     "rule": {
-                        "has": "Cave Door Key",
-                        "count": 6
+                        "mission_item_requirement": {
+                            "item": "Cave Door Key",
+                            "count": 6
+                        }
                     }
                 }
             ]
@@ -86,8 +90,10 @@
                 { 
                     "to": "LBO Platforming",
                     "rule": {
-                        "has": "Cave Door Key",
-                        "count": 3
+                        "mission_item_requirement": {
+                            "item": "Cave Door Key",
+                            "count": 3
+                        } 
                     }
                 }
             ]
@@ -127,8 +133,10 @@
                 { 
                     "to": "LBO Blue Cave After Door",
                     "rule": {
-                        "has": "Cave Door Key",
-                        "count": 4
+                        "mission_item_requirement": {
+                            "item": "Cave Door Key",
+                            "count": 4
+                        }
                     }
                 }
             ]
@@ -143,8 +151,10 @@
                 { 
                     "to": "LBO Vent 3",
                     "rule": {
-                        "has": "Cave Door Key",
-                        "count": 6
+                        "mission_item_requirement": {
+                            "item": "Cave Door Key",
+                            "count": 6
+                        }
                     }
                 },
                 { "to": "LBO Blue Cave After Vent 3" }
