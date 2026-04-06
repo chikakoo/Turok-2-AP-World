@@ -18,12 +18,7 @@
                     }
                 },
                 { "to": "DM Checkpoint 1" }
-            ],
-            "events": [{
-				"name": "Level 5 Key",
-				"location_name": "DM Across Double River Logs Level 5 Key",
-				"type": "level_key_event"
-			}]
+            ]
         },
         {
             "name": "DM Start River",
@@ -35,12 +30,7 @@
         },
         {
             "name": "DM Checkpoint 1",
-            "exits": [{ "to": "DM Oblivion Portal" }],
-            "events": [{
-				"name": "Level 5 Key",
-				"location_name": "DM After Shredder Loop Level 5 Key",
-				"type": "level_key_event"
-			}]
+            "exits": [{ "to": "DM Oblivion Portal" }]
         },
         {
             "name": "DM Oblivion Portal",
@@ -63,12 +53,7 @@
         },
         {
             "name": "DM Primagen Key",
-            "exits": [],
-            "events": [{
-                "name": "Primagen Key 3",
-                "location_name": "Primagen Key 3",
-                "type": "primagen_key_event"
-            }]
+            "exits": []
         },
         {
             "name": "DM Oblivion",
@@ -105,21 +90,11 @@
                     "rule": { "has": "Level 3 Eagle Feather" }
                 },
                 { "to": "DM Outside Ammo Facility 3" }
-            ],
-            "events": [{
-                "name": "Level 3 Eagle Feather",
-                "location_name": "DM on Talisman Portal Wall Eagle Feather",
-                "type": "eagle_feather_event"
-            }]
+            ]
         },
         {
             "name": "DM Talisman",
-            "exits": [],
-            "events": [{
-                "name": "Breath of Life",
-                "location_name": "DM Talisman",
-                "type": "talisman_event"
-            }]
+            "exits": []
         },
         {
             "name": "DM Outside Ammo Facility 3",
@@ -144,12 +119,7 @@
                         }
                     }
                 }
-            ],
-            "events": [{
-				"name": "Level 5 Key",
-				"location_name": "DM Ratpor Rooms Level 5 Key",
-				"type": "level_key_event"
-			}]
+            ]
         },
         {
             "name": "DM Totem",

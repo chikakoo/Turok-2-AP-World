@@ -13,12 +13,7 @@
 		},
         {
             "name": "LBO Whispers",
-            "exits": [],
-            "events": [{
-                "name": "Primagen Key 4",
-                "location_name": "Primagen Key 4",
-                "type": "primagen_key_event"
-            }]
+            "exits": []
         },
         {
             "name": "LBO Water",
@@ -32,12 +27,7 @@
         },
         {
             "name": "LBO Talisman",
-            "exits": [],
-            "events": [{
-                "name": "Heart of Fire",
-                "location_name": "OBO Talisman",
-                "type": "talisman_event"
-            }]
+            "exits": []
         },
         {
             "name": "LBO Before Falling Rocks",
@@ -50,24 +40,14 @@
         },
         {
             "name": "LBO Falling Rocks",
-            "exits": [{ "to": "LBO Waterfalls" }],
-            "events": [{
-				"name": "Level 6 Key",
-				"location_name": "LBO Level Key Trap 1 Level 6 Key",
-				"type": "level_key_event"
-			}]
+            "exits": [{ "to": "LBO Waterfalls" }]
         },
         {
             "name": "LBO Waterfalls",
             "exits": [
                 { "to": "LBO Before Vent 1" },
                 { "to": "LBO Water Tunnels" }
-            ],
-            "events": [{
-                "name": "Level 4 Eagle Feather",
-                "location_name": "LBO Waterfalls Eagle Feather",
-                "type": "eagle_feather_event"
-            }]
+            ]
         },
         {
             "name": "LBO Before Vent 1",
@@ -151,12 +131,7 @@
                         "count": 4
                     }
                 }
-            ],
-            "events": [{
-				"name": "Level 6 Key",
-				"location_name": "LBO Level Key Trap 2 Level 6 Key",
-				"type": "level_key_event"
-			}]
+            ]
         },
         {
             "name": "LBO Blue Cave After Door",
@@ -205,12 +180,7 @@
                         ]
 					}
                 }
-            ],
-            "events": [{
-				"name": "Level 6 Key",
-				"location_name": "LBO Level Key Trap 3 Level 6 Key",
-				"type": "level_key_event"
-			}]
+            ]
         },
         {
             "name": "LBO Boss",

@@ -24,7 +24,7 @@ Once there, create a _mods_ folder. Extract the files from the mod zip (the _.kp
 
 Turok 2 uses a patch file to do its randomization and apply the game-specific yaml settings to the game.
 
-When your seed is generated, acquire your patch file like you normally would _(downloaded from the room, or extracted from the generated seed zip)_. Extract the files from the patch - you should see one called _rando.kpf_. Place _rando.kpf_ with the other mod files.
+When your seed is generated, acquire your patch file like you normally would _(downloaded from the room, or extracted from the generated seed zip)_. Extract the files from the patch - you should see one called _rando.kpf_. Place _rando.kpf_ with the other mod files (replace it if it exists already).
 
 **Failure to install this will result in local items not being randomized!** Or, if you played a previous seed, it will use that seed's randomization. If you see the client telling you that you picked up something that you didn't, make sure you installed the correct patch!
 
@@ -35,6 +35,8 @@ In _ArchipelagoLauncher.exe_, open the _Turok 2 Client_. If your Turok 2 executa
 Connect to your room and slot. Launch your game. When you get to the title screen, ensure that the client says it connected.
 
 This can be done in any order (i.e. you can start your game first if you'd like).
+
+_Note that if you are using a mod version that is not compatible with the AP World, it will not connect._
 
 ## Switching Rooms
 

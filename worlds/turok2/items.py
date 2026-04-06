@@ -236,6 +236,83 @@ def force_early_weapons(world: Turok2World, itempool: list[Item]):
 
         print(f"Early weapon {weapon.name} for Player {world.player}")
 
+def place_vanilla_progressive_items(world: Turok2World) -> None:
+    """
+    Places certain vanilla progressive items in their correct locations.
+    This is done so the tracker can more accurately tell what the next thing to do is.
+
+    Currently done with level keys, feathers, talismans, and Primagen keys.
+    """
+    if not world.options.include_level_key_locations:
+        world.get_location("PoA Hall After Warp 1 - Level Key") \
+            .place_locked_item(world.create_item("Level 2 Key"))
+        world.get_location("PoA Upper Water - Level Key") \
+            .place_locked_item(world.create_item("Level 2 Key"))
+        world.get_location("PoA Gated City - Level Key up Ladder") \
+            .place_locked_item(world.create_item("Level 2 Key"))
+
+        world.get_location("PoA City 1 Ground - Level Key") \
+            .place_locked_item(world.create_item("Level 3 Key"))
+        world.get_location("PoA Below Oblivion Portal - Level Key up Ladder") \
+            .place_locked_item(world.create_item("Level 3 Key"))
+        world.get_location("PoA Fountain in Building F2 - Level Key in Center") \
+            .place_locked_item(world.create_item("Level 3 Key"))
+
+        world.get_location("RoS Level Key Loop - Level Key") \
+            .place_locked_item(world.create_item("Level 4 Key"))
+        world.get_location("RoS Fountain Path - Level Key") \
+            .place_locked_item(world.create_item("Level 4 Key"))
+        world.get_location("RoS Final Level Key Path - Level Key") \
+            .place_locked_item(world.create_item("Level 4 Key"))
+
+        world.get_location("DM Across Double River Logs - Level Key") \
+            .place_locked_item(world.create_item("Level 5 Key"))
+        world.get_location("DM After Shredder Loop - Level Key") \
+            .place_locked_item(world.create_item("Level 5 Key"))
+        world.get_location("DM Ratpor Rooms - Level Key") \
+            .place_locked_item(world.create_item("Level 5 Key"))
+
+        world.get_location("LBO Level Key Trap 1 - Level Key") \
+            .place_locked_item(world.create_item("Level 6 Key"))
+        world.get_location("LBO Level Key Trap 2 - Level Key") \
+            .place_locked_item(world.create_item("Level 6 Key"))
+        world.get_location("LBO Level Key Trap 3 - Level Key") \
+            .place_locked_item(world.create_item("Level 6 Key"))
+        world.get_location("HM First Level Key - Level Key") \
+            .place_locked_item(world.create_item("Level 6 Key"))
+        world.get_location("HM Pit 2 Level Key - Level Key") \
+            .place_locked_item(world.create_item("Level 6 Key"))
+        world.get_location("HM After Main Generator - Level Key") \
+            .place_locked_item(world.create_item("Level 6 Key"))
+
+    if not world.options.include_eagle_feather_locations:
+        world.get_location("RoS Eagle Feather - Eagle Feather") \
+            .place_locked_item(world.create_item("Level 2 Eagle Feather"))
+        world.get_location("DM on Talisman Portal Wall - Eagle Feather") \
+            .place_locked_item(world.create_item("Level 3 Eagle Feather"))
+        world.get_location("LBO Waterfalls - Eagle Feather on Top") \
+            .place_locked_item(world.create_item("Level 4 Eagle Feather"))
+        world.get_location("HM Pit 3 Feather - Eagle Feather") \
+            .place_locked_item(world.create_item("Level 5 Eagle Feather"))
+        world.get_location("PL Wing 4 Outer Assembly 2 - Eagle Feather") \
+            .place_locked_item(world.create_item("Level 6 Eagle Feather"))
+        
+    if not world.options.include_talisman_locations:
+        world.get_location("RoS Talisman - Talisman").place_locked_item(world.create_item("Leap of Faith"))
+        world.get_location("DM Talisman - Talisman").place_locked_item(world.create_item("Breath of Life"))
+        world.get_location("LBO Talisman - Talisman").place_locked_item(world.create_item("Heart of Fire"))
+        world.get_location("HM Talisman - Talisman").place_locked_item(world.create_item("Whispers"))
+        world.get_location("PL Wing 4 Talisman - Talisman").place_locked_item(world.create_item("Eye of Truth"))
+
+    if (world.options.primagen_goal != PrimagenGoal.option_none and
+        world.options.primagen_keys == PrimagenKeys.option_vanilla):
+        world.get_location("PoA Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 1"))
+        world.get_location("RoS Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 2"))
+        world.get_location("DM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 3"))
+        world.get_location("LBO Whispers Drop - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
+        world.get_location("HM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
+        world.get_location("PL End - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
+
 def create_all_items(world: Turok2World) -> None:
     """
     Creates all of the items that will go into the item pool.
@@ -273,6 +350,9 @@ def create_all_items(world: Turok2World) -> None:
     
     # Force 3 early weapons, and make one in the first area if the setting is on
     force_early_weapons(world, itempool)
+
+    # Place locked locations, based on whether certain items are vanilla
+    place_vanilla_progressive_items(world)
     
     world.multiworld.itempool += itempool
     

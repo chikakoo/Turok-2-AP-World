@@ -12,12 +12,7 @@
 		},
 		{
 			"name": "PoA Water Hub",
-			"exits": [{ "to": "PoA Ships" }],
-			"events": [{
-				"name": "Level 2 Key",
-				"location_name": "PoA Water Hub Level 2 Key",
-				"type": "level_key_event"
-			}]
+			"exits": [{ "to": "PoA Ships" }]
 		},
 		{
 			"name":  "PoA Ships",
@@ -26,12 +21,7 @@
 		},
 		{
 			"name":  "PoA Water Hub Upper",
-			"exits": [{ "to": "PoA Talisman Portal Map"	}],
-			"events": [{
-				"name": "Level 2 Key",
-				"location_name": "PoA Water Hub Upper Level 2 Key",
-				"type": "level_key_event"
-			}]
+			"exits": [{ "to": "PoA Talisman Portal Map"	}]
 		},
 		{
 			"name":  "PoA Talisman Portal Map",
@@ -39,12 +29,7 @@
 				{ "to": "PoA Bird Door" },
 				{ "to": "PoA Upper Primagen Key" },
 				{ "to": "PoA Child 3 Map" }
-			],
-			"events": [{
-				"name": "Level 3 Key",
-				"location_name": "PoA Talisman Portal Map Level 3 Key",
-				"type": "level_key_event"
-			}]
+			]
 		},
 		{
 			"name": "PoA Bird Door",
@@ -61,12 +46,7 @@
 		},
 		{
 			"name":  "PoA Primagen Key Leap of Faith",
-			"exits": [],
-			"events": [{
-				"name": "Primagen Key 1",
-				"location_name": "Primagen Key 1",
-				"type": "primagen_key_event"
-			}]
+			"exits": []
 		},
 		{
 			"name":  "PoA Child 3 Map",
@@ -82,12 +62,7 @@
 		},
 		{
 			"name":  "PoA Gated City",
-			"exits": [{ "to": "PoA Catwalks" }],
-			"events": [{
-				"name": "Level 2 Key",
-				"location_name": "PoA Gated City Level 2 Key",
-				"type": "level_key_event"
-			}]
+			"exits": [{ "to": "PoA Catwalks" }]
 		},
 		{
 			"name": "PoA Catwalks",
@@ -101,18 +76,6 @@
 							"count": 3
 						}
 					}
-				}
-			],
-			"events": [
-				{
-					"name": "Level 3 Key",
-					"location_name": "PoA Below Oblivion Portal Level 3 Key",
-					"type": "level_key_event"
-				},
-				{
-					"name": "Level 3 Key",
-					"location_name": "PoA Fountain in Building F2 Level 3 Key",
-					"type": "level_key_event"
 				}
 			]
 		},

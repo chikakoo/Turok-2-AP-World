@@ -6,12 +6,7 @@
 		},
         {
 			"name": "HM Force Fields",
-			"exits": [{ "to": "HM Pit 1" }],
-            "events": [{
-				"name": "Level 6 Key",
-				"location_name": "HM First Level Key Level 6 Key",
-				"type": "level_key_event"
-			}]
+			"exits": [{ "to": "HM Pit 1" }]
 		},
         {
 			"name": "HM Pit 1",
@@ -26,12 +21,7 @@
 			"exits": [
                 { "to": "HM Oblivion" },
                 { "to": "HM Pit 3" }
-            ],
-            "events": [{
-				"name": "Level 6 Key",
-				"location_name": "HM Pit 2 Level Key Level 6 Key",
-				"type": "level_key_event"
-			}]
+            ]
 		},
         {
 			"name": "HM Oblivion",
@@ -45,30 +35,15 @@
                     "rule": { "has": "Level 5 Eagle Feather" }
                 },
                 { "to": "HM Water" }
-            ],
-			"events": [{
-                "name": "Level 5 Eagle Feather",
-                "location_name": "HM Pit 3 Eagle Feather",
-                "type": "eagle_feather_event"
-            }]
+            ]
 		},
         {
 			"name": "HM Talisman",
-			"exits": [],
-            "events": [{
-                "name": "Whispers",
-                "location_name": "HM Talisman",
-                "type": "talisman_event"
-            }]
+			"exits": []
 		},
         {
 			"name": "HM Water",
-			"exits": [{ "to": "HM Inner Hive" }],
-            "events": [{
-				"name": "Level 6 Key",
-				"location_name": "HM After Main Generator Level 6 Key",
-				"type": "level_key_event"
-			}]
+			"exits": [{ "to": "HM Inner Hive" }]
 		},
         {
 			"name": "HM Inner Hive",
@@ -149,12 +124,7 @@
 		},
         {
 			"name": "HM Primagen Key",
-			"exits": [],
-			"events": [{
-                "name": "Primagen Key 5",
-                "location_name": "Primagen Key 5",
-                "type": "primagen_key_event"
-            }]
+			"exits": []
 		},
         {
 			"name": "HM Embryo 3",

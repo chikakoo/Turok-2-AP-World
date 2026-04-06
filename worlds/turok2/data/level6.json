@@ -2,18 +2,7 @@
     "regions": [
         {
             "name": "PL Start",
-            "exits": [{ "to": "PL Wing 1" }],
-            "events": [{
-                "name": "Primagen Key 6",
-                "location_name": "Primagen Key 6",
-                "type": "primagen_key_event",
-                "rule": {
-                    "has": {
-                        "item": "PL Primagen Key Switch",
-                        "count": 4
-                    }
-                }
-            }]
+            "exits": [{ "to": "PL Wing 1" }]
         },
         {
             "name": "PL Wing 1",
@@ -122,21 +111,11 @@
                     }
                 },
                 { "to": "PL End" }
-            ],
-            "events": [{
-                "name": "Level 6 Eagle Feather",
-                "location_name": "PL Wing 4 Outer Assembly 2 Eagle Feather",
-                "type": "eagle_feather_event"
-            }]
+            ]
         },
         {
             "name": "PL Wing 4 Talisman",
-            "exits": [],
-            "events": [{
-                "name": "Eye of Truth",
-                "location_name": "PL Talisman",
-                "type": "talisman_event"
-            }]
+            "exits": []
         },
         {
             "name": "PL Wing 4 Oblivion",

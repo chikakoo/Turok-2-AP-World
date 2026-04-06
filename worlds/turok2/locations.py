@@ -92,17 +92,7 @@ def create_locations(world: Turok2World) -> None:
             continue
         if not world.options.include_life_force_locations and item_type == ItemType.LIFE_FORCE.value:
             continue
-        if not world.options.include_level_key_locations and item_type == ItemType.LEVEL_KEY.value:
-            continue
-        if not world.options.include_eagle_feather_locations and item_type == ItemType.EAGLE_FEATHER.value:
-            continue
-        if not world.options.include_talisman_locations and item_type == ItemType.TALISMAN.value:
-            continue
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
-            continue
-        if (world.options.primagen_goal != PrimagenGoal.option_none and
-            world.options.primagen_keys == PrimagenKeys.option_vanilla and
-            item_type == ItemType.PRIMAGEN_KEY.value):
             continue
         if world.options.nuke_behavior == NukeBehavior.option_vanilla and item_type == ItemType.NUKE_PART.value:
             continue
@@ -130,23 +120,6 @@ def create_events(world: Turok2World) -> None:
 
             # Do NOT add events that will not be relevent
             if event_info.get("rule") == "vanilla_mission_items" and world.options.include_mission_item_locations:
-                continue
-
-            if (event_info.get("type") == "primagen_key_event" and 
-                (world.options.primagen_goal == PrimagenGoal.option_none or
-                world.options.primagen_keys != PrimagenKeys.option_vanilla)):
-                continue
-
-            if (event_info.get("type") == "level_key_event" and
-                world.options.include_level_key_locations):
-                continue
-
-            if (event_info.get("type") == "eagle_feather_event" and
-                world.options.include_eagle_feather_locations):
-                continue
-
-            if (event_info.get("type") == "talisman_event" and
-                world.options.include_talisman_locations):
                 continue
 
             rule_func = None
