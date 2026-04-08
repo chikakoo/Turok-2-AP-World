@@ -348,7 +348,7 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 6 # The 7th is never randomized to prevent softlocks
+        "count": 7
     },
     "L4 Satchel Charge": {
         "id": 200401,

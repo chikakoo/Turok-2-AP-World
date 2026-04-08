@@ -35,7 +35,11 @@
                 { 
                     "to": "LBO Falling Rocks",
                     "rule": { 
-                        "mission_item_requirement": { "item": "Cave Door Key" }
+                        "mission_item_requirement": 
+                        { 
+                            "item": "Cave Door Key",
+                            "count": 2
+                        }
                     }
                 }
             ]
@@ -59,7 +63,7 @@
                     "rule": {
                         "mission_item_requirement": {
                             "item": "Cave Door Key",
-                            "count": 6
+                            "count": 7
                         }
                     }
                 }
@@ -92,7 +96,7 @@
                     "rule": {
                         "mission_item_requirement": {
                             "item": "Cave Door Key",
-                            "count": 3
+                            "count": 4
                         } 
                     }
                 }
@@ -135,7 +139,7 @@
                     "rule": {
                         "mission_item_requirement": {
                             "item": "Cave Door Key",
-                            "count": 4
+                            "count": 5
                         }
                     }
                 }
@@ -153,7 +157,7 @@
                     "rule": {
                         "mission_item_requirement": {
                             "item": "Cave Door Key",
-                            "count": 6
+                            "count": 7
                         }
                     }
                 },
@@ -178,7 +182,7 @@
                             {
                                 "mission_item_requirement": {
                                     "item": "Cave Door Key",
-                                    "count": 6
+                                    "count": 7
                                 }
                             },
                             {

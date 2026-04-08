@@ -242,6 +242,8 @@ def place_vanilla_progressive_items(world: Turok2World) -> None:
     This is done so the tracker can more accurately tell what the next thing to do is.
 
     Currently done with level keys, feathers, talismans, and Primagen keys.
+
+    Additionally, one Cave Door Key is always static to prevent softlocks.
     """
     if not world.options.include_level_key_locations:
         world.get_location("PoA Hall After Warp 1 - Level Key") \
@@ -312,6 +314,11 @@ def place_vanilla_progressive_items(world: Turok2World) -> None:
         world.get_location("LBO Whispers Drop - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
         world.get_location("HM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
         world.get_location("PL End - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
+
+    # This one is static if mission items ARE shuffled because we always need to place it there to prevent softlocks
+    # We do NOT place it if mission items are off because we exclude the location in that case
+    if world.options.include_mission_item_locations:
+        world.get_location("LBO Whispers Drop - Cave Door Key").place_locked_item(world.create_item("Cave Door Key"));
 
 def create_all_items(world: Turok2World) -> None:
     """
