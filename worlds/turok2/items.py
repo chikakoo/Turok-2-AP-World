@@ -244,7 +244,6 @@ def place_locked_items(world: Turok2World) -> None:
     Currently done with level keys, feathers, talismans, and Primagen keys.
 
     One Cave Door Key is always static to prevent softlocks.
-    The Plasma Rifle at the Level 4 boss is missable, so force it to be junk.
     """
     if not world.options.include_level_key_locations:
         world.get_location("PoA Hall After Warp 1 - Level Key") \
@@ -320,11 +319,6 @@ def place_locked_items(world: Turok2World) -> None:
     # We do NOT place it if mission items are off because we exclude the location in that case
     if world.options.include_mission_item_locations:
         world.get_location("LBO Whispers Drop - Cave Door Key").place_locked_item(world.create_item("Cave Door Key"))
-
-    # If you try, you can actually miss this item permenantly
-    # We need to force it to be junk so this can't cause problems
-    if world.options.include_weapon_and_ammo_locations:
-        world.get_location("LBO Boss - Plasma Rifle").place_locked_item(world.create_filler())
 
 def create_all_items(world: Turok2World) -> None:
     """
