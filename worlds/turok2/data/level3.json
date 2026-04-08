@@ -99,7 +99,10 @@
         {
             "name": "DM Outside Ammo Facility 3",
             "exits": [
-                { "to": "DM Outside Ammo Facility 3 Eye of Truth" },
+                { 
+                    "to": "DM Outside Ammo Facility 3 Eye of Truth",
+                    "rule": { "has": "Eye of Truth" } 
+                },
                 { "to": "DM Ratpor Rooms" }
             ]
         },
