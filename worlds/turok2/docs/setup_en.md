@@ -10,7 +10,7 @@
 
 First, you need a room to connect to. For this, you or someone you know has to generate a game. Check the [Archipelago Setup Guide](/tutorial/Archipelago/setup_en#generating-a-game) for how to do this.
 
-You also need to have [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest) installed and the [The Turok 2 apworld](https://github.com/chikakoo/Turok-2-Randomizer/releases) installed into Archipelago.
+You also need to have [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest) installed and the [The Turok 2 apworld](https://github.com/chikakoo/Turok-2-Randomizer/releases) installed into Archipelago. You can do this by double clicking the apworld, or putting it in your "custom_worlds" folder.
 
 ## Installing the mod
 
