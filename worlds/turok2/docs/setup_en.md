@@ -4,7 +4,7 @@
 
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
 - The 2017 Turok 2: Seeds of Evil Remastered by Nightdive Studios for the PC. Only tested with the Steam version, but should work with any.
-- [The Turok 2 apworld and mod](https://github.com/chikakoo/Turok-2-Randomizer/releases)
+- [The Turok 2 apworld and mod](https://github.com/chikakoo/Turok-2-AP-World/releases)
 
 ## How to play
 

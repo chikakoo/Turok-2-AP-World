@@ -348,7 +348,7 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 7
+        "count": 6 # 7 total, but the Primagen Key one is forced in the vanilla location
     },
     "L4 Satchel Charge": {
         "id": 200401,

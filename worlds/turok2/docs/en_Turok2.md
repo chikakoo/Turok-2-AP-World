@@ -62,6 +62,10 @@ Ammo from destructables, most generators, and enemy drops are unchanged.
 
 To allow access to the hub before completing levels 2-6, additional portals have been added near the start of the level. Use them if you need to return but you haven't completed the mission objectives.
 
+### Totem Missions
+
+To prevent softlocks, totem missions will restart if you fail to save an energy totem. This only applies if you have a level goal.
+
 ### Why is my Flare Gun weird/not accessible?
 
 Due to modding limitations, the Flare Gun now requires you to have explosive shells to use (it does not consume them). It otherwise behaves normally.
@@ -80,7 +84,7 @@ Items belonging to other worlds are represented by an Archipelago model. Progres
 
 All pickups will be collected with the usual sound effects/voice lines. If the in-game setting is on, the auto-weapon switch will occur for new weapons. **See the note on the top about this setting!**
 
-Due to modding limitations, Life Forces will spawn where the player is. They will be instantly picked up when the player moves. If left uncollected before saving, they will be lost.
+Due to modding limitations, Life Forces will spawn where the player is. They will be picked up when the player moves.
 
 ## Hey! This pickup isn't randomized!
 

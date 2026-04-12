@@ -25,7 +25,8 @@ class PrimagenGoal(Choice):
     Sets the Primagen goal. See the PrimagenKeys setting for options on how to get to the lair.
     - None: The Primagen is not part of the goal. Primagen Keys are not in the item pool.
     - Defeat: Defeat the Primagen and view the ending cutscene.
-    - Get to Lair: Arriving at the lair will complete the goal.
+    - Get to Lair: Arriving at the Primagen's lair will complete the goal. Use this if you
+                   want Primagen Keys to be part of the goal, but don't want to fight the boss.
     """
     display_name = "Primagen Goal"
 
