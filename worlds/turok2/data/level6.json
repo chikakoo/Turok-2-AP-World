@@ -100,7 +100,6 @@
                     "to": "PL Wing 4 Talisman",
                     "rule": { "has": "Level 6 Eagle Feather" }
                 },
-                { "to": "PL Wing 4 Oblivion" },
                 { 
                     "to": "PL Wing 4 Generator",
                     "rule": {
@@ -118,12 +117,15 @@
             "exits": []
         },
         {
-            "name": "PL Wing 4 Oblivion",
-            "exits": []
+            "name": "PL Wing 4 Generator",
+            "exits": [
+                { "to": "PL Wing 4 Oblivion" },
+                { "to": "PL Wing 4 Generator River" }
+            ]
         },
         {
-            "name": "PL Wing 4 Generator",
-            "exits": [{ "to": "PL Wing 4 Generator River" }]
+            "name": "PL Wing 4 Oblivion",
+            "exits": []
         },
         {
             "name": "PL Wing 4 Generator River",
