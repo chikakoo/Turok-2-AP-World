@@ -1,6 +1,7 @@
 from __future__ import annotations
 import json
 import pkgutil
+import math
 import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
@@ -315,11 +316,34 @@ def not_guaranteed_torpedo_launcher(world: Turok2World):
     """Checks whether the Torpedo Launcher is in logic"""
     not_guaranteed_torpedo_launcher = not world.options.guarantee_torpedo_launcher
     return lambda state: not_guaranteed_torpedo_launcher
+
+def progressive_warp(world: Turok2World, args: dict):
+    """
+    Validates the progressive warp item.
+    - If the setting is off, returns True
+    - Else checks whether the right number of progressive items exist
+
+    Expects...
+    - count: The base count of required progressive warps to pass through here
+    - level: The level this is for (to retrieve the matching item)
+    """
+    if not world.options.progressive_warps:
+        return lambda state: True
+
+    strength = max(world.options.progressive_warp_strength, 1)
+    count = math.ceil(args.get("count", 1) / strength)
+    level = args.get("level", -1)
+    if level == -1:
+        raise Exception("progressive_warp missing level!")
+    
+    item = f"Progressive Warp L{level}"
+    return lambda state: state.has(item, world.player, count)
     
 NAMED_RULES = {
     "weapon_requirement": weapon_requirement,
     "vanilla_mission_items": vanilla_mission_items,
     "mission_item_requirement": mission_item_requirement,
     "open_hub": open_hub,
-    "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher
+    "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
+    "progressive_warp": progressive_warp
 }

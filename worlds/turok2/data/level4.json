@@ -13,6 +13,25 @@
 		},
         {
             "name": "LBO Whispers",
+            "exits": [
+                {
+                    "to": "LBO Whispers After Cave Door",
+                    "rule": { 
+                        "mission_item_requirement": 
+                        { 
+                            "item": "Cave Door Key",
+                            "count": 7
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "LBO Whispers After Cave Door",
+            "exits": [{ "to": "LBO Primagen Key" }]
+        },
+        {
+            "name": "LBO Primagen Key",
             "exits": []
         },
         {

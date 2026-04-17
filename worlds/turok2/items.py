@@ -1,4 +1,5 @@
 from __future__ import annotations
+import math
 from .item_table import *
 from typing import TYPE_CHECKING, Counter
 from BaseClasses import Item
@@ -46,7 +47,7 @@ def get_required_seed_items(world: Turok2World):
         if data["type"] == ItemType.TALISMAN.value:
             return world.options.include_talisman_locations
         
-        # Mission items depend on the setting (they are also inventory items, so do this first)
+        # Mission items
         if data["type"] == ItemType.MISSION_ITEM.value:
             return world.options.include_mission_item_locations
         
@@ -58,6 +59,10 @@ def get_required_seed_items(world: Turok2World):
         # Other weapons depend on whether they are shuffled
         if data["type"] == ItemType.WEAPON.value:
             return world.options.include_weapon_and_ammo_locations
+        
+        # Progressive warps
+        if data["type"] == ItemType.PROGRESSIVE_WARP.value:
+            return world.options.progressive_warps
 
         return False
 
@@ -242,8 +247,6 @@ def place_locked_items(world: Turok2World) -> None:
     This is done so the tracker can more accurately tell what the next thing to do is.
 
     Currently done with level keys, feathers, talismans, and Primagen keys.
-
-    One Cave Door Key is always static to prevent softlocks.
     """
     if not world.options.include_level_key_locations:
         world.get_location("PoA Hall After Warp 1 - Level Key") \
@@ -315,11 +318,6 @@ def place_locked_items(world: Turok2World) -> None:
         world.get_location("HM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
         world.get_location("PL End - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
 
-    # This one is static if mission items ARE shuffled because we always need to place it there to prevent softlocks
-    # We do NOT place it if mission items are off because we exclude the location in that case
-    if world.options.include_mission_item_locations:
-        world.get_location("LBO Whispers Drop - Cave Door Key").place_locked_item(world.create_item("Cave Door Key"))
-
 def create_all_items(world: Turok2World) -> None:
     """
     Creates all of the items that will go into the item pool.
@@ -341,7 +339,11 @@ def create_all_items(world: Turok2World) -> None:
 
     # Add all the required items to the pool (weapons and inventory items)
     for name, data in get_required_seed_items(world):
-        for _ in range(data.get("count", 1)):
+        count = data.get("count", 1)
+        if data.get("type") == ItemType.PROGRESSIVE_WARP.value:
+            strength = max(world.options.progressive_warp_strength, 1)
+            count = math.ceil(count / strength)
+        for _ in range(count):
             itempool.append(world.create_item(name))
          
     # Fill the world with fillers

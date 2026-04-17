@@ -6,18 +6,35 @@
                 { 
                     "to": "DM Start River",
                     "rule": { "has": "Breath of Life" }
-
                 },
                 { 
                     "to": "DM Ammo Facility 1",
                     "rule": {
-                        "mission_item_requirement": {
-                            "item": "L3 Satchel Charge",
-                            "count": 3
-                        }
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "L3 Satchel Charge",
+                                    "count": 3
+                                }
+                            },
+                            {
+                                "progressive_warp": {
+                                    "level": 3,
+                                    "count": 1
+                                }
+                            }
+                        ]
                     }
                 },
-                { "to": "DM Checkpoint 1" }
+                { 
+                    "to": "DM Checkpoint 1",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 3,
+                            "count": 1
+                        }
+                    }
+                }
             ]
         },
         {
@@ -30,7 +47,15 @@
         },
         {
             "name": "DM Checkpoint 1",
-            "exits": [{ "to": "DM Oblivion Portal" }]
+            "exits": [{ 
+                "to": "DM Oblivion Portal",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 3,
+                        "count": 2
+                    }
+                }
+            }]
         },
         {
             "name": "DM Oblivion Portal",
@@ -44,7 +69,15 @@
                     "rule": { "has": "Breath of Life" }
                 },
                 { "to": "DM Oblivion" },
-                { "to": "DM Outside Ammo Facility 2" }
+                { 
+                    "to": "DM Outside Ammo Facility 2",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 3,
+                            "count": 3
+                        }
+                    }
+                }
             ]
         },
         {
@@ -65,13 +98,31 @@
                 { 
                     "to": "DM Ammo Facility 2",
                     "rule": {
-                        "mission_item_requirement": {
-                            "item": "L3 Satchel Charge",
-                            "count": 3
-                        }
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "L3 Satchel Charge",
+                                    "count": 3
+                                }
+                            },
+                            {
+                                "progressive_warp": {
+                                    "level": 3,
+                                    "count": 4
+                                }
+                            }
+                        ]
                     }
                 },
-                { "to": "DM Long Bridge" }
+                { 
+                    "to": "DM Bridge Above Facility 2",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 3,
+                            "count": 4
+                        }
+                    }
+                }
             ]
         },
         {
@@ -79,8 +130,28 @@
             "exits": []
         },
         {
+            "name": "DM Bridge Above Facility 2",
+            "exits": [{
+                "to": "DM Long Bridge",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 3,
+                        "count": 5
+                    }
+                }
+            }]
+        },
+        {
             "name": "DM Long Bridge",
-            "exits": [{ "to": "DM Two Cells" }]
+            "exits": [{ 
+                "to": "DM Two Cells",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 3,
+                        "count": 6
+                    }
+                }
+            }]
         },
         {
             "name": "DM Two Cells",
@@ -89,7 +160,15 @@
                     "to": "DM Talisman",
                     "rule": { "has": "Level 3 Eagle Feather" }
                 },
-                { "to": "DM Outside Ammo Facility 3" }
+                { 
+                    "to": "DM Outside Ammo Facility 3",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 3,
+                            "count": 7
+                        }
+                    }
+                }
             ]
         },
         {
@@ -103,7 +182,15 @@
                     "to": "DM Outside Ammo Facility 3 Eye of Truth",
                     "rule": { "has": "Eye of Truth" } 
                 },
-                { "to": "DM Ratpor Rooms" }
+                { 
+                    "to": "DM Ratpor Rooms",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 3,
+                            "count": 8
+                        }
+                    }
+                }
             ]
         },
         {

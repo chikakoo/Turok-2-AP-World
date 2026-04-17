@@ -16,7 +16,8 @@ class ItemType(Enum):
     NUKE_PART = 7
     MISSION_ITEM = 8
     WEAPON = 9
-    TRAP = 10
+    TRAP = 10,
+    PROGRESSIVE_WARP = 11
     
 class TrapType(Enum):
     """
@@ -348,7 +349,7 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 6 # 7 total, but the Primagen Key one is forced in the vanilla location
+        "count": 7
     },
     "L4 Satchel Charge": {
         "id": 200401,
@@ -391,6 +392,56 @@ ITEM_TABLE = {
         "count": 4
     },
 
+    # Progressive Warps
+    "Progressive Warp L1": {
+        "id": 201001,
+        "actor_id": 201001,
+        "type": ItemType.PROGRESSIVE_WARP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 9
+    },
+    "Progressive Warp L2": {
+        "id": 201002,
+        "actor_id": 201002,
+        "type": ItemType.PROGRESSIVE_WARP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 11
+    },
+    "Progressive Warp L3": {
+        "id": 201003,
+        "actor_id": 201003,
+        "type": ItemType.PROGRESSIVE_WARP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 8
+    },
+    "Progressive Warp L4": {
+        "id": 201004,
+        "actor_id": 201004,
+        "type": ItemType.PROGRESSIVE_WARP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 0 #TODO
+    },
+    "Progressive Warp L5": {
+        "id": 201005,
+        "actor_id": 201005,
+        "type": ItemType.PROGRESSIVE_WARP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 0 #TODO
+    },
+    "Progressive Warp L6": {
+        "id": 201006,
+        "actor_id": 201006,
+        "type": ItemType.PROGRESSIVE_WARP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 0 #TODO
+    },
+    
     # Weapons
     "War Blade": {
         "id": 300000,

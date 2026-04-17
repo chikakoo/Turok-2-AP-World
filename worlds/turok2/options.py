@@ -137,15 +137,37 @@ class NukeBehavior(Choice):
     
     default = option_nuke_part_hunt
 
+class ProgressiveWarps(Toggle):
+    """
+    Each progressive map will require a Progressive Warp item to advance further.
+    Highly recommended for this to be on if on a multiworld, as it splits up the game.
+    """
+    display_name = "Progressive Warps"
+    default = True
+
+class ProgressiveWarpStrength(Range):
+    """
+    Used if Progressive Warps are on.
+    The number of warps each Progressive Warp item allows you to travel through.
+    """
+    display_name = "Progressive Warp Strength"
+
+    range_start = 1
+    range_end = 10
+
+    default = 1
+
 class OpenHub(Toggle):
     """
     Whether the Level 1 door to the hub should be opened without completing the level,
     allowing access to other levels when you obtain their level keys.
 
     Remember to go through it to activate the hub's checkpoint station for convenience.
+
+    Highly recommended for this to be on if using progressive warps.
     """
     display_name = "Open Hub"
-    default = False
+    default = True
 
 class GuaranteeTorpedoLauncher(Toggle):
     """
@@ -353,6 +375,8 @@ class Turok2Options(PerGameCommonOptions):
     
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
+    progressive_warps: ProgressiveWarps
+    progressive_warp_strength: ProgressiveWarpStrength
     open_hub: OpenHub
     guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
     
@@ -392,6 +416,8 @@ option_groups = [
     OptionGroup("Progression Options", [
         ForceEarlyWeapon,
         NukeBehavior,
+        ProgressiveWarps,
+        ProgressiveWarpStrength,
         OpenHub,
         GuaranteeTorpedoLauncher
     ]),

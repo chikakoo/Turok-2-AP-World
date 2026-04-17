@@ -26,7 +26,7 @@ Static pickups (those not spawned from destructibles):
   - (L3) Satchel Charges
   - (L4) Satchel Charges; Cave Door Keys
   - (L5) Satchel Charges
-  - (L6) Ion Capacitors; Blue Laser Cell; Red Laser Cell
+  - (L6) Ion Capacitors; Blue Laser Cells; Red Laser Cells
 
 ## What does randomization mean?
 
