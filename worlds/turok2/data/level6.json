@@ -2,7 +2,15 @@
     "regions": [
         {
             "name": "PL Start",
-            "exits": [{ "to": "PL Wing 1" }]
+            "exits": [{ 
+                "to": "PL Wing 1",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 6,
+                        "count": 1
+                    }
+                }
+            }]
         },
         {
             "name": "PL Wing 1",
@@ -15,7 +23,15 @@
                     "to": "PL Wing 1 Generator River",
                     "rule": { "has": "Breath of Life" }
                 },
-                { "to": "PL Wing 2" }
+                { 
+                    "to": "PL Hub Wing 2",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 2
+                        }
+                    }
+                }
             ]
         },
         {
@@ -31,13 +47,33 @@
             "exits": []
         },
         {
+            "name": "PL Hub Wing 2",
+            "exits": [{
+                "to": "PL Wing 2",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 6,
+                        "count": 3
+                    }
+                }
+            }]
+        },
+        {
             "name": "PL Wing 2",
             "exits": [
                 { 
                     "to": "PL Wing 2 Eye of Truth",
                     "rule": { "has": "Eye of Truth" }
                 },
-                { "to": "PL Wing 2 Generator" }
+                { 
+                    "to": "PL Wing 2 Generator",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 4
+                        }
+                    }
+                }
             ]
         },
         {
@@ -64,7 +100,15 @@
                         }
                     }
                 },
-                { "to": "PL Wing 3" }
+                { 
+                    "to": "PL Hub Wing 3",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 5
+                        }
+                    }
+                }
             ]
         },
         {
@@ -76,8 +120,28 @@
             "exits": []
         },
         {
+            "name": "PL Hub Wing 3",
+            "exits": [{
+                "to": "PL Wing 3",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 6,
+                        "count": 6
+                    }
+                }
+            }]
+        },
+        {
             "name": "PL Wing 3",
-            "exits": [{ "to": "PL Wing 3 Generator" }]
+            "exits": [{ 
+                "to": "PL Wing 3 Generator",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 6,
+                        "count": 7
+                    }
+                }
+            }]
         },
         {
             "name": "PL Wing 3 Generator",
@@ -86,7 +150,15 @@
                     "to": "PL Wing 3 Leap of Faith",
                     "rule": { "has": "Leap of Faith" }
                 },
-                { "to": "PL Wing 4" }
+                { 
+                    "to": "PL Hub Wing 4",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 8
+                        }
+                    }
+                }
             ]
         },
         {
@@ -98,12 +170,62 @@
             }]
         },
         {
+            "name": "PL Hub Wing 4",
+            "exits": [{
+                "to": "PL Wing 4",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 6,
+                        "count": 9
+                    }
+                }
+            }]
+        },
+        {
             "name": "PL Wing 4",
+            "exits": [{
+                "to": "PL Wing 4 Assembly 1",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 6,
+                        "count": 10
+                    }
+                }
+            }]
+        },
+        {
+            "name": "PL Wing 4 Assembly 1",
+            "exits": [{
+                "to": "PL Wing 4 Assembly 2",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 6,
+                        "count": 11
+                    }
+                }
+            }]
+        },
+        {
+            "name": "PL Wing 4 Assembly 2",
             "exits": [
                 { 
                     "to": "PL Wing 4 Talisman",
                     "rule": { "has": "Level 6 Eagle Feather" }
                 },
+                {
+                    "to": "PL Wing 4 Assembly 3",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 12
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "PL Wing 4 Assembly 3",
+            "exits": [
                 { 
                     "to": "PL Wing 4 Generator",
                     "rule": {
@@ -113,7 +235,15 @@
                         }
                     }
                 },
-                { "to": "PL End" }
+                {
+                    "to": "PL End",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 13
+                        }
+                    }
+                }
             ]
         },
         {
