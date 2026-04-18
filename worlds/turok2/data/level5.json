@@ -2,25 +2,65 @@
 	"regions": [
 		{
 			"name": "HM Start",
-			"exits": [{ "to": "HM Force Fields" }]
+			"exits": [{ 
+                "to": "HM Force Fields",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 5,
+                        "count": 1
+                    }
+                }
+            }]
 		},
         {
 			"name": "HM Force Fields",
-			"exits": [{ "to": "HM Pit 1" }]
+			"exits": [{ 
+                "to": "HM Pit 1",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 5,
+                        "count": 2
+                    }
+                }
+            }]
 		},
         {
 			"name": "HM Pit 1",
-			"exits": [{ "to": "HM Switch Loop" }]
+			"exits": [{ 
+                "to": "HM Switch Loop",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 5,
+                        "count": 3
+                    }
+                }
+            }]
 		},
         {
 			"name": "HM Switch Loop",
-			"exits": [{ "to": "HM Pit 2" }]
+			"exits": [{ 
+                "to": "HM Pit 2",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 5,
+                        "count": 4
+                    }
+                }
+            }]
 		},
         {
 			"name": "HM Pit 2",
 			"exits": [
                 { "to": "HM Oblivion" },
-                { "to": "HM Pit 3" }
+                { 
+                    "to": "HM Pit 3",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 5
+                        }
+                    }
+                }
             ]
 		},
         {
@@ -34,7 +74,15 @@
                     "to": "HM Talisman",
                     "rule": { "has": "Level 5 Eagle Feather" }
                 },
-                { "to": "HM Water" }
+                { 
+                    "to": "HM Water",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 6
+                        }
+                    }
+                }
             ]
 		},
         {
@@ -43,20 +91,52 @@
 		},
         {
 			"name": "HM Water",
-			"exits": [{ "to": "HM Inner Hive" }]
+			"exits": [{ 
+                "to": "HM Inner Hive",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 5,
+                        "count": 7
+                    }
+                }
+            }]
 		},
         {
 			"name": "HM Inner Hive",
-			"exits": [{ "to": "HM Embryo 1" }]
+			"exits": [{ 
+                "to": "HM Embryo 1",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 5,
+                        "count": 8
+                    }
+                }
+            }]
 		},
         {
 			"name": "HM Embryo 1",
-			"exits": [{ "to": "HM Exit Map" }]
+			"exits": [{ 
+                "to": "HM Exit Map",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 5,
+                        "count": 9
+                    }
+                }
+            }]
 		},
         {
 			"name": "HM Exit Map",
 			"exits": [
-                { "to": "HM Embryo 2" },
+                { 
+                    "to": "HM Embryo 2",
+                    "rule": {
+                        "progressive_warp": {
+                                "level": 5,
+                                "count": 10
+                            }
+                    }
+                },
                 { 
                     "to": "HM Exit Map Leap of Faith",
                     "rule": { "has": "Leap of Faith" }
@@ -69,14 +149,32 @@
                     "to": "HM Exit Map River",
                     "rule": { "has": "Breath of Life" }
                 },
-                { "to": "HM Embryo 3" },
+                { 
+                    "to": "HM Embryo 3",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 10
+                        }
+                    }
+                },
                 { 
                     "to": "HM Boss",
                     "rule": {
-                        "mission_item_requirement": {
-                            "item": "L5 Satchel Charge",
-                            "count": 4
-                        }
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "L5 Satchel Charge",
+                                    "count": 4
+                                }
+                            },
+                            {
+                                "progressive_warp": {
+                                    "level": 5,
+                                    "count": 10
+                                }
+                            }
+                        ]
                     }
                 }
             ]

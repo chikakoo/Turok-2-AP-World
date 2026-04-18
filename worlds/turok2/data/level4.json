@@ -8,7 +8,15 @@
 					"to": "LBO Whispers",
 					"rule": { "has": "Whispers" }
 				},
-				{ "to": "LBO Water" }
+				{ 
+                    "to": "LBO Water",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 1
+                        }
+                    }
+                }
 			]
 		},
         {
@@ -28,7 +36,15 @@
         },
         {
             "name": "LBO Whispers After Cave Door",
-            "exits": [{ "to": "LBO Primagen Key" }]
+            "exits": [{ 
+                "to": "LBO Primagen Key",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 4,
+                        "count": 1
+                    }
+                }
+            }]
         },
         {
             "name": "LBO Primagen Key",
@@ -41,7 +57,15 @@
                     "to": "LBO Talisman",
                     "rule": { "has": "Level 4 Eagle Feather" }
                 },
-                { "to": "LBO Before Falling Rocks" }
+                { 
+                    "to": "LBO Before Falling Rocks",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 2
+                        }
+                    }
+                }
             ]
         },
         {
@@ -51,6 +75,7 @@
         {
             "name": "LBO Before Falling Rocks",
             "exits": [
+                { "to": "LBO Water Return Room" },
                 { 
                     "to": "LBO Falling Rocks",
                     "rule": { 
@@ -64,15 +89,48 @@
             ]
         },
         {
+            "name": "LBO Water Return Room",
+            "exits": []
+        },
+        {
             "name": "LBO Falling Rocks",
-            "exits": [{ "to": "LBO Waterfalls" }]
+            "exits": [{ 
+                "to": "LBO Waterfalls",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 4,
+                        "count": 3
+                    }
+                }
+            }]
         },
         {
             "name": "LBO Waterfalls",
             "exits": [
-                { "to": "LBO Before Vent 1" },
-                { "to": "LBO Water Tunnels" }
+                { "to": "LBO Falling Rocks Return Room" },
+                { 
+                    "to": "LBO Before Vent 1",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 4
+                        }
+                    }
+                },
+                { 
+                    "to": "LBO Water Tunnels",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 4
+                        }
+                    }
+                }
             ]
+        },
+        {
+            "name": "LBO Falling Rocks Return Room",
+            "exits": []
         },
         {
             "name": "LBO Before Vent 1",
@@ -90,6 +148,10 @@
         },
         {
             "name": "LBO Vent 1",
+            "exits": [{ "to": "LBO Waterfall Vent Return Room" }]
+        },
+        {
+            "name": "LBO Waterfall Vent Return Room",
             "exits": []
         },
         {
@@ -109,14 +171,32 @@
         {
             "name": "LBO Water Tunnel Intersection",
             "exits": [
-                { "to": "LBO Vent 2" },
+                { 
+                    "to": "LBO Vent 2",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 5
+                        }
+                    }
+                },
                 { 
                     "to": "LBO Platforming",
                     "rule": {
-                        "mission_item_requirement": {
-                            "item": "Cave Door Key",
-                            "count": 4
-                        } 
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "Cave Door Key",
+                                    "count": 4
+                                } 
+                            },
+                            {
+                                "progressive_warp": {
+                                    "level": 4,
+                                    "count": 5
+                                }
+                            }
+                        ]
                     }
                 }
             ]
@@ -129,7 +209,15 @@
             "name": "LBO Platforming",
             "exits": [
                 { "to": "LBO Oblivion" },
-                { "to": "LBO Fireborn" }
+                { 
+                    "to": "LBO Fireborn",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 6
+                        }
+                    }
+                }
             ]
         },
         {
@@ -143,7 +231,15 @@
                     "to": "LBO Fireborn Lava",
                     "rule": { "has": "Heart of Fire" }
                 },
-                { "to": "LBO Blue Cave" }
+                { 
+                    "to": "LBO Blue Cave",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 7
+                        }
+                    }
+                }
             ]
         },
         {
@@ -153,6 +249,7 @@
         {
             "name": "LBO Blue Cave",
             "exits": [
+                { "to": "LBO Fireborn Big Lava Return Room" },
                 { 
                     "to": "LBO Blue Cave After Door",
                     "rule": {
@@ -165,8 +262,20 @@
             ]
         },
         {
+            "name": "LBO Fireborn Big Lava Return Room",
+            "exits": []
+        },
+        {
             "name": "LBO Blue Cave After Door",
-            "exits": [{ "to": "LBO Vent 3 Start" }]
+            "exits": [{ 
+                "to": "LBO Vent 3 Start",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 4,
+                        "count": 8
+                    }
+                }
+            }]
         },
         {
             "name": "LBO Vent 3 Start",
@@ -180,7 +289,15 @@
                         }
                     }
                 },
-                { "to": "LBO Blue Cave After Vent 3" }
+                { 
+                    "to": "LBO Blue Cave After Vent 3",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 9
+                        }
+                    }
+                }
             ]
         },
         {
@@ -189,7 +306,15 @@
         },
         {
             "name": "LBO Blue Cave After Vent 3",
-            "exits": [{ "to": "LBO Rotating Platforms" }]
+            "exits": [{ 
+                "to": "LBO Rotating Platforms",
+                "rule": {
+                    "progressive_warp": {
+                        "level": 4,
+                        "count": 10
+                    }
+                }
+            }]
         },
         {
             "name": "LBO Rotating Platforms",

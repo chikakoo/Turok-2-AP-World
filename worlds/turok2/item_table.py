@@ -423,7 +423,7 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 0 #TODO
+        "count": 10
     },
     "Progressive Warp L5": {
         "id": 201005,
@@ -431,7 +431,7 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 0 #TODO
+        "count": 10
     },
     "Progressive Warp L6": {
         "id": 201006,
