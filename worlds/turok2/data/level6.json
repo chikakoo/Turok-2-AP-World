@@ -77,6 +77,10 @@
         },
         {
             "name": "PL Wing 3",
+            "exits": [{ "to": "PL Wing 3 Generator" }]
+        },
+        {
+            "name": "PL Wing 3 Generator",
             "exits": [
                 { 
                     "to": "PL Wing 3 Leap of Faith",
