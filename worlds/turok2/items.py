@@ -314,7 +314,7 @@ def place_locked_items(world: Turok2World) -> None:
         world.get_location("PoA Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 1"))
         world.get_location("RoS Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 2"))
         world.get_location("DM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 3"))
-        world.get_location("LBO Whispers Drop - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
+        world.get_location("LBO Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
         world.get_location("HM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
         world.get_location("PL End - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
 
