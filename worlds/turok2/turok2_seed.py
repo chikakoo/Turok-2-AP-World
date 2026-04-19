@@ -95,6 +95,8 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_INCLUDE_WEAPONS_AND_AMMO: Whether weapons and ammo are shuffled (used for replacing ammo spawns)
     - OPTION_OPEN_HUB: Whether the level 1 door to the hub should start opened
     - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
+    - OPTION_RANDOM_AMMO_MIN: The min percentage of random ammo you can get
+    - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
@@ -137,5 +139,7 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
         f"#define OPTION_INCLUDE_WEAPONS_AND_AMMO {weapon_and_ammo_setting}\n" +
-        f"#define OPTION_OPEN_HUB {open_hub}\n"
-        f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n")
+        f"#define OPTION_OPEN_HUB {open_hub}\n" +
+        f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
+        f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +
+        f"#define OPTION_RANDOM_AMMO_MIN {self.options.max_random_ammo_percent}\n")

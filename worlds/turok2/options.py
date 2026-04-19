@@ -14,10 +14,8 @@ class LevelGoal(Range):
     If the Primagen goal is None, the minimum value is 1.
     """
     display_name = "Levels Goal"
-    
     range_start = 0
     range_end = 6
-    
     default = 6
 
 class PrimagenGoal(Choice):
@@ -29,11 +27,9 @@ class PrimagenGoal(Choice):
                    want Primagen Keys to be part of the goal, but don't want to fight the boss.
     """
     display_name = "Primagen Goal"
-
     option_none = 0
     option_defeat = 1
     option_get_to_lair = 2
-
     default = option_defeat
 
 class PrimagenKeys(Choice):
@@ -45,11 +41,9 @@ class PrimagenKeys(Choice):
               specified in the LevelGoal setting
     """
     display_name = "Primagen Keys"
-
     option_vanilla = 0
     option_in_pool = 1
     option_levels = 2
-
     default = option_in_pool
     
 class IncludeHealthLocations(Toggle):
@@ -129,12 +123,10 @@ class NukeBehavior(Choice):
     - Weapon Pickup: The Nuke will be obtaned as a single items. Oblivion portals will have a random check.
     """
     display_name = "Nuke Behavior"
-    
     option_disabled = 0
     option_vanilla = 1
     option_nuke_part_hunt = 2
     option_weapon_pickup = 3
-    
     default = option_nuke_part_hunt
 
 class ProgressiveWarps(Toggle):
@@ -151,10 +143,8 @@ class ProgressiveWarpStrength(Range):
     The number of warps each Progressive Warp item allows you to travel through.
     """
     display_name = "Progressive Warp Strength"
-
     range_start = 1
     range_end = 10
-
     default = 1
 
 class OpenHub(Toggle):
@@ -176,6 +166,30 @@ class GuaranteeTorpedoLauncher(Toggle):
     """
     display_name = "Guarantee Torpedo Launcher"
     default = True
+
+class MinRandomAmmoPercent(Range):
+    """
+    When receiving a random ammo, the minimum percentage of ammo you can get
+    in a random weapon.
+
+    If greater than MaxRandomAmmoPercent, this becomes the max.
+    """
+    display_name = "Min Random Ammo Percent"
+    range_start = 0
+    range_end = 100
+    default = 20
+    
+class MaxRandomAmmoPercent(Range):
+    """
+    When receiving a random ammo, the maximum percentage of ammo you can get
+    in a random weapon.
+
+    If less than MinRandomAmmoPercent, this becomes the min.
+    """
+    display_name = "Max Random Ammo Percent"
+    range_start = 0
+    range_end = 100
+    default = 75
     
 class BaseWeight(Choice):
     """
@@ -189,13 +203,15 @@ class BaseWeight(Choice):
     option_very_high = 10
     default = 4
     
-class JunkItemPoolHealthWeight(BaseWeight):
+class JunkItemPoolHealthWeight(Range):
     """
     The weight of health pickups in the non-progressive item pool.
     Consider setting this to none if not including health pickup locations.
     """
     display_name = "Junk Item Pool Health Weight"
-    default = 4
+    range_start = 0
+    range_end = 100
+    default = 40
 
 class SilverHealthWeight(Range):
     """
@@ -203,10 +219,8 @@ class SilverHealthWeight(Range):
     Weighed against all other health pickups.
     """
     display_name = "Silver Health Weight"
-
     range_start = 0
     range_end = 100
-
     default = 28
 
 class BlueHealthWeight(Range):
@@ -215,10 +229,8 @@ class BlueHealthWeight(Range):
     Weighed against all other health pickups.
     """
     display_name = "Blue Health Weight"
-
     range_start = 0
     range_end = 100
-    
     default = 65
 
 class FullHealthWeight(Range):
@@ -227,10 +239,8 @@ class FullHealthWeight(Range):
     Weighed against all other health pickups.
     """
     display_name = "Full Health Weight"
-
     range_start = 0
     range_end = 100
-    
     default = 5
 
 class UltraHealthWeight(Range):
@@ -239,27 +249,29 @@ class UltraHealthWeight(Range):
     Weighed against all other health pickups.
     """
     display_name = "Ultra Health Weight"
-
     range_start = 0
     range_end = 100
-    
     default = 2
     
-class JunkItemPoolAmmoWeight(BaseWeight):
+class JunkItemPoolAmmoWeight(Range):
     """
     The weight of ammo pickups in the non-progressive item pool.
     Consider setting this to none if not including weapons and ammo locations.
     """
     display_name = "Junk Item Pool Ammo Weight"
-    default = 4
+    range_start = 0
+    range_end = 100
+    default = 40
     
-class JunkItemPoolLifeForceWeight(BaseWeight):
+class JunkItemPoolLifeForceWeight(Range):
     """
     The weight of life forces in the non-progressive item pool.
     Consider setting this to none if not including Life Force locations.
     """
     display_name = "Junk Item Pool Ammo Weight"
-    default = 8
+    range_start = 0
+    range_end = 100
+    default = 80
 
 class LifeForce1Weight(Range):
     """
@@ -267,10 +279,8 @@ class LifeForce1Weight(Range):
     Weighed against all Life Force pickups.
     """
     display_name = "Life Force 1 Weight"
-
     range_start = 0
     range_end = 100
-    
     default = 92
 
 class LifeForce10Weight(Range):
@@ -279,10 +289,8 @@ class LifeForce10Weight(Range):
     Weighed against all Life Force pickups.
     """
     display_name = "Life Force 10 Weight"
-
     range_start = 0
     range_end = 100
-    
     default = 8
 
 class LocalHealthPercentage(Range):
@@ -295,7 +303,6 @@ class LocalHealthPercentage(Range):
     Setting this too high could result in generation failures.
     """
     display_name = "Local Health Percentage"
-    
     range_start = 0
     range_end = 100
     default = 40
@@ -311,7 +318,6 @@ class LocalAmmoPercentage(Range):
     Setting this too high could result in generation failures.
     """
     display_name = "Local Ammo Percentage"
-    
     range_start = 0
     range_end = 100
     default = 40
@@ -324,36 +330,46 @@ class LocalWeaponPercentage(Range):
     so you can actually get new weapons.
     """
     display_name = "Local Weapon Percentage"
-    
     range_start = 0
     range_end = 100
     default = 50
     
-class JunkItemPoolTrapWeight(BaseWeight):
+class JunkItemPoolTrapWeight(Range):
     """
     The weight of traps in the junk item pool.
     """
     display_name = "Junk Item Pool Trap Weight"
+    range_start = 0
+    range_end = 100
     default = 0
 
-class EnemyTrapWeight(BaseWeight):
+class EnemyTrapWeight(Range):
     """
     Likelihood of receiving a trap that spawns 1-3 random enemies near you.
     """
     display_name = "Enemy Trap"
+    range_start = 0
+    range_end = 100
+    default = 40
     
-class DamageTrapWeight(BaseWeight):
+class DamageTrapWeight(Range):
     """
     Likelihood of receiving a trap that does a small amount of damage to you.
     It will never bring your health to 0.
     """
     display_name = "Damage Trap"
+    range_start = 0
+    range_end = 100
+    default = 40
     
-class SpamTrapWeight(BaseWeight):
+class SpamTrapWeight(Range):
     """
     Likelihood of receiving a trap that spams your screen with useless messages.
     """
     display_name = "Spam Trap"
+    range_start = 0
+    range_end = 100
+    default = 40
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
@@ -379,6 +395,9 @@ class Turok2Options(PerGameCommonOptions):
     progressive_warp_strength: ProgressiveWarpStrength
     open_hub: OpenHub
     guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
+
+    min_random_ammo_percent: MinRandomAmmoPercent
+    max_random_ammo_percent: MaxRandomAmmoPercent
     
     junk_item_pool_health_weight: JunkItemPoolHealthWeight
     silver_health_weight: SilverHealthWeight
@@ -420,6 +439,10 @@ option_groups = [
         ProgressiveWarpStrength,
         OpenHub,
         GuaranteeTorpedoLauncher
+    ]),
+    OptionGroup("Gameplay Options", [
+        MinRandomAmmoPercent,
+        MaxRandomAmmoPercent,
     ]),
     OptionGroup("Junk Item Pool", [
         JunkItemPoolHealthWeight,
