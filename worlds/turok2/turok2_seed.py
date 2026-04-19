@@ -94,6 +94,7 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS: Whether reaching the level goal should give all primagen keys
     - OPTION_INCLUDE_WEAPONS_AND_AMMO: Whether weapons and ammo are shuffled (used for replacing ammo spawns)
     - OPTION_OPEN_HUB: Whether the level 1 door to the hub should start opened
+    - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
@@ -102,6 +103,7 @@ def get_settings_string(self: "Turok2World") -> str:
     levels_give_primagen_keys = "false"
     weapon_and_ammo_setting = "false"
     open_hub = "false"
+    progressive_warps = 0
 
     # If there's no Primagen or level goal, set the level goal so there is a goal of some kind.
     if self.options.primagen_goal == PrimagenGoal.option_none:
@@ -126,9 +128,14 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.open_hub:
         open_hub = "true"
 
+    # Progressive warps
+    if self.options.progressive_warps:
+        progressive_warps = self.options.progressive_warp_strength
+
     return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
         f"#define OPTION_INCLUDE_WEAPONS_AND_AMMO {weapon_and_ammo_setting}\n" +
-        f"#define OPTION_OPEN_HUB {open_hub}\n")
+        f"#define OPTION_OPEN_HUB {open_hub}\n"
+        f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n")
