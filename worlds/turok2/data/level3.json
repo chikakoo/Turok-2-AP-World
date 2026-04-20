@@ -1,14 +1,14 @@
 {
     "regions": [
         {
-            "name": "DM Start",
+            "name": "[3-1]",
             "exits": [
                 { 
-                    "to": "DM Start River",
+                    "to": "[3-1] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "DM Ammo Facility 1",
+                    "to": "[3-A1]",
                     "rule": {
                         "and": [
                             {
@@ -27,7 +27,7 @@
                     }
                 },
                 { 
-                    "to": "DM Checkpoint 1",
+                    "to": "[3-2]",
                     "rule": {
                         "progressive_warp": {
                             "level": 3,
@@ -38,17 +38,17 @@
             ]
         },
         {
-            "name": "DM Start River",
+            "name": "[3-1] River",
             "exits": []
         },
         {
-            "name": "DM Ammo Facility 1",
+            "name": "[3-A1]",
             "exits": []
         },
         {
-            "name": "DM Checkpoint 1",
+            "name": "[3-2]",
             "exits": [{ 
-                "to": "DM Oblivion Portal",
+                "to": "[3-3]",
                 "rule": {
                     "progressive_warp": {
                         "level": 3,
@@ -58,19 +58,15 @@
             }]
         },
         {
-            "name": "DM Oblivion Portal",
+            "name": "[3-3]",
             "exits": [
                 { 
-                    "to": "DM Oblivion Portal River",
+                    "to": "[3-3] River",
                     "rule": { "has": "Breath of Life" }
                 },
+                { "to": "[3-Oblivion]" },
                 { 
-                    "to": "DM Primagen Key",
-                    "rule": { "has": "Breath of Life" }
-                },
-                { "to": "DM Oblivion" },
-                { 
-                    "to": "DM Outside Ammo Facility 2",
+                    "to": "[3-4] Lower",
                     "rule": {
                         "progressive_warp": {
                             "level": 3,
@@ -81,22 +77,18 @@
             ]
         },
         {
-            "name": "DM Oblivion Portal River",
+            "name": "[3-3] River",
             "exits": []
         },
         {
-            "name": "DM Primagen Key",
+            "name": "[3-Oblivion]",
             "exits": []
         },
         {
-            "name": "DM Oblivion",
-            "exits": []
-        },
-        {
-            "name": "DM Outside Ammo Facility 2",
+            "name": "[3-4] Lower",
             "exits": [
                 { 
-                    "to": "DM Ammo Facility 2",
+                    "to": "[3-A2]",
                     "rule": {
                         "and": [
                             {
@@ -115,7 +107,7 @@
                     }
                 },
                 { 
-                    "to": "DM Bridge Above Facility 2",
+                    "to": "[3-4] Upper",
                     "rule": {
                         "progressive_warp": {
                             "level": 3,
@@ -126,13 +118,13 @@
             ]
         },
         {
-            "name": "DM Ammo Facility 2",
+            "name": "[3-A2]",
             "exits": []
         },
         {
-            "name": "DM Bridge Above Facility 2",
+            "name": "[3-4] Upper",
             "exits": [{
-                "to": "DM Long Bridge",
+                "to": "[3-5]",
                 "rule": {
                     "progressive_warp": {
                         "level": 3,
@@ -142,9 +134,9 @@
             }]
         },
         {
-            "name": "DM Long Bridge",
+            "name": "[3-5]",
             "exits": [{ 
-                "to": "DM Two Cells",
+                "to": "[3-6]",
                 "rule": {
                     "progressive_warp": {
                         "level": 3,
@@ -154,14 +146,14 @@
             }]
         },
         {
-            "name": "DM Two Cells",
+            "name": "[3-6]",
             "exits": [
                 { 
-                    "to": "DM Talisman",
+                    "to": "[3-Talisman]",
                     "rule": { "has": "Level 3 Eagle Feather" }
                 },
                 { 
-                    "to": "DM Outside Ammo Facility 3",
+                    "to": "[3-7]",
                     "rule": {
                         "progressive_warp": {
                             "level": 3,
@@ -172,18 +164,18 @@
             ]
         },
         {
-            "name": "DM Talisman",
+            "name": "[3-Talisman]",
             "exits": []
         },
         {
-            "name": "DM Outside Ammo Facility 3",
+            "name": "[3-7]",
             "exits": [
                 { 
-                    "to": "DM Outside Ammo Facility 3 Eye of Truth",
+                    "to": "[3-7] Eye",
                     "rule": { "has": "Eye of Truth" } 
                 },
                 { 
-                    "to": "DM Ratpor Rooms",
+                    "to": "[3-8]",
                     "rule": {
                         "progressive_warp": {
                             "level": 3,
@@ -194,14 +186,14 @@
             ]
         },
         {
-            "name": "DM Outside Ammo Facility 3 Eye of Truth",
+            "name": "[3-7] Eye",
             "exits": []
         },
         {
-            "name": "DM Ratpor Rooms",
+            "name": "[3-8]",
             "exits": [
                 { 
-                    "to": "DM Totem",
+                    "to": "[3-Totem]",
                     "rule": {
                         "mission_item_requirement": {
                             "item": "L3 Satchel Charge",
@@ -212,7 +204,7 @@
             ]
         },
         {
-            "name": "DM Totem",
+            "name": "[3-Totem]",
             "exits": [{ "to": "Hub" }],
             "events": [{
                 "name": "Level Complete",
