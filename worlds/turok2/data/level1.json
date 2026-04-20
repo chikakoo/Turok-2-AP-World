@@ -1,10 +1,10 @@
 {
 	"regions": [
 		{
-			"name": "PoA Start",
+			"name": "[1-1]",
 			"exits": [
 				{ 
-					"to": "PoA Water Hub",
+					"to": "[1-2] Lower",
 					"rule": {
 						"progressive_warp": {
 							"level": 1,
@@ -19,9 +19,9 @@
 			]
 		},
 		{
-			"name": "PoA Water Hub",
+			"name": "[1-2] Lower",
 			"exits": [{ 
-				"to": "PoA Ships",
+				"to": "[1-3]",
 				"rule": {
 					"progressive_warp": {
 						"level": 1,
@@ -31,9 +31,9 @@
 			}]
 		},
 		{
-			"name":  "PoA Ships",
+			"name": "[1-3]",
 			"exits": [{ 
-				"to": "PoA Water Hub Upper",
+				"to": "[1-2] Upper",
 				"rule": {
 					"progressive_warp": {
 						"level": 1,
@@ -43,9 +43,9 @@
 			}]
 		},
 		{
-			"name":  "PoA Water Hub Upper",
+			"name": "[1-2] Upper",
 			"exits": [{ 
-				"to": "PoA Talisman Portal Map",
+				"to": "[1-4]",
 				"rule": {
 					"progressive_warp": {
 						"level": 1,
@@ -55,12 +55,12 @@
 			}]
 		},
 		{
-			"name":  "PoA Talisman Portal Map",
+			"name": "[1-4]",
 			"exits": [
-				{ "to": "PoA Bird Door" },
-				{ "to": "PoA Upper Primagen Key" },
+				{ "to": "[1-4] Bird Door" },
+				{ "to": "[1-4] Upper Primagen Key" },
 				{ 
-					"to": "PoA Child 3 Map",
+					"to": "[1-5]",
 					"rule": {
 						"progressive_warp": {
 							"level": 1,
@@ -71,26 +71,26 @@
 			]
 		},
 		{
-			"name": "PoA Bird Door",
+			"name": "[1-4] Bird Door",
 			"exits": []
 		},
 		{
-			"name":  "PoA Upper Primagen Key",
+			"name":  "[1-4] Upper Primagen Key",
 			"exits": [
 				{ 
-					"to": "PoA Primagen Key Leap of Faith", 
+					"to": "[1-4] Primagen Key Leap of Faith", 
 					"rule": { "has": "Leap of Faith" }
 				}
 			]
 		},
 		{
-			"name":  "PoA Primagen Key Leap of Faith",
+			"name":  "[1-4] Primagen Key Leap of Faith",
 			"exits": []
 		},
 		{
-			"name":  "PoA Child 3 Map",
+			"name":  "[1-5]",
 			"exits": [{ 
-				"to": "PoA Archery and Bridge",
+				"to": "[1-6]",
 				"rule": {
 					"progressive_warp": {
 						"level": 1,
@@ -100,9 +100,9 @@
 			}]
 		},
 		{
-			"name":  "PoA Archery and Bridge",
+			"name":  "[1-6]",
 			"exits": [{ 
-				"to": "PoA Child 4 Map",
+				"to": "[1-7]",
 				"rule": {
 					"progressive_warp": {
 						"level": 1,
@@ -112,9 +112,9 @@
 			}]
 		},
 		{
-			"name":  "PoA Child 4 Map",
+			"name":  "[1-7]",
 			"exits": [{ 
-				"to": "PoA Gated City",
+				"to": "[1-8]",
 				"rule": {
 					"progressive_warp": {
 						"level": 1,
@@ -124,9 +124,9 @@
 			}]
 		},
 		{
-			"name":  "PoA Gated City",
+			"name":  "[1-8]",
 			"exits": [{ 
-				"to": "PoA Catwalks",
+				"to": "[1-9]",
 				"rule": {
 					"progressive_warp": {
 						"level": 1,
@@ -136,11 +136,11 @@
 			}]
 		},
 		{
-			"name": "PoA Catwalks",
+			"name": "[1-9]",
 			"exits": [
-				{ "to": "PoA Oblivion" },
+				{ "to": "[1-Oblivion]" },
 				{
-					"to": "PoA Totem",
+					"to": "[1-Totem]",
 					"rule": {
 						"mission_item_requirement": {
 							"item": "Beacon Power Cell",
@@ -151,12 +151,12 @@
 			]
 		},
 		{
-			"name": "PoA Oblivion",
+			"name": "[1-Oblivion]",
 			"exits": []
 		},
 		{
-			"name": "PoA Totem",
-			"exits":[{ "to": "Hub" }],
+			"name": "[1-Totem]",
+			"exits": [{ "to": "Hub" }],
 			"events": [{
 				"name": "Level Complete",
 				"location_name": "PoA Complete"

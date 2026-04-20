@@ -3,7 +3,7 @@
 		{
 			"name": "Hub",
 			"exits": [
-				{ "to": "PoA Start" },
+				{ "to": "[1-1]" },
 				{
 					"to": "RoS Start",
 					"rule": {

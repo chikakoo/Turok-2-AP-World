@@ -6,7 +6,7 @@ import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
-from .options import PrimagenGoal, PrimagenKeys, NukeBehavior
+from .options import PrimagenGoal, PrimagenKeys, NukeBehavior, HealthSanity, LifeForceSanity
 from . import items
 from .items import ItemType
 
@@ -83,15 +83,22 @@ def create_locations(world: Turok2World) -> None:
     Creates the locations by looking at all of the regions defined in the json data.
     Includes putting a "rule" property in the table to construct the rules later on.
     """
+    life_force_option = world.options.life_force_sanity
+    health_option = world.options.health_sanity
+
     for loc_name, loc_info in LOCATION_TABLE.items():
         # Exclude relevent locations if not shuffled
         item_type = loc_info.get("type", -1)
-        if not world.options.include_health_locations and item_type == ItemType.HEALTH.value:
-            continue
+        if (health_option == HealthSanity.option_none or
+            (health_option == HealthSanity.option_full_and_ultra_only and
+                (item_type == ItemType.FULL_HEALTH or item_type == ItemType.ULTRA_HEALTH))):
+                continue
         if (not world.options.include_weapon_and_ammo_locations and
             (item_type == ItemType.AMMO.value or item_type == ItemType.WEAPON.value)):
             continue
-        if not world.options.include_life_force_locations and item_type == ItemType.LIFE_FORCE.value:
+        if (life_force_option == LifeForceSanity.option_none or
+            (life_force_option == LifeForceSanity.option_yellow_only and item_type == ItemType.LIFE_FORCE_10.value) or
+            (life_force_option == LifeForceSanity.option_red_only and item_type == ItemType.LIFE_FORCE_1.value)):
             continue
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
             continue

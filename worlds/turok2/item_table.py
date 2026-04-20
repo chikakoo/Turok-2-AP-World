@@ -6,6 +6,25 @@ class ItemType(Enum):
     """
     Types used to filter the item table.
     """
+    LIFE_FORCE_1 = 0
+    LIFE_FORCE_10 = 1
+    BLUE_HEALTH = 2
+    SILVER_HEALTH = 3
+    FULL_HEALTH = 4
+    ULTRA_HEALTH = 5
+    AMMO = 6
+    LEVEL_KEY = 7
+    PRIMAGEN_KEY = 8
+    EAGLE_FEATHER = 9
+    TALISMAN = 10
+    NUKE_PART = 11
+    MISSION_ITEM = 12
+    WEAPON = 13
+    TRAP = 14,
+    PROGRESSIVE_WARP = 15
+
+    # Old types - TODO: delete this
+    """
     LIFE_FORCE = 0
     HEALTH = 1
     AMMO = 2
@@ -18,6 +37,7 @@ class ItemType(Enum):
     WEAPON = 9
     TRAP = 10,
     PROGRESSIVE_WARP = 11
+    """
     
 class TrapType(Enum):
     """
@@ -32,14 +52,14 @@ ITEM_TABLE = {
     "Life Force 1": {
         "id": 100000, 
         "actor_id": 1705,
-        "type": ItemType.LIFE_FORCE.value,
+        "type": ItemType.LIFE_FORCE_1.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
     "Life Force 10": {
         "id": 100001, 
         "actor_id": 1706, 
-        "type": ItemType.LIFE_FORCE.value,
+        "type": ItemType.LIFE_FORCE_10.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
@@ -47,35 +67,35 @@ ITEM_TABLE = {
     "Silver Health": {
         "id": 100002,
         "actor_id": 1701,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.SILVER_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
     "Blue Health": {
         "id": 100003,
         "actor_id": 1702,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.BLUE_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
     "Full Health": {
         "id": 100004,
         "actor_id": 1703,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.FULL_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
     "Ultra Health": {
         "id": 100005,
         "actor_id": 1704,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.ULTRA_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
     "Silver Health (L)": {
         "id": 100102,
         "actor_id": 1701,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.SILVER_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -83,7 +103,7 @@ ITEM_TABLE = {
     "Blue Health (L)": {
         "id": 100103,
         "actor_id": 1702,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.BLUE_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -91,7 +111,7 @@ ITEM_TABLE = {
     "Full Health (L)": {
         "id": 100104,
         "actor_id": 1703,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.FULL_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -99,7 +119,7 @@ ITEM_TABLE = {
     "Ultra Health (L)": {
         "id": 100105,
         "actor_id": 1704,
-        "type": ItemType.HEALTH.value,
+        "type": ItemType.ULTRA_HEALTH.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -749,11 +769,16 @@ TRAPS = {
 LIFE_FORCES = {
     name: data
     for name, data in ITEM_TABLE.items()
-    if data["type"] == ItemType.LIFE_FORCE.value
+    if data["type"] == ItemType.LIFE_FORCE_1.value or data["type"] == ItemType.LIFE_FORCE_10.value
 }
 
 HEALTH_PICKUPS = {
     name: data
     for name, data in ITEM_TABLE.items()
-    if data["type"] == ItemType.HEALTH.value and not data.get("is_local")
+    if (not data.get("is_local") and (
+        data["type"] == ItemType.SILVER_HEALTH.value or
+        data["type"] == ItemType.BLUE_HEALTH.value or
+        data["type"] == ItemType.FULL_HEALTH.value or
+        data["type"] == ItemType.ULTRA_HEALTH.value
+    ))
 }

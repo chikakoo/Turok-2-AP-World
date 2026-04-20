@@ -4,8 +4,6 @@ from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
 # TODO:
 # death link
 # split weapons/ammo
-# whether to mark the pickups as important in the game
-# individual settings for LF10/Full + Ultra Healths in pool
 
 class LevelGoal(Range):
     """
@@ -46,13 +44,20 @@ class PrimagenKeys(Choice):
     option_levels = 2
     default = option_in_pool
     
-class IncludeHealthLocations(Toggle):
+class HealthSanity(Toggle):
     """
     Whether to include static health pickups in the list of locations to check.
     Use the JunkItemPoolHealthWeight setting to affect how many will be in the item pool.
+    - None: No health pickup locations will be included
+    - All: All health pickup locations will be included
+    - Full And Ultra Only: Only full and ultra health locations will be included.
+                           Note that the four ultra healths in the Level 6 hub are excluded.
     """
-    display_name = "Include Health Locations"
-    default = True
+    display_name = "Health Sanity"
+    option_none = 0
+    option_all = 1
+    option_full_and_ultra_only = 2
+    default = option_all
     
 class IncludeWeaponAndAmmoLocations(Toggle):
     """
@@ -67,13 +72,20 @@ class IncludeWeaponAndAmmoLocations(Toggle):
     display_name = "Include Weapon and Ammo Locations"
     default = True
     
-class IncludeLifeForceLocations(Toggle):
+class LifeForceSanity(Choice):
     """
     Whether to include life forces in the list of locations to check.
-    Use the JunkItemPoolLifeForceWeight setting to affect how many will be in the item pool.
+    - None: No Life Force locations will be included
+    - All: Both yellow and red Life Forces will be included
+    - Yellow Only: Only yellow Life Forces will be included
+    - Red Only: Only red Life Forces will be included
     """
-    display_name = "Include Life Force Locations"
-    default = True
+    display_name = "Life Force Sanity"
+    option_none = 0
+    option_all = 1
+    option_yellow_only = 2
+    option_red_only = 3
+    default = option_all
 
 class IncludeLevelKeyLocations(Toggle):
     """
@@ -377,9 +389,9 @@ class Turok2Options(PerGameCommonOptions):
     primagen_goal: PrimagenGoal
     primagen_keys: PrimagenKeys
     
-    include_health_locations: IncludeHealthLocations
+    health_sanity: HealthSanity
     include_weapon_and_ammo_locations: IncludeWeaponAndAmmoLocations
-    include_life_force_locations: IncludeLifeForceLocations
+    life_force_sanity: LifeForceSanity
     include_level_key_locations: IncludeLevelKeyLocations
     include_eagle_feather_locations: IncludeEagleFeatherLocations
     include_talisman_locations: IncludeTalismanLocations
@@ -424,9 +436,9 @@ option_groups = [
         PrimagenKeys
     ]),
     OptionGroup("Item Pool Options", [
-        IncludeHealthLocations,
+        HealthSanity,
         IncludeWeaponAndAmmoLocations,
-        IncludeLifeForceLocations,
+        LifeForceSanity,
         IncludeLevelKeyLocations,
         IncludeEagleFeatherLocations,
         IncludeTalismanLocations,

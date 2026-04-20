@@ -142,4 +142,4 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_OPEN_HUB {open_hub}\n" +
         f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +
-        f"#define OPTION_RANDOM_AMMO_MIN {self.options.max_random_ammo_percent}\n")
+        f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n")

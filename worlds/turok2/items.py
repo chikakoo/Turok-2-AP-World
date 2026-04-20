@@ -78,9 +78,9 @@ def get_random_filler_item_name(world: Turok2World) -> str:
     This will generate a random filler by the item weights set in the options.
     """
     categories = [
-        (ItemType.HEALTH.value, world.options.junk_item_pool_health_weight),
+        (ItemType.SILVER_HEALTH.value, world.options.junk_item_pool_health_weight),
         (ItemType.AMMO.value, world.options.junk_item_pool_ammo_weight),
-        (ItemType.LIFE_FORCE.value, world.options.junk_item_pool_life_force_weight),
+        (ItemType.LIFE_FORCE_1.value, world.options.junk_item_pool_life_force_weight),
         (ItemType.TRAP.value, world.options.junk_item_pool_trap_weight)
     ]
     category_names = [name for name, _ in categories]
@@ -90,7 +90,7 @@ def get_random_filler_item_name(world: Turok2World) -> str:
     chosen_category = world.random.choices(category_names, weights=category_weights, k=1)[0]
 
     # Pick an item from that category
-    if chosen_category == ItemType.HEALTH.value:
+    if chosen_category == ItemType.SILVER_HEALTH.value:
         return get_random_health_pickup_item_name(world)
     elif chosen_category == ItemType.AMMO.value:
         return "Random Ammo Pack"
@@ -175,13 +175,18 @@ def get_random_health_pickup_item_name(world: Turok2World) -> str:
     weights = [weight for _, weight in health_pickups]
     return world.random.choices(names, weights=weights, k=1)[0]
     
-def force_local_items(world: Turok2World, itempool: list[Item], item_type: int, percentage: int):
+def force_local_items(
+    world: Turok2World,
+    itempool: list[Item],
+    item_types: list[int],
+    type_string: str,
+    percentage: int):
     """
-    Forces the percentage of items in the item pool of the given type to be placed in this world.
+    Forces the percentage of items in the item pool of the given types to be placed in this world.
     """
     items = [
         item for item in itempool
-        if ITEM_TABLE[item.name].get("type", -1) == item_type
+        if ITEM_TABLE[item.name].get("type", -1) in item_types
     ]
     count = int(len(items) * percentage / 100)
     selected_items = items[:count]
@@ -189,7 +194,7 @@ def force_local_items(world: Turok2World, itempool: list[Item], item_type: int, 
     for item in selected_items:
         item.name += " (L)" # Uses the local version, should change back in post_fill
         
-    print(f"Forced {count} {ItemType(item_type)} items locally for Player {world.player}")
+    print(f"Forced {count} items of type {type_string} locally for Player {world.player}")
 
 def force_local_weapons(world: Turok2World, itempool: list[Item]):
     """
@@ -353,8 +358,13 @@ def create_all_items(world: Turok2World) -> None:
     
     # Fill out the rest of the pool (calls get_random_filler_item_name) and force some to be local
     itempool += [world.create_filler() for _ in range(needed_number_of_filler_items)]
-    force_local_items(world, itempool, ItemType.HEALTH.value, world.options.local_health_percentage)
-    force_local_items(world, itempool, ItemType.AMMO.value, world.options.local_ammo_percentage)
+    force_local_items(
+        world, 
+        itempool, 
+        [ItemType.SILVER_HEALTH.value, ItemType.BLUE_HEALTH.value, ItemType.FULL_HEALTH.value, ItemType.ULTRA_HEALTH.value],
+        "Health",
+        world.options.local_health_percentage)
+    force_local_items(world, itempool, [ItemType.AMMO], "Ammo", world.options.local_ammo_percentage)
     force_local_weapons(world, itempool)
     
     # Force 3 early weapons, and make one in the first area if the setting is on
