@@ -1,9 +1,9 @@
 {
     "regions": [
         {
-            "name": "RoS Start",
+            "name": "[2-1]",
             "exits": [{ 
-                "to": "RoS After Riding Gun",
+                "to": "[2-2]",
                 "rule": {
 					"progressive_warp": {
 						"level": 2,
@@ -13,9 +13,9 @@
             }]
         },
         {
-            "name": "RoS After Riding Gun",
+            "name": "[2-2]",
             "exits": [{
-                "to": "RoS Level Key Loop",
+                "to": "[2-3]",
                 "rule": {
 					"progressive_warp": {
 						"level": 2,
@@ -25,14 +25,14 @@
             }]
         },
         {
-            "name": "RoS Level Key Loop",
+            "name": "[2-3]",
             "exits": [
                 { 
-                    "to": "RoS Level Key Loop in River",
+                    "to": "[2-3] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "RoS River and Checkpoint",
+                    "to": "[2-4]",
                     "rule": {
                         "progressive_warp": {
                             "level": 2,
@@ -43,18 +43,18 @@
             ]
         },
         {
-            "name": "RoS Level Key Loop in River",
+            "name": "[2-3] River",
             "exits": []
         },
         {
-            "name": "RoS River and Checkpoint",
+            "name": "[2-4]",
             "exits": [
                 { 
-                    "to": "RoS River and Checkpoint in River",
+                    "to": "[2-4] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "RoS Gate Key Door",
+                    "to": "[2-4] Gate Key Door",
                     "rule": {
                         "mission_item_requirement": {
                             "item": "Gate Key",
@@ -65,15 +65,15 @@
             ]
         },
         {
-            "name": "RoS River and Checkpoint in River",
+            "name": "[2-4] River",
             "exits": []
         },
         {
-            "name": "RoS Gate Key Door",
+            "name": "[2-4] Gate Key Door",
             "exits": [
-                { "to": "RoS Oblivion" },
+                { "to": "[2-Oblivion]" },
                 { 
-                    "to": "RoS Soul Gate 1",
+                    "to": "[2-5]",
                     "rule": {
                         "progressive_warp": {
                             "level": 2,
@@ -84,14 +84,14 @@
             ]
         },
         {
-            "name": "RoS Oblivion",
+            "name": "[2-Oblivion]",
             "exits": []
         },
         {
-            "name": "RoS Soul Gate 1",
+            "name": "[2-5]",
             "exits": [
                 { 
-                    "to": "RoS Mag 60 River Path",
+                    "to": "[2-5] River Leaps",
                     "rule": 
                     { 
                         "has": [
@@ -101,7 +101,7 @@
                     }
                 },
                 { 
-                    "to": "RoS Long Path",
+                    "to": "[2-6a]",
                     "rule": {
                         "progressive_warp": {
                             "level": 2,
@@ -112,13 +112,13 @@
             ]
         },
         {
-            "name": "RoS Mag 60 River Path",
+            "name": "[2-5] River Leaps",
             "exits": []
         },
         {
-            "name": "RoS Long Path",
+            "name": "[2-6a]",
             "exits": [{ 
-                "to": "RoS Green Tunnels",
+                "to": "[2-6b]",
                 "rule": {
 					"progressive_warp": {
 						"level": 2,
@@ -128,9 +128,9 @@
             }]
         },
         {
-            "name": "RoS Green Tunnels",
+            "name": "[2-6b]",
             "exits": [{ 
-                "to": "RoS Graveyard 1",
+                "to": "[2-GY1]",
                 "rule": {
 					"progressive_warp": {
 						"level": 2,
@@ -140,9 +140,9 @@
             }]
         },
         {
-            "name": "RoS Graveyard 1",
+            "name": "[2-GY1]",
             "exits": [{
-                "to": "RoS Silo",
+                "to": "[2-6c]",
                 "rule": {
 					"progressive_warp": {
 						"level": 2,
@@ -152,9 +152,9 @@
             }]
         },
         {
-            "name": "RoS Silo",
+            "name": "[2-6c]",
             "exits": [{
-                "to": "RoS LF Jumps",
+                "to": "[2-7]",
                 "rule": {
 					"progressive_warp": {
 						"level": 2,
@@ -164,18 +164,18 @@
             }]
         },
         {
-            "name": "RoS LF Jumps",
+            "name": "[2-7]",
             "exits": [
                 { 
-                    "to": "RoS LF Jumps Leap of Faith",
+                    "to": "[2-7] Leap",
                     "rule": { "has": "Leap of Faith" }
                 },
                 {
-                    "to": "RoS LF Jumps River",
+                    "to": "[2-7] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "RoS Graveyard 2",
+                    "to": "[2-GY2]",
                     "rule": {
                         "progressive_warp": {
                             "level": 2,
@@ -184,7 +184,7 @@
                     }
                 },
                 { 
-                    "to": "RoS Talisman Portal" ,
+                    "to": "[2-8]" ,
                     "rule": {
                         "progressive_warp": {
                             "level": 2,
@@ -195,30 +195,30 @@
             ]
         },
         {
-            "name": "RoS LF Jumps Leap of Faith",
+            "name": "[2-7] Leap",
             "exits": []
         },
         {
-            "name": "RoS LF Jumps River",
+            "name": "[2-7] River",
             "exits": []
         },
         {
-            "name": "RoS Graveyard 2",
+            "name": "[2-GY2]",
             "exits": []
         },
         {
-            "name": "RoS Talisman Portal",
+            "name": "[2-8]",
             "exits": [
                 { 
-                    "to": "RoS Primagen Key River",
+                    "to": "[2-8] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "RoS Talisman",
+                    "to": "[2-Talisman]",
                     "rule": { "has": "Level 2 Eagle Feather" }
                 },
                 { 
-                    "to": "RoS Graveyard 3",
+                    "to": "[2-GY3]",
                     "rule": {
                         "progressive_warp": {
                             "level": 2,
@@ -227,7 +227,7 @@
                     }
                 },
                 { 
-                    "to": "RoS Totem",
+                    "to": "[2-Totem]",
                     "rule": {
                         "mission_item_requirement": {
                             "item": "Graveyard Key",
@@ -238,29 +238,29 @@
             ]
         },
         {
-            "name": "RoS Primagen Key River",
+            "name": "[2-8] River",
             "exits": [{ 
-                "to": "RoS Primagen Key Leap",
+                "to": "[2-8] River Leaps",
                 "rule": { "has": "Leap of Faith" }
             }]
         },
         {
-            "name": "RoS Primagen Key Leap",
+            "name": "[2-8] River Leaps",
             "exits": []
         },
         {
-            "name": "RoS Talisman",
+            "name": "[2-Talisman]",
             "exits": []
         },
         {
-            "name": "RoS Graveyard 3",
+            "name": "[2-GY3]",
             "exits": [
                 { 
-                    "to": "RoS Graveyard 3 Water",
+                    "to": "[2-GY3] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "RoS Graveyard 3 End",
+                    "to": "[2-GY3] Graveyard Keys",
                     "rule": {
                         "has": {
                             "item": "Graveyard Key",
@@ -271,15 +271,15 @@
             ]
         },
         {
-            "name": "RoS Graveyard 3 Water",
+            "name": "[2-GY3] River",
             "exits": []
         },
         {
-            "name": "RoS Graveyard 3 End",
+            "name": "[2-GY3] Graveyard Keys",
             "exits": []
         },
         {
-            "name": "RoS Totem",
+            "name": "[2-Totem]",
             "exits": [{ "to": "Hub" }],
             "events": [{
                 "name": "Level Complete",

@@ -254,25 +254,25 @@ def place_locked_items(world: Turok2World) -> None:
     Currently done with level keys, feathers, talismans, and Primagen keys.
     """
     if not world.options.include_level_key_locations:
-        world.get_location("PoA Hall After Warp 1 - Level Key") \
+        world.get_location("[1-2] Hall - Level Key") \
             .place_locked_item(world.create_item("Level 2 Key"))
-        world.get_location("PoA Upper Water - Level Key") \
+        world.get_location("[1-2] Upper Water - Level Key") \
             .place_locked_item(world.create_item("Level 2 Key"))
-        world.get_location("PoA Gated City - Level Key up Ladder") \
+        world.get_location("[1-8] After Gate - Level Key up Ladder") \
             .place_locked_item(world.create_item("Level 2 Key"))
 
-        world.get_location("PoA City 1 Ground - Level Key") \
+        world.get_location("[1-4] Ground - Level Key") \
             .place_locked_item(world.create_item("Level 3 Key"))
-        world.get_location("PoA Below Oblivion Portal - Level Key up Ladder") \
+        world.get_location("[1-9] Below Oblivion - Level Key up Ladder") \
             .place_locked_item(world.create_item("Level 3 Key"))
-        world.get_location("PoA Fountain in Building F2 - Level Key in Center") \
+        world.get_location("[1-9] Fountain Building F2 - Level Key in Center") \
             .place_locked_item(world.create_item("Level 3 Key"))
 
-        world.get_location("RoS Level Key Loop - Level Key") \
+        world.get_location("[2-3] Level Key Loop - Level Key") \
             .place_locked_item(world.create_item("Level 4 Key"))
-        world.get_location("RoS Fountain Path - Level Key") \
+        world.get_location("[2-7] Fountain Path - Level Key") \
             .place_locked_item(world.create_item("Level 4 Key"))
-        world.get_location("RoS Final Level Key Path - Level Key") \
+        world.get_location("[2-8] Level Key Path - Level Key") \
             .place_locked_item(world.create_item("Level 4 Key"))
 
         world.get_location("DM Across Double River Logs - Level Key") \
@@ -296,7 +296,7 @@ def place_locked_items(world: Turok2World) -> None:
             .place_locked_item(world.create_item("Level 6 Key"))
 
     if not world.options.include_eagle_feather_locations:
-        world.get_location("RoS Eagle Feather - Eagle Feather") \
+        world.get_location("[2-8] Feather Ledge - Eagle Feather") \
             .place_locked_item(world.create_item("Level 2 Eagle Feather"))
         world.get_location("DM on Talisman Portal Wall - Eagle Feather") \
             .place_locked_item(world.create_item("Level 3 Eagle Feather"))
@@ -308,7 +308,7 @@ def place_locked_items(world: Turok2World) -> None:
             .place_locked_item(world.create_item("Level 6 Eagle Feather"))
         
     if not world.options.include_talisman_locations:
-        world.get_location("RoS Talisman - Talisman").place_locked_item(world.create_item("Leap of Faith"))
+        world.get_location("[2-Talisman] Talisman - Leap of Faith").place_locked_item(world.create_item("Leap of Faith"))
         world.get_location("DM Talisman - Talisman").place_locked_item(world.create_item("Breath of Life"))
         world.get_location("LBO Talisman - Talisman").place_locked_item(world.create_item("Heart of Fire"))
         world.get_location("HM Talisman - Talisman").place_locked_item(world.create_item("Whispers"))
@@ -316,8 +316,8 @@ def place_locked_items(world: Turok2World) -> None:
 
     if (world.options.primagen_goal != PrimagenGoal.option_none and
         world.options.primagen_keys == PrimagenKeys.option_vanilla):
-        world.get_location("PoA Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 1"))
-        world.get_location("RoS Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 2"))
+        world.get_location("[1-4] Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 1"))
+        world.get_location("[2-8] Primagen Key River Leaps - Primagen Key").place_locked_item(world.create_item("Primagen Key 2"))
         world.get_location("DM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 3"))
         world.get_location("LBO Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
         world.get_location("HM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
