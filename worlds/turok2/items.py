@@ -282,17 +282,18 @@ def place_locked_items(world: Turok2World) -> None:
         world.get_location("[3-8] Raptor Rooms - Level Key") \
             .place_locked_item(world.create_item("Level 5 Key"))
 
-        world.get_location("LBO Level Key Trap 1 - Level Key") \
+        world.get_location("[4-3] Level Key Trap - Level Key") \
             .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("LBO Level Key Trap 2 - Level Key") \
+        world.get_location("[4-8] Level Key Trap - Level Key") \
             .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("LBO Level Key Trap 3 - Level Key") \
+        world.get_location("[4-6] Level Key Trap - Level Key") \
             .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("HM First Level Key - Level Key") \
+        
+        world.get_location("[5-2] Level Key - Level Key") \
             .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("HM Pit 2 Level Key - Level Key") \
+        world.get_location("[5-5] Level Key - Level Key") \
             .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("HM After Main Generator - Level Key") \
+        world.get_location("[5-7] After Main Generator - Level Key") \
             .place_locked_item(world.create_item("Level 6 Key"))
 
     if not world.options.include_eagle_feather_locations:
@@ -300,9 +301,9 @@ def place_locked_items(world: Turok2World) -> None:
             .place_locked_item(world.create_item("Level 2 Eagle Feather"))
         world.get_location("[3-6] Talisman Portal Wall - Eagle Feather") \
             .place_locked_item(world.create_item("Level 3 Eagle Feather"))
-        world.get_location("LBO Waterfalls - Eagle Feather on Top") \
+        world.get_location("[4-4] Top - Eagle Feather") \
             .place_locked_item(world.create_item("Level 4 Eagle Feather"))
-        world.get_location("HM Pit 3 Feather - Eagle Feather") \
+        world.get_location("[5-6] Feather - Eagle Feather") \
             .place_locked_item(world.create_item("Level 5 Eagle Feather"))
         world.get_location("PL Wing 4 Outer Assembly 2 - Eagle Feather") \
             .place_locked_item(world.create_item("Level 6 Eagle Feather"))
@@ -310,8 +311,8 @@ def place_locked_items(world: Turok2World) -> None:
     if not world.options.include_talisman_locations:
         world.get_location("[2-Talisman] Talisman - Leap of Faith").place_locked_item(world.create_item("Leap of Faith"))
         world.get_location("[3-Talisman] Talisman - Breath of Life").place_locked_item(world.create_item("Breath of Life"))
-        world.get_location("LBO Talisman - Talisman").place_locked_item(world.create_item("Heart of Fire"))
-        world.get_location("HM Talisman - Talisman").place_locked_item(world.create_item("Whispers"))
+        world.get_location("[4-Talisman] Talisman - Heart of Fire").place_locked_item(world.create_item("Heart of Fire"))
+        world.get_location("[5-Talisman] Talisman - Whispers").place_locked_item(world.create_item("Whispers"))
         world.get_location("PL Wing 4 Talisman - Talisman").place_locked_item(world.create_item("Eye of Truth"))
 
     if (world.options.primagen_goal != PrimagenGoal.option_none and
@@ -319,8 +320,8 @@ def place_locked_items(world: Turok2World) -> None:
         world.get_location("[1-4] Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 1"))
         world.get_location("[2-8] Primagen Key River Leaps - Primagen Key").place_locked_item(world.create_item("Primagen Key 2"))
         world.get_location("[3-3] Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 3"))
-        world.get_location("LBO Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
-        world.get_location("HM Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
+        world.get_location("[4-1] Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
+        world.get_location("[5-10] Eye of Truth Path - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
         world.get_location("PL End - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
 
 def create_all_items(world: Turok2World) -> None:

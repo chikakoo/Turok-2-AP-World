@@ -23,7 +23,7 @@
 					}
 				},
 				{
-					"to": "LBO Start",
+					"to": "[4-1]",
 					"rule": {
 						"has": {
 							"item": "Level 4 Key",
@@ -32,7 +32,7 @@
 					}
 				},
 				{
-					"to": "HM Start",
+					"to": "[5-1]",
 					"rule": {
 						"has": {
 							"item": "Level 5 Key",

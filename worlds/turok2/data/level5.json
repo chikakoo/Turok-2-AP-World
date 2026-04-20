@@ -1,9 +1,9 @@
 {
 	"regions": [
 		{
-			"name": "HM Start",
+			"name": "[5-1]",
 			"exits": [{ 
-                "to": "HM Force Fields",
+                "to": "[5-2]",
                 "rule": {
                     "progressive_warp": {
                         "level": 5,
@@ -13,9 +13,9 @@
             }]
 		},
         {
-			"name": "HM Force Fields",
+			"name": "[5-2]",
 			"exits": [{ 
-                "to": "HM Pit 1",
+                "to": "[5-3]",
                 "rule": {
                     "progressive_warp": {
                         "level": 5,
@@ -25,9 +25,9 @@
             }]
 		},
         {
-			"name": "HM Pit 1",
+			"name": "[5-3]",
 			"exits": [{ 
-                "to": "HM Switch Loop",
+                "to": "[5-4]",
                 "rule": {
                     "progressive_warp": {
                         "level": 5,
@@ -37,9 +37,9 @@
             }]
 		},
         {
-			"name": "HM Switch Loop",
+			"name": "[5-4]",
 			"exits": [{ 
-                "to": "HM Pit 2",
+                "to": "[5-5]",
                 "rule": {
                     "progressive_warp": {
                         "level": 5,
@@ -49,11 +49,11 @@
             }]
 		},
         {
-			"name": "HM Pit 2",
+			"name": "[5-5]",
 			"exits": [
-                { "to": "HM Oblivion" },
+                { "to": "[5-Oblivion]" },
                 { 
-                    "to": "HM Pit 3",
+                    "to": "[5-6]",
                     "rule": {
                         "progressive_warp": {
                             "level": 5,
@@ -64,18 +64,18 @@
             ]
 		},
         {
-			"name": "HM Oblivion",
+			"name": "[5-Oblivion]",
 			"exits": []
 		},
         {
-			"name": "HM Pit 3",
+			"name": "[5-6]",
 			"exits": [
                 { 
-                    "to": "HM Talisman",
+                    "to": "[5-Talisman]",
                     "rule": { "has": "Level 5 Eagle Feather" }
                 },
                 { 
-                    "to": "HM Water",
+                    "to": "[5-7]",
                     "rule": {
                         "progressive_warp": {
                             "level": 5,
@@ -86,13 +86,13 @@
             ]
 		},
         {
-			"name": "HM Talisman",
+			"name": "[5-Talisman]",
 			"exits": []
 		},
         {
-			"name": "HM Water",
+			"name": "[5-7]",
 			"exits": [{ 
-                "to": "HM Inner Hive",
+                "to": "[5-8]",
                 "rule": {
                     "progressive_warp": {
                         "level": 5,
@@ -102,9 +102,9 @@
             }]
 		},
         {
-			"name": "HM Inner Hive",
+			"name": "[5-8]",
 			"exits": [{ 
-                "to": "HM Embryo 1",
+                "to": "[5-E1]",
                 "rule": {
                     "progressive_warp": {
                         "level": 5,
@@ -114,9 +114,9 @@
             }]
 		},
         {
-			"name": "HM Embryo 1",
+			"name": "[5-E1]",
 			"exits": [{ 
-                "to": "HM Exit Map",
+                "to": "[5-9]",
                 "rule": {
                     "progressive_warp": {
                         "level": 5,
@@ -126,10 +126,10 @@
             }]
 		},
         {
-			"name": "HM Exit Map",
+			"name": "[5-9]",
 			"exits": [
                 { 
-                    "to": "HM Embryo 2",
+                    "to": "[5-E2]",
                     "rule": {
                         "progressive_warp": {
                             "level": 5,
@@ -138,19 +138,19 @@
                     }
                 },
                 { 
-                    "to": "HM Exit Map Leap of Faith",
+                    "to": "[5-9] Leap",
                     "rule": { "has": "Leap of Faith" }
                 },
                 { 
-                    "to": "HM Exit Map Lava",
+                    "to": "[5-9] Fire",
                     "rule": { "has": "Heart of Fire" }
                 },
                 { 
-                    "to": "HM Exit Map River",
+                    "to": "[5-9] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "HM Embryo 3",
+                    "to": "[5-E3]",
                     "rule": {
                         "progressive_warp": {
                             "level": 5,
@@ -159,7 +159,7 @@
                     }
                 },
                 { 
-                    "to": "HM Boss",
+                    "to": "[5-Boss]",
                     "rule": {
                         "and": [
                             {
@@ -180,36 +180,36 @@
             ]
 		},
         {
-			"name": "HM Embryo 2",
+			"name": "[5-E2]",
 			"exits": [
                 { 
-                    "to": "HM Embryo 2 Leap of Faith",
+                    "to": "[5-E2] Leap",
                     "rule": { "has": "Leap of Faith" }
                 },
-                { "to": "HM Embryo 2 Return" }
+                { "to": "[5-9] Embryo Return Path" }
             ]
 		},
         {
-			"name": "HM Embryo 2 Leap of Faith",
+			"name": "[5-E2] Leap",
 			"exits": []
 		},
         {
-			"name": "HM Embryo 2 Return",
+			"name": "[5-9] Embryo Return Path",
 			"exits": []
 		},
         {
-			"name": "HM Exit Map Leap of Faith",
+			"name": "[5-9] Leap",
 			"exits": []
 		},
         {
-			"name": "HM Exit Map Lava",
+			"name": "[5-9] Fire",
 			"exits": []
 		},
         {
-			"name": "HM Exit Map River",
+			"name": "[5-9] River",
 			"exits": [
                 { 
-                    "to": "HM Primagen Key Start",
+                    "to": "[5-10]",
                     "rule": {
                         "progressive_warp": {
                             "level": 5,
@@ -220,33 +220,33 @@
             ]
 		},
         {
-			"name": "HM Primagen Key Start",
+			"name": "[5-10]",
 			"exits": [
                 { 
-                    "to": "HM Primagen Key",
+                    "to": "[5-10] Eye",
                     "rule": { "has": "Eye of Truth" }
                 }
             ]
 		},
         {
-			"name": "HM Primagen Key",
+			"name": "[5-10] Eye",
 			"exits": []
 		},
         {
-			"name": "HM Embryo 3",
+			"name": "[5-E3]",
 			"exits": [
                 { 
-                    "to": "HM Embryo 3 Lava",
+                    "to": "[5-E3] Fire",
                     "rule": { "has": "Heart of Fire" }
                 }
             ]
 		},
         {
-			"name": "HM Embryo 3 Lava",
+			"name": "[5-E3] Fire",
 			"exits": []
 		},
         {
-			"name": "HM Boss",
+			"name": "[5-Boss]",
 			"exits": [{ "to": "Hub" }],
 			"events": [{
                 "name": "Level Complete",
