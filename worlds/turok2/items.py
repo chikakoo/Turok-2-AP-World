@@ -340,8 +340,11 @@ def create_all_items(world: Turok2World) -> None:
         if data.get("type") == ItemType.PROGRESSIVE_WARP.value:
             strength = max(world.options.progressive_warp_strength, 1)
             count = math.ceil(count / strength)
-        for _ in range(count):
-            itempool.append(world.create_item(name))
+        for i in range(count):
+            if name == "Progressive Warp L1" and world.options.starting_progressive_warps > i:
+                world.multiworld.push_precollected(world.create_item(name))
+            else:
+                itempool.append(world.create_item(name))
          
     # Fill the world with fillers
     number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))

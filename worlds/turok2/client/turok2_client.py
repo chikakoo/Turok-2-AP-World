@@ -12,10 +12,10 @@ logger = logging.getLogger("Client")
 class Turok2Context(CommonContext):
     game = "Turok 2"
     
-    # 1: Our starting inventory can be set and sent to us
+    # 0: Our starting inventory is handled locally
     # 0: We do NOT get sent items from our own world (as we'd get dups)
     # 1: We get items sent to us from other worlds
-    items_handling = 0b101
+    items_handling = 0b001
     
     highest_processed_index = 0
 

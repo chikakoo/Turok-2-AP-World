@@ -5,7 +5,7 @@ import Utils
 from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
-from .items import ITEM_TABLE, ItemType
+from .items import ITEM_TABLE, ItemType, APMessageType
 from .options import PrimagenGoal, PrimagenKeys
 
 if TYPE_CHECKING:
@@ -126,6 +126,8 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
     - OPTION_RANDOM_AMMO_MIN: The min percentage of random ammo you can get
     - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
+    - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
+    - OPTION_STARTING_WEAPONS: An array of ints containing starting weapons
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
@@ -163,6 +165,23 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.progressive_warps:
         progressive_warps = self.options.progressive_warp_strength
 
+    # Starting inventory
+    inventory_item_ids = []
+    weapon_item_ids = []
+    for item in self.multiworld.precollected_items[self.player]:
+        item_data = ITEM_TABLE[item.name]
+        if item_data.get("msg_type") == APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value:
+            inventory_item_ids.append(item_data["actor_id"])
+        elif item_data.get("type") == ItemType.WEAPON.value:    
+            weapon_item_ids.append(item_data["actor_id"])
+
+    def format_starting_items_macro(name: str, values: list[int]) -> str:
+        if values:
+            joined = ", ".join(str(v) for v in values)
+            return f"#define {name} {joined}\n"
+        else:
+            return f"#define {name}\n"
+
     return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
@@ -171,4 +190,6 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_OPEN_HUB {open_hub}\n" +
         f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +
-        f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n")
+        f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
+        format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
+        format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids))

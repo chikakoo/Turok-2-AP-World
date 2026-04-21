@@ -164,7 +164,22 @@ class ProgressiveWarpStrength(Range):
     """
     display_name = "Progressive Warp Strength"
     range_start = 1
-    range_end = 10
+    range_end = 15
+    default = 1
+
+class StartingProgressiveWarps(Range):
+    """
+    Used if Progressive Warps are on.
+    The number of warps for the first level that you will start with.
+
+    If set too low, this could cause generation failures for solo worlds if not a lot of item types are
+    included in the item pool, depending on your starting level.
+
+    If set too high, your sphere 1 will be really big.
+    """
+    display_name = "Starting Progressive Warps"
+    range_start = 0
+    range_end = 15
     default = 1
 
 class OpenHub(Toggle):
@@ -398,6 +413,7 @@ class Turok2Options(PerGameCommonOptions):
     nuke_behavior: NukeBehavior
     progressive_warps: ProgressiveWarps
     progressive_warp_strength: ProgressiveWarpStrength
+    starting_progressive_warps: StartingProgressiveWarps
     open_hub: OpenHub
     guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
 
@@ -444,6 +460,7 @@ option_groups = [
         NukeBehavior,
         ProgressiveWarps,
         ProgressiveWarpStrength,
+        StartingProgressiveWarps,
         OpenHub,
         GuaranteeTorpedoLauncher
     ]),
