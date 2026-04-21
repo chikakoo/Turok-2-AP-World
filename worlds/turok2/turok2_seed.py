@@ -5,7 +5,7 @@ import Utils
 from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
-from .items import ITEM_TABLE
+from .items import ITEM_TABLE, ItemType
 from .options import PrimagenGoal, PrimagenKeys
 
 if TYPE_CHECKING:
@@ -44,13 +44,19 @@ def gen_turok2_seed(self: "Turok2World", output_directory: str):
     mod_name = f"AP-{seed_name}-P{self.player}-{self.multiworld.get_file_safe_player_name(self.player)}"
     mod_dir = os.path.join(output_directory, mod_name + "_" + ap_version + ".zip")
     mod = Turok2Container(
-        get_angelscript_from_filled_locations(self),
+        get_angelscript(self),
         get_settings_string(self),
         mod_dir, 
         output_directory, 
         self.player,
         self.multiworld.get_file_safe_player_name(self.player))
     mod.write()
+
+def get_angelscript(self: "Turok2World") -> str:
+    """
+    Gets the AngelScript code for all location replacements.
+    """
+    return get_angelscript_from_filled_locations(self) + get_angelscript_for_ammo(self)
     
 def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
     """
@@ -84,6 +90,29 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
         angelscript_snippets.append(snippet)
         
     return "\n".join(angelscript_snippets)
+
+def get_angelscript_for_ammo(self: "Turok2World") -> str:
+    """
+    If we are shuffling weapons (but not ammo), we need to force all static ammo to be random.
+    This gets the AngelScript needed to replace that ammo.
+
+    Use the negative version of the location id so we can still manage whether the item has
+    been collected. This will tell the mod to still replace the item, and to tell it that
+    it isn't an AP check.
+    """
+    if not self.options.weapon_sanity or self.options.ammo_sanity:
+        return ""
+    
+    angelscript_snippets = []
+    actor_id = ITEM_TABLE["Random Ammo Pack"]["actor_id"]
+    for loc_name, loc_info in LOCATION_TABLE.items():
+        if loc_info.get("type", -1) == ItemType.AMMO.value:
+            loc_position = loc_info.get("position")
+            loc_id = loc_info.get("ap_id") * -1
+            snippet = f"AddReplacement(\"{loc_name}\", {loc_id}, \"{loc_position}\", {actor_id});"
+            angelscript_snippets.append(snippet)
+
+    return "\n" + "\n".join(angelscript_snippets)
     
 def get_settings_string(self: "Turok2World") -> str:
     """
@@ -92,7 +121,7 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_GOAL_DEFEAT_PRIMAGEN: Whether defeating the Primagen is the goal
     - OPTION_GOAL_LEVELS: How many levels is the goal (if no other goal, set to 1)
     - OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS: Whether reaching the level goal should give all primagen keys
-    - OPTION_INCLUDE_WEAPONS_AND_AMMO: Whether weapons and ammo are shuffled (used for replacing ammo spawns)
+    - OPTION_WEAPON_SANITY: Whether weapons shuffled (used for replacing ammo spawns)
     - OPTION_OPEN_HUB: Whether the level 1 door to the hub should start opened
     - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
     - OPTION_RANDOM_AMMO_MIN: The min percentage of random ammo you can get
@@ -103,7 +132,7 @@ def get_settings_string(self: "Turok2World") -> str:
     defeat_primagen_is_goal = "false"
     level_goal = self.options.level_goal
     levels_give_primagen_keys = "false"
-    weapon_and_ammo_setting = "false"
+    weapon_sanity = "false"
     open_hub = "false"
     progressive_warps = 0
 
@@ -123,8 +152,8 @@ def get_settings_string(self: "Turok2World") -> str:
             defeat_primagen_is_goal = "true"
 
     # Weapon and ammo locations
-    if self.options.include_weapon_and_ammo_locations:
-        weapon_and_ammo_setting = "true"
+    if self.options.weapon_sanity:
+        weapon_sanity = "true"
 
     # Open hub
     if self.options.open_hub:
@@ -138,7 +167,7 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
-        f"#define OPTION_INCLUDE_WEAPONS_AND_AMMO {weapon_and_ammo_setting}\n" +
+        f"#define OPTION_WEAPON_SANITY {weapon_sanity}\n" +
         f"#define OPTION_OPEN_HUB {open_hub}\n" +
         f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +

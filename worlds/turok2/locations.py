@@ -90,8 +90,10 @@ def create_locations(world: Turok2World) -> None:
         if should_skip_health(item_type, world.options.health_sanity):
             continue
 
-        if (not world.options.include_weapon_and_ammo_locations and
-            (item_type == ItemType.AMMO.value or item_type == ItemType.WEAPON.value)):
+        if not world.options.weapon_sanity and item_type == ItemType.WEAPON.value:
+            continue
+
+        if not world.options.ammo_sanity and item_type == ItemType.AMMO.value:
             continue
 
         if should_skip_life_force(item_type, world.options.life_force_sanity):
@@ -328,7 +330,7 @@ def weapon_requirement(world: Turok2World, args: dict):
     Checks whether the weapon requirements are met (categories and count).
     Returns true if weapons are not randomized, as it's assumed the game's given weapons are enough.
     """
-    if not world.options.include_weapon_and_ammo_locations:
+    if not world.options.weapon_sanity:
         return lambda state: True
 
     category = args.get("category")
@@ -372,7 +374,7 @@ def not_guaranteed_torpedo_launcher(world: Turok2World):
 
 def weapons_not_randomized(world: Turok2World):
     """Checks whether weapons are not randomized"""
-    weapons_not_randomized = not world.options.include_weapon_and_ammo_locations
+    weapons_not_randomized = not world.options.weapon_sanity
     return lambda state: weapons_not_randomized
 
 def progressive_warp(world: Turok2World, args: dict):

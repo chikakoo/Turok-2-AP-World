@@ -4,6 +4,7 @@ from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
 # TODO:
 # death link
 # split weapons/ammo
+# possible setting for % of life tiles/health/ammo included
 
 class LevelGoal(Range):
     """
@@ -36,7 +37,7 @@ class PrimagenKeys(Choice):
     - Vanilla: The Primagen keys will be in their vanilla locations.
     - In Pool: The Primagen keys will be in the item pool to find.
     - Levels: The Primagen keys will be given to you after you complete the number of levels 
-              specified in the LevelGoal setting
+              specified in the LevelGoal setting.
     """
     display_name = "Primagen Keys"
     option_vanilla = 0
@@ -44,6 +45,26 @@ class PrimagenKeys(Choice):
     option_levels = 2
     default = option_in_pool
     
+class WeaponSanity(Toggle):
+    """
+    Whether to include static weapon pickups in the list of locations to check.
+    Each weapon will have one entry in the item pool to be locked.
+
+    Any ammo in the item pool will be random ammo pickups, granting ammo in a random owned
+    weapon (favoring those lacking ammo). This is to ensure that you can always get ammo
+    for the randomly rolled weapons.
+    """
+    display_name = "Weapon Sanity"
+    default = True
+
+class AmmoSanity(Toggle):
+    """
+    Whether to include ammo pickups in the list of locations to check.
+    Use the JunkItemPoolAmmoWeight setting to affect how much ammo will be in the item pool.
+    """
+    display_name = "Ammo Sanity"
+    default = True
+
 class HealthSanity(Choice):
     """
     Whether to include static health pickups in the list of locations to check.
@@ -58,19 +79,6 @@ class HealthSanity(Choice):
     option_all = 1
     option_full_and_ultra_only = 2
     default = option_all
-    
-class IncludeWeaponAndAmmoLocations(Toggle):
-    """
-    Whether to include static weapon and ammo pickups in the list of locations to check.
-
-    Any ammo in the item pool will be random ammo pickups, granting ammo in a random owned
-    weapon (favoring those lacking ammo). This is to ensure that you can always get ammo
-    for the randomly rolled weapons.
-
-    Use the JunkItemPoolAmmoWeight setting to affect how much ammo will be in the item pool.
-    """
-    display_name = "Include Weapon and Ammo Locations"
-    default = True
     
 class LifeForceSanity(Choice):
     """
@@ -121,7 +129,7 @@ class IncludeMissionItemLocations(Toggle):
     
 class ForceEarlyWeapon(Toggle):
     """
-    Forces an early progression weapon in the starting map so you have more than just the bow.
+    Forces an early weapon so you have more than just the bow.
     """
     display_name = "Force Early Weapon"
     default = True
@@ -377,8 +385,9 @@ class Turok2Options(PerGameCommonOptions):
     primagen_goal: PrimagenGoal
     primagen_keys: PrimagenKeys
     
+    weapon_sanity: WeaponSanity
+    ammo_sanity: AmmoSanity
     health_sanity: HealthSanity
-    include_weapon_and_ammo_locations: IncludeWeaponAndAmmoLocations
     life_force_sanity: LifeForceSanity
     include_level_key_locations: IncludeLevelKeyLocations
     include_eagle_feather_locations: IncludeEagleFeatherLocations
@@ -421,8 +430,9 @@ option_groups = [
         PrimagenKeys
     ]),
     OptionGroup("Item Pool Options", [
+        WeaponSanity,
+        AmmoSanity,
         HealthSanity,
-        IncludeWeaponAndAmmoLocations,
         LifeForceSanity,
         IncludeLevelKeyLocations,
         IncludeEagleFeatherLocations,
