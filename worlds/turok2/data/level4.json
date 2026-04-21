@@ -161,6 +161,7 @@
                     "to": "[4-5] Torpedo Launcher",
                     "rule": {
                         "or": [
+                            "weapons_not_randomized",
                             "not_guaranteed_torpedo_launcher",
                             { "has": "Torpedo Launcher" }
                         ]

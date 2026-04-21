@@ -83,25 +83,23 @@ def create_locations(world: Turok2World) -> None:
     Creates the locations by looking at all of the regions defined in the json data.
     Includes putting a "rule" property in the table to construct the rules later on.
     """
-    life_force_option = world.options.life_force_sanity
-    health_option = world.options.health_sanity
-
     for loc_name, loc_info in LOCATION_TABLE.items():
         # Exclude relevent locations if not shuffled
         item_type = loc_info.get("type", -1)
-        if (health_option == HealthSanity.option_none or
-            (health_option == HealthSanity.option_full_and_ultra_only and
-                (item_type == ItemType.FULL_HEALTH or item_type == ItemType.ULTRA_HEALTH))):
-                continue
+
+        if should_skip_health(item_type, world.options.health_sanity):
+            continue
+
         if (not world.options.include_weapon_and_ammo_locations and
             (item_type == ItemType.AMMO.value or item_type == ItemType.WEAPON.value)):
             continue
-        if (life_force_option == LifeForceSanity.option_none or
-            (life_force_option == LifeForceSanity.option_yellow_only and item_type == ItemType.LIFE_FORCE_10.value) or
-            (life_force_option == LifeForceSanity.option_red_only and item_type == ItemType.LIFE_FORCE_1.value)):
+
+        if should_skip_life_force(item_type, world.options.life_force_sanity):
             continue
+        
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
             continue
+
         if world.options.nuke_behavior == NukeBehavior.option_vanilla and item_type == ItemType.NUKE_PART.value:
             continue
         
@@ -113,6 +111,54 @@ def create_locations(world: Turok2World) -> None:
             region_obj
         )
         region_obj.locations.append(location)
+
+def should_skip_health(item_type: int, health_option) -> bool:
+    """
+    Returns whether this is a health item and, if so, if its location should be skipped
+    """
+    health_types = {
+        ItemType.SILVER_HEALTH.value,
+        ItemType.BLUE_HEALTH.value,
+        ItemType.FULL_HEALTH.value,
+        ItemType.ULTRA_HEALTH.value,
+    }
+
+    if item_type not in health_types:
+        return False
+
+    if health_option == HealthSanity.option_none:
+        return True
+
+    if health_option == HealthSanity.option_full_and_ultra_only:
+        return item_type not in {
+            ItemType.FULL_HEALTH.value,
+            ItemType.ULTRA_HEALTH.value,
+        }
+
+    return False
+
+def should_skip_life_force(item_type: int, life_force_option) -> bool:
+    """
+    Returns whether this is a Life Force item and, if so, if its location should be skipped
+    """
+    life_force_types = {
+        ItemType.LIFE_FORCE_1.value,
+        ItemType.LIFE_FORCE_10.value,
+    }
+
+    if item_type not in life_force_types:
+        return False
+
+    if life_force_option == LifeForceSanity.option_none:
+        return True
+
+    if life_force_option == LifeForceSanity.option_yellow_only:
+        return item_type != ItemType.LIFE_FORCE_1.value
+
+    if life_force_option == LifeForceSanity.option_red_only:
+        return item_type != ItemType.LIFE_FORCE_10.value
+
+    return False
             
 def create_events(world: Turok2World) -> None:
     """
@@ -324,6 +370,11 @@ def not_guaranteed_torpedo_launcher(world: Turok2World):
     not_guaranteed_torpedo_launcher = not world.options.guarantee_torpedo_launcher
     return lambda state: not_guaranteed_torpedo_launcher
 
+def weapons_not_randomized(world: Turok2World):
+    """Checks whether weapons are not randomized"""
+    weapons_not_randomized = not world.options.include_weapon_and_ammo_locations
+    return lambda state: weapons_not_randomized
+
 def progressive_warp(world: Turok2World, args: dict):
     """
     Validates the progressive warp item.
@@ -352,5 +403,6 @@ NAMED_RULES = {
     "mission_item_requirement": mission_item_requirement,
     "open_hub": open_hub,
     "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
+    "weapons_not_randomized": weapons_not_randomized,
     "progressive_warp": progressive_warp
 }

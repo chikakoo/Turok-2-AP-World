@@ -22,22 +22,6 @@ class ItemType(Enum):
     WEAPON = 13
     TRAP = 14,
     PROGRESSIVE_WARP = 15
-
-    # Old types - TODO: delete this
-    """
-    LIFE_FORCE = 0
-    HEALTH = 1
-    AMMO = 2
-    LEVEL_KEY = 3
-    PRIMAGEN_KEY = 4
-    EAGLE_FEATHER = 5
-    TALISMAN = 6
-    NUKE_PART = 7
-    MISSION_ITEM = 8
-    WEAPON = 9
-    TRAP = 10,
-    PROGRESSIVE_WARP = 11
-    """
     
 class TrapType(Enum):
     """
