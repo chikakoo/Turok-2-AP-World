@@ -305,7 +305,7 @@ def place_locked_items(world: Turok2World) -> None:
             .place_locked_item(world.create_item("Level 4 Eagle Feather"))
         world.get_location("[5-6] Feather - Eagle Feather") \
             .place_locked_item(world.create_item("Level 5 Eagle Feather"))
-        world.get_location("PL Wing 4 Outer Assembly 2 - Eagle Feather") \
+        world.get_location("[6-4c] Outer Path - Eagle Feather") \
             .place_locked_item(world.create_item("Level 6 Eagle Feather"))
         
     if not world.options.include_talisman_locations:
@@ -313,7 +313,7 @@ def place_locked_items(world: Turok2World) -> None:
         world.get_location("[3-Talisman] Talisman - Breath of Life").place_locked_item(world.create_item("Breath of Life"))
         world.get_location("[4-Talisman] Talisman - Heart of Fire").place_locked_item(world.create_item("Heart of Fire"))
         world.get_location("[5-Talisman] Talisman - Whispers").place_locked_item(world.create_item("Whispers"))
-        world.get_location("PL Wing 4 Talisman - Talisman").place_locked_item(world.create_item("Eye of Truth"))
+        world.get_location("[6-Talisman] Talisman - Eye of Truth").place_locked_item(world.create_item("Eye of Truth"))
 
     if (world.options.primagen_goal != PrimagenGoal.option_none and
         world.options.primagen_keys == PrimagenKeys.option_vanilla):
@@ -322,7 +322,7 @@ def place_locked_items(world: Turok2World) -> None:
         world.get_location("[3-3] Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 3"))
         world.get_location("[4-1] Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
         world.get_location("[5-10] Eye of Truth Path - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
-        world.get_location("PL End - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
+        world.get_location("[6-Hub] Center - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
 
 def create_all_items(world: Turok2World) -> None:
     """

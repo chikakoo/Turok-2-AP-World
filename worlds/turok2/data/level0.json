@@ -41,7 +41,7 @@
 					}
 				},
 				{
-					"to": "PL Start",
+					"to": "[6-Hub]",
 					"rule": {
 						"has": {
 							"item": "Level 6 Key",

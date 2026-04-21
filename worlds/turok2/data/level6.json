@@ -1,9 +1,9 @@
 {
     "regions": [
         {
-            "name": "PL Start",
+            "name": "[6-Hub]",
             "exits": [{ 
-                "to": "PL Wing 1",
+                "to": "[6-1]",
                 "rule": {
                     "progressive_warp": {
                         "level": 6,
@@ -13,18 +13,18 @@
             }]
         },
         {
-            "name": "PL Wing 1",
+            "name": "[6-1]",
             "exits": [
                 { 
-                    "to": "PL Wing 1 Whispers",
+                    "to": "[6-1] Whispers",
                     "rule": { "has": "Whispers" }
                 },
                 { 
-                    "to": "PL Wing 1 Generator River",
+                    "to": "[6-1] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "PL Hub Wing 2",
+                    "to": "[6-Hub] Wing 2",
                     "rule": {
                         "progressive_warp": {
                             "level": 6,
@@ -35,7 +35,7 @@
             ]
         },
         {
-            "name": "PL Wing 1 Whispers",
+            "name": "[6-1] Whispers",
             "exits": [],
             "events": [{
                 "name": "PL Primagen Key Switch",
@@ -43,13 +43,13 @@
             }]
         },
         {
-            "name": "PL Wing 1 Generator River",
+            "name": "[6-1] River",
             "exits": []
         },
         {
-            "name": "PL Hub Wing 2",
+            "name": "[6-Hub] Wing 2",
             "exits": [{
-                "to": "PL Wing 2",
+                "to": "[6-2a]",
                 "rule": {
                     "progressive_warp": {
                         "level": 6,
@@ -59,14 +59,14 @@
             }]
         },
         {
-            "name": "PL Wing 2",
+            "name": "[6-2a]",
             "exits": [
                 { 
-                    "to": "PL Wing 2 Eye of Truth",
+                    "to": "[6-2a] Eye",
                     "rule": { "has": "Eye of Truth" }
                 },
                 { 
-                    "to": "PL Wing 2 Generator",
+                    "to": "[6-2b]",
                     "rule": {
                         "progressive_warp": {
                             "level": 6,
@@ -77,7 +77,7 @@
             ]
         },
         {
-            "name": "PL Wing 2 Eye of Truth",
+            "name": "[6-2a] Eye",
             "exits": [],
             "events": [{
                 "name": "PL Primagen Key Switch",
@@ -85,14 +85,14 @@
             }]
         },
         {
-            "name": "PL Wing 2 Generator",
+            "name": "[6-2b]",
             "exits": [
                 { 
-                    "to": "PL Wing 2 Generator River",
+                    "to": "[6-2b] River",
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "PL Wing 2 Generator Place Capacitor",
+                    "to": "[6-2b] Place Capacitor",
                     "rule": { 
                         "mission_item_requirement": {
                             "item": "Ion Capacitor",
@@ -101,7 +101,7 @@
                     }
                 },
                 { 
-                    "to": "PL Hub Wing 3",
+                    "to": "[6-Hub] Wing 3",
                     "rule": {
                         "progressive_warp": {
                             "level": 6,
@@ -112,17 +112,17 @@
             ]
         },
         {
-            "name": "PL Wing 2 Generator River",
+            "name": "[6-2b] River",
             "exits": []
         },
         {
-            "name": "PL Wing 2 Generator Place Capacitor",
+            "name": "[6-2b] Place Capacitor",
             "exits": []
         },
         {
-            "name": "PL Hub Wing 3",
+            "name": "[6-Hub] Wing 3",
             "exits": [{
-                "to": "PL Wing 3",
+                "to": "[6-3a]",
                 "rule": {
                     "progressive_warp": {
                         "level": 6,
@@ -132,9 +132,9 @@
             }]
         },
         {
-            "name": "PL Wing 3",
+            "name": "[6-3a]",
             "exits": [{ 
-                "to": "PL Wing 3 Generator",
+                "to": "[6-3b]",
                 "rule": {
                     "progressive_warp": {
                         "level": 6,
@@ -144,14 +144,14 @@
             }]
         },
         {
-            "name": "PL Wing 3 Generator",
+            "name": "[6-3b]",
             "exits": [
                 { 
-                    "to": "PL Wing 3 Leap of Faith",
+                    "to": "[6-3b] Leap",
                     "rule": { "has": "Leap of Faith" }
                 },
                 { 
-                    "to": "PL Hub Wing 4",
+                    "to": "[6-Hub] Wing 4",
                     "rule": {
                         "progressive_warp": {
                             "level": 6,
@@ -162,7 +162,7 @@
             ]
         },
         {
-            "name": "PL Wing 3 Leap of Faith",
+            "name": "[6-3b] Leap",
             "exits": [],
             "events": [{
                 "name": "PL Primagen Key Switch",
@@ -170,9 +170,9 @@
             }]
         },
         {
-            "name": "PL Hub Wing 4",
+            "name": "[6-Hub] Wing 4",
             "exits": [{
-                "to": "PL Wing 4",
+                "to": "[6-4a]",
                 "rule": {
                     "progressive_warp": {
                         "level": 6,
@@ -182,9 +182,9 @@
             }]
         },
         {
-            "name": "PL Wing 4",
+            "name": "[6-4a]",
             "exits": [{
-                "to": "PL Wing 4 Assembly 1",
+                "to": "[6-4b]",
                 "rule": {
                     "progressive_warp": {
                         "level": 6,
@@ -194,9 +194,9 @@
             }]
         },
         {
-            "name": "PL Wing 4 Assembly 1",
+            "name": "[6-4b]",
             "exits": [{
-                "to": "PL Wing 4 Assembly 2",
+                "to": "[6-4c]",
                 "rule": {
                     "progressive_warp": {
                         "level": 6,
@@ -206,14 +206,14 @@
             }]
         },
         {
-            "name": "PL Wing 4 Assembly 2",
+            "name": "[6-4c]",
             "exits": [
                 { 
-                    "to": "PL Wing 4 Talisman",
+                    "to": "[6-Talisman]",
                     "rule": { "has": "Level 6 Eagle Feather" }
                 },
                 {
-                    "to": "PL Wing 4 Assembly 3",
+                    "to": "[6-4d]",
                     "rule": {
                         "progressive_warp": {
                             "level": 6,
@@ -224,10 +224,10 @@
             ]
         },
         {
-            "name": "PL Wing 4 Assembly 3",
+            "name": "[6-4d]",
             "exits": [
                 { 
-                    "to": "PL Wing 4 Generator",
+                    "to": "[6-4d] Generator",
                     "rule": {
                         "mission_item_requirement": {
                             "item": "Blue Laser Cell",
@@ -236,7 +236,7 @@
                     }
                 },
                 {
-                    "to": "PL End",
+                    "to": "[6-Hub] End",
                     "rule": {
                         "progressive_warp": {
                             "level": 6,
@@ -247,22 +247,22 @@
             ]
         },
         {
-            "name": "PL Wing 4 Talisman",
+            "name": "[6-Talisman]",
             "exits": []
         },
         {
-            "name": "PL Wing 4 Generator",
+            "name": "[6-4d] Generator",
             "exits": [
-                { "to": "PL Wing 4 Oblivion" },
-                { "to": "PL Wing 4 Generator River" }
+                { "to": "[6-Oblivion]" },
+                { "to": "[6-4d] Generator River" }
             ]
         },
         {
-            "name": "PL Wing 4 Oblivion",
+            "name": "[6-Oblivion]",
             "exits": []
         },
         {
-            "name": "PL Wing 4 Generator River",
+            "name": "[6-4d] Generator River",
             "exits": [],
             "events": [{
                 "name": "PL Primagen Key Switch",
@@ -270,10 +270,10 @@
             }]
         },
         {
-            "name": "PL End",
+            "name": "[6-Hub] End",
             "exits": [
                 { 
-                    "to": "PL Boss",
+                    "to": "[6-Boss]",
                     "rule": {
                         "and": [
                             {
@@ -300,7 +300,7 @@
             ]
         },
         {
-            "name": "PL Boss",
+            "name": "[6-Boss]",
             "exits": [{ "to": "Hub" }],
             "events": [{
                 "name": "Level Complete",
