@@ -44,7 +44,7 @@ class PrimagenKeys(Choice):
     option_levels = 2
     default = option_in_pool
     
-class HealthSanity(Toggle):
+class HealthSanity(Choice):
     """
     Whether to include static health pickups in the list of locations to check.
     Use the JunkItemPoolHealthWeight setting to affect how many will be in the item pool.
@@ -203,108 +203,6 @@ class MaxRandomAmmoPercent(Range):
     range_end = 100
     default = 75
     
-class BaseWeight(Choice):
-    """
-    Base class for all junk item weights.
-    """
-    option_none = 0
-    option_very_low = 1
-    option_low = 2
-    option_medium = 4
-    option_high = 8
-    option_very_high = 10
-    default = 4
-    
-class JunkItemPoolHealthWeight(Range):
-    """
-    The weight of health pickups in the non-progressive item pool.
-    Consider setting this to none if not including health pickup locations.
-    """
-    display_name = "Junk Item Pool Health Weight"
-    range_start = 0
-    range_end = 100
-    default = 40
-
-class SilverHealthWeight(Range):
-    """
-    The weight of a silver health when a health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Silver Health Weight"
-    range_start = 0
-    range_end = 100
-    default = 28
-
-class BlueHealthWeight(Range):
-    """
-    The weight of a blue health when a health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Blue Health Weight"
-    range_start = 0
-    range_end = 100
-    default = 65
-
-class FullHealthWeight(Range):
-    """
-    The weight of a full health when a health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Full Health Weight"
-    range_start = 0
-    range_end = 100
-    default = 5
-
-class UltraHealthWeight(Range):
-    """
-    The weight of an ultra health when a health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Ultra Health Weight"
-    range_start = 0
-    range_end = 100
-    default = 2
-    
-class JunkItemPoolAmmoWeight(Range):
-    """
-    The weight of ammo pickups in the non-progressive item pool.
-    Consider setting this to none if not including weapons and ammo locations.
-    """
-    display_name = "Junk Item Pool Ammo Weight"
-    range_start = 0
-    range_end = 100
-    default = 40
-    
-class JunkItemPoolLifeForceWeight(Range):
-    """
-    The weight of life forces in the non-progressive item pool.
-    Consider setting this to none if not including Life Force locations.
-    """
-    display_name = "Junk Item Pool Ammo Weight"
-    range_start = 0
-    range_end = 100
-    default = 80
-
-class LifeForce1Weight(Range):
-    """
-    The weight of a Life Force 1 when Life Forces are rolled.
-    Weighed against all Life Force pickups.
-    """
-    display_name = "Life Force 1 Weight"
-    range_start = 0
-    range_end = 100
-    default = 92
-
-class LifeForce10Weight(Range):
-    """
-    The weight of a Life Force 10 when Life Forces are rolled.
-    Weighed against all Life Force pickups.
-    """
-    display_name = "Life Force 10 Weight"
-    range_start = 0
-    range_end = 100
-    default = 8
-
 class LocalHealthPercentage(Range):
     """
     The percentage of filler health pickups forced to your local world.
@@ -346,6 +244,36 @@ class LocalWeaponPercentage(Range):
     range_end = 100
     default = 50
     
+class JunkItemPoolHealthWeight(Range):
+    """
+    The weight of health pickups in the non-progressive item pool.
+    Consider setting this to none if not including health pickup locations.
+    """
+    display_name = "Junk Item Pool Health Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+    
+class JunkItemPoolAmmoWeight(Range):
+    """
+    The weight of ammo pickups in the non-progressive item pool.
+    Consider setting this to none if not including weapons and ammo locations.
+    """
+    display_name = "Junk Item Pool Ammo Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+    
+class JunkItemPoolLifeForceWeight(Range):
+    """
+    The weight of life forces in the non-progressive item pool.
+    Consider setting this to none if not including Life Force locations.
+    """
+    display_name = "Junk Item Pool Ammo Weight"
+    range_start = 0
+    range_end = 100
+    default = 80
+
 class JunkItemPoolTrapWeight(Range):
     """
     The weight of traps in the junk item pool.
@@ -354,6 +282,66 @@ class JunkItemPoolTrapWeight(Range):
     range_start = 0
     range_end = 100
     default = 0
+
+class SilverHealthWeight(Range):
+    """
+    The weight of a silver health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Silver Health Weight"
+    range_start = 0
+    range_end = 100
+    default = 28
+
+class BlueHealthWeight(Range):
+    """
+    The weight of a blue health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Blue Health Weight"
+    range_start = 0
+    range_end = 100
+    default = 65
+
+class FullHealthWeight(Range):
+    """
+    The weight of a full health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Full Health Weight"
+    range_start = 0
+    range_end = 100
+    default = 5
+
+class UltraHealthWeight(Range):
+    """
+    The weight of an ultra health when a health pickup is rolled.
+    Weighed against all other health pickups.
+    """
+    display_name = "Ultra Health Weight"
+    range_start = 0
+    range_end = 100
+    default = 2
+
+class LifeForce1Weight(Range):
+    """
+    The weight of a Life Force 1 when Life Forces are rolled.
+    Weighed against all Life Force pickups.
+    """
+    display_name = "Life Force 1 Weight"
+    range_start = 0
+    range_end = 100
+    default = 92
+
+class LifeForce10Weight(Range):
+    """
+    The weight of a Life Force 10 when Life Forces are rolled.
+    Weighed against all Life Force pickups.
+    """
+    display_name = "Life Force 10 Weight"
+    range_start = 0
+    range_end = 100
+    default = 8
 
 class EnemyTrapWeight(Range):
     """
@@ -397,10 +385,6 @@ class Turok2Options(PerGameCommonOptions):
     include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
     
-    local_weapon_percentage: LocalWeaponPercentage
-    local_health_percentage: LocalHealthPercentage
-    local_ammo_percentage: LocalAmmoPercentage
-    
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
     progressive_warps: ProgressiveWarps
@@ -410,21 +394,22 @@ class Turok2Options(PerGameCommonOptions):
 
     min_random_ammo_percent: MinRandomAmmoPercent
     max_random_ammo_percent: MaxRandomAmmoPercent
+
+    local_weapon_percentage: LocalWeaponPercentage
+    local_health_percentage: LocalHealthPercentage
+    local_ammo_percentage: LocalAmmoPercentage
     
     junk_item_pool_health_weight: JunkItemPoolHealthWeight
+    junk_item_pool_ammo_weight: JunkItemPoolAmmoWeight
+    junk_item_pool_life_force_weight: JunkItemPoolLifeForceWeight
+    junk_item_pool_trap_weight: JunkItemPoolTrapWeight
+
     silver_health_weight: SilverHealthWeight
     blue_health_weight: BlueHealthWeight
     full_health_weight: FullHealthWeight
     ultra_health_weight: UltraHealthWeight
-
-    junk_item_pool_ammo_weight: JunkItemPoolAmmoWeight
-
-    junk_item_pool_life_force_weight: JunkItemPoolLifeForceWeight
     life_force_1_weight: LifeForce1Weight
     life_force_10_weight: LifeForce10Weight
-
-    junk_item_pool_trap_weight: JunkItemPoolTrapWeight
-
     enemy_trap_weight: EnemyTrapWeight
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
@@ -456,24 +441,23 @@ option_groups = [
         MinRandomAmmoPercent,
         MaxRandomAmmoPercent,
     ]),
+    OptionGroup("Local Item Pool", [
+        LocalWeaponPercentage,
+        LocalHealthPercentage,
+        LocalAmmoPercentage,
+    ]),
     OptionGroup("Junk Item Pool", [
         JunkItemPoolHealthWeight,
+        JunkItemPoolAmmoWeight,
+        JunkItemPoolLifeForceWeight,
+        JunkItemPoolTrapWeight,
+        
         SilverHealthWeight,
         BlueHealthWeight,
         FullHealthWeight,
         UltraHealthWeight,
-
-        JunkItemPoolAmmoWeight,
-
-        JunkItemPoolLifeForceWeight,
         LifeForce1Weight,
         LifeForce10Weight,
-        
-        LocalWeaponPercentage,
-        LocalHealthPercentage,
-        LocalAmmoPercentage,
-        
-        JunkItemPoolTrapWeight,
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight
