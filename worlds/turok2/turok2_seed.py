@@ -125,7 +125,6 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_OPEN_HUB: Whether the level 1 door to the hub should start opened
     - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
     - OPTION_STARTING_AT_HUB: Whether we are starting at the hub (random/defined starting levels is on)
-    - OPTION_STARTING_LEVELS: An array of ints containing the starting levels
     - OPTION_RANDOM_AMMO_MIN: The min percentage of random ammo you can get
     - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
@@ -197,7 +196,6 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_OPEN_HUB {open_hub}\n" +
         f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
         f"#define OPTION_STARTING_AT_HUB {starting_at_hub}\n" +
-        format_starting_items_macro("OPTION_STARTING_LEVELS", self.starting_levels) +
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +
         f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
