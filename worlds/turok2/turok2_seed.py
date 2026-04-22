@@ -124,6 +124,8 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_WEAPON_SANITY: Whether weapons shuffled (used for replacing ammo spawns)
     - OPTION_OPEN_HUB: Whether the level 1 door to the hub should start opened
     - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
+    - OPTION_STARTING_AT_HUB: Whether we are starting at the hub (random/defined starting levels is on)
+    - OPTION_STARTING_LEVELS: An array of ints containing the starting levels
     - OPTION_RANDOM_AMMO_MIN: The min percentage of random ammo you can get
     - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
@@ -137,6 +139,7 @@ def get_settings_string(self: "Turok2World") -> str:
     weapon_sanity = "false"
     open_hub = "false"
     progressive_warps = 0
+    starting_at_hub = "false"
 
     # If there's no Primagen or level goal, set the level goal so there is a goal of some kind.
     if self.options.primagen_goal == PrimagenGoal.option_none:
@@ -165,6 +168,10 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.progressive_warps:
         progressive_warps = self.options.progressive_warp_strength
 
+    # Starting with levels
+    if self.starting_levels:
+        starting_at_hub = "true"
+
     # Starting inventory
     inventory_item_ids = []
     weapon_item_ids = []
@@ -189,6 +196,8 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_WEAPON_SANITY {weapon_sanity}\n" +
         f"#define OPTION_OPEN_HUB {open_hub}\n" +
         f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
+        f"#define OPTION_STARTING_AT_HUB {starting_at_hub}\n" +
+        format_starting_items_macro("OPTION_STARTING_LEVELS", self.starting_levels) +
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +
         f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +

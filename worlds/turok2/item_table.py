@@ -127,13 +127,23 @@ ITEM_TABLE = {
     },
 
     # Inventory items
+    "Level 1 Key": {
+        "id": 200000,
+        "actor_id": 4300,
+        "type": ItemType.LEVEL_KEY.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 3,
+        "level": 1
+    },
     "Level 2 Key": {
         "id": 200001,
         "actor_id": 4310,
         "type": ItemType.LEVEL_KEY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 3
+        "count": 3,
+        "level": 2
     },
     "Level 3 Key": {
         "id": 200002,
@@ -141,7 +151,8 @@ ITEM_TABLE = {
         "type": ItemType.LEVEL_KEY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 3
+        "count": 3,
+        "level": 3
     },
     "Level 4 Key": {
         "id": 200003,
@@ -149,7 +160,8 @@ ITEM_TABLE = {
         "type": ItemType.LEVEL_KEY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 3
+        "count": 3,
+        "level": 4
     },
     "Level 5 Key": {
         "id": 200004,
@@ -157,7 +169,8 @@ ITEM_TABLE = {
         "type": ItemType.LEVEL_KEY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 3
+        "count": 3,
+        "level": 5
     },
     "Level 6 Key": {
         "id": 200005,
@@ -165,7 +178,8 @@ ITEM_TABLE = {
         "type": ItemType.LEVEL_KEY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 6
+        "count": 6,
+        "level": 6
     },
     
     "Primagen Key 1": {
@@ -403,7 +417,8 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 9
+        "count": 9,
+        "level": 1
     },
     "Progressive Warp L2": {
         "id": 201002,
@@ -411,7 +426,8 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 11
+        "count": 11,
+        "level": 2
     },
     "Progressive Warp L3": {
         "id": 201003,
@@ -419,7 +435,8 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 8
+        "count": 8,
+        "level": 3
     },
     "Progressive Warp L4": {
         "id": 201004,
@@ -427,7 +444,8 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 10
+        "count": 10,
+        "level": 4
     },
     "Progressive Warp L5": {
         "id": 201005,
@@ -435,7 +453,8 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 10
+        "count": 10,
+        "level": 5
     },
     "Progressive Warp L6": {
         "id": 201006,
@@ -443,7 +462,8 @@ ITEM_TABLE = {
         "type": ItemType.PROGRESSIVE_WARP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 13
+        "count": 13,
+        "level": 6
     },
     
     # Weapons

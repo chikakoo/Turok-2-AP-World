@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
+from Options import Choice, OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle
 
 # TODO:
 # death link
@@ -170,26 +170,62 @@ class ProgressiveWarpStrength(Range):
 class StartingProgressiveWarps(Range):
     """
     Used if Progressive Warps are on.
-    The number of warps for the first level that you will start with.
+
+    The number of warps for that you will start with. Randomly selects from the set of starting levels
+    (can be multiple levels).
 
     If set too low, this could cause generation failures for solo worlds if not a lot of item types are
-    included in the item pool, depending on your starting level.
+    included in the item pool, depending on your starting levels.
 
     If set too high, your sphere 1 will be really big.
     """
     display_name = "Starting Progressive Warps"
     range_start = 0
-    range_end = 15
+    range_end = 20
     default = 1
+
+class StartingLevels(OptionSet):
+    """
+    If RandomStartingLevelCount is 0, the specific set of levels you wish to start with.
+    Including any level will result in new games starting at the hub.
+
+    Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
+
+    Valid levels are: ["Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
+    """
+    display_name = "Starting Levels"
+    valid_keys = frozenset({
+        "Port of Adia",
+        "River of Souls",
+        "Death Marshes",
+        "Lair of the Blind Ones",
+        "Hive of the Mantids",
+        "Primagen's Lightship"
+    })
+    default = frozenset({})
+
+class RandomStartingLevels(Range):
+    """
+    How many levels to randomly start with. If this value it greater than the number of levels in
+    StartingLevels, additional levels will be selected randomly.
+
+    Setting this above 0 will result in new games starting at the hub.
+
+    Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
+    """
+    display_name = "Random Starting Levels"
+    range_start = 0
+    range_end = 6
+    default = 0
 
 class OpenHub(Toggle):
     """
+    Not used if playing with StartingLevels or RandomStartingLevels.
+
     Whether the Level 1 door to the hub should be opened without completing the level,
     allowing access to other levels when you obtain their level keys.
 
-    Remember to go through it to activate the hub's checkpoint station for convenience.
-
-    Highly recommended for this to be on if using progressive warps.
+    Highly recommended for this to be on if using progressive warps, but not a random starting level.
     """
     display_name = "Open Hub"
     default = True
@@ -409,12 +445,14 @@ class Turok2Options(PerGameCommonOptions):
     include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
     
+    starting_levels: StartingLevels
+    random_starting_levels: RandomStartingLevels
+    open_hub: OpenHub
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
     progressive_warps: ProgressiveWarps
     progressive_warp_strength: ProgressiveWarpStrength
     starting_progressive_warps: StartingProgressiveWarps
-    open_hub: OpenHub
     guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
 
     min_random_ammo_percent: MinRandomAmmoPercent
@@ -456,6 +494,8 @@ option_groups = [
         IncludeMissionItemLocations,
     ]),
     OptionGroup("Progression Options", [
+        StartingLevels,
+        RandomStartingLevels,
         ForceEarlyWeapon,
         NukeBehavior,
         ProgressiveWarps,

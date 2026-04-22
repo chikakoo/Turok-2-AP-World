@@ -87,24 +87,19 @@ def create_locations(world: Turok2World) -> None:
         # Exclude relevent locations if not shuffled
         item_type = loc_info.get("type", -1)
 
-        if should_skip_health(item_type, world.options.health_sanity):
-            continue
-
         if not world.options.weapon_sanity and item_type == ItemType.WEAPON.value:
             continue
-
         if not world.options.ammo_sanity and item_type == ItemType.AMMO.value:
             continue
-
+        if should_skip_health(item_type, world.options.health_sanity):
+            continue
         if should_skip_life_force(item_type, world.options.life_force_sanity):
             continue
-        
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
             continue
-
         if world.options.nuke_behavior == NukeBehavior.option_vanilla and item_type == ItemType.NUKE_PART.value:
             continue
-        
+
         region_obj = world.get_region(loc_info["region"])
         location = Turok2Location(
             world.player,
@@ -172,16 +167,11 @@ def create_events(world: Turok2World) -> None:
         region_obj = world.get_region(region_name)
 
         for event_info in region_data.get("events", []):
-            event_name = event_info.get("name")
-
-            # Do NOT add events that will not be relevent
-            if event_info.get("rule") == "vanilla_mission_items" and world.options.include_mission_item_locations:
-                continue
-
             rule_func = None
             if "rule" in event_info:
                 rule_func = build_rule(event_info["rule"], world)
 
+            event_name = event_info.get("name")
             region_obj.add_event(
                 event_info.get("location_name"),
                 item_name=event_name,
@@ -340,11 +330,6 @@ def weapon_requirement(world: Turok2World, args: dict):
     count = args.get("count", 1)
     return compute_category_rule(world, category, count)
     
-def vanilla_mission_items(world: Turok2World):
-    """Checks whether mission items in their vanilla locations."""
-    is_vanilla = not world.options.include_mission_item_locations
-    return lambda state: is_vanilla
-    
 def mission_item_requirement(world: Turok2World, args: dict):
     """
     Checks mission items. Returns True if we aren't shuffling them because the game logic should work here.
@@ -398,10 +383,21 @@ def progressive_warp(world: Turok2World, args: dict):
     
     item = f"Progressive Warp L{level}"
     return lambda state: state.has(item, world.player, count)
+
+def default_start(world: Turok2World):
+    """Checks whether we're starting in the vanilla location"""
+    default_start = len(world.starting_levels) == 0
+    return lambda state: default_start
+    
+def hub_start(world: Turok2World):
+    """Checks whether we're starting at the hub"""
+    hub_start = len(world.starting_levels) > 0
+    return lambda state: hub_start
     
 NAMED_RULES = {
+    "default_start": default_start,
+    "hub_start": hub_start,
     "weapon_requirement": weapon_requirement,
-    "vanilla_mission_items": vanilla_mission_items,
     "mission_item_requirement": mission_item_requirement,
     "open_hub": open_hub,
     "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,

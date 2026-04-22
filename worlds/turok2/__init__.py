@@ -2,6 +2,7 @@ import settings
 import typing
 from . import components as components
 from worlds.AutoWorld import World
+from BaseClasses import MultiWorld
 from . import items, locations, web_world
 from .item_table import ITEM_NAME_TO_ID
 from . import options as turok2_options
@@ -24,16 +25,19 @@ class Turok2World(World):
     """        
     game = "Turok 2"
     web = web_world.Turok2WebWorld()
-    
+
     options_dataclass = turok2_options.Turok2Options
     options: turok2_options.Turok2Options
-    
     settings: typing.ClassVar[Turok2Settings]
 
     location_name_to_id = locations.LOCATION_NAME_TO_ID
     item_name_to_id = ITEM_NAME_TO_ID
     item_name_groups = items.get_item_name_groups()
-    origin_region_name = "[1-1]"
+    origin_region_name = "Opening Cutscene"
+
+    def __init__(self, multiworld: MultiWorld, player: int):
+        super().__init__(multiworld, player)
+        self.starting_levels = []
     
     def create_regions(self) -> None:
         locations.create_regions_and_entrances(self)

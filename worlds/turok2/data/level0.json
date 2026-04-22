@@ -1,9 +1,30 @@
 {
 	"regions": [
 		{
+			"name": "Opening Cutscene",
+			"exits": [
+				{
+					"to": "[1-1]",
+					"rule": "default_start"
+				},
+				{
+					"to": "Hub",
+					"rule": "hub_start"
+				}
+			]
+		},
+		{
 			"name": "Hub",
 			"exits": [
-				{ "to": "[1-1]" },
+				{ 
+					"to": "[1-1]",
+					"rule": {
+						"has": {
+							"item": "Level 1 Key",
+							"count": 3
+						}
+					}
+				},
 				{
 					"to": "[2-1]",
 					"rule": {

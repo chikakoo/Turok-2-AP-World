@@ -3,7 +3,7 @@ import math
 from .item_table import *
 from typing import TYPE_CHECKING, Counter
 from BaseClasses import Item
-from .options import NukeBehavior, PrimagenGoal, PrimagenKeys
+from .options import NukeBehavior, PrimagenGoal, PrimagenKeys, StartingLevels
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -237,6 +237,45 @@ def force_early_weapon(world: Turok2World, itempool: list[Item]):
 
     print(f"Early weapon {weapon.name} for Player {world.player}")
 
+def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
+    """
+    Randomly distributes the starting progressive warps across starting levels.
+    If there are more starting warps than available, it will max it out.
+    """
+    # If no starting levels, only do level 1
+    if world.starting_levels:
+        candidate_levels = list(world.starting_levels)
+    else:
+        candidate_levels = [1]
+
+    # Set up the max number of warps a level can have
+    level_caps = {}
+    strength = max(world.options.progressive_warp_strength, 1)
+    for data in ITEM_TABLE.values():
+        if data.get("type") == ItemType.PROGRESSIVE_WARP.value:
+            level = data.get("level", -1)
+            count = data.get("count", 1)
+            cap = math.ceil(count / strength)
+
+            if level in candidate_levels:
+                level_caps[level] = cap
+
+    # Randomly distribute the progressive warps
+    remaining = world.options.starting_progressive_warps
+    warp_distributions = {level: 0 for level in candidate_levels}
+    levels = list(candidate_levels)
+    while remaining > 0 and levels:
+        level = world.random.choice(levels)
+
+        if warp_distributions[level] < level_caps.get(level, 0):
+            warp_distributions[level] += 1
+            remaining -= 1
+        else:
+            # This level is full, remove it from selection
+            levels.remove(level)
+
+    return warp_distributions
+
 def place_locked_items(world: Turok2World) -> None:
     """
     Places certain vanilla progressive items in their correct locations.
@@ -334,14 +373,52 @@ def create_all_items(world: Turok2World) -> None:
             continue
         TRAPS_BY_CATEGORY.setdefault(trap_type, []).append((name, data))
 
+    # Get the set of starting levels
+    level_name_to_number = {
+        "Port of Adia": 1,
+        "River of Souls": 2,
+        "Death Marshes": 3,
+        "Lair of the Blind Ones": 4,
+        "Hive of the Mantids": 5,
+        "Primagen's Lightship": 6
+    }
+    world.starting_levels = [level_name_to_number[level_name] for level_name in world.options.starting_levels]
+    levels = list(level_name_to_number.values())
+    num_levels_to_add = world.options.random_starting_levels - len(world.starting_levels)
+    if num_levels_to_add > 0:
+        remaining_levels = [level for level in levels if level not in world.starting_levels]
+        world.random.shuffle(remaining_levels)
+        world.starting_levels.extend(remaining_levels[:num_levels_to_add])
+
+    warp_distributions = compute_warp_distributions(world)
+
     # Add all the required items to the pool (weapons and inventory items)
     for name, data in get_required_seed_items(world):
         count = data.get("count", 1)
-        if data.get("type") == ItemType.PROGRESSIVE_WARP.value:
+        item_type = data.get("type")
+        precollect_count = 0
+
+        # Precollect necessary level keys
+        if item_type == ItemType.LEVEL_KEY.value:
+            level = data.get("level", -1)
+
+            # Level 1 keys are not included if we aren't starting with any levels
+            if not world.starting_levels:
+                if level == 1:
+                    count = 0
+            
+            # If we do have starting levels, precollect necessary keys
+            elif data.get("level", -1) in world.starting_levels:
+                precollect_count = count
+
+        # Assign the correct counts for progressive warps
+        elif item_type == ItemType.PROGRESSIVE_WARP.value:
             strength = max(world.options.progressive_warp_strength, 1)
             count = math.ceil(count / strength)
+            precollect_count = warp_distributions.get(data.get("level", -1), 0)
+        
         for i in range(count):
-            if name == "Progressive Warp L1" and world.options.starting_progressive_warps > i:
+            if i < precollect_count:
                 world.multiworld.push_precollected(world.create_item(name))
             else:
                 itempool.append(world.create_item(name))
