@@ -7,7 +7,7 @@
 					"level": 1,
 					"to": "[1-1]",
 					"rule": {
-						"has": {
+						"has_level_keys": {
 							"item": "Level 1 Key",
 							"count": 3
 						}
@@ -17,7 +17,7 @@
 					"level": 2,
 					"to": "[2-1]",
 					"rule": {
-						"has": {
+						"has_level_keys": {
 							"item": "Level 2 Key",
 							"count": 3
 						}
@@ -27,7 +27,7 @@
 					"level": 3,
 					"to": "[3-1]",
 					"rule": {
-						"has": {
+						"has_level_keys": {
 							"item": "Level 3 Key",
 							"count": 3
 						}
@@ -37,7 +37,7 @@
 					"level": 4,
 					"to": "[4-1]",
 					"rule": {
-						"has": {
+						"has_level_keys": {
 							"item": "Level 4 Key",
 							"count": 3
 						}
@@ -47,7 +47,7 @@
 					"level": 5,
 					"to": "[5-1]",
 					"rule": {
-						"has": {
+						"has_level_keys": {
 							"item": "Level 5 Key",
 							"count": 3
 						}
@@ -57,7 +57,7 @@
 					"level": 6,
 					"to": "[6-Hub]",
 					"rule": {
-						"has": {
+						"has_level_keys": {
 							"item": "Level 6 Key",
 							"count": 6
 						}

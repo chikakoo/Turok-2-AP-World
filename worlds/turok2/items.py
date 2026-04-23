@@ -235,8 +235,10 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
         level = data.get("level", -1)
         precollect_count = 0
 
-        # Precollect necessary level keys
+        # Handle level key packs and precollect necessary level keys
         if item_type == ItemType.LEVEL_KEY.value:
+            if world.options.level_key_packs:
+                count = 1
             if level in world.starting_levels:
                 precollect_count = count
 

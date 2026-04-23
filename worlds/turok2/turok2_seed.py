@@ -128,6 +128,7 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
     - OPTION_STARTING_WEAPONS: An array of ints containing starting weapons
+    - OPTION_LEVEL_KEY_PACKS: Receive all level keys at once when getting one of them
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
@@ -136,6 +137,7 @@ def get_settings_string(self: "Turok2World") -> str:
     levels_give_primagen_keys = "false"
     weapon_sanity = "false"
     progressive_warps = 0
+    level_key_packs = "false"
 
     # Set whether levels give primagen keys
     if self.options.primagen_keys == PrimagenKeys.option_levels:
@@ -155,9 +157,9 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.progressive_warps:
         progressive_warps = self.options.progressive_warp_strength
 
-    # Starting with levels
-    if self.starting_levels:
-        starting_at_hub = "true"
+    # Level key packs
+    if self.options.level_key_packs:
+        level_key_packs = "true"
 
     # Starting inventory
     inventory_item_ids = []
@@ -186,4 +188,5 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +
         f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
-        format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids))
+        format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids) +
+        f"#define OPTION_LEVEL_KEY_PACKS {level_key_packs}")

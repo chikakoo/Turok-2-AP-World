@@ -156,6 +156,14 @@ class NukeBehavior(Choice):
     option_weapon_pickup = 4
     default = option_nuke_part_hunt
 
+class LevelKeyPacks(Toggle):
+    """
+    When receiving a level key, you get all of them.
+    There will be only one level key in the pool for each included level.
+    """
+    display_name = "level Key Packs"
+    default = False
+
 class ProgressiveWarps(Toggle):
     """
     Progressive Warp items for each level will be added to the item pool. Warp portals will now be 
@@ -486,6 +494,7 @@ class Turok2Options(PerGameCommonOptions):
     excluded_level_count: ExcludedLevelCount
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
+    level_key_packs: LevelKeyPacks
     progressive_warps: ProgressiveWarps
     progressive_warp_strength: ProgressiveWarpStrength
     starting_progressive_warps: StartingProgressiveWarps
@@ -535,6 +544,7 @@ option_groups = [
         StartingLevelCount,
         ForceEarlyWeapon,
         NukeBehavior,
+        LevelKeyPacks,
         ProgressiveWarps,
         ProgressiveWarpStrength,
         StartingProgressiveWarps,

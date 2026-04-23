@@ -332,6 +332,15 @@ def compute_category_rule(world: Turok2World, category: str, count: int = 1):
     """
     return lambda state: state.has_group_unique(category, world.player, count)
 
+def has_level_keys(world: Turok2World, args: dict):
+    """
+    Checks whether the specified number of level keys are obtained for a given level.
+    If level key packs are used, will only check if one key is obtained.
+    """
+    count = 1 if world.options.level_key_packs else args.get("count", 1)
+    item = args.get("item")
+    return lambda state: state.has(item, world.player, count)
+
 def weapon_requirement(world: Turok2World, args: dict):
     """
     Checks whether the weapon requirements are met (categories and count).
@@ -391,6 +400,7 @@ def progressive_warp(world: Turok2World, args: dict):
     return lambda state: state.has(item, world.player, count)
 
 NAMED_RULES = {
+    "has_level_keys": has_level_keys,
     "weapon_requirement": weapon_requirement,
     "mission_item_requirement": mission_item_requirement,
     "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
