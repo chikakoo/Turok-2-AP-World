@@ -20,8 +20,12 @@ class ItemType(Enum):
     NUKE_PART = 11
     MISSION_ITEM = 12
     WEAPON = 13
-    TRAP = 14,
+    TRAP = 14
     PROGRESSIVE_WARP = 15
+
+    # Technically not items, but will still be used in the location table the same way
+    SWITCH = 16
+    MISSION_OBJECTIVE = 17
     
 class TrapType(Enum):
     """

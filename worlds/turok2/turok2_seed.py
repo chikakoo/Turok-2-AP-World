@@ -68,12 +68,18 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
         # This is an event, so we don't care about it
         if location.address is None:
             continue
-        
+
         location_name = location.name
         location_id = LOCATION_TABLE[location_name]["ap_id"]
-        location_position = LOCATION_TABLE[location_name]["position"]
-        
-        snippet = f"AddReplacement(\"{location_name}\", {location_id}, \"{location_position}\""
+
+        # Add the appropriate kind of snippet based on the type
+        type = LOCATION_TABLE[location_name]["type"]
+        if type in (ItemType.SWITCH.value, ItemType.MISSION_OBJECTIVE.value):
+            location_type_id = LOCATION_TABLE[location_name]["type_id"]
+            snippet = f"AddActionObject(\"{location_name}\", {location_id}, {location_type_id}"
+        else:
+            location_position = LOCATION_TABLE[location_name]["position"]
+            snippet = f"AddReplacement(\"{location_name}\", {location_id}, \"{location_position}\""
         
         # If the item is for this world, the actor id should be the last parameter
         if location.item and location.item.player == self.player:
