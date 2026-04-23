@@ -3,7 +3,6 @@ from Options import Choice, OptionGroup, OptionSet, PerGameCommonOptions, Range,
 
 # TODO:
 # death link
-# split weapons/ammo
 # possible setting for % of life tiles/health/ammo included
 
 class LevelGoal(Range):
@@ -37,7 +36,7 @@ class PrimagenKeys(Choice):
     - Vanilla In Pool If level Excluded: Primagen Keys are in their vanilla locations. 
                                          If that level is excluded, it will be in the item pool.
     - Vanilla Start With If Level Excluded: Primagen Keys are in their vanilla loactions.
-                                         If that level is excluded, you will start with it.
+                                            If that level is excluded, you will start with it.
     - In Pool: The Primagen keys will be in the item pool to find.
     - Levels: The Primagen keys will be given to you after you complete the number of levels 
               specified in the LevelGoal setting.
@@ -99,14 +98,6 @@ class LifeForceSanity(Choice):
     option_red_only = 3
     default = option_all
 
-class IncludeLevelKeyLocations(Toggle):
-    """
-    Whether to include level keys in the list of locations to check.
-    Setting this to False will place them in their vanilla locations.
-    """
-    display_name = "Include Level Keys"
-    default = True
-
 class IncludeEagleFeatherLocations(Toggle):
     """
     Whether to include eagle feathers in the list of locations to check.
@@ -150,15 +141,19 @@ class NukeBehavior(Choice):
     """
     Defines how to get the Nuke weapon.
     - Disabled: There is no Nuke. Oblivion portals will have a random check.
-    - Vanilla: The 6 Nuke Parts are in their vanilla locations.
+    - Vanilla In Pool If level Excluded: The 6 Nuke Parts are in their vanilla locations. 
+                                         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded: The 6 Nuke Parts are in their vanilla loactions.
+                                            If that level is excluded, you will start with it.
     - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
-    - Weapon Pickup: The Nuke will be obtaned as a single items. Oblivion portals will have a random check.
+    - Weapon Pickup: The Nuke will be obtaned as a single item. Oblivion portals will have a random check.
     """
     display_name = "Nuke Behavior"
     option_disabled = 0
-    option_vanilla = 1
-    option_nuke_part_hunt = 2
-    option_weapon_pickup = 3
+    option_vanilla_in_pool_if_level_excluded = 1
+    option_vanilla_start_with_if_level_excluded = 2
+    option_nuke_part_hunt = 3
+    option_weapon_pickup = 4
     default = option_nuke_part_hunt
 
 class ProgressiveWarps(Toggle):
@@ -224,7 +219,7 @@ class StartingLevels(OptionSet):
         "Hive of the Mantids",
         "Primagen's Lightship"
     })
-    default = frozenset({})
+    default = frozenset({ "Port of Adia" })
 
 class StartingLevelCount(Range):
     """
@@ -481,7 +476,6 @@ class Turok2Options(PerGameCommonOptions):
     ammo_sanity: AmmoSanity
     health_sanity: HealthSanity
     life_force_sanity: LifeForceSanity
-    include_level_key_locations: IncludeLevelKeyLocations
     include_eagle_feather_locations: IncludeEagleFeatherLocations
     include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
@@ -530,7 +524,6 @@ option_groups = [
         AmmoSanity,
         HealthSanity,
         LifeForceSanity,
-        IncludeLevelKeyLocations,
         IncludeEagleFeatherLocations,
         IncludeTalismanLocations,
         IncludeMissionItemLocations,

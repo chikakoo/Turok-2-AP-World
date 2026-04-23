@@ -12,10 +12,6 @@
 							"count": 1
 						}
 					}
-				},
-				{
-					"to": "Hub",
-					"rule": "open_hub"
 				}
 			]
 		},

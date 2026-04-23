@@ -249,7 +249,8 @@ ITEM_TABLE = {
         "type": ItemType.EAGLE_FEATHER.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 2
     },
     "Level 3 Eagle Feather": {
         "id": 200013,
@@ -257,7 +258,8 @@ ITEM_TABLE = {
         "type": ItemType.EAGLE_FEATHER.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 3
     },
     "Level 4 Eagle Feather": {
         "id": 200014,
@@ -265,7 +267,8 @@ ITEM_TABLE = {
         "type": ItemType.EAGLE_FEATHER.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 4
     },
     "Level 5 Eagle Feather": {
         "id": 200015,
@@ -273,7 +276,8 @@ ITEM_TABLE = {
         "type": ItemType.EAGLE_FEATHER.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 5
     },
     "Level 6 Eagle Feather": {
         "id": 200016,
@@ -281,7 +285,8 @@ ITEM_TABLE = {
         "type": ItemType.EAGLE_FEATHER.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 6
     },
     
     "Leap of Faith": {
@@ -346,7 +351,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 3
+        "count": 3,
+        "level": 1
     },
     "Gate Key": {
         "id": 200200,
@@ -354,7 +360,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 2
+        "count": 2,
+        "level": 2
     },
     "Graveyard Key": {
         "id": 200201,
@@ -362,7 +369,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 2
+        "count": 2,
+        "level": 2
     },
     "L3 Satchel Charge": {
         "id": 200300,
@@ -370,7 +378,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 3
+        "count": 3,
+        "level": 3
     },
     "Cave Door Key": {
         "id": 200400,
@@ -378,7 +387,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 7
+        "count": 7,
+        "level": 4
     },
     "L4 Satchel Charge": {
         "id": 200401,
@@ -386,7 +396,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 3
+        "count": 3,
+        "level": 4
     },
     "L5 Satchel Charge": {
         "id": 200500,
@@ -394,7 +405,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 4
+        "count": 4,
+        "level": 5
     },
     "Ion Capacitor": {
         "id": 200600,
@@ -402,7 +414,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 16
+        "count": 16,
+        "level": 6
     },
     "Blue Laser Cell": {
         "id": 200601,
@@ -410,7 +423,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 4
+        "count": 4,
+        "level": 6
     },
     "Red Laser Cell": {
         "id": 200602,
@@ -418,7 +432,8 @@ ITEM_TABLE = {
         "type": ItemType.MISSION_ITEM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 4
+        "count": 4,
+        "level": 6
     },
 
     # Progressive Warps

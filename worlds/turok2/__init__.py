@@ -45,7 +45,6 @@ class Turok2World(World):
 
     def generate_early(self) -> None:
         """Sets up starting/excluded levels and validates options"""
-        self.initialize_levels()
         max_levels = 6
 
         if self.options.primagen_goal == PrimagenGoal.option_none and self.options.level_goal == 0:
@@ -62,9 +61,11 @@ class Turok2World(World):
             raise OptionError(f"Turok 2 for {self.player_name}: "
                 f"Exceeded level count. Please fix `(random_)starting_levels` or `(random_)excluded_levels`.")
         
-        if self.options.level_goal > 0 and (self.options.level_goal > max_levels - excluded_level_count):
+        if self.options.level_goal > 0 and (self.options.level_goal > (max_levels - excluded_level_count)):
             raise OptionError(f"Turok 2 for {self.player_name}: "
                 f"Too many levels excluded to reach goal. Please fix `(random_)excluded_levels` or `level_goal`.")
+        
+        self.initialize_levels()
 
     def initialize_levels(self) -> None:
         """Computes the starting and excluded levels, which can vary per world"""
@@ -79,18 +80,25 @@ class Turok2World(World):
         levels = list(level_name_to_number.values())
 
         self.excluded_levels = [level_name_to_number[level_name] for level_name in self.options.excluded_levels]
+        self.starting_levels = [level_name_to_number[level_name] for level_name in self.options.starting_levels]
+
         num_levels_to_exclude = self.options.excluded_level_count - len(self.excluded_levels)
         if num_levels_to_exclude > 0:
-            remaining_levels = [level for level in levels if level not in self.excluded_levels]
+            remaining_levels = [
+                level for level in levels 
+                if level not in self.excluded_levels
+                and level not in self.starting_levels # So we don't accidently exclude an explicit starting level!
+            ]
             self.random.shuffle(remaining_levels)
             self.excluded_levels.extend(remaining_levels[:num_levels_to_exclude])
 
-        self.starting_levels = [level_name_to_number[level_name] for level_name in self.options.starting_levels]
         num_levels_to_add = self.options.starting_level_count - len(self.starting_levels)
         if num_levels_to_add > 0:
-            remaining_levels = [level for level in levels if 
-                level not in self.starting_levels and 
-                level not in self.excluded_levels]
+            remaining_levels = [
+                level for level in levels 
+                if level not in self.starting_levels
+                and level not in self.excluded_levels
+            ]
             self.random.shuffle(remaining_levels)
             self.starting_levels.extend(remaining_levels[:num_levels_to_add])
 

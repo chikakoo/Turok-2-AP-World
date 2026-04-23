@@ -44,7 +44,7 @@ LOCATION_NAME_TO_ID = {
     name: data["ap_id"] for name, data in LOCATION_TABLE.items()
 }
 
-def load_all_region_data():
+def load_all_region_data(world: Turok2World):
     """
     Loads all regions from the "level" files in the data path.
     """
@@ -54,6 +54,9 @@ def load_all_region_data():
     for file in resources.files(data_package).iterdir():
         if file.name.startswith("level") and file.name.endswith(".json"):
             data = json.loads(file.read_text())
+            if data.get("level", -1) in world.excluded_levels:
+                continue
+
             all_regions.extend(data.get("regions", []))
 
     return all_regions
@@ -63,14 +66,11 @@ def create_regions_and_entrances(world: Turok2World) -> None:
     Creates regions and connects them together based on the json data.
     Includes putting a "rule_json" property in the table to construct the rules later on.
     """
-    regions = load_all_region_data()
+    regions = load_all_region_data(world)
     region_map = {}
 
     # Create all regions
     for region_data in regions:
-        if region_data.get("level", -1) in world.excluded_levels:
-            continue
-
         region_name = region_data["name"]
         region = Region(region_name, world.player, world.multiworld)
         region_map[region_name] = region
@@ -78,9 +78,6 @@ def create_regions_and_entrances(world: Turok2World) -> None:
 
     # Connect the regions with entrances
     for region_data in regions:
-        if region_data.get("level", -1) in world.excluded_levels:
-            continue
-
         from_region = region_map[region_data["name"]]
 
         for exit_data in region_data.get("exits", []):
@@ -118,7 +115,9 @@ def create_locations(world: Turok2World) -> None:
             continue
         if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
             continue
-        if world.options.nuke_behavior == NukeBehavior.option_vanilla and item_type == ItemType.NUKE_PART.value:
+        if item_type == ItemType.NUKE_PART.value and \
+            (world.options.nuke_behavior == NukeBehavior.option_vanilla_in_pool_if_level_excluded or \
+            world.options.nuke_behavior == NukeBehavior.option_vanilla_start_with_if_level_excluded):
             continue
 
         region_obj = world.get_region(loc_info["region"])
@@ -183,10 +182,7 @@ def create_events(world: Turok2World) -> None:
     Creates events in regions from the JSON data.
     Each event can optionally have a rule, which is parsed and applied.
     """
-    for region_data in load_all_region_data():
-        if region_data.get("level", -1) in world.excluded_levels:
-            continue
-        
+    for region_data in load_all_region_data(world):
         region_name = region_data["name"]
         region_obj = world.get_region(region_name)
 
