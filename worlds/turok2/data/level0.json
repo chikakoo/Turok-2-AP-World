@@ -1,22 +1,10 @@
 {
 	"regions": [
 		{
-			"name": "Opening Cutscene",
-			"exits": [
-				{
-					"to": "[1-1]",
-					"rule": "default_start"
-				},
-				{
-					"to": "Hub",
-					"rule": "hub_start"
-				}
-			]
-		},
-		{
 			"name": "Hub",
 			"exits": [
 				{ 
+					"level": 1,
 					"to": "[1-1]",
 					"rule": {
 						"has": {
@@ -26,6 +14,7 @@
 					}
 				},
 				{
+					"level": 2,
 					"to": "[2-1]",
 					"rule": {
 						"has": {
@@ -35,6 +24,7 @@
 					}
 				},
 				{
+					"level": 3,
 					"to": "[3-1]",
 					"rule": {
 						"has": {
@@ -44,6 +34,7 @@
 					}
 				},
 				{
+					"level": 4,
 					"to": "[4-1]",
 					"rule": {
 						"has": {
@@ -53,6 +44,7 @@
 					}
 				},
 				{
+					"level": 5,
 					"to": "[5-1]",
 					"rule": {
 						"has": {
@@ -62,6 +54,7 @@
 					}
 				},
 				{
+					"level": 6,
 					"to": "[6-Hub]",
 					"rule": {
 						"has": {

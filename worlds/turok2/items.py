@@ -3,7 +3,7 @@ import math
 from .item_table import *
 from typing import TYPE_CHECKING, Counter
 from BaseClasses import Item
-from .options import NukeBehavior, PrimagenGoal, PrimagenKeys, StartingLevels
+from .options import NukeBehavior, PrimagenGoal, PrimagenKeys, IncludeTalismanLocations
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -28,6 +28,23 @@ def get_required_seed_items(world: Turok2World):
     These are all weapons, and all inventory items, depending on settings
     """
     def include_item(name, data):
+        is_level_excluded = data.get("level", -1) in world.excluded_levels
+
+        # Talismans (still in the pool if level excluded)
+        if data["type"] == ItemType.TALISMAN.value:
+            return True
+        
+        # Primagen keys (can still be in the pool if level excluded)
+        if data["type"] == ItemType.PRIMAGEN_KEY.value:
+            return (world.options.primagen_goal != PrimagenGoal.option_none and
+                (world.options.primagen_keys == PrimagenKeys.option_in_pool or
+                 world.options.primagen_keys == PrimagenKeys.option_vanilla_in_pool_if_level_excluded or
+                 world.options.primagen_keys == PrimagenKeys.option_vanilla_start_with_if_level_excluded))
+        
+        # Any other item with an excluded level should never be included
+        if is_level_excluded:
+            return False
+
         # Nuke item special cases
         if name == "Nuke":
             return world.options.nuke_behavior == NukeBehavior.option_weapon_pickup
@@ -43,18 +60,9 @@ def get_required_seed_items(world: Turok2World):
         if data["type"] == ItemType.EAGLE_FEATHER.value:
             return world.options.include_eagle_feather_locations
         
-        # Talismans
-        if data["type"] == ItemType.TALISMAN.value:
-            return world.options.include_talisman_locations
-        
         # Mission items
         if data["type"] == ItemType.MISSION_ITEM.value:
             return world.options.include_mission_item_locations
-        
-        # Primagen keys
-        if data["type"] == ItemType.PRIMAGEN_KEY.value:
-            return (world.options.primagen_goal != PrimagenGoal.option_none and
-                world.options.primagen_keys == PrimagenKeys.option_in_pool)
         
         # Weapons
         if data["type"] == ItemType.WEAPON.value:
@@ -242,9 +250,11 @@ def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
     Randomly distributes the starting progressive warps across starting levels.
     If there are more starting warps than available, it will max it out.
     """
-    # If no starting levels, only do level 1
     if world.starting_levels:
-        candidate_levels = list(world.starting_levels)
+        candidate_levels = [
+            lvl for lvl in world.starting_levels
+            if lvl not in world.excluded_levels
+        ]
     else:
         candidate_levels = [1]
 
@@ -276,83 +286,142 @@ def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
 
     return warp_distributions
 
-def place_locked_items(world: Turok2World) -> None:
+def handle_vanilla_locations(world: Turok2World) -> None:
     """
     Places certain vanilla progressive items in their correct locations.
     This is done so the tracker can more accurately tell what the next thing to do is.
 
     Currently done with level keys, feathers, talismans, and Primagen keys.
     """
+
+    place_level_keys = not world.options.include_level_key_locations
+    place_feathers = not world.options.include_eagle_feather_locations
+    place_talismans = \
+        (world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_in_pool_if_level_excluded or
+        world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_start_with_if_level_excluded)
+    place_primagen_keys = \
+        (world.options.primagen_goal != PrimagenGoal.option_none and
+        (world.options.primagen_keys == PrimagenKeys.option_vanilla_in_pool_if_level_excluded or
+         world.options.primagen_keys == PrimagenKeys.option_vanilla_start_with_if_level_excluded))
+
     if not world.options.include_level_key_locations:
-        world.get_location("[1-2] Hall - Level Key") \
-            .place_locked_item(world.create_item("Level 2 Key"))
-        world.get_location("[1-2] Upper Water - Level Key") \
-            .place_locked_item(world.create_item("Level 2 Key"))
-        world.get_location("[1-8] After Gate - Level Key up Ladder") \
-            .place_locked_item(world.create_item("Level 2 Key"))
+        if 1 not in world.excluded_levels:
+            if place_level_keys:
+                world.get_location("[1-2] Hall - Level Key") \
+                    .place_locked_item(world.create_item("Level 2 Key"))
+                world.get_location("[1-2] Upper Water - Level Key") \
+                    .place_locked_item(world.create_item("Level 2 Key"))
+                world.get_location("[1-8] After Gate - Level Key up Ladder") \
+                    .place_locked_item(world.create_item("Level 2 Key"))
+            
+            if place_primagen_keys:
+                world.get_location("[1-4] Primagen Key Leap - Primagen Key") \
+                    .place_locked_item(world.create_item("Primagen Key 1"))
 
-        world.get_location("[1-4] Ground - Level Key") \
-            .place_locked_item(world.create_item("Level 3 Key"))
-        world.get_location("[1-9] Below Oblivion - Level Key up Ladder") \
-            .place_locked_item(world.create_item("Level 3 Key"))
-        world.get_location("[1-9] Fountain Building F2 - Level Key in Center") \
-            .place_locked_item(world.create_item("Level 3 Key"))
+        if 2 not in world.excluded_levels:
+            if place_level_keys:
+                world.get_location("[1-4] Ground - Level Key") \
+                    .place_locked_item(world.create_item("Level 3 Key"))
+                world.get_location("[1-9] Below Oblivion - Level Key up Ladder") \
+                    .place_locked_item(world.create_item("Level 3 Key"))
+                world.get_location("[1-9] Fountain Building F2 - Level Key in Center") \
+                    .place_locked_item(world.create_item("Level 3 Key"))
+                
+            if place_feathers:
+                world.get_location("[2-8] Feather Ledge - Eagle Feather") \
+                    .place_locked_item(world.create_item("Level 2 Eagle Feather"))
+            
+            if place_talismans:
+                world.get_location("[2-Talisman] Talisman - Leap of Faith") \
+                    .place_locked_item(world.create_item("Leap of Faith"))
+                
+            if place_primagen_keys:
+                world.get_location("[2-8] Primagen Key River Leaps - Primagen Key") \
+                    .place_locked_item(world.create_item("Primagen Key 2"))
 
-        world.get_location("[2-3] Level Key Loop - Level Key") \
-            .place_locked_item(world.create_item("Level 4 Key"))
-        world.get_location("[2-7] Fountain Path - Level Key") \
-            .place_locked_item(world.create_item("Level 4 Key"))
-        world.get_location("[2-8] Level Key Path - Level Key") \
-            .place_locked_item(world.create_item("Level 4 Key"))
-
-        world.get_location("[3-1] Across Double Logs - Level Key") \
-            .place_locked_item(world.create_item("Level 5 Key"))
-        world.get_location("[3-2] After Marsh Path - Level Key") \
-            .place_locked_item(world.create_item("Level 5 Key"))
-        world.get_location("[3-8] Raptor Rooms - Level Key") \
-            .place_locked_item(world.create_item("Level 5 Key"))
-
-        world.get_location("[4-3] Level Key Trap - Level Key") \
-            .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("[4-8] Level Key Trap - Level Key") \
-            .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("[4-6] Level Key Trap - Level Key") \
-            .place_locked_item(world.create_item("Level 6 Key"))
+        if 3 not in world.excluded_levels:
+            if place_level_keys:
+                world.get_location("[2-3] Level Key Loop - Level Key") \
+                    .place_locked_item(world.create_item("Level 4 Key"))
+                world.get_location("[2-7] Fountain Path - Level Key") \
+                    .place_locked_item(world.create_item("Level 4 Key"))
+                world.get_location("[2-8] Level Key Path - Level Key") \
+                    .place_locked_item(world.create_item("Level 4 Key"))
+                
+            if place_feathers:
+                world.get_location("[3-6] Talisman Portal Wall - Eagle Feather") \
+                    .place_locked_item(world.create_item("Level 3 Eagle Feather"))
+            
+            if place_talismans:
+                world.get_location("[3-Talisman] Talisman - Breath of Life") \
+                    .place_locked_item(world.create_item("Breath of Life"))
+                
+            if place_primagen_keys:
+                world.get_location("[3-3] Primagen Key - Primagen Key") \
+                    .place_locked_item(world.create_item("Primagen Key 3"))
+                
+        if 4 not in world.excluded_levels:
+            if place_level_keys:
+                world.get_location("[3-1] Across Double Logs - Level Key") \
+                    .place_locked_item(world.create_item("Level 5 Key"))
+                world.get_location("[3-2] After Marsh Path - Level Key") \
+                    .place_locked_item(world.create_item("Level 5 Key"))
+                world.get_location("[3-8] Raptor Rooms - Level Key") \
+                    .place_locked_item(world.create_item("Level 5 Key"))
+                
+            if place_feathers:
+                world.get_location("[4-4] Top - Eagle Feather") \
+                    .place_locked_item(world.create_item("Level 4 Eagle Feather"))
+                
+            if place_talismans:
+                world.get_location("[4-Talisman] Talisman - Heart of Fire") \
+                    .place_locked_item(world.create_item("Heart of Fire"))
+                
+            if place_primagen_keys:
+                 world.get_location("[4-1] Primagen Key - Primagen Key") \
+                    .place_locked_item(world.create_item("Primagen Key 4"))
+                
+        if 5 not in world.excluded_levels:
+            if place_level_keys:
+                world.get_location("[4-3] Level Key Trap - Level Key") \
+                    .place_locked_item(world.create_item("Level 6 Key"))
+                world.get_location("[4-8] Level Key Trap - Level Key") \
+                    .place_locked_item(world.create_item("Level 6 Key"))
+                world.get_location("[4-6] Level Key Trap - Level Key") \
+                    .place_locked_item(world.create_item("Level 6 Key"))
+                
+            if place_feathers:
+                world.get_location("[5-6] Feather - Eagle Feather") \
+                    .place_locked_item(world.create_item("Level 5 Eagle Feather"))
+                
+            if place_talismans:
+                world.get_location("[5-Talisman] Talisman - Whispers") \
+                    .place_locked_item(world.create_item("Whispers"))
+                
+            if place_primagen_keys:
+                world.get_location("[5-10] Eye of Truth Path - Primagen Key") \
+                    .place_locked_item(world.create_item("Primagen Key 5"))
         
-        world.get_location("[5-2] Level Key - Level Key") \
-            .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("[5-5] Level Key - Level Key") \
-            .place_locked_item(world.create_item("Level 6 Key"))
-        world.get_location("[5-7] After Main Generator - Level Key") \
-            .place_locked_item(world.create_item("Level 6 Key"))
-
-    if not world.options.include_eagle_feather_locations:
-        world.get_location("[2-8] Feather Ledge - Eagle Feather") \
-            .place_locked_item(world.create_item("Level 2 Eagle Feather"))
-        world.get_location("[3-6] Talisman Portal Wall - Eagle Feather") \
-            .place_locked_item(world.create_item("Level 3 Eagle Feather"))
-        world.get_location("[4-4] Top - Eagle Feather") \
-            .place_locked_item(world.create_item("Level 4 Eagle Feather"))
-        world.get_location("[5-6] Feather - Eagle Feather") \
-            .place_locked_item(world.create_item("Level 5 Eagle Feather"))
-        world.get_location("[6-4c] Outer Path - Eagle Feather") \
-            .place_locked_item(world.create_item("Level 6 Eagle Feather"))
-        
-    if not world.options.include_talisman_locations:
-        world.get_location("[2-Talisman] Talisman - Leap of Faith").place_locked_item(world.create_item("Leap of Faith"))
-        world.get_location("[3-Talisman] Talisman - Breath of Life").place_locked_item(world.create_item("Breath of Life"))
-        world.get_location("[4-Talisman] Talisman - Heart of Fire").place_locked_item(world.create_item("Heart of Fire"))
-        world.get_location("[5-Talisman] Talisman - Whispers").place_locked_item(world.create_item("Whispers"))
-        world.get_location("[6-Talisman] Talisman - Eye of Truth").place_locked_item(world.create_item("Eye of Truth"))
-
-    if (world.options.primagen_goal != PrimagenGoal.option_none and
-        world.options.primagen_keys == PrimagenKeys.option_vanilla):
-        world.get_location("[1-4] Primagen Key Leap - Primagen Key").place_locked_item(world.create_item("Primagen Key 1"))
-        world.get_location("[2-8] Primagen Key River Leaps - Primagen Key").place_locked_item(world.create_item("Primagen Key 2"))
-        world.get_location("[3-3] Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 3"))
-        world.get_location("[4-1] Primagen Key - Primagen Key").place_locked_item(world.create_item("Primagen Key 4"))
-        world.get_location("[5-10] Eye of Truth Path - Primagen Key").place_locked_item(world.create_item("Primagen Key 5"))
-        world.get_location("[6-Hub] Center - Primagen Key").place_locked_item(world.create_item("Primagen Key 6"))
+        if 6 not in world.excluded_levels:
+            if place_level_keys:
+                world.get_location("[5-2] Level Key - Level Key") \
+                    .place_locked_item(world.create_item("Level 6 Key"))
+                world.get_location("[5-5] Level Key - Level Key") \
+                    .place_locked_item(world.create_item("Level 6 Key"))
+                world.get_location("[5-7] After Main Generator - Level Key") \
+                    .place_locked_item(world.create_item("Level 6 Key"))
+                
+            if place_feathers:
+                world.get_location("[6-4c] Outer Path - Eagle Feather") \
+                    .place_locked_item(world.create_item("Level 6 Eagle Feather"))
+                
+            if place_talismans:
+                world.get_location("[6-Talisman] Talisman - Eye of Truth") \
+                    .place_locked_item(world.create_item("Eye of Truth"))
+                
+            if place_primagen_keys:
+                 world.get_location("[6-Hub] Center - Primagen Key") \
+                    .place_locked_item(world.create_item("Primagen Key 6"))
 
 def create_all_items(world: Turok2World) -> None:
     """
@@ -373,50 +442,43 @@ def create_all_items(world: Turok2World) -> None:
             continue
         TRAPS_BY_CATEGORY.setdefault(trap_type, []).append((name, data))
 
-    # Get the set of starting levels
-    level_name_to_number = {
-        "Port of Adia": 1,
-        "River of Souls": 2,
-        "Death Marshes": 3,
-        "Lair of the Blind Ones": 4,
-        "Hive of the Mantids": 5,
-        "Primagen's Lightship": 6
-    }
-    world.starting_levels = [level_name_to_number[level_name] for level_name in world.options.starting_levels]
-    levels = list(level_name_to_number.values())
-    num_levels_to_add = world.options.random_starting_levels - len(world.starting_levels)
-    if num_levels_to_add > 0:
-        remaining_levels = [level for level in levels if level not in world.starting_levels]
-        world.random.shuffle(remaining_levels)
-        world.starting_levels.extend(remaining_levels[:num_levels_to_add])
-
-    warp_distributions = compute_warp_distributions(world)
-
     # Add all the required items to the pool (weapons and inventory items)
+    warp_distributions = compute_warp_distributions(world)
     for name, data in get_required_seed_items(world):
         count = data.get("count", 1)
         item_type = data.get("type")
+        level = data.get("level", -1)
         precollect_count = 0
 
         # Precollect necessary level keys
         if item_type == ItemType.LEVEL_KEY.value:
-            level = data.get("level", -1)
-
             # Level 1 keys are not included if we aren't starting with any levels
             if not world.starting_levels:
                 if level == 1:
                     count = 0
             
             # If we do have starting levels, precollect necessary keys
-            elif data.get("level", -1) in world.starting_levels:
+            elif level in world.starting_levels:
                 precollect_count = count
 
         # Assign the correct counts for progressive warps
         elif item_type == ItemType.PROGRESSIVE_WARP.value:
             strength = max(world.options.progressive_warp_strength, 1)
             count = math.ceil(count / strength)
-            precollect_count = warp_distributions.get(data.get("level", -1), 0)
-        
+            precollect_count = warp_distributions.get(level, 0)
+
+        # Start with talismans if necessary
+        elif item_type == ItemType.TALISMAN.value:
+            if (world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_start_with_if_level_excluded and
+                level in world.excluded_levels):
+                precollect_count = 1
+
+        # Start with primagen keys if necessary
+        elif item_type == ItemType.PRIMAGEN_KEY.value:
+            if (world.options.primagen_keys == PrimagenKeys.option_vanilla_start_with_if_level_excluded and
+                level in world.excluded_levels):
+                precollect_count = 1
+
         for i in range(count):
             if i < precollect_count:
                 world.multiworld.push_precollected(world.create_item(name))
@@ -442,8 +504,8 @@ def create_all_items(world: Turok2World) -> None:
     # Force the early weapon, if the setting is on
     force_early_weapon(world, itempool)
 
-    # Place locked locations, based on whether certain items are vanilla
-    place_locked_items(world)
+    # Handle vanilla locations, which places locked items or gives them to you if the level is excluded
+    handle_vanilla_locations(world)
     
     world.multiworld.itempool += itempool
     

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle
+from Options import Choice, OptionGroup, OptionSet, PerGameCommonOptions, Range, NamedRange, Toggle
 
 # TODO:
 # death link
@@ -34,21 +34,25 @@ class PrimagenGoal(Choice):
 class PrimagenKeys(Choice):
     """
     If the Primagen goal is not None, sets how you get the Primagen Keys.
-    - Vanilla: The Primagen keys will be in their vanilla locations.
+    - Vanilla In Pool If level Excluded: Primagen Keys are in their vanilla locations. 
+                                         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded: Primagen Keys are in their vanilla loactions.
+                                         If that level is excluded, you will start with it.
     - In Pool: The Primagen keys will be in the item pool to find.
     - Levels: The Primagen keys will be given to you after you complete the number of levels 
               specified in the LevelGoal setting.
     """
     display_name = "Primagen Keys"
-    option_vanilla = 0
-    option_in_pool = 1
-    option_levels = 2
+    option_vanilla_in_pool_if_level_excluded = 0
+    option_vanilla_start_with_if_level_excluded = 1
+    option_in_pool = 2
+    option_levels = 3
     default = option_in_pool
-    
+
 class WeaponSanity(Toggle):
     """
     Whether to include static weapon pickups in the list of locations to check.
-    Each weapon will have one entry in the item pool to be locked.
+    Each weapon will have one entry in the item pool.
 
     Any ammo in the item pool will be random ammo pickups, granting ammo in a random owned
     weapon (favoring those lacking ammo). This is to ensure that you can always get ammo
@@ -82,7 +86,7 @@ class HealthSanity(Choice):
     
 class LifeForceSanity(Choice):
     """
-    Whether to include life forces in the list of locations to check.
+    Whether to include Life Forces in the list of locations to check.
     - None: No Life Force locations will be included
     - All: Both yellow and red Life Forces will be included
     - Yellow Only: Only yellow Life Forces will be included
@@ -111,13 +115,21 @@ class IncludeEagleFeatherLocations(Toggle):
     display_name = "Include Eagle Feathers"
     default = True
 
-class IncludeTalismanLocations(Toggle):
+class IncludeTalismanLocations(Choice):
     """
     Whether to include talismans in the list of locations to check.
     Setting this to False will place them in their vanilla locations.
+    - Vanilla In Pool If level Excluded: Talismans are in their vanilla locations. 
+                                         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded: Talismans are in their vanilla loactions.
+                                            If that level is excluded, you will start with it.
+    - In Pool: The talisman will be in the item pool.
     """
     display_name = "Include Talismans"
-    default = True
+    option_vanilla_in_pool_if_level_excluded = 0
+    option_vanilla_start_with_if_level_excluded = 1
+    option_in_pool = 2
+    default = option_in_pool
     
 class IncludeMissionItemLocations(Toggle):
     """
@@ -151,28 +163,39 @@ class NukeBehavior(Choice):
 
 class ProgressiveWarps(Toggle):
     """
-    Each progressive map will require a Progressive Warp item to advance further.
-    Highly recommended for this to be on if on a multiworld, as it splits up the game.
+    Progressive Warp items for each level will be added to the item pool. Warp portals will now be 
+    blocked by a barrier if you do not have the required number of these items.
+    
+    Highly recommended for this to be on if on a multiworld, as it splits up levels into logical sections.
     """
     display_name = "Progressive Warps"
     default = True
 
-class ProgressiveWarpStrength(Range):
+class ProgressiveWarpStrength(NamedRange):
     """
     Used if Progressive Warps are on.
     The number of warps each Progressive Warp item allows you to travel through.
+    - Low: Each Progressive Warp advances through one warp
+    - Quarter: Each Progressive Warp advances through roughly a quarter of the level
+    - Half: Each Progressive Warp advances through roughly half of the level
+    - Most: Each Progressive Warp advances through most of the level
     """
     display_name = "Progressive Warp Strength"
     range_start = 1
     range_end = 15
     default = 1
+    special_range_names = {
+        "low": 1,
+        "quarter": 3,
+        "half": 5,
+        "most": 8
+    }
 
 class StartingProgressiveWarps(Range):
     """
     Used if Progressive Warps are on.
 
-    The number of warps for that you will start with. Randomly selects from the set of starting levels
-    (can be multiple levels).
+    The number of Progressive Warp items you will start with.
 
     If set too low, this could cause generation failures for solo worlds if not a lot of item types are
     included in the item pool, depending on your starting levels.
@@ -186,8 +209,7 @@ class StartingProgressiveWarps(Range):
 
 class StartingLevels(OptionSet):
     """
-    If RandomStartingLevelCount is 0, the specific set of levels you wish to start with.
-    Including any level will result in new games starting at the hub.
+    The specific set of levels you wish to start with.
 
     Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
 
@@ -204,31 +226,45 @@ class StartingLevels(OptionSet):
     })
     default = frozenset({})
 
-class RandomStartingLevels(Range):
+class StartingLevelCount(Range):
     """
-    How many levels to randomly start with. If this value it greater than the number of levels in
-    StartingLevels, additional levels will be selected randomly.
-
-    Setting this above 0 will result in new games starting at the hub.
+    How many levels you can access at the beginning. It will use those defined in StartingLevels first
+    and select the rest randomly.
 
     Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
     """
     display_name = "Random Starting Levels"
-    range_start = 0
+    range_start = 1
     range_end = 6
+    default = 1
+
+class ExcludedLevels(OptionSet):
+    """
+    If using StartingLevelCount, the specific set of levels you do not wish to include.
+    Do not include any levels set in StartingLevels.
+
+    Valid levels are: ["Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
+    """
+    display_name = "Excluded Levels"
+    valid_keys = frozenset({
+        "Port of Adia",
+        "River of Souls",
+        "Death Marshes",
+        "Lair of the Blind Ones",
+        "Hive of the Mantids",
+        "Primagen's Lightship"
+    })
+    default = frozenset({})
+
+class ExcludedLevelCount(Range):
+    """
+    How many levels to exclude. It will use those defined in ExcludedLevels first
+    and select the rest randomly.
+    """
+    display_name = "Random Excluded Levels"
+    range_start = 0
+    range_end = 5
     default = 0
-
-class OpenHub(Toggle):
-    """
-    Not used if playing with StartingLevels or RandomStartingLevels.
-
-    Whether the Level 1 door to the hub should be opened without completing the level,
-    allowing access to other levels when you obtain their level keys.
-
-    Highly recommended for this to be on if using progressive warps, but not a random starting level.
-    """
-    display_name = "Open Hub"
-    default = True
 
 class GuaranteeTorpedoLauncher(Toggle):
     """
@@ -413,8 +449,13 @@ class EnemyTrapWeight(Range):
     
 class DamageTrapWeight(Range):
     """
-    Likelihood of receiving a trap that does a small amount of damage to you.
+    Likelihood of receiving a trap that does damage to you depending on your difficulty.
     It will never bring your health to 0.
+
+    The damage this will do based on your difficulty level is as follows:
+    - Easy: 5% of your current health
+    - Normal: 10%
+    - Hard+: 20%
     """
     display_name = "Damage Trap"
     range_start = 0
@@ -446,8 +487,9 @@ class Turok2Options(PerGameCommonOptions):
     include_mission_item_locations: IncludeMissionItemLocations
     
     starting_levels: StartingLevels
-    random_starting_levels: RandomStartingLevels
-    open_hub: OpenHub
+    starting_level_count: StartingLevelCount
+    excluded_levels: ExcludedLevels
+    excluded_level_count: ExcludedLevelCount
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
     progressive_warps: ProgressiveWarps
@@ -494,14 +536,15 @@ option_groups = [
         IncludeMissionItemLocations,
     ]),
     OptionGroup("Progression Options", [
+        ExcludedLevels,
+        ExcludedLevelCount,
         StartingLevels,
-        RandomStartingLevels,
+        StartingLevelCount,
         ForceEarlyWeapon,
         NukeBehavior,
         ProgressiveWarps,
         ProgressiveWarpStrength,
         StartingProgressiveWarps,
-        OpenHub,
         GuaranteeTorpedoLauncher
     ]),
     OptionGroup("Gameplay Options", [

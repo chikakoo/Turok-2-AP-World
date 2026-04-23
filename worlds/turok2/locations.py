@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import re
 import pkgutil
 import math
 import importlib.resources as resources
@@ -19,14 +20,22 @@ class Turok2Location(Location):
 def _load_all_location_data():
     """
     Loads all regions from the "locations_level" files in the data path.
+    Sets the level number on each location for later use.
     """
     all_locations = {}
     data_package = __package__ + ".data"
 
     for file in resources.files(data_package).iterdir():
         if file.name.startswith("locations_level") and file.name.endswith(".json"):
+            # Extract the level number from the file name
+            match = re.search(r"locations_level(\d+)", file.name)
+            level = int(match.group(1)) if match else -1
+            
+            # Inject the level into each location
             data = json.loads(file.read_text())
-            all_locations.update(data)
+            for _, loc_data in data.items():
+                loc_data["level"] = level
+                all_locations.update(data)
 
     return all_locations
 
@@ -59,6 +68,9 @@ def create_regions_and_entrances(world: Turok2World) -> None:
 
     # Create all regions
     for region_data in regions:
+        if region_data.get("level", -1) in world.excluded_levels:
+            continue
+
         region_name = region_data["name"]
         region = Region(region_name, world.player, world.multiworld)
         region_map[region_name] = region
@@ -66,9 +78,15 @@ def create_regions_and_entrances(world: Turok2World) -> None:
 
     # Connect the regions with entrances
     for region_data in regions:
+        if region_data.get("level", -1) in world.excluded_levels:
+            continue
+
         from_region = region_map[region_data["name"]]
 
         for exit_data in region_data.get("exits", []):
+            if exit_data.get("level", -1) in world.excluded_levels:
+                continue
+
             to_region = region_map[exit_data["to"]]
 
             entrance_name = f"{from_region.name} -> {to_region.name}"
@@ -84,6 +102,9 @@ def create_locations(world: Turok2World) -> None:
     Includes putting a "rule" property in the table to construct the rules later on.
     """
     for loc_name, loc_info in LOCATION_TABLE.items():
+        if loc_info["level"] in world.excluded_levels:
+            continue
+
         # Exclude relevent locations if not shuffled
         item_type = loc_info.get("type", -1)
 
@@ -163,6 +184,9 @@ def create_events(world: Turok2World) -> None:
     Each event can optionally have a rule, which is parsed and applied.
     """
     for region_data in load_all_region_data():
+        if region_data.get("level", -1) in world.excluded_levels:
+            continue
+        
         region_name = region_data["name"]
         region_obj = world.get_region(region_name)
 
@@ -185,15 +209,12 @@ def create_completion_condition(world: Turok2World):
     Creates the completion condition based on the goal setting.
 
     Levels: The number of levels the player needs to clear.
-            Set to 1 if it's at 0 but the Primagen goal is None.
     Primagen Keys: The number of primagen keys needed for the goal.
                    This is 6 if the primagen is required, and 0 otherwise.
     """
     level_goal = world.options.level_goal
-    if level_goal == 0 and world.options.primagen_goal == PrimagenGoal.option_none:
-        level_goal = 1 # Make sure there's actually a goal of some kind
-
     primagen_keys_needed = []
+
     if (world.options.primagen_goal != PrimagenGoal.option_none and
         world.options.primagen_keys != PrimagenKeys.option_levels):
         primagen_keys_needed = [
@@ -341,17 +362,6 @@ def mission_item_requirement(world: Turok2World, args: dict):
     
     return lambda state: True
 
-    # Vanilla, so check all the needed events
-    # This will check that we have at least "count" number of events in the list
-    # This is meant to cover whether we can progress with any of the items
-    #event_items = args.get("event_items", [])
-    #return lambda state: all(state.has(event, player) for event in event_items)
-
-def open_hub(world: Turok2World):
-    """Checks the open hub setting"""
-    open_hub = world.options.open_hub
-    return lambda state: open_hub
-
 def not_guaranteed_torpedo_launcher(world: Turok2World):
     """Checks whether the Torpedo Launcher is in logic"""
     not_guaranteed_torpedo_launcher = not world.options.guarantee_torpedo_launcher
@@ -384,22 +394,9 @@ def progressive_warp(world: Turok2World, args: dict):
     item = f"Progressive Warp L{level}"
     return lambda state: state.has(item, world.player, count)
 
-def default_start(world: Turok2World):
-    """Checks whether we're starting in the vanilla location"""
-    default_start = len(world.starting_levels) == 0
-    return lambda state: default_start
-    
-def hub_start(world: Turok2World):
-    """Checks whether we're starting at the hub"""
-    hub_start = len(world.starting_levels) > 0
-    return lambda state: hub_start
-    
 NAMED_RULES = {
-    "default_start": default_start,
-    "hub_start": hub_start,
     "weapon_requirement": weapon_requirement,
     "mission_item_requirement": mission_item_requirement,
-    "open_hub": open_hub,
     "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
     "weapons_not_randomized": weapons_not_randomized,
     "progressive_warp": progressive_warp

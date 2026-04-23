@@ -189,6 +189,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression_skip_balancing,
         "count": 1,
+        "level": 1,
         "groups": ["Primagen Key"]
     },
     "Primagen Key 2": {
@@ -198,6 +199,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression_skip_balancing,
         "count": 1,
+        "level": 2,
         "groups": ["Primagen Key"]
     },
     "Primagen Key 3": {
@@ -207,6 +209,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression_skip_balancing,
         "count": 1,
+        "level": 3,
         "groups": ["Primagen Key"]
     },
     "Primagen Key 4": {
@@ -216,6 +219,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression_skip_balancing,
         "count": 1,
+        "level": 4,
         "groups": ["Primagen Key"]
     },
     "Primagen Key 5": {
@@ -225,6 +229,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression_skip_balancing,
         "count": 1,
+        "level": 5,
         "groups": ["Primagen Key"]
     },
     "Primagen Key 6": {
@@ -234,6 +239,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression_skip_balancing,
         "count": 1,
+        "level": 6,
         "groups": ["Primagen Key"]
     },
     
@@ -284,7 +290,8 @@ ITEM_TABLE = {
         "type": ItemType.TALISMAN.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 2
     },
     "Breath of Life": {
         "id": 200018,
@@ -292,7 +299,8 @@ ITEM_TABLE = {
         "type": ItemType.TALISMAN.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 3
     },
     "Heart of Fire": {
         "id": 200019,
@@ -300,7 +308,8 @@ ITEM_TABLE = {
         "type": ItemType.TALISMAN.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 4
     },
     "Whispers": {
         "id": 200020,
@@ -308,7 +317,8 @@ ITEM_TABLE = {
         "type": ItemType.TALISMAN.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 5
     },
     "Eye of Truth": {
         "id": 200021,
@@ -316,7 +326,8 @@ ITEM_TABLE = {
         "type": ItemType.TALISMAN.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "level": 6
     },
     
     "Nuke Part": {
