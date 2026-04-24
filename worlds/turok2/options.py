@@ -210,15 +210,27 @@ class StartingProgressiveWarps(Range):
     range_end = 20
     default = 1
 
-class StartingLevels(OptionSet):
+class StartingLevelCount(Range):
     """
-    The specific set of levels you wish to start with.
+    How many levels you can access at the beginning. It will use those defined in StartingLevelPriorityPool first
+    and select the rest randomly.
+
+    Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
+    """
+    display_name = "Starting Level Count"
+    range_start = 1
+    range_end = 6
+    default = 1
+
+class StartingLevelPriorityPool(OptionSet):
+    """
+    The set of levels that will be the priority choices when generating starting levels.
 
     Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
 
     Valid levels are: ["Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
     """
-    display_name = "Starting Levels"
+    display_name = "Starting Level Priority Pool"
     valid_keys = frozenset({
         "Port of Adia",
         "River of Souls",
@@ -229,26 +241,29 @@ class StartingLevels(OptionSet):
     })
     default = frozenset({ "Port of Adia" })
 
-class StartingLevelCount(Range):
+class ExcludedLevelCount(Range):
     """
-    How many levels you can access at the beginning. It will use those defined in StartingLevels first
+    How many levels to exclude. It will use those defined in ExcludedLevelPriorityPool first
     and select the rest randomly.
 
-    Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
+    Starting levels take priority over excluded levels. If there are not enough remaining levels,
+    fewer levels than requested may be excluded.
     """
-    display_name = "Random Starting Levels"
-    range_start = 1
-    range_end = 6
-    default = 1
+    display_name = "Excluded Level Count"
+    range_start = 0
+    range_end = 5
+    default = 0
 
-class ExcludedLevels(OptionSet):
+class ExcludedLevelPriorityPool(OptionSet):
     """
-    If using StartingLevelCount, the specific set of levels you do not wish to include.
-    Do not include any levels set in StartingLevels.
+    The set of levels that will be the priority choices when generating excluded levels.
+
+    Starting levels take priority over excluded levels. If there are not enough remaining levels,
+    fewer levels than requested may be excluded.
 
     Valid levels are: ["Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
     """
-    display_name = "Excluded Levels"
+    display_name = "Excluded Level Priority Pool"
     valid_keys = frozenset({
         "Port of Adia",
         "River of Souls",
@@ -258,16 +273,6 @@ class ExcludedLevels(OptionSet):
         "Primagen's Lightship"
     })
     default = frozenset({})
-
-class ExcludedLevelCount(Range):
-    """
-    How many levels to exclude. It will use those defined in ExcludedLevels first
-    and select the rest randomly.
-    """
-    display_name = "Random Excluded Levels"
-    range_start = 0
-    range_end = 5
-    default = 0
 
 class GuaranteeTorpedoLauncher(Toggle):
     """
@@ -488,10 +493,10 @@ class Turok2Options(PerGameCommonOptions):
     include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
     
-    starting_levels: StartingLevels
     starting_level_count: StartingLevelCount
-    excluded_levels: ExcludedLevels
+    starting_level_priority_pool: StartingLevelPriorityPool
     excluded_level_count: ExcludedLevelCount
+    excluded_level_priority_pool: ExcludedLevelPriorityPool
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
     level_key_packs: LevelKeyPacks
@@ -538,10 +543,10 @@ option_groups = [
         IncludeMissionItemLocations,
     ]),
     OptionGroup("Progression Options", [
-        ExcludedLevels,
-        ExcludedLevelCount,
-        StartingLevels,
         StartingLevelCount,
+        StartingLevelPriorityPool,
+        ExcludedLevelCount,
+        ExcludedLevelPriorityPool,
         ForceEarlyWeapon,
         NukeBehavior,
         LevelKeyPacks,
