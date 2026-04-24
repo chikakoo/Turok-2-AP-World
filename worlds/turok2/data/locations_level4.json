@@ -224,7 +224,6 @@
     "LBO Platforming Bottom - LF10 Trail to Spinning Platforms 2": { "region": "LBO Platforming", "ap_id": 103015, "position": "103_-378_-2291_-5222", "type": 0 },
     "LBO Platforming Bottom - LF10 Trail to Spinning Platforms 3": { "region": "LBO Platforming", "ap_id": 103016, "position": "103_-381_-2391_-5222", "type": 0 },
     "LBO Lava Caves - Plasma Rifle": { "region": "LBO Platforming", "ap_id": 103017, "position": "103_3378_441_-5222", "type": 9 },
-    "LBO Lava Caves - Plasma Rounds by Lava": { "region": "LBO Platforming", "ap_id": 103018, "position": "103_3331_-140_-5222", "type": 2 },
     "LBO Lava Caves - Blue Health Across Lava 1": { "region": "LBO Platforming", "ap_id": 103019, "position": "103_4147_-1208_-5222", "type": 1 },
     "LBO Lava Caves - Blue Health Across Lava 2": { "region": "LBO Platforming", "ap_id": 103020, "position": "103_3352_-1211_-5222", "type": 1 },
     "LBO Lava Caves - Box of Bullets by Lava": { "region": "LBO Platforming", "ap_id": 103021, "position": "103_5365_-332_-5222", "type": 2 },

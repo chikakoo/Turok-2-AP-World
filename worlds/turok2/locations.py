@@ -315,11 +315,17 @@ def not_guaranteed_torpedo_launcher(world: Turok2World):
     """Checks whether the Torpedo Launcher is in logic"""
     not_guaranteed_torpedo_launcher = not world.options.guarantee_torpedo_launcher
     return lambda state: not_guaranteed_torpedo_launcher
+
+def weapons_not_randomized(world: Turok2World):
+    """Checks whether weapons are not randomized"""
+    weapons_not_randomized = not world.options.include_weapon_and_ammo_locations
+    return lambda state: weapons_not_randomized
     
 NAMED_RULES = {
     "weapon_requirement": weapon_requirement,
     "vanilla_mission_items": vanilla_mission_items,
     "mission_item_requirement": mission_item_requirement,
     "open_hub": open_hub,
-    "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher
+    "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
+    "weapons_not_randomized": weapons_not_randomized,
 }
