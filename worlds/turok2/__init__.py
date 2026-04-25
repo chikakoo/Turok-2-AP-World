@@ -9,6 +9,7 @@ from .item_table import ITEM_NAME_TO_ID
 from . import options as turok2_options
 from .turok2_seed import gen_turok2_seed
 from .options import PrimagenGoal
+from collections import Counter
 
 class Turok2Settings(settings.Group):
     class Turok2Path(settings.FilePath):
@@ -51,31 +52,38 @@ class Turok2World(World):
             raise OptionError(f"Turok 2 for {self.player_name}: "
                 f"Goal not set. Please choose a goal from `primagen_goal` or `level_goal`.")
         
-        # If there's a level goal, it must be reachable
-        if self.options.level_goal > self.options.accessible_level_count:
+        # Level validation setup
+        max_levels = 6
+        starting_random_options, starting_specific_levels = self.parse_level_option(self.options.starting_levels.value)
+        excluded_random_options, excluded_specific_levels = self.parse_level_option(self.options.excluded_levels.value)
+
+        starting_level_count = len(starting_random_options) + len(starting_specific_levels)
+        excluded_level_count = len(excluded_random_options) + len(excluded_specific_levels)
+        accessible_level_count = max_levels - excluded_level_count
+
+        # You must be able to reach your level goal
+        if self.options.level_goal > accessible_level_count:
             raise OptionError(f"Turok 2 for {self.player_name}: "
-                f"Not enough levels to reach the goal. Adjust `level_goal`, or `accessible_level_count`.")
+                f"Not enough levels to reach the goal. Adjust `level_goal`, `excluded_levels`.")
         
         # You can't start with more levels than you can access
-        if self.options.starting_level_count > self.options.accessible_level_count:
+        if starting_level_count > accessible_level_count:
             raise OptionError(f"Turok 2 for {self.player_name}: "
-                "Starting with too many levels. Adjust `starting_level_count` or `accessible_level_count`.")
+                f"Starting + excluded level count is more than {max_levels}. Adjust `starting_levels` or `excluded_levels`.")
 
         # You can't start with levels that will be excluded
-        if not self.options.starting_level_pool.value.isdisjoint(self.options.excluded_levels.value):
+        if not starting_specific_levels.isdisjoint(excluded_specific_levels):
             raise OptionError(f"Turok 2 for {self.player_name}: "
-                "Cannot start with excluded levels. Adjust `starting_level_pool` or `excluded_levels`.")
-
-        # The sum of excluded and accessible levels can't exceed the max number of levels
-        max_levels = 6
-        if (len(self.options.excluded_levels.value) + self.options.accessible_level_count) > max_levels:
-            raise OptionError(f"Turok 2 for {self.player_name}: "
-                "Excluding too many levels. Adjust `excluded_levels` or `accessible_level_count`.")
+                "Starting levels cannot be excluded. Adjust `starting_levels` or `excluded_levels`.")
         
         self.initialize_levels()
 
-    def initialize_levels(self) -> None:
-        """Computes the starting and excluded levels, which can vary per world"""
+    def parse_level_option(level_option: list[str]) -> tuple[list[str], set[int]]:
+        """
+        Parses the level option and returns the following in a tuple:
+        - A list of all the random options (since they can be duplicates)
+        - A set of all the levels, in their integer form
+        """
         level_name_to_number = {
             "Port of Adia": 1,
             "River of Souls": 2,
@@ -84,50 +92,81 @@ class Turok2World(World):
             "Hive of the Mantids": 5,
             "Primagen's Lightship": 6
         }
-        all_levels = list(level_name_to_number.values())
-        
-        # Initial set of excluded levels
-        excluded_levels = [
-            level_name_to_number[name]
-            for name in self.options.excluded_levels.value
+        random_choices = ["Random", "EarlyRandom", "LateRandom"]
+
+        random_options = [
+            level for level in level_option
+            if level in random_choices
+        ]
+        specific_level_options = set([
+            level_name_to_number[level] 
+            for level in level_option 
+            if level not in random_choices
+        ])
+
+        return (random_options, specific_level_options)
+
+    def initialize_levels(self) -> None:
+        """Computes the starting and excluded levels, which can vary per world"""
+
+        def pick_levels(
+            self,
+            count: int,
+            level_pool: list[int],
+            deprioritized: set[int] | None = None) -> list[int]:
+            """
+            Helper to pick levels for each random category, deprioriting those
+            in the given set.
+            """
+            if count == 0:
+                return
+
+            self.random.shuffle(level_pool)
+
+            if deprioritized:
+                level_pool.sort(key=lambda level: level in deprioritized)
+
+            chosen_levels = level_pool[:count]
+            level_pool = level_pool[count:]
+            return chosen_levels
+
+        # Setup
+        starting_random_options, starting_specific_levels = self.parse_level_option(self.options.starting_levels.value)
+        excluded_random_options, excluded_specific_levels = self.parse_level_option(self.options.excluded_levels.value)
+
+        # Initialize starting and excluded with their specific levels, removing them from the pool
+        self.starting_levels = starting_specific_levels.copy()
+        self.excluded_levels = excluded_specific_levels.copy()
+        level_pool = [
+            level for level in level_pool
+            if level not in self.starting_levels
+            and level not in self.excluded_levels
         ]
 
-        # Starting levels - choose from the pool first
-        starting_target = self.options.starting_level_count
-        priority_starting = [
-            level_name_to_number[name]
-            for name in self.options.starting_level_pool.value
-        ] 
-        self.random.shuffle(priority_starting)
-        starting_levels = priority_starting[:starting_target]
+        # Add the random levels to the lists
+        starting_option_counts = Counter(starting_random_options)
+        excluded_option_counts = Counter(excluded_random_options)
+        early_levels = {1, 2, 3}
+        late_levels = {4, 5, 6}
+        
+        # Early/Starting first, so early starts are guaranteed
+        # Then Late/Excluded so harder levels can be excluded
+        self.starting_levels.extend(
+            pick_levels(self, starting_option_counts.get("EarlyRandom", 0), level_pool, deprioiritized=late_levels))
+        self.excluded_levels.extend(
+            pick_levels(self, excluded_option_counts.get("LateRandom", 0), level_pool, deprioiritized=early_levels))
 
-        # Fill the rest as needed
-        additional_levels_needed = starting_target - len(starting_levels)
-        if additional_levels_needed > 0:
-            level_pool = [
-                level for level in all_levels
-                if level not in excluded_levels 
-                and level not in starting_levels
-            ]
-            self.random.shuffle(level_pool)
-            starting_levels.extend(level_pool[:additional_levels_needed])
-
-        # Add the rest of the excluded levels
-        max_levels = 6
-        total_excluded = max_levels - self.options.accessible_level_count
-        additional_levels_needed = total_excluded - len(excluded_levels)
-        if additional_levels_needed > 0:
-            level_pool = [
-                level for level in all_levels
-                if level not in excluded_levels 
-                and level not in starting_levels
-            ]
-            self.random.shuffle(level_pool)
-            excluded_levels.extend(level_pool[:additional_levels_needed])
-
-        # Assign the world's instance variables
-        self.starting_levels = starting_levels
-        self.excluded_levels = excluded_levels
+        # It's slightly easier to exclude early than to start late, so these go in this order
+        self.excluded_levels.extend(
+            pick_levels(self, excluded_option_counts.get("EarlyRandom", 0), level_pool, deprioiritized=late_levels))
+        self.starting_levels.extend(
+            pick_levels(self, starting_option_counts.get("LateRandom", 0), level_pool, deprioiritized=early_levels))
+        
+        # These two can go in whatever order
+        self.starting_levels.extend(
+            pick_levels(self, starting_option_counts.get("Random", 0), level_pool, deprioiritized=early_levels))
+        self.excluded_levels.extend(
+            pick_levels(self, excluded_option_counts.get("Random", 0), level_pool, deprioiritized=early_levels))
 
     def create_regions(self) -> None:
         """Creates all regions/locations/events and the completion condition"""

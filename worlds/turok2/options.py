@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, OptionSet, PerGameCommonOptions, Range, NamedRange, Toggle
+from Options import Choice, OptionGroup, OptionList, PerGameCommonOptions, Range, NamedRange, Toggle
 
 # TODO:
 # death link
@@ -210,68 +210,57 @@ class StartingProgressiveWarps(Range):
     range_end = 20
     default = 1
 
-class AccessibleLevelCount(Range):
+class StartingLevels(OptionList):
     """
-    How many levels will be in logic. If less than the max, some levels will be inaccessible.
-    Use this to create shorter seeds.
+    The set of levels that will be unlocked at the start of the seed.
 
-    It will fail to generate if this value is lower than the level goal.
-    """
-    display_name = "Accessible Level Count"
-    range_start = 1
-    range_end = 6
-    default = 6
-
-class StartingLevelCount(Range):
-    """
-    How many levels you can access at the beginning. It will use those defined in StartingLevelPool first
-    and select the rest randomly.
-
-    Must not be greater than AccessibleLevelCount.
-    """
-    display_name = "Starting Level Count"
-    range_start = 1
-    range_end = 6
-    default = 1
-
-class StartingLevelPool(OptionSet):
-    """
-    The set of levels that will be the priority choices when generating starting levels.
+    You can add multiples of the following entries:
+    - Random: Will pick from any non-excluded level
+    - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
+    - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
 
     Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
 
-    Valid levels are: ["Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
+    Valid levels: ["Random", "RandomEarly", "RandomLate", "Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
     """
     display_name = "Starting Level Priority Pool"
-    valid_keys = frozenset({
+    valid_keys = {
+        "Random",
+        "RandomEarly",
+        "RandomLate",
         "Port of Adia",
         "River of Souls",
         "Death Marshes",
         "Lair of the Blind Ones",
         "Hive of the Mantids",
         "Primagen's Lightship"
-    })
-    default = frozenset({ "Port of Adia" })
+    }
+    default = { "Port of Adia" }
 
-class ExcludedLevels(OptionSet):
+class ExcludedLevels(OptionList):
     """
-    The set of levels that will be excluded. If not enough levels are defined here, non-starting
-    levels will be chosen randomly.
+    The set of levels that will never be unlocked.
 
-    Do not include any starting levels here.
-
-    Valid levels are: ["Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
+    You can add multiples of the following entries:
+    - Random: Will pick from any non-excluded level
+    - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
+    - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
+    
+    Valid levels: ["Random", "RandomEarly", "RandomLate", "Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
     """
     display_name = "Excluded Levels"
-    valid_keys = frozenset({
+    valid_keys = {
+        "Random",
+        "RandomEarly",
+        "RandomLate",
         "Port of Adia",
         "River of Souls",
         "Death Marshes",
         "Lair of the Blind Ones",
         "Hive of the Mantids",
         "Primagen's Lightship"
-    })
-    default = frozenset({})
+    }
+    default = {}
 
 class GuaranteeTorpedoLauncher(Toggle):
     """
@@ -492,9 +481,7 @@ class Turok2Options(PerGameCommonOptions):
     include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
     
-    accessible_level_count: AccessibleLevelCount
-    starting_level_count: StartingLevelCount
-    starting_level_pool: StartingLevelPool
+    starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
@@ -542,9 +529,7 @@ option_groups = [
         IncludeMissionItemLocations,
     ]),
     OptionGroup("Progression Options", [
-        AccessibleLevelCount,
-        StartingLevelCount,
-        StartingLevelPool,
+        StartingLevels,
         ExcludedLevels,
         ForceEarlyWeapon,
         NukeBehavior,
