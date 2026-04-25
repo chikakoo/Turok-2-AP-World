@@ -123,6 +123,11 @@ def get_random_health_pickup_item_name(world: Turok2World) -> str:
     ]
     names = [name for name, _ in health_pickups]
     weights = [weight for _, weight in health_pickups]
+
+    # If all weights are 0, default to equal weighting
+    if not any(weights):
+        weights = [1] * len(weights)
+        
     return world.random.choices(names, weights=weights, k=1)[0]
     
 def force_local_items(
