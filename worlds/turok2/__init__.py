@@ -46,15 +46,31 @@ class Turok2World(World):
     def generate_early(self) -> None:
         """Sets up starting/excluded levels and validates options"""
        
+        # Ensure there is a goal
         if self.options.primagen_goal == PrimagenGoal.option_none and self.options.level_goal == 0:
             raise OptionError(f"Turok 2 for {self.player_name}: "
                 f"Goal not set. Please choose a goal from `primagen_goal` or `level_goal`.")
         
-        max_levels = 6
-        num_excluded = min(self.options.excluded_level_count, max_levels - self.options.starting_level_count)
-        if self.options.level_goal > 0 and (self.options.level_goal > max_levels - num_excluded):
+        # If there's a level goal, it must be reachable
+        if self.options.level_goal > self.options.accessible_level_count:
             raise OptionError(f"Turok 2 for {self.player_name}: "
-                f"Too many levels excluded to reach goal. Please adjust `excluded_level_count`, or `level_goal`.")
+                f"Not enough levels to reach the goal. Adjust `level_goal`, or `accessible_level_count`.")
+        
+        # You can't start with more levels than you can access
+        if self.options.starting_level_count > self.options.accessible_level_count:
+            raise OptionError(f"Turok 2 for {self.player_name}: "
+                "Starting with too many levels. Adjust `starting_level_count` or `accessible_level_count`.")
+
+        # You can't start with levels that will be excluded
+        if not self.options.starting_level_pool.value.isdisjoint(self.options.excluded_levels.value):
+            raise OptionError(f"Turok 2 for {self.player_name}: "
+                "Cannot start with excluded levels. Adjust `starting_level_pool` or `excluded_levels`.")
+
+        # The sum of excluded and accessible levels can't exceed the max number of levels
+        max_levels = 6
+        if (len(self.options.excluded_levels.value) + self.options.accessible_level_count) > max_levels:
+            raise OptionError(f"Turok 2 for {self.player_name}: "
+                "Excluding too many levels. Adjust `excluded_levels` or `accessible_level_count`.")
         
         self.initialize_levels()
 
@@ -69,67 +85,49 @@ class Turok2World(World):
             "Primagen's Lightship": 6
         }
         all_levels = list(level_name_to_number.values())
+        
+        # Initial set of excluded levels
+        excluded_levels = [
+            level_name_to_number[name]
+            for name in self.options.excluded_levels.value
+        ]
 
-        # Starting level priority pool
+        # Starting levels - choose from the pool first
         starting_target = self.options.starting_level_count
         priority_starting = [
             level_name_to_number[name]
-            for name in self.options.starting_level_priority_pool
-        ]
+            for name in self.options.starting_level_pool.value
+        ] 
         self.random.shuffle(priority_starting)
         starting_levels = priority_starting[:starting_target]
-        
+
         # Fill the rest as needed
         additional_levels_needed = starting_target - len(starting_levels)
         if additional_levels_needed > 0:
-            starting_priority_set = set(starting_levels)
-            excluded_priority_set = {
-                level_name_to_number[name]
-                for name in self.options.excluded_level_priority_pool
-            }
-            remaining_pool = [
+            level_pool = [
                 level for level in all_levels
-                if level not in starting_levels
+                if level not in excluded_levels 
+                and level not in starting_levels
             ]
-            self.random.shuffle(remaining_pool)
+            self.random.shuffle(level_pool)
+            starting_levels.extend(level_pool[:additional_levels_needed])
 
-            # Force the excluded priority levels (that are not starting priority levels) to be last
-            remaining_pool = sorted(
-                remaining_pool,
-                key=lambda level: (
-                    level in excluded_priority_set
-                    and level not in starting_priority_set
-                )
-            )
-            starting_levels.extend(remaining_pool[:additional_levels_needed])
-
-        self.starting_levels = starting_levels
-
-        # Excluded level priority pool
-        excluded_target = self.options.excluded_level_count
-        priority_excluded = []
-        for name in self.options.excluded_level_priority_pool:
-            level = level_name_to_number[name]
-            if level not in self.starting_levels:
-                priority_excluded.append(level)
-        self.random.shuffle(priority_excluded)
-        excluded_levels = priority_excluded[:excluded_target]
-
-        # Fill the rest as needed
-        additional_levels_needed = excluded_target - len(excluded_levels)
+        # Add the rest of the excluded levels
+        max_levels = 6
+        total_excluded = max_levels - self.options.accessible_level_count
+        additional_levels_needed = total_excluded - len(excluded_levels)
         if additional_levels_needed > 0:
-            remaining_pool = [
+            level_pool = [
                 level for level in all_levels
-                if level not in self.starting_levels
-                and level not in excluded_levels
+                if level not in excluded_levels 
+                and level not in starting_levels
             ]
-            self.random.shuffle(remaining_pool)
-            excluded_levels.extend(remaining_pool[:additional_levels_needed])
+            self.random.shuffle(level_pool)
+            excluded_levels.extend(level_pool[:additional_levels_needed])
 
+        # Assign the world's instance variables
+        self.starting_levels = starting_levels
         self.excluded_levels = excluded_levels
-
-        print(f"STARTING: {starting_levels}")
-        print(f"EXCLUDED: {excluded_levels}")
 
     def create_regions(self) -> None:
         """Creates all regions/locations/events and the completion condition"""

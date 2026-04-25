@@ -210,19 +210,31 @@ class StartingProgressiveWarps(Range):
     range_end = 20
     default = 1
 
+class AccessibleLevelCount(Range):
+    """
+    How many levels will be in logic. If less than the max, some levels will be inaccessible.
+    Use this to create shorter seeds.
+
+    It will fail to generate if this value is lower than the level goal.
+    """
+    display_name = "Accessible Level Count"
+    range_start = 1
+    range_end = 6
+    default = 6
+
 class StartingLevelCount(Range):
     """
-    How many levels you can access at the beginning. It will use those defined in StartingLevelPriorityPool first
+    How many levels you can access at the beginning. It will use those defined in StartingLevelPool first
     and select the rest randomly.
 
-    Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
+    Must not be greater than AccessibleLevelCount.
     """
     display_name = "Starting Level Count"
     range_start = 1
     range_end = 6
     default = 1
 
-class StartingLevelPriorityPool(OptionSet):
+class StartingLevelPool(OptionSet):
     """
     The set of levels that will be the priority choices when generating starting levels.
 
@@ -241,29 +253,16 @@ class StartingLevelPriorityPool(OptionSet):
     })
     default = frozenset({ "Port of Adia" })
 
-class ExcludedLevelCount(Range):
+class ExcludedLevels(OptionSet):
     """
-    How many levels to exclude. It will use those defined in ExcludedLevelPriorityPool first
-    and select the rest randomly.
+    The set of levels that will be excluded. If not enough levels are defined here, non-starting
+    levels will be chosen randomly.
 
-    Starting levels take priority over excluded levels. If there are not enough remaining levels,
-    fewer levels than requested may be excluded.
-    """
-    display_name = "Excluded Level Count"
-    range_start = 0
-    range_end = 5
-    default = 0
-
-class ExcludedLevelPriorityPool(OptionSet):
-    """
-    The set of levels that will be the priority choices when generating excluded levels.
-
-    Starting levels take priority over excluded levels. If there are not enough remaining levels,
-    fewer levels than requested may be excluded.
+    Do not include any starting levels here.
 
     Valid levels are: ["Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
     """
-    display_name = "Excluded Level Priority Pool"
+    display_name = "Excluded Levels"
     valid_keys = frozenset({
         "Port of Adia",
         "River of Souls",
@@ -493,10 +492,10 @@ class Turok2Options(PerGameCommonOptions):
     include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
     
+    accessible_level_count: AccessibleLevelCount
     starting_level_count: StartingLevelCount
-    starting_level_priority_pool: StartingLevelPriorityPool
-    excluded_level_count: ExcludedLevelCount
-    excluded_level_priority_pool: ExcludedLevelPriorityPool
+    starting_level_pool: StartingLevelPool
+    excluded_levels: ExcludedLevels
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
     level_key_packs: LevelKeyPacks
@@ -543,10 +542,10 @@ option_groups = [
         IncludeMissionItemLocations,
     ]),
     OptionGroup("Progression Options", [
+        AccessibleLevelCount,
         StartingLevelCount,
-        StartingLevelPriorityPool,
-        ExcludedLevelCount,
-        ExcludedLevelPriorityPool,
+        StartingLevelPool,
+        ExcludedLevels,
         ForceEarlyWeapon,
         NukeBehavior,
         LevelKeyPacks,

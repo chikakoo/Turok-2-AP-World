@@ -485,6 +485,7 @@ def create_all_items(world: Turok2World) -> None:
     Leave this commented out in released versions
     """
     
+    """
     item_counts: dict[str, int] = Counter()
     total_items = len(itempool)
 
@@ -495,6 +496,7 @@ def create_all_items(world: Turok2World) -> None:
     for item, count in item_counts.items():
         percentage = (count / total_items) * 100
         print(f"{item.name}: {count} ({percentage:.1f}%)")
+    """
 
 def map_ap_item_to_game(ap_item_id) -> tuple[int, int]:
     """
