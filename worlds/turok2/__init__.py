@@ -128,7 +128,7 @@ class Turok2World(World):
                 level_pool.sort(key=lambda level: level in deprioritized)
 
             chosen_levels = level_pool[:count]
-            level_pool = level_pool[count:]
+            del level_pool[:count]
             return chosen_levels
 
         # Setup
@@ -165,9 +165,9 @@ class Turok2World(World):
         
         # These two can go in whatever order
         self.starting_levels.extend(
-            pick_levels(self, starting_option_counts.get("Random", 0), level_pool, deprioritized=early_levels))
+            pick_levels(self, starting_option_counts.get("Random", 0), level_pool))
         self.excluded_levels.extend(
-            pick_levels(self, excluded_option_counts.get("Random", 0), level_pool, deprioritized=early_levels))
+            pick_levels(self, excluded_option_counts.get("Random", 0), level_pool))
 
     def create_regions(self) -> None:
         """Creates all regions/locations/events and the completion condition"""
