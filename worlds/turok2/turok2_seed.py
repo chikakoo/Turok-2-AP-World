@@ -5,7 +5,7 @@ import Utils
 from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
-from .items import ITEM_TABLE, ItemType, APMessageType
+from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup_item_name
 from .options import PrimagenGoal, PrimagenKeys
 
 if TYPE_CHECKING:
@@ -64,6 +64,12 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
     actors for the randomized locations.
     """
     angelscript_snippets = []
+    health_to_trap_actor_offset = {
+        "Silver Health": 0,
+        "Blue Health": 1,
+        "Full Health": 2,
+        "Ultra Health": 3
+    }
     for location in self.multiworld.get_filled_locations(self.player):
         # This is an event, so we don't care about it
         if location.address is None:
@@ -83,7 +89,14 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
         
         # If the item is for this world, the actor id should be the last parameter
         if location.item and location.item.player == self.player:
-            snippet += f", {ITEM_TABLE[location.item.name]["actor_id"]});"
+            actor_id = ITEM_TABLE[location.item.name]["actor_id"]
+
+            # The actor id of traps is a base value for the model to use
+            # We will get the offset of the model here using the same weight settings we use for health
+            if ITEM_TABLE[location.item.name]["type"] == ItemType.TRAP.value:
+                actor_id += health_to_trap_actor_offset[get_random_health_pickup_item_name(self)]
+
+            snippet += f", {actor_id});"
         # Else, it should be the location name and player name (so we can display it on pickup)
         else:
             if location.item.advancement:

@@ -679,7 +679,7 @@ ITEM_TABLE = {
     },
 
     # Traps
-    "Enemy Trap (Silver Health)": {
+    "Enemy Trap": {
         "id": 900000,
         "actor_id": 900000,
         "type": ItemType.TRAP.value,
@@ -687,32 +687,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
         "class": ItemClassification.trap
     },
-    "Enemy Trap (Blue Health)": {
-        "id": 900001,
-        "actor_id": 900001,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.ENEMY.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    "Enemy Trap (Full Health)": {
-        "id": 900002,
-        "actor_id": 900002,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.ENEMY.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    "Enemy Trap (Ultra Health)": {
-        "id": 900003,
-        "actor_id": 900003,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.ENEMY.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    
-    "Damage Trap (Silver Health)": {
+    "Damage Trap": {
         "id": 900010,
         "actor_id": 900010,
         "type": ItemType.TRAP.value,
@@ -720,58 +695,9 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
         "class": ItemClassification.trap
     },
-    "Damage Trap (Blue Health)": {
-        "id": 900011,
-        "actor_id": 900011,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.DAMAGE.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    "Damage Trap (Full Health)": {
-        "id": 900012,
-        "actor_id": 900012,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.DAMAGE.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    "Damage Trap (Ultra Health)": {
-        "id": 900013,
-        "actor_id": 900013,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.DAMAGE.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    
-    "Spam Trap (Silver Health)": {
+    "Spam Trap": {
         "id": 900020,
         "actor_id": 900020,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.SPAM.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    "Spam Trap (Blue Health)": {
-        "id": 900021,
-        "actor_id": 900021,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.SPAM.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    "Spam Trap (Full Health)": {
-        "id": 900022,
-        "actor_id": 900022,
-        "type": ItemType.TRAP.value,
-        "trap_type": TrapType.SPAM.value,
-        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
-        "class": ItemClassification.trap
-    },
-    "Spam Trap (Ultra Health)": {
-        "id": 900023,
-        "actor_id": 900023,
         "type": ItemType.TRAP.value,
         "trap_type": TrapType.SPAM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,

@@ -123,6 +123,11 @@ def get_random_health_pickup_item_name(world: Turok2World) -> str:
     ]
     names = [name for name, _ in health_pickups]
     weights = [weight for _, weight in health_pickups]
+
+    # If all weights are 0, default to equal weighting
+    if not any(weights):
+        weights = [1] * len(weights)
+        
     return world.random.choices(names, weights=weights, k=1)[0]
     
 def force_local_items(
@@ -485,6 +490,7 @@ def create_all_items(world: Turok2World) -> None:
     Leave this commented out in released versions
     """
     
+    """
     item_counts: dict[str, int] = Counter()
     total_items = len(itempool)
 
@@ -495,6 +501,7 @@ def create_all_items(world: Turok2World) -> None:
     for item, count in item_counts.items():
         percentage = (count / total_items) * 100
         print(f"{item.name}: {count} ({percentage:.1f}%)")
+    """
 
 def map_ap_item_to_game(ap_item_id) -> tuple[int, int]:
     """
