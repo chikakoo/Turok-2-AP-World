@@ -78,6 +78,7 @@ class Turok2World(World):
         
         self.initialize_levels()
 
+    @staticmethod
     def parse_level_option(level_option: list[str]) -> tuple[list[str], set[int]]:
         """
         Parses the level option and returns the following in a tuple:
@@ -92,7 +93,7 @@ class Turok2World(World):
             "Hive of the Mantids": 5,
             "Primagen's Lightship": 6
         }
-        random_choices = ["Random", "EarlyRandom", "LateRandom"]
+        random_choices = ["Random", "RandomEarly", "RandomLate"]
 
         random_options = [
             level for level in level_option
@@ -119,7 +120,7 @@ class Turok2World(World):
             in the given set.
             """
             if count == 0:
-                return
+                return []
 
             self.random.shuffle(level_pool)
 
@@ -135,10 +136,10 @@ class Turok2World(World):
         excluded_random_options, excluded_specific_levels = self.parse_level_option(self.options.excluded_levels.value)
 
         # Initialize starting and excluded with their specific levels, removing them from the pool
-        self.starting_levels = starting_specific_levels.copy()
-        self.excluded_levels = excluded_specific_levels.copy()
+        self.starting_levels = list(starting_specific_levels)
+        self.excluded_levels = list(excluded_specific_levels)
         level_pool = [
-            level for level in level_pool
+            level for level in [1, 2, 3, 4, 5, 6]
             if level not in self.starting_levels
             and level not in self.excluded_levels
         ]
@@ -152,21 +153,21 @@ class Turok2World(World):
         # Early/Starting first, so early starts are guaranteed
         # Then Late/Excluded so harder levels can be excluded
         self.starting_levels.extend(
-            pick_levels(self, starting_option_counts.get("EarlyRandom", 0), level_pool, deprioiritized=late_levels))
+            pick_levels(self, starting_option_counts.get("RandomEarly", 0), level_pool, deprioritized=late_levels))
         self.excluded_levels.extend(
-            pick_levels(self, excluded_option_counts.get("LateRandom", 0), level_pool, deprioiritized=early_levels))
+            pick_levels(self, excluded_option_counts.get("RandomLate", 0), level_pool, deprioritized=early_levels))
 
         # It's slightly easier to exclude early than to start late, so these go in this order
         self.excluded_levels.extend(
-            pick_levels(self, excluded_option_counts.get("EarlyRandom", 0), level_pool, deprioiritized=late_levels))
+            pick_levels(self, excluded_option_counts.get("RandomEarly", 0), level_pool, deprioritized=late_levels))
         self.starting_levels.extend(
-            pick_levels(self, starting_option_counts.get("LateRandom", 0), level_pool, deprioiritized=early_levels))
+            pick_levels(self, starting_option_counts.get("RandomLate", 0), level_pool, deprioritized=early_levels))
         
         # These two can go in whatever order
         self.starting_levels.extend(
-            pick_levels(self, starting_option_counts.get("Random", 0), level_pool, deprioiritized=early_levels))
+            pick_levels(self, starting_option_counts.get("Random", 0), level_pool, deprioritized=early_levels))
         self.excluded_levels.extend(
-            pick_levels(self, excluded_option_counts.get("Random", 0), level_pool, deprioiritized=early_levels))
+            pick_levels(self, excluded_option_counts.get("Random", 0), level_pool, deprioritized=early_levels))
 
     def create_regions(self) -> None:
         """Creates all regions/locations/events and the completion condition"""

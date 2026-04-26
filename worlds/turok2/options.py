@@ -223,7 +223,7 @@ class StartingLevels(OptionList):
 
     Valid levels: ["Random", "RandomEarly", "RandomLate", "Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
     """
-    display_name = "Starting Level Priority Pool"
+    display_name = "Starting Levels"
     valid_keys = {
         "Random",
         "RandomEarly",
@@ -235,7 +235,7 @@ class StartingLevels(OptionList):
         "Hive of the Mantids",
         "Primagen's Lightship"
     }
-    default = { "Port of Adia" }
+    default = [ "Port of Adia" ]
 
 class ExcludedLevels(OptionList):
     """
@@ -260,7 +260,7 @@ class ExcludedLevels(OptionList):
         "Hive of the Mantids",
         "Primagen's Lightship"
     }
-    default = {}
+    default = []
 
 class GuaranteeTorpedoLauncher(Toggle):
     """
