@@ -129,6 +129,25 @@ class IncludeMissionItemLocations(Toggle):
     """
     display_name = "Include Mission Item Locations"
     default = True
+
+class RandomizeSwitches(Toggle):
+    """
+    Each switch triggered in will be a check. Includes switches you touch and shoot.
+    Talisman/Oblivion portal switches as well as the level 5 force field generators are included here.
+    
+    This will put one junk item into the item pool per switch.
+    """
+    display_name = "Randomize Switches"
+    default = True
+
+class RandomizeMissionObjectives(Toggle):
+    """
+    Each mission objective task will be a check.
+    
+    This will put one junk item into the item pool per mission objective task.
+    """
+    display_name = "Randomize Mission Objectives"
+    default = True
     
 class ForceEarlyWeapon(Toggle):
     """
@@ -480,6 +499,8 @@ class Turok2Options(PerGameCommonOptions):
     include_eagle_feather_locations: IncludeEagleFeatherLocations
     include_talisman_locations: IncludeTalismanLocations
     include_mission_item_locations: IncludeMissionItemLocations
+    randomize_switches: RandomizeSwitches
+    randomize_mission_objectives: RandomizeMissionObjectives
     
     starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
@@ -527,6 +548,8 @@ option_groups = [
         IncludeEagleFeatherLocations,
         IncludeTalismanLocations,
         IncludeMissionItemLocations,
+        RandomizeSwitches,
+        RandomizeMissionObjectives
     ]),
     OptionGroup("Progression Options", [
         StartingLevels,

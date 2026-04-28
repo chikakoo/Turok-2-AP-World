@@ -102,7 +102,7 @@ def create_locations(world: Turok2World) -> None:
         if loc_info["level"] in world.excluded_levels:
             continue
 
-        # Exclude relevent locations if not shuffled
+        # Exclude relevant locations if not shuffled
         item_type = loc_info.get("type", -1)
 
         if not world.options.weapon_sanity and item_type == ItemType.WEAPON.value:
@@ -118,6 +118,10 @@ def create_locations(world: Turok2World) -> None:
         if item_type == ItemType.NUKE_PART.value and \
             (world.options.nuke_behavior == NukeBehavior.option_vanilla_in_pool_if_level_excluded or \
             world.options.nuke_behavior == NukeBehavior.option_vanilla_start_with_if_level_excluded):
+            continue
+        if not world.options.randomize_switches and item_type == ItemType.SWITCH.value:
+            continue
+        if not world.options.randomize_mission_objectives and item_type == ItemType.MISSION_OBJECTIVE.value:
             continue
 
         region_obj = world.get_region(loc_info["region"])
