@@ -446,13 +446,13 @@
     "[3-8] Raptor Rooms - Box of Bullets": { "region": "[3-8]", "ap_id": 68013, "position": "68_-3584_-2355_0", "type": 6 },
     "[3-8] Raptor Rooms - Quiver of Tek Arrows": { "region": "[3-8]", "ap_id": 68014, "position": "68_-3584_-409_0", "type": 6 },
     "[3-1] Prisoner - Rescue Prisoner": { "region": "[3-1]", "ap_id": 61103, "tag_id": "39", "type": 17 },
-    "[3-A1] Main Room - Destory Facility": { "region": "[3-A1]", "ap_id": 69001, "tag_id": "25", "type": 17 },
+    "[3-A1] Main Room - Destroy Facility": { "region": "[3-A1]", "ap_id": 69001, "tag_id": "25", "type": 17 },
     "[3-3] Marsh Bridges 2 - Oblivion Portal Switch": { "region": "[3-3]", "ap_id": 63097, "tag_id": "34", "type": 16 },
-    "[3-A2] Main Room - Destory Facility": { "region": "[3-A2]", "ap_id": 70001, "tag_id": "39", "type": 17 },
+    "[3-A2] Main Room - Destroy Facility": { "region": "[3-A2]", "ap_id": 70001, "tag_id": "39", "type": 17 },
     "[3-5] Prisoner - Rescue Prisoner": { "region": "[3-5]", "ap_id": 65020, "tag_id": "16", "type": 17 },
     "[3-6] Two Prisoners - Rescue Prisoner 1": { "region": "[3-6]", "ap_id": 66060, "tag_id": "29", "type": 17 },
     "[3-6] Two Prisoners - Rescue Prisoner 2": { "region": "[3-6]", "ap_id": 66061, "tag_id": "30", "type": 17 },
     "[3-6] Talisman Portal - Rescue Prisoner": { "region": "[3-6]", "ap_id": 66062, "tag_id": "31", "type": 17 },
     "[3-6] Talisman Portal Wall - Talisman Portal Switch": { "region": "[3-6]", "ap_id": 66063, "tag_id": "28", "type": 16 },
-    "[3-A3] Main Room - Destory Facility": { "region": "[3-A3]", "ap_id": 71000, "tag_id": "34", "type": 17 }
+    "[3-A3] Main Room - Destroy Facility": { "region": "[3-A3]", "ap_id": 71000, "tag_id": "34", "type": 17 }
 }
