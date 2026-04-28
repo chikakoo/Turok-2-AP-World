@@ -6,7 +6,7 @@ from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
 from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup_item_name
-from .options import PrimagenGoal, PrimagenKeys
+from .options import PrimagenGoal, RandomizePrimagenKeys
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -119,7 +119,7 @@ def get_angelscript_for_ammo(self: "Turok2World") -> str:
     been collected. This will tell the mod to still replace the item, and to tell it that
     it isn't an AP check.
     """
-    if not self.options.weapon_sanity or self.options.ammo_sanity:
+    if not self.options.randomize_weapons or self.options.randomize_ammo_pickups:
         return ""
     
     angelscript_snippets = []
@@ -140,7 +140,7 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_GOAL_DEFEAT_PRIMAGEN: Whether defeating the Primagen is the goal
     - OPTION_GOAL_LEVELS: How many levels is the goal
     - OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS: Whether reaching the level goal should give all primagen keys
-    - OPTION_WEAPON_SANITY: Whether weapons shuffled (used for replacing ammo spawns)
+    - OPTION_RANDOMIZE_WEAPONS: Whether weapons shuffled (used for replacing ammo spawns)
     - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
     - OPTION_EXCLUDED_LEVELS: What levels will never be accessible
     - OPTION_RANDOM_AMMO_MIN: The min percentage of random ammo you can get
@@ -154,12 +154,12 @@ def get_settings_string(self: "Turok2World") -> str:
     defeat_primagen_is_goal = "false"
     level_goal = self.options.level_goal
     levels_give_primagen_keys = "false"
-    weapon_sanity = "false"
+    randomize_weapons = "false"
     progressive_warps = 0
     level_key_packs = "false"
 
     # Set whether levels give primagen keys
-    if self.options.primagen_keys == PrimagenKeys.option_levels:
+    if self.options.randomize_primagen_keys == RandomizePrimagenKeys.option_levels:
         levels_give_primagen_keys = "true"
 
     # Set what the goal map is
@@ -169,8 +169,8 @@ def get_settings_string(self: "Turok2World") -> str:
         defeat_primagen_is_goal = "true"
 
     # Weapon and ammo locations
-    if self.options.weapon_sanity:
-        weapon_sanity = "true"
+    if self.options.randomize_weapons:
+        randomize_weapons = "true"
 
     # Progressive warps
     if self.options.progressive_warps:
@@ -201,7 +201,7 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
-        f"#define OPTION_WEAPON_SANITY {weapon_sanity}\n" +
+        f"#define OPTION_RANDOMIZE_WEAPONS {randomize_weapons}\n" +
         f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
         format_starting_items_macro("OPTION_EXCLUDED_LEVELS", self.excluded_levels) +
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +

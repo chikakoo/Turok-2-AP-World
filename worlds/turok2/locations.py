@@ -7,7 +7,7 @@ import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
-from .options import PrimagenGoal, PrimagenKeys, NukeBehavior, HealthSanity, LifeForceSanity
+from .options import PrimagenGoal, RandomizePrimagenKeys, NukeBehavior, RandomizeHealthPickups, RandomizeLifeForces
 from . import items
 from .items import ItemType
 
@@ -105,15 +105,15 @@ def create_locations(world: Turok2World) -> None:
         # Exclude relevant locations if not shuffled
         item_type = loc_info.get("type", -1)
 
-        if not world.options.weapon_sanity and item_type == ItemType.WEAPON.value:
+        if not world.options.randomize_weapons and item_type == ItemType.WEAPON.value:
             continue
-        if not world.options.ammo_sanity and item_type == ItemType.AMMO.value:
+        if not world.options.randomize_ammo_pickups and item_type == ItemType.AMMO.value:
             continue
-        if should_skip_health(item_type, world.options.health_sanity):
+        if should_skip_health(item_type, world.options.randomize_health_pickups):
             continue
-        if should_skip_life_force(item_type, world.options.life_force_sanity):
+        if should_skip_life_force(item_type, world.options.randomize_life_forces):
             continue
-        if not world.options.include_mission_item_locations and item_type == ItemType.MISSION_ITEM.value:
+        if not world.options.randomize_mission_items and item_type == ItemType.MISSION_ITEM.value:
             continue
         if item_type == ItemType.NUKE_PART.value and \
             (world.options.nuke_behavior == NukeBehavior.option_vanilla_in_pool_if_level_excluded or \
@@ -147,10 +147,10 @@ def should_skip_health(item_type: int, health_option) -> bool:
     if item_type not in health_types:
         return False
 
-    if health_option == HealthSanity.option_none:
+    if health_option == RandomizeHealthPickups.option_none:
         return True
 
-    if health_option == HealthSanity.option_full_and_ultra_only:
+    if health_option == RandomizeHealthPickups.option_full_and_ultra_only:
         return item_type not in {
             ItemType.FULL_HEALTH.value,
             ItemType.ULTRA_HEALTH.value,
@@ -170,13 +170,13 @@ def should_skip_life_force(item_type: int, life_force_option) -> bool:
     if item_type not in life_force_types:
         return False
 
-    if life_force_option == LifeForceSanity.option_none:
+    if life_force_option == RandomizeLifeForces.option_none:
         return True
 
-    if life_force_option == LifeForceSanity.option_yellow_only:
+    if life_force_option == RandomizeLifeForces.option_yellow_only:
         return item_type != ItemType.LIFE_FORCE_1.value
 
-    if life_force_option == LifeForceSanity.option_red_only:
+    if life_force_option == RandomizeLifeForces.option_red_only:
         return item_type != ItemType.LIFE_FORCE_10.value
 
     return False
@@ -216,7 +216,7 @@ def create_completion_condition(world: Turok2World):
     primagen_keys_needed = []
 
     if (world.options.primagen_goal != PrimagenGoal.option_none and
-        world.options.primagen_keys != PrimagenKeys.option_levels):
+        world.options.randomize_primagen_keys != RandomizePrimagenKeys.option_levels):
         primagen_keys_needed = [
             "Primagen Key 1",
             "Primagen Key 2",
@@ -350,7 +350,7 @@ def weapon_requirement(world: Turok2World, args: dict):
     Checks whether the weapon requirements are met (categories and count).
     Returns true if weapons are not randomized, as it's assumed the game's given weapons are enough.
     """
-    if not world.options.weapon_sanity:
+    if not world.options.randomize_weapons:
         return lambda state: True
 
     category = args.get("category")
@@ -364,7 +364,7 @@ def mission_item_requirement(world: Turok2World, args: dict):
     """
     Checks mission items. Returns True if we aren't shuffling them because the game logic should work here.
     """
-    if world.options.include_mission_item_locations:
+    if world.options.randomize_mission_items:
         count = args.get("count", 1)
         item = args.get("item")
         return lambda state: state.has(item, world.player, count)
@@ -378,7 +378,7 @@ def not_guaranteed_torpedo_launcher(world: Turok2World):
 
 def weapons_not_randomized(world: Turok2World):
     """Checks whether weapons are not randomized"""
-    weapons_not_randomized = not world.options.weapon_sanity
+    weapons_not_randomized = not world.options.randomize_weapons
     return lambda state: weapons_not_randomized
 
 def progressive_warp(world: Turok2World, args: dict):

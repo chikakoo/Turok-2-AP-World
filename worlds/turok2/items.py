@@ -1,9 +1,9 @@
 from __future__ import annotations
 import math
 from .item_table import *
-from typing import TYPE_CHECKING, Counter
+from typing import TYPE_CHECKING
 from BaseClasses import Item
-from .options import NukeBehavior, PrimagenGoal, PrimagenKeys, IncludeTalismanLocations
+from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -170,7 +170,7 @@ def force_early_weapon(world: Turok2World, itempool: list[Item]):
     """
     If force_early_weapon is on, force it as one of the local early items.
     """
-    if not world.options.force_early_weapon or not world.options.weapon_sanity:
+    if not world.options.force_early_weapon or not world.options.randomize_weapons:
         return
         
     def is_valid_early_weapon(item_name: str) -> bool:
@@ -255,13 +255,13 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
 
         # Start with talismans if necessary
         elif item_type == ItemType.TALISMAN.value:
-            if (world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_start_with_if_level_excluded and
+            if (world.options.randomize_talismans == RandomizeTalismans.option_vanilla_start_with_if_level_excluded and
                 level in world.excluded_levels):
                 precollect_count = 1
 
         # Start with primagen keys if necessary
         elif item_type == ItemType.PRIMAGEN_KEY.value:
-            if (world.options.primagen_keys == PrimagenKeys.option_vanilla_start_with_if_level_excluded and
+            if (world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_start_with_if_level_excluded and
                 level in world.excluded_levels):
                 precollect_count = 1
 
@@ -293,19 +293,19 @@ def get_required_seed_items(world: Turok2World):
 
         # Talismans
         if data["type"] == ItemType.TALISMAN.value:
-            in_pool = world.options.include_talisman_locations == IncludeTalismanLocations.option_in_pool or \
+            in_pool = world.options.randomize_talismans == RandomizeTalismans.option_in_pool or \
                 (is_level_excluded and 
-                 world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_in_pool_if_level_excluded)
+                 world.options.randomize_talismans == RandomizeTalismans.option_vanilla_in_pool_if_level_excluded)
             start_with = is_level_excluded and \
-                world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_start_with_if_level_excluded
+                world.options.randomize_talismans == RandomizeTalismans.option_vanilla_start_with_if_level_excluded
             return in_pool or start_with
         
         # Primagen keys
         if data["type"] == ItemType.PRIMAGEN_KEY.value:
             needed_for_goal = (world.options.primagen_goal != PrimagenGoal.option_none and
-                world.options.primagen_keys != PrimagenKeys.option_levels)
+                world.options.randomize_primagen_keys != RandomizePrimagenKeys.option_levels)
             start_with = is_level_excluded and \
-                world.options.primagen_keys == PrimagenKeys.option_vanilla_start_with_if_level_excluded
+                world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_start_with_if_level_excluded
             return needed_for_goal or start_with
         
         # Nuke
@@ -328,19 +328,19 @@ def get_required_seed_items(world: Turok2World):
         
         # Eagle feathers
         if data["type"] == ItemType.EAGLE_FEATHER.value:
-            return world.options.include_eagle_feather_locations
+            return world.options.randomize_eagle_feathers
         
         # Mission items
         if data["type"] == ItemType.MISSION_ITEM.value:
-            return world.options.include_mission_item_locations
+            return world.options.randomize_mission_items
         
         # Weapons
         if data["type"] == ItemType.WEAPON.value:
-            return world.options.weapon_sanity
+            return world.options.randomize_weapons
         
         # Ammo
         if data["type"] == ItemType.AMMO.value:
-            return world.options.ammo_sanity
+            return world.options.randomize_ammo_pickups
         
         # Progressive warps
         if data["type"] == ItemType.PROGRESSIVE_WARP.value:
@@ -361,13 +361,13 @@ def handle_vanilla_locations(world: Turok2World) -> None:
 
     Currently done with feathers, talismans, and Primagen keys.
     """
-    place_feathers = not world.options.include_eagle_feather_locations
+    place_feathers = not world.options.randomize_eagle_feathers
     place_talismans = \
-        (world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_in_pool_if_level_excluded or
-        world.options.include_talisman_locations == IncludeTalismanLocations.option_vanilla_start_with_if_level_excluded)
+        (world.options.randomize_talismans == RandomizeTalismans.option_vanilla_in_pool_if_level_excluded or
+        world.options.randomize_talismans == RandomizeTalismans.option_vanilla_start_with_if_level_excluded)
     place_primagen_keys = \
         (world.options.primagen_goal != PrimagenGoal.option_none and
-        (world.options.primagen_keys != PrimagenKeys.option_in_pool))
+        (world.options.randomize_primagen_keys != RandomizePrimagenKeys.option_in_pool))
 
     if 1 not in world.excluded_levels:
         if place_primagen_keys:

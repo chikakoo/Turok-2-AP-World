@@ -18,7 +18,7 @@ class LevelGoal(Range):
 
 class PrimagenGoal(Choice):
     """
-    Sets the Primagen goal. See the PrimagenKeys setting for options on how to get to the lair.
+    Sets the Primagen goal. See the RandomizePrimagenKeys setting for options on how to get to the lair.
     - None: The Primagen is not part of the goal. Primagen Keys are not in the item pool.
     - Defeat: Defeat the Primagen and view the ending cutscene.
     - Get to Lair: Arriving at the Primagen's lair will complete the goal. Use this if you
@@ -30,7 +30,7 @@ class PrimagenGoal(Choice):
     option_get_to_lair = 2
     default = option_defeat
 
-class PrimagenKeys(Choice):
+class RandomizePrimagenKeys(Choice):
     """
     If the Primagen goal is not None, sets how you get the Primagen Keys.
     - Vanilla In Pool If level Excluded: Primagen Keys are in their vanilla locations. 
@@ -41,14 +41,14 @@ class PrimagenKeys(Choice):
     - Levels: The Primagen keys will be given to you after you complete the number of levels 
               specified in the LevelGoal setting.
     """
-    display_name = "Primagen Keys"
+    display_name = "Randomize Primagen Keys"
     option_vanilla_in_pool_if_level_excluded = 0
     option_vanilla_start_with_if_level_excluded = 1
     option_in_pool = 2
     option_levels = 3
     default = option_in_pool
 
-class WeaponSanity(Toggle):
+class RandomizeWeapons(Toggle):
     """
     Whether to include static weapon pickups in the list of locations to check.
     Each weapon will have one entry in the item pool.
@@ -57,18 +57,18 @@ class WeaponSanity(Toggle):
     weapon (favoring those lacking ammo). This is to ensure that you can always get ammo
     for the randomly rolled weapons.
     """
-    display_name = "Weapon Sanity"
+    display_name = "Randomize Weapons"
     default = True
 
-class AmmoSanity(Toggle):
+class RandomizeAmmoPickups(Toggle):
     """
     Whether to include ammo pickups in the list of locations to check.
     Use the JunkItemPoolAmmoWeight setting to affect how much ammo will be in the item pool.
     """
-    display_name = "Ammo Sanity"
+    display_name = "Randomize Ammo Pickups"
     default = True
 
-class HealthSanity(Choice):
+class RandomizeHealthPickups(Choice):
     """
     Whether to include static health pickups in the list of locations to check.
     Use the JunkItemPoolHealthWeight setting to affect how many will be in the item pool.
@@ -77,13 +77,13 @@ class HealthSanity(Choice):
     - Full And Ultra Only: Only full and ultra health locations will be included.
                            Note that the four ultra healths in the Level 6 hub are excluded.
     """
-    display_name = "Health Sanity"
+    display_name = "Randomize Health Pickups"
     option_none = 0
     option_all = 1
     option_full_and_ultra_only = 2
     default = option_all
     
-class LifeForceSanity(Choice):
+class RandomizeLifeForces(Choice):
     """
     Whether to include Life Forces in the list of locations to check.
     - None: No Life Force locations will be included
@@ -91,22 +91,22 @@ class LifeForceSanity(Choice):
     - Yellow Only: Only yellow Life Forces will be included
     - Red Only: Only red Life Forces will be included
     """
-    display_name = "Life Force Sanity"
+    display_name = "Randomize Life Forces"
     option_none = 0
     option_all = 1
     option_yellow_only = 2
     option_red_only = 3
     default = option_all
 
-class IncludeEagleFeatherLocations(Toggle):
+class RandomizeEagleFeathers(Toggle):
     """
     Whether to include eagle feathers in the list of locations to check.
     Setting this to False will place them in their vanilla locations.
     """
-    display_name = "Include Eagle Feathers"
+    display_name = "Randomize Eagle Feathers"
     default = True
 
-class IncludeTalismanLocations(Choice):
+class RandomizeTalismans(Choice):
     """
     Whether to include talismans in the list of locations to check.
     Setting this to False will place them in their vanilla locations.
@@ -116,23 +116,23 @@ class IncludeTalismanLocations(Choice):
                                             If that level is excluded, you will start with it.
     - In Pool: The talisman will be in the item pool.
     """
-    display_name = "Include Talismans"
+    display_name = "Randomize Talismans"
     option_vanilla_in_pool_if_level_excluded = 0
     option_vanilla_start_with_if_level_excluded = 1
     option_in_pool = 2
     default = option_in_pool
     
-class IncludeMissionItemLocations(Toggle):
+class RandomizeMissionItems(Toggle):
     """
     Whether to include items needed to finish the level. For example, the beacon power cells
     in level 1 or the graveyard keys in level 2.
     """
-    display_name = "Include Mission Item Locations"
+    display_name = "Randomize Mission Items"
     default = True
 
 class RandomizeSwitches(Toggle):
     """
-    Each switch triggered in will be a check. Includes switches you touch and shoot.
+    Each switch triggered will be a check. Includes switches you touch and shoot.
     Talisman/Oblivion portal switches as well as the level 5 force field generators are included here.
     
     This will put one junk item into the item pool per switch.
@@ -142,7 +142,7 @@ class RandomizeSwitches(Toggle):
 
 class RandomizeMissionObjectives(Toggle):
     """
-    Each mission objective task will be a check.
+    Each mission objective task will be a check. For example, each rescued child is one check.
     
     This will put one junk item into the item pool per mission objective task.
     """
@@ -490,15 +490,15 @@ class SpamTrapWeight(Range):
 class Turok2Options(PerGameCommonOptions):
     level_goal: LevelGoal
     primagen_goal: PrimagenGoal
-    primagen_keys: PrimagenKeys
+    randomize_primagen_keys: RandomizePrimagenKeys
     
-    weapon_sanity: WeaponSanity
-    ammo_sanity: AmmoSanity
-    health_sanity: HealthSanity
-    life_force_sanity: LifeForceSanity
-    include_eagle_feather_locations: IncludeEagleFeatherLocations
-    include_talisman_locations: IncludeTalismanLocations
-    include_mission_item_locations: IncludeMissionItemLocations
+    randomize_weapons: RandomizeWeapons
+    randomize_ammo_pickups: RandomizeAmmoPickups
+    randomize_health_pickups: RandomizeHealthPickups
+    randomize_life_forces: RandomizeLifeForces
+    randomize_eagle_feathers: RandomizeEagleFeathers
+    randomize_talismans: RandomizeTalismans
+    randomize_mission_items: RandomizeMissionItems
     randomize_switches: RandomizeSwitches
     randomize_mission_objectives: RandomizeMissionObjectives
     
@@ -538,16 +538,16 @@ option_groups = [
     OptionGroup("Goal", [
         LevelGoal,
         PrimagenGoal,
-        PrimagenKeys
+        RandomizePrimagenKeys
     ]),
     OptionGroup("Item Pool Options", [
-        WeaponSanity,
-        AmmoSanity,
-        HealthSanity,
-        LifeForceSanity,
-        IncludeEagleFeatherLocations,
-        IncludeTalismanLocations,
-        IncludeMissionItemLocations,
+        RandomizeWeapons,
+        RandomizeAmmoPickups,
+        RandomizeHealthPickups,
+        RandomizeLifeForces,
+        RandomizeEagleFeathers,
+        RandomizeTalismans,
+        RandomizeMissionItems,
         RandomizeSwitches,
         RandomizeMissionObjectives
     ]),
