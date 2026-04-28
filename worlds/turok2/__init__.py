@@ -61,10 +61,15 @@ class Turok2World(World):
         excluded_level_count = len(excluded_random_options) + len(excluded_specific_levels)
         accessible_level_count = max_levels - excluded_level_count
 
+        # You must start with at least one level
+        if starting_level_count == 0:
+            raise OptionError(f"Turok 2 for {self.player_name}: "
+                f"Starting levels must have at least one entry. Adjust `starting_levels`.")
+
         # You must be able to reach your level goal
         if self.options.level_goal > accessible_level_count:
             raise OptionError(f"Turok 2 for {self.player_name}: "
-                f"Not enough levels to reach the goal. Adjust `level_goal`, `excluded_levels`.")
+                f"Not enough levels to reach the goal. Adjust `level_goal` or `excluded_levels`.")
         
         # You can't start with more levels than you can access
         if starting_level_count > accessible_level_count:
