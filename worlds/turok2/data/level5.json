@@ -151,6 +151,15 @@
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
+                    "to": "[5-MC]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 10
+                        }
+                    }
+                },
+                { 
                     "to": "[5-E3]",
                     "rule": {
                         "progressive_warp": {
@@ -219,6 +228,10 @@
                     }
                 }
             ]
+		},
+        {
+			"name": "[5-MC]",
+			"exits": []
 		},
         {
 			"name": "[5-10]",

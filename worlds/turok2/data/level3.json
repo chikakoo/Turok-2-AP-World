@@ -172,6 +172,25 @@
             "name": "[3-7]",
             "exits": [
                 { 
+                    "to": "[3-A3]",
+                    "rule": {
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "L3 Satchel Charge",
+                                    "count": 3
+                                }
+                            },
+                            {
+                                "progressive_warp": {
+                                    "level": 3,
+                                    "count": 8
+                                }
+                            }
+                        ]
+                    }
+                },
+                { 
                     "to": "[3-7] Eye",
                     "rule": { "has": "Eye of Truth" } 
                 },
@@ -185,6 +204,10 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "[3-A3]",
+            "exits": []
         },
         {
             "name": "[3-7] Eye",
