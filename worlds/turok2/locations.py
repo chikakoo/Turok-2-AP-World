@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
 from .options import PrimagenGoal, RandomizePrimagenKeys, NukeBehavior, \
-    RandomizeHealthPickups, RandomizeLifeForces, JunkItemPoolDistribution
+    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, JunkItemPoolDistribution
 from . import items
 from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
 
@@ -136,9 +136,11 @@ def create_locations(world: Turok2World) -> None:
         if item_type == ItemType.WEAPON.value:
             return world.options.randomize_weapons
         if item_type == ItemType.AMMO.value:
-            return world.options.randomize_ammo_pickups
+            world.ammo_pickup_locations.append((loc_name, loc_info))
+            return False
         if item_group == WeightedItemGroup.HEALTH:
-            return should_include_health_location(item_type)
+            world.health_pickup_locations.append((loc_name, loc_info))
+            return False
         if item_group == WeightedItemGroup.LIFE_FORCE:
             world.life_force_locations.append((loc_name, loc_info))
             return False
@@ -156,48 +158,87 @@ def create_locations(world: Turok2World) -> None:
             return world.options.randomize_mission_objectives
 
         return True
-
-    def should_include_health_location(item_type: int) -> bool:
+    
+    def resolve_locations_with_option(
+        world,
+        locations: list[tuple[str, dict]],
+        option: int,
+        special_names: dict[str, int],
+        filters: dict[int, callable] = None) -> list[tuple[str, dict]]:
         """
-        Returns whether the given health item type's location should be included.
+        Resolves a list of locations based on a NamedRange-style option.
+        - locations: [(loc_name, loc_info)]
+        - option: The option value
+        - special_names: The option's special_range_names
+        - filters: Optional mapping of special option values -> filter functions
         """
-        health_option = world.options.randomize_health_pickups
+        filters = filters or {}
+        NONE = special_names.get("none")
+        ALL = special_names.get("all")
 
-        if health_option == RandomizeHealthPickups.option_none:
-            return False
-        if health_option == RandomizeHealthPickups.option_full_and_ultra_only:
-            return item_type in {
-                ItemType.FULL_HEALTH.value,
-                ItemType.ULTRA_HEALTH.value,
-            }
+        if option == NONE:
+            return []
+        if option == ALL:
+            return list(locations)
+        if option in filters:
+            return [loc for loc in locations if filters[option](loc)]
 
-        return True
+        return select_percentage(world, locations, option)
+    
+    def add_ammo_locations(world: Turok2World) -> None:
+        """
+        Adds all the ammo locations to the loction list.
+        If it's a % fill, adds the appropriate percentage of locations.
+        """
+        selected = resolve_locations_with_option(
+            world,
+            world.ammo_pickup_locations,
+            world.options.randomize_ammo_pickups.value,
+            RandomizeAmmoPickups.special_range_names
+        )
+
+        for loc_name, loc_info in selected:
+            add_location(world, loc_name, loc_info)
+
+    def add_health_locations(world: Turok2World) -> None:
+        """
+        Adds all the health locations to the loction list.
+        If it's a % fill, adds the appropriate percentage of locations.
+        """
+        special = RandomizeHealthPickups.special_range_names
+        filters = {
+            special["full_and_ultra_only"]:
+                lambda loc: loc[1]["type"] in (ItemType.FULL_HEALTH.value, ItemType.ULTRA_HEALTH.value)
+        }
+
+        selected = resolve_locations_with_option(
+            world,
+            world.health_pickup_locations,
+            world.options.randomize_health_pickups.value,
+            special,
+            filters
+        )
+
+        for loc_name, loc_info in selected:
+            add_location(world, loc_name, loc_info)
 
     def add_life_force_locations(world: Turok2World) -> None:
         """
         Adds all the life froce locations to the loction list.
-        If it's a % fill, grabs the appropriate percentage of locations.
+        If it's a % fill, adds the appropriate percentage of locations.
         """
-        life_force_option = world.options.randomize_life_forces
-
-        if life_force_option == RandomizeLifeForces.special_range_names["none"]:
-            return
-        elif life_force_option == RandomizeLifeForces.special_range_names["all"]:
-            selected = list(world.life_force_locations)
-        elif life_force_option == RandomizeLifeForces.special_range_names["yellow-only"]: 
-            selected = [
-                (name, info)
-                for name, info in world.life_force_locations
-                if info["type"] == ItemType.LIFE_FORCE_1.value
-            ]
-        elif life_force_option == RandomizeLifeForces.special_range_names["red-only"]:
-            selected = [
-                (name, info)
-                for name, info in world.life_force_locations
-                if info["type"] == ItemType.LIFE_FORCE_10.value
-            ]
-        else: # Some custom %
-            selected = select_percentage(world, world.life_force_locations, life_force_option)
+        special = RandomizeLifeForces.special_range_names
+        filters = {
+            special["yellow_only"]: lambda loc: loc[1]["type"] == ItemType.LIFE_FORCE_1.value,
+            special["red_only"]: lambda loc: loc[1]["type"] == ItemType.LIFE_FORCE_10.value,
+        }
+        selected = resolve_locations_with_option(
+            world,
+            world.life_force_locations,
+            world.options.randomize_life_forces.value,
+            special,
+            filters
+        )
 
         for loc_name, loc_info in selected:
             add_location(world, loc_name, loc_info)
@@ -218,8 +259,10 @@ def create_locations(world: Turok2World) -> None:
         if try_add_location(world, loc_name, loc_info):
             add_location(world, loc_name, loc_info)
 
+    add_ammo_locations(world)
+    add_health_locations(world)
     add_life_force_locations(world)
-
+    
 def create_events(world: Turok2World) -> None:
     """
     Creates events in regions from the JSON data.

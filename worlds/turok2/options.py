@@ -60,36 +60,49 @@ class RandomizeWeapons(Toggle):
     display_name = "Randomize Weapons"
     default = True
 
-class RandomizeAmmoPickups(Toggle):
+class RandomizeAmmoPickups(NamedRange):
     """
     Whether to include ammo pickups in the list of locations to check.
-    Use the JunkItemPoolAmmoWeight setting to affect how much ammo will be in the item pool.
+
+    Set this to the percentage of all ammo pickups you wish to include.
+    Each 1% adds approximately 7 locations.
     """
     display_name = "Randomize Ammo Pickups"
-    default = False
+    range_start = 0
+    range_end = 100
+    default = 0
+    special_range_names = {
+        "none": 0,
+        "all": 100
+    }
 
-class RandomizeHealthPickups(Choice):
+class RandomizeHealthPickups(NamedRange):
     """
     Whether to include static health pickups in the list of locations to check.
 
     Note that the four ultra healths in the Level 6 hub are excluded, as these
     only exist in lower difficulties.
 
-    Use the JunkItemPoolHealthWeight setting to affect how many will be in the item pool.
+    Set this to the percentage of all life forces you wish to include.
+    Each 1% adds approximately 8 locations.
 
     - None: No health pickup locations will be included
     - All: All health pickup locations will be included
-    - Full And Ultra Only: Only full and ultra health locations will be included.
+    - Full And Ultra Only (value of -1): Only full and ultra health locations will be included.
 
-                           This can put a lot of high-healing items in the pool if using vanilla
-                           JunkItemPoolDistribution. Consider setting it to vanilla_custom_weights
-                           and modifying health weights if it ends up being too easy.
+                                         This can put a lot of high-healing items in the pool if using vanilla
+                                         JunkItemPoolDistribution. Consider setting it to vanilla_custom_weights
+                                         and modifying health weights if it ends up being too easy.
     """
     display_name = "Randomize Health Pickups"
-    option_none = 0
-    option_all = 1
-    option_full_and_ultra_only = 2
-    default = option_none
+    range_start = 0
+    range_end = 100
+    default = 0
+    special_range_names = {
+        "none": 0,
+        "all": 100,
+        "full_and_ultra_only": -1
+    }
     
 class RandomizeLifeForces(NamedRange):
     """
@@ -97,7 +110,7 @@ class RandomizeLifeForces(NamedRange):
 
     Set this to the percentage of all life forces you wish to include.
     Each 1% adds approximately 13 locations.
-    
+
     - None: No Life Force locations will be included
     - All: Both yellow and red Life Forces will be included
     - Yellow Only (value of -1): Only yellow Life Forces will be included
@@ -110,8 +123,8 @@ class RandomizeLifeForces(NamedRange):
     special_range_names = {
         "none": 0,
         "all": 100,
-        "yellow-only": -1,
-        "red-only": -2
+        "yellow_only": -1,
+        "red_only": -2
     }
 
 class RandomizeEagleFeathers(Toggle):
