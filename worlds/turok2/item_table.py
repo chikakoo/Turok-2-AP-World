@@ -33,7 +33,7 @@ class WeightedItemGroup(Enum):
     """
     NONE = 0
     LIFE_FORCE = 1
-    HEALTH = 2,
+    HEALTH = 2
     AMMO = 3
 
 ITEM_TYPE_TO_GROUP = {
@@ -45,7 +45,19 @@ ITEM_TYPE_TO_GROUP = {
     ItemType.FULL_HEALTH: WeightedItemGroup.HEALTH,
     ItemType.ULTRA_HEALTH: WeightedItemGroup.HEALTH,
 
-    ItemType.AMMO: WeightedItemGroup.AMMO,
+    ItemType.AMMO: WeightedItemGroup.AMMO
+}
+
+ITEM_TYPE_TO_NAME = {
+    ItemType.LIFE_FORCE_1: "Life Force 1",
+    ItemType.LIFE_FORCE_10: "Life Force 10",
+
+    ItemType.SILVER_HEALTH: "Silver Health",
+    ItemType.BLUE_HEALTH: "Blue Health",
+    ItemType.FULL_HEALTH: "Full Health",
+    ItemType.ULTRA_HEALTH: "Ultra Health",
+
+    ItemType.AMMO: "Random Ammo Pack"
 }
     
 class TrapType(Enum):

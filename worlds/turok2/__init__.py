@@ -44,14 +44,12 @@ class Turok2World(World):
         Initialize instance variables
         - starting_levels: What levels are started with
         - excluded_levels: What level locations to exclude
-        - category_weights: Dict from ItemType to item category weights (health, etc)
-        - item_weights: Dict from ItemType to item weights (silver health, etc)
+        - vanilla_item_counts: Dict from ItemType to item weights (silver health, etc)
         """
         super().__init__(multiworld, player)
         self.starting_levels = []
         self.excluded_levels = []
-        self.category_weights = defaultdict(int)
-        self.item_weights = defaultdict(int)
+        self.vanilla_item_counts = defaultdict(int)
         self.ammo_pickup_locations = []
         self.health_pickup_locations = []
         self.life_force_locations = []
@@ -94,7 +92,6 @@ class Turok2World(World):
                 "Starting levels cannot be excluded. Adjust `starting_levels` or `excluded_levels`.")
         
         self.initialize_levels()
-        self.initialize_item_weights()
 
     @staticmethod
     def parse_level_option(level_option: list[str]) -> tuple[list[str], set[int]]:
@@ -187,25 +184,6 @@ class Turok2World(World):
         self.excluded_levels.extend(
             pick_levels(self, excluded_option_counts.get("Random", 0), level_pool))
 
-    def initialize_item_weights(self) -> None:
-        """
-        Initializes the item weights. This should only be done if we aren't using vanilla weights.
-        Vanilla weights are computed during item location parsing so we can get an accurate number.
-        """
-        if self.options.junk_item_pool_distribution != JunkItemPoolDistribution.option_vanilla:
-            # Health
-            self.item_weights[ItemType.SILVER_HEALTH] = self.options.silver_health_weight
-            self.item_weights[ItemType.BLUE_HEALTH] = self.options.blue_health_weight
-            self.item_weights[ItemType.FULL_HEALTH] = self.options.full_health_weight
-            self.item_weights[ItemType.ULTRA_HEALTH] = self.options.ultra_health_weight
-
-            # Life Force
-            self.item_weights[ItemType.LIFE_FORCE_1] = self.options.life_force_1_weight
-            self.item_weights[ItemType.LIFE_FORCE_10] = self.options.life_force_10_weight
-
-            # Ammo (only one type here, so hard-code a weight)
-            self.item_weights[ItemType.AMMO] = 1
-
     def create_regions(self) -> None:
         """Creates all regions/locations/events and the completion condition"""
         locations.create_regions_and_entrances(self)
@@ -228,7 +206,7 @@ class Turok2World(World):
     
     def get_filler_item_name(self) -> str:
         """Gets a random filler item"""
-        return items.get_random_filler_item_name()
+        return items.get_random_filler_item_name(self)
         
     def generate_output(self, output_directory: str) -> None:
         gen_turok2_seed(self, output_directory)

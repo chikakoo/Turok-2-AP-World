@@ -387,9 +387,16 @@ class JunkItemPoolDistribution(Choice):
     """
     How the junk item pool will be calculated. In all options, traps will take up the
     given percentage of the item pool.
-    - Vanilla: Item distributions will have weights similar to vanilla
-    - Vanilla Custom Weights: Item types will have weights similar to vanilla, but health and life forces will use the weights
-                              specified in the <Silver/Blue/Full/Ultra>HealthWeight and LifeForce<1/10>Weight settings.
+
+    Junk items are Life Forces, Health, Ammo pickups, and traps.
+
+    In all cases, if more locations need to be filled, the weights defined in the 
+    JunkItemPool<Type>Weight and <Type>Weight settings will be used.
+
+    - Vanilla: Randomized vanilla items will be added to the pool. 
+    - Vanilla Custom Weights: Randomized vanilla items will be added to the pool, but health and life forces 
+                              will use the weights specified in the <Silver/Blue/Full/Ultra>HealthWeight 
+                              and LifeForce<1/10>Weight settings.
     - Custom: Uses the weights defined in the JunkItemPool<Type>Weight and <Type>Weight settings.
     """
     display_name = "Junk Item Pool Distribution"

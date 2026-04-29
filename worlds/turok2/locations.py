@@ -116,11 +116,8 @@ def create_locations(world: Turok2World) -> None:
         item_type_raw = loc_info.get("type", None)
         if item_type_raw is not None:
             item_type = ItemType(item_type_raw)
-            item_group = ITEM_TYPE_TO_GROUP.get(item_type, None)
-            if item_group is not None:
-                world.category_weights[item_group] += 1
             if world.options.junk_item_pool_distribution == JunkItemPoolDistribution.option_vanilla:
-                world.item_weights[item_type] += 1
+                world.vanilla_item_counts[item_type] += 1
     
     def try_add_location(world: Turok2World, loc_name: str, loc_info: dict) -> bool:
         """

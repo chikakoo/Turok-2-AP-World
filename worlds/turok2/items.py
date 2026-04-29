@@ -21,12 +21,35 @@ def get_item_name_groups() -> dict[str, set[str]]:
 
     return groups
     
-def get_random_filler_item_name() -> str:
+def get_random_filler_item_name(world: Turok2World) -> str:
     """
     world.py will use this to generate filler items.
-    We do most of this ourselves, but just returns a Life Force 1 if needed.
+    Any non-vanilla pickups items will be generated from this.
     """
-    return "Life Force 1"
+    fallback_item = "Life Force 1"
+    category_pairs = [
+        (WeightedItemGroup.HEALTH, world.options.junk_item_pool_health_weight),
+        (WeightedItemGroup.AMMO, world.options.junk_item_pool_ammo_weight),
+        (WeightedItemGroup.LIFE_FORCE, world.options.junk_item_pool_life_force_weight)
+    ]
+    names, weights = prepare_weights(category_pairs)
+    if not names:
+        return fallback_item
+
+    category = world.random.choices(names, weights=weights, k=1)[0]
+    if category == WeightedItemGroup.AMMO:
+        item = get_random_ammo_item_name()
+    elif category == WeightedItemGroup.HEALTH:
+        item = get_random_health_pickup_item_name(world)
+    elif category == WeightedItemGroup.LIFE_FORCE:
+        item = get_random_life_force_item_name(world)
+    else:
+        item = fallback_item
+
+    if item:
+        return item
+
+    return fallback_item
     
 def create_item_with_correct_classification(world: Turok2World, name: str) -> Turok2Item:
     """
@@ -57,8 +80,10 @@ def force_local_items(
     """
     items = [
         item for item in itempool
-        if ITEM_TABLE[item.name].get("type", -1) in item_types
+        if ITEM_TABLE[item.name].get("type", None) in item_types
     ]
+    world.random.shuffle(items)
+
     count = int(len(items) * percentage / 100)
     selected_items = items[:count]
     
@@ -351,7 +376,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
             world.get_location("[6-Hub] Center - Primagen Key") \
                 .place_locked_item(world.create_item("Primagen Key 6"))
 
-def prepare_weights(pairs: Iterable[tuple]) -> tuple[list[str], list[int]]:
+def prepare_weights(pairs: Iterable[tuple]) -> tuple[list, list[int]]:
     """
     Returns a dictionary of value to weight given a list of pairs.
     """
@@ -374,10 +399,10 @@ def get_random_health_pickup_item_name(world: Turok2World) -> str | None:
     Gets a random health pickup based on the weight settings.
     """
     health_pickups = [
-        ("Silver Health", world.item_weights.get(ItemType.SILVER_HEALTH, 0)),
-        ("Blue Health", world.item_weights.get(ItemType.BLUE_HEALTH, 0)),
-        ("Full Health", world.item_weights.get(ItemType.FULL_HEALTH, 0)),
-        ("Ultra Health", world.item_weights.get(ItemType.ULTRA_HEALTH, 0))
+        ("Silver Health", world.options.silver_health_weight),
+        ("Blue Health", world.options.blue_health_weight),
+        ("Full Health", world.options.full_health_weight),
+        ("Ultra Health", world.options.ultra_health_weight)
     ]
     
     names, weights = prepare_weights(health_pickups)
@@ -391,8 +416,8 @@ def get_random_life_force_item_name(world: Turok2World) -> str | None:
     Gets a random life force based on the weight settings.
     """
     life_forces = [
-        ("Life Force 1", world.item_weights.get(ItemType.LIFE_FORCE_1, 0)),
-        ("Life Force 10", world.item_weights.get(ItemType.LIFE_FORCE_10, 0))
+        ("Life Force 1", world.options.life_force_1_weight),
+        ("Life Force 10", world.options.life_force_10_weight)
     ]
 
     names, weights = prepare_weights(life_forces)
@@ -406,50 +431,66 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
     Generates the junk item pool based on the options.
     Traps are a percentage of the junk item pool.
     Uses vanilla-like distributions if applicable for item types and subtypes.
-    """     
-    def get_junk_category_weights(world: Turok2World) -> list[tuple[WeightedItemGroup, int]]:
+    """
+    def generate_vanilla_non_trap_junk(
+        world: Turok2World, 
+        number_of_filler_slots: int) -> list[Item]:
         """
-        Gets a set of weights depending on the options:
-        - Custom: Uses the weights defined in the options
-        - Vanilla/Vanilla Custom: Uses the weights computed by parsing locations
+        Adds the vanilla items whose locations were randomized back into the pool.
+        Will proportionately adjust the counts if traps now eat up too many slots.
         """
-        mode = world.options.junk_item_pool_distribution
+        # Filter relevant item types from the items the world collected
+        valid_item_counts = {
+            item_type: count
+            for item_type, count in world.vanilla_item_counts.items()
+            if ITEM_TYPE_TO_GROUP.get(item_type) in {
+                WeightedItemGroup.HEALTH,
+                WeightedItemGroup.AMMO,
+                WeightedItemGroup.LIFE_FORCE
+            }
+            and count > 0
+        }
 
-        if mode == JunkItemPoolDistribution.option_custom:
-            return [
-                (WeightedItemGroup.HEALTH, world.options.junk_item_pool_health_weight),
-                (WeightedItemGroup.AMMO, world.options.junk_item_pool_ammo_weight),
-                (WeightedItemGroup.LIFE_FORCE, world.options.junk_item_pool_life_force_weight),
-            ]
-
-        # Vanilla or Vanilla Custom
-        return list(world.category_weights.items())
-    
-    def generate_non_trap_junk(world: Turok2World, count: int) -> list[Item]:
-        """
-        Computes a list of item names to be used as junk items.
-        Categories/specific items are based on options.
-        """
-        category_pairs = get_junk_category_weights(world)
-        names, weights = prepare_weights(category_pairs)
-
-        if not names:
+        if not valid_item_counts or number_of_filler_slots <= 0:
             return []
 
-        result = []
-        category_choices = world.random.choices(names, weights=weights, k=count)
-        for category in category_choices:
-            if category == WeightedItemGroup.AMMO:
-                item = get_random_ammo_item_name()
-            elif category == WeightedItemGroup.HEALTH:
-                item = get_random_health_pickup_item_name(world)
-            elif category == WeightedItemGroup.LIFE_FORCE:
-                item = get_random_life_force_item_name(world)
-            else:
-                continue
+        total_items = sum(valid_item_counts.values())
 
-            if item:
-                result.append(world.create_item(item))
+        # Compute how many items we need to add, scaling down if traps ate up too many slots
+        if number_of_filler_slots >= total_items:
+            scale = 1.0
+        else:
+            scale = number_of_filler_slots / total_items
+
+        allocated = {}
+        for item_type, count in valid_item_counts.items():
+            allocated[item_type] = math.floor(count * scale)
+
+        result = []
+
+        # If vanilla, add the items to the pool as is
+        if world.options.junk_item_pool_distribution == JunkItemPoolDistribution.option_vanilla:
+            for item_type, count in allocated.items():
+                item_name = ITEM_TYPE_TO_NAME[item_type]
+                for _ in range(count):
+                    result.append(world.create_item(item_name))
+
+        # If using custom weights, get a random item based on the weight
+        else:
+            for item_type, count in allocated.items():
+                group = ITEM_TYPE_TO_GROUP.get(item_type)
+                for _ in range(count):
+                    if group == WeightedItemGroup.AMMO:
+                        item_name = get_random_ammo_item_name()
+                    elif group == WeightedItemGroup.HEALTH:
+                        item_name = get_random_health_pickup_item_name(world)
+                    elif group == WeightedItemGroup.LIFE_FORCE:
+                        item_name = get_random_life_force_item_name(world)
+                    else:
+                        continue
+
+                    if item_name:
+                        result.append(world.create_item(item_name))
 
         return result
 
@@ -483,13 +524,13 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
 
         return result
     
-    total_junk = needed_number_of_filler_items
     trap_percent = world.options.junk_item_pool_trap_percentage / 100
+    trap_count = round(needed_number_of_filler_items * trap_percent)
+    non_trap_count = needed_number_of_filler_items - trap_count
 
-    trap_count = round(total_junk * trap_percent)
-    non_trap_count = total_junk - trap_count
-
-    itempool += generate_non_trap_junk(world, non_trap_count)
+    # If we're using custom distribution, then get_random_filler_item_name handles this
+    if world.options.junk_item_pool_distribution != JunkItemPoolDistribution.option_custom:
+        itempool += generate_vanilla_non_trap_junk(world, non_trap_count)
     itempool += generate_traps(world, trap_count)
 
 def create_all_items(world: Turok2World) -> None:
@@ -559,11 +600,7 @@ def debug_print_summary(world: Turok2World, itempool: list[Item]) -> None:
     Print out the item pool by type for debugging.
     """
     print(f"Vanilla junk items found for player {world.player}:")
-    for group, count in world.category_weights.items():
-        print(f"{group.name}: {count}")
-
-    print(f"Vanilla junk item weights found for player {world.player}:")
-    for item, count in world.item_weights.items():
+    for item, count in world.vanilla_item_counts.items():
         print(f"{item.name}: {count}")
 
     print(f"Item pool summary for player {world.player}:")
