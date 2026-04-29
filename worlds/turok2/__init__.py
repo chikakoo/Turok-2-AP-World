@@ -52,6 +52,9 @@ class Turok2World(World):
         self.excluded_levels = []
         self.category_weights = defaultdict(int)
         self.item_weights = defaultdict(int)
+        self.ammo_pickup_locations = []
+        self.health_pickup_locations = []
+        self.life_force_locations = []
 
     def generate_early(self) -> None:
         """Sets up starting/excluded levels and validates options"""

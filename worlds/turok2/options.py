@@ -91,20 +91,28 @@ class RandomizeHealthPickups(Choice):
     option_full_and_ultra_only = 2
     default = option_none
     
-class RandomizeLifeForces(Choice):
+class RandomizeLifeForces(NamedRange):
     """
     Whether to include Life Forces in the list of locations to check.
+
+    Set this to the percentage of all life forces you wish to include.
+    Each 1% adds approximately 13 locations.
+    
     - None: No Life Force locations will be included
     - All: Both yellow and red Life Forces will be included
-    - Yellow Only: Only yellow Life Forces will be included
-    - Red Only: Only red Life Forces will be included
+    - Yellow Only (value of -1): Only yellow Life Forces will be included
+    - Red Only (value of -2): Only red Life Forces will be included
     """
     display_name = "Randomize Life Forces"
-    option_none = 0
-    option_all = 1
-    option_yellow_only = 2
-    option_red_only = 3
-    default = option_none
+    range_start = 0
+    range_end = 100
+    default = 0
+    special_range_names = {
+        "none": 0,
+        "all": 100,
+        "yellow-only": -1,
+        "red-only": -2
+    }
 
 class RandomizeEagleFeathers(Toggle):
     """

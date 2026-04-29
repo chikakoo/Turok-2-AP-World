@@ -101,6 +101,7 @@ def create_locations(world: Turok2World) -> None:
     def add_location(world: Turok2World,  loc_name: str, loc_info) -> None:
         """
         Adds the given location to the world.
+        Also adds the appropriate info to the category/item weights dictionaries.
         """
         region_obj = world.get_region(loc_info["region"])
         location = Turok2Location(
@@ -110,10 +111,24 @@ def create_locations(world: Turok2World) -> None:
             region_obj
         )
         region_obj.locations.append(location)
+
+        # Assign item weights and distributions to support the vanilla options
+        item_type_raw = loc_info.get("type", None)
+        if item_type_raw is not None:
+            item_type = ItemType(item_type_raw)
+            item_group = ITEM_TYPE_TO_GROUP.get(item_type, None)
+            if item_group is not None:
+                world.category_weights[item_group] += 1
+            if world.options.junk_item_pool_distribution == JunkItemPoolDistribution.option_vanilla:
+                world.item_weights[item_type] += 1
     
-    def should_include_location(world: Turok2World, loc_info: dict) -> bool:
+    def try_add_location(world: Turok2World, loc_name: str, loc_info: dict) -> bool:
         """
         Determines whether a location should be included based on the settings and its type.
+        Returns whether it was included.
+        
+        If this is a location that can have a % of checks added, this will always return false
+        but add the entry to the appropriate world instance variable.
         """
         item_type = loc_info.get("type", None)
         item_group = ITEM_TYPE_TO_GROUP.get(ItemType(item_type), None)
@@ -125,7 +140,8 @@ def create_locations(world: Turok2World) -> None:
         if item_group == WeightedItemGroup.HEALTH:
             return should_include_health_location(item_type)
         if item_group == WeightedItemGroup.LIFE_FORCE:
-            return should_include_life_force_location(item_type)
+            world.life_force_locations.append((loc_name, loc_info))
+            return False
         if item_type == ItemType.MISSION_ITEM.value:
             return world.options.randomize_mission_items
         if item_type == ItemType.NUKE_PART.value:
@@ -157,37 +173,52 @@ def create_locations(world: Turok2World) -> None:
 
         return True
 
-    def should_include_life_force_location(item_type: int) -> bool:
+    def add_life_force_locations(world: Turok2World) -> None:
         """
-        Returns whether the given Life Force item type's location should be included.
+        Adds all the life froce locations to the loction list.
+        If it's a % fill, grabs the appropriate percentage of locations.
         """
         life_force_option = world.options.randomize_life_forces
 
-        if life_force_option == RandomizeLifeForces.option_none:
-            return False
-        if life_force_option == RandomizeLifeForces.option_yellow_only:
-            return item_type == ItemType.LIFE_FORCE_1.value
-        if life_force_option == RandomizeLifeForces.option_red_only:
-            return item_type == ItemType.LIFE_FORCE_10.value
+        if life_force_option == RandomizeLifeForces.special_range_names["none"]:
+            return
+        elif life_force_option == RandomizeLifeForces.special_range_names["all"]:
+            selected = list(world.life_force_locations)
+        elif life_force_option == RandomizeLifeForces.special_range_names["yellow-only"]: 
+            selected = [
+                (name, info)
+                for name, info in world.life_force_locations
+                if info["type"] == ItemType.LIFE_FORCE_1.value
+            ]
+        elif life_force_option == RandomizeLifeForces.special_range_names["red-only"]:
+            selected = [
+                (name, info)
+                for name, info in world.life_force_locations
+                if info["type"] == ItemType.LIFE_FORCE_10.value
+            ]
+        else: # Some custom %
+            selected = select_percentage(world, world.life_force_locations, life_force_option)
 
-        return True
+        for loc_name, loc_info in selected:
+            add_location(world, loc_name, loc_info)
+    
+    def select_percentage(world, items, percent):
+        """
+        Selects a random percentage of values from the given list of items.
+        """
+        count = round(len(items) * percent / 100)
+        shuffled = list(items)
+        world.random.shuffle(shuffled)
+        return shuffled[:count]
             
     for loc_name, loc_info in LOCATION_TABLE.items():
         if loc_info["level"] in world.excluded_levels:
             continue
 
-        if should_include_location(world, loc_info):
+        if try_add_location(world, loc_name, loc_info):
             add_location(world, loc_name, loc_info)
 
-            # Assign item weights and distributions to support the vanilla options
-            item_type_raw = loc_info.get("type", None)
-            if item_type_raw is not None:
-                item_type = ItemType(item_type_raw)
-                item_group = ITEM_TYPE_TO_GROUP.get(item_type, None)
-                if item_group is not None:
-                    world.category_weights[item_group] += 1
-                if world.options.junk_item_pool_distribution == JunkItemPoolDistribution.option_vanilla:
-                    world.item_weights[item_type] += 1
+    add_life_force_locations(world)
 
 def create_events(world: Turok2World) -> None:
     """
