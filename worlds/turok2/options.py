@@ -71,11 +71,19 @@ class RandomizeAmmoPickups(Toggle):
 class RandomizeHealthPickups(Choice):
     """
     Whether to include static health pickups in the list of locations to check.
+
+    Note that the four ultra healths in the Level 6 hub are excluded, as these
+    only exist in lower difficulties.
+
     Use the JunkItemPoolHealthWeight setting to affect how many will be in the item pool.
+
     - None: No health pickup locations will be included
     - All: All health pickup locations will be included
     - Full And Ultra Only: Only full and ultra health locations will be included.
-                           Note that the four ultra healths in the Level 6 hub are excluded.
+
+                           This can put a lot of high-healing items in the pool if using vanilla
+                           JunkItemPoolDistribution. Consider setting it to vanilla_custom_weights
+                           and modifying health weights if it ends up being too easy.
     """
     display_name = "Randomize Health Pickups"
     option_none = 0
