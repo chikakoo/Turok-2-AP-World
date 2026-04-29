@@ -63,7 +63,7 @@ def force_local_items(
     selected_items = items[:count]
     
     for item in selected_items:
-        item.name += " (L)" # Uses the local version, should change back in post_fill
+        item.name += " (L)" # Hack to use the local version
         
     print(f"Forced {count} items of type {type_string} locally for Player {world.player}")
 
@@ -253,10 +253,6 @@ def get_required_seed_items(world: Turok2World):
         # Weapons
         if data["type"] == ItemType.WEAPON.value:
             return world.options.randomize_weapons
-        
-        # Ammo
-        if data["type"] == ItemType.AMMO.value:
-            return world.options.randomize_ammo_pickups
         
         # Progressive warps
         if data["type"] == ItemType.PROGRESSIVE_WARP.value:

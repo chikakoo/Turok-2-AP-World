@@ -115,16 +115,16 @@ def create_locations(world: Turok2World) -> None:
         """
         Determines whether a location should be included based on the settings and its type.
         """
-        item_type = loc_info.get("type", -1)
-        weighted_group = loc_info.get("weighted_group", WeightedItemGroup.NONE)
+        item_type = loc_info.get("type", None)
+        item_group = ITEM_TYPE_TO_GROUP.get(ItemType(item_type), None)
 
         if item_type == ItemType.WEAPON.value:
             return world.options.randomize_weapons
         if item_type == ItemType.AMMO.value:
             return world.options.randomize_ammo_pickups
-        if weighted_group == WeightedItemGroup.HEALTH:
+        if item_group == WeightedItemGroup.HEALTH:
             return should_include_health_location(item_type)
-        if weighted_group == WeightedItemGroup.LIFE_FORCE:
+        if item_group == WeightedItemGroup.LIFE_FORCE:
             return should_include_life_force_location(item_type)
         if item_type == ItemType.MISSION_ITEM.value:
             return world.options.randomize_mission_items
