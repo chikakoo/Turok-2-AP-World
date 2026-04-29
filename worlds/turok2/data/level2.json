@@ -263,7 +263,7 @@
                 { 
                     "to": "[2-GY3] Graveyard Keys",
                     "rule": {
-                        "has": {
+                        "mission_item_requirement": {
                             "item": "Graveyard Key",
                             "count": 2
                         }

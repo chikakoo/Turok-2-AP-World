@@ -14,7 +14,7 @@ class LevelGoal(Range):
     display_name = "Levels Goal"
     range_start = 0
     range_end = 6
-    default = 6
+    default = 2
 
 class PrimagenGoal(Choice):
     """
@@ -66,7 +66,7 @@ class RandomizeAmmoPickups(Toggle):
     Use the JunkItemPoolAmmoWeight setting to affect how much ammo will be in the item pool.
     """
     display_name = "Randomize Ammo Pickups"
-    default = True
+    default = False
 
 class RandomizeHealthPickups(Choice):
     """
@@ -89,7 +89,7 @@ class RandomizeHealthPickups(Choice):
     option_none = 0
     option_all = 1
     option_full_and_ultra_only = 2
-    default = option_all
+    default = option_none
     
 class RandomizeLifeForces(Choice):
     """
@@ -104,7 +104,7 @@ class RandomizeLifeForces(Choice):
     option_all = 1
     option_yellow_only = 2
     option_red_only = 3
-    default = option_all
+    default = option_none
 
 class RandomizeEagleFeathers(Toggle):
     """

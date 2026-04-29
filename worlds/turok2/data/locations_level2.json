@@ -699,5 +699,5 @@
     "[2-GY3] Area 3 - Switch in Corner Building 4": { "region": "[2-GY3]", "ap_id": 135055, "tag_id": "49", "type": 16 },
     "[2-GY3] Area 3 - Switch by River 1": { "region": "[2-GY3]", "ap_id": 135056, "tag_id": "54", "type": 16 },
     "[2-GY3] Area 3 - Switch by River 2": { "region": "[2-GY3]", "ap_id": 135057, "tag_id": "53", "type": 16 },
-    "[2-GY3] Area 3 - Banish Sister of Despair": { "region": "[2-GY3] Graveyard Keys", "ap_id": 135058, "tag_id": "57", "type": 17 }
+    "[2-GY3] End - Banish Sister of Despair": { "region": "[2-GY3] Graveyard Keys", "ap_id": 135058, "tag_id": "57", "type": 17 }
 }
