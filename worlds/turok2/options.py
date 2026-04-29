@@ -353,9 +353,26 @@ class LocalWeaponPercentage(Range):
     range_start = 0
     range_end = 100
     default = 50
+
+class JunkItemPoolDistribution(Choice):
+    """
+    How the junk item pool will be calculated. In all options, traps will take up the
+    given percentage of the item pool.
+    - Vanilla: Item distributions will have weights similar to vanilla
+    - Vanilla Custom Weights: Item types will have weights similar to vanilla, but health and life forces will use the weights
+                              specified in the <Silver/Blue/Full/Ultra>HealthWeight and LifeForce<1/10>Weight settings.
+    - Custom: Uses the weights defined in the JunkItemPool<Type>Weight and <Type>Weight settings.
+    """
+    display_name = "Junk Item Pool Distribution"
+    option_vanilla = 0
+    option_vanilla_custom_weights = 1
+    option_custom = 2
+    default = option_vanilla
     
 class JunkItemPoolHealthWeight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Custom.
+
     The weight of health pickups in the non-progressive item pool.
     Consider setting this to none if not including health pickup locations.
     """
@@ -366,6 +383,8 @@ class JunkItemPoolHealthWeight(Range):
     
 class JunkItemPoolAmmoWeight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Custom.
+
     The weight of ammo pickups in the non-progressive item pool.
     Consider setting this to none if not including weapons and ammo locations.
     """
@@ -376,6 +395,8 @@ class JunkItemPoolAmmoWeight(Range):
     
 class JunkItemPoolLifeForceWeight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Custom.
+
     The weight of life forces in the non-progressive item pool.
     Consider setting this to none if not including Life Force locations.
     """
@@ -384,17 +405,10 @@ class JunkItemPoolLifeForceWeight(Range):
     range_end = 100
     default = 80
 
-class JunkItemPoolTrapWeight(Range):
-    """
-    The weight of traps in the junk item pool.
-    """
-    display_name = "Junk Item Pool Trap Weight"
-    range_start = 0
-    range_end = 100
-    default = 0
-
 class SilverHealthWeight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+
     The weight of a silver health when a health pickup is rolled.
     Weighed against all other health pickups.
     """
@@ -405,6 +419,8 @@ class SilverHealthWeight(Range):
 
 class BlueHealthWeight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+
     The weight of a blue health when a health pickup is rolled.
     Weighed against all other health pickups.
     """
@@ -415,6 +431,8 @@ class BlueHealthWeight(Range):
 
 class FullHealthWeight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+
     The weight of a full health when a health pickup is rolled.
     Weighed against all other health pickups.
     """
@@ -425,6 +443,8 @@ class FullHealthWeight(Range):
 
 class UltraHealthWeight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+
     The weight of an ultra health when a health pickup is rolled.
     Weighed against all other health pickups.
     """
@@ -435,6 +455,8 @@ class UltraHealthWeight(Range):
 
 class LifeForce1Weight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+
     The weight of a Life Force 1 when Life Forces are rolled.
     Weighed against all Life Force pickups.
     """
@@ -445,6 +467,8 @@ class LifeForce1Weight(Range):
 
 class LifeForce10Weight(Range):
     """
+    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+
     The weight of a Life Force 10 when Life Forces are rolled.
     Weighed against all Life Force pickups.
     """
@@ -452,6 +476,15 @@ class LifeForce10Weight(Range):
     range_start = 0
     range_end = 100
     default = 8
+
+class JunkItemPoolTrapPercentage(Range):
+    """
+    The percentage of traps in the junk item pool.
+    """
+    display_name = "Junk Item Pool Trap Percentage"
+    range_start = 0
+    range_end = 100
+    default = 0
 
 class EnemyTrapWeight(Range):
     """
@@ -467,7 +500,7 @@ class DamageTrapWeight(Range):
     Likelihood of receiving a trap that does damage to you depending on your difficulty.
     It will never bring your health to 0.
 
-    The damage this will do based on your difficulty level is as follows:
+    The damage this will do based on your difficulty level is:
     - Easy: 5% of your current health
     - Normal: 10%
     - Hard+: 20%
@@ -519,17 +552,19 @@ class Turok2Options(PerGameCommonOptions):
     local_health_percentage: LocalHealthPercentage
     local_ammo_percentage: LocalAmmoPercentage
     
+    junk_item_pool_distribution: JunkItemPoolDistribution
     junk_item_pool_health_weight: JunkItemPoolHealthWeight
     junk_item_pool_ammo_weight: JunkItemPoolAmmoWeight
     junk_item_pool_life_force_weight: JunkItemPoolLifeForceWeight
-    junk_item_pool_trap_weight: JunkItemPoolTrapWeight
-
+    
     silver_health_weight: SilverHealthWeight
     blue_health_weight: BlueHealthWeight
     full_health_weight: FullHealthWeight
     ultra_health_weight: UltraHealthWeight
     life_force_1_weight: LifeForce1Weight
     life_force_10_weight: LifeForce10Weight
+
+    junk_item_pool_trap_percentage: JunkItemPoolTrapPercentage
     enemy_trap_weight: EnemyTrapWeight
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
@@ -572,10 +607,11 @@ option_groups = [
         LocalAmmoPercentage,
     ]),
     OptionGroup("Junk Item Pool", [
+        JunkItemPoolDistribution,
+
         JunkItemPoolHealthWeight,
         JunkItemPoolAmmoWeight,
         JunkItemPoolLifeForceWeight,
-        JunkItemPoolTrapWeight,
         
         SilverHealthWeight,
         BlueHealthWeight,
@@ -583,6 +619,9 @@ option_groups = [
         UltraHealthWeight,
         LifeForce1Weight,
         LifeForce10Weight,
+    ]),
+    OptionGroup("Traps", [
+        JunkItemPoolTrapPercentage,
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight

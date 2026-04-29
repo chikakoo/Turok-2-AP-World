@@ -9,7 +9,7 @@ from .item_table import ITEM_NAME_TO_ID
 from . import options as turok2_options
 from .turok2_seed import gen_turok2_seed
 from .options import PrimagenGoal
-from collections import Counter
+from collections import Counter, defaultdict
 
 class Turok2Settings(settings.Group):
     class Turok2Path(settings.FilePath):
@@ -39,10 +39,16 @@ class Turok2World(World):
     origin_region_name = "Hub"
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        """Initialize the instance variables for started/exluded levels"""
+        """
+        Initialize instance variables
+        - starting_levels: What levels are started with
+        - excluded_levels: What level locations to exclude
+        - item_distributions; Dict from ItemType to counts of vanilla item types
+        """
         super().__init__(multiworld, player)
         self.starting_levels = []
         self.excluded_levels = []
+        self.item_distributions = defaultdict(int)
 
     def generate_early(self) -> None:
         """Sets up starting/excluded levels and validates options"""
@@ -196,7 +202,7 @@ class Turok2World(World):
     
     def get_filler_item_name(self) -> str:
         """Gets a random filler item"""
-        return items.get_random_filler_item_name(self)
+        return items.get_random_filler_item_name()
         
     def generate_output(self, output_directory: str) -> None:
         gen_turok2_seed(self, output_directory)

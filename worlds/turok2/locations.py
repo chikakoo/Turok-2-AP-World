@@ -9,7 +9,7 @@ from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
 from .options import PrimagenGoal, RandomizePrimagenKeys, NukeBehavior, RandomizeHealthPickups, RandomizeLifeForces
 from . import items
-from .items import ItemType
+from .items import ItemType, WeightedItemGroup
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -96,34 +96,53 @@ def create_regions_and_entrances(world: Turok2World) -> None:
 def create_locations(world: Turok2World) -> None:
     """
     Creates the locations by looking at all of the regions defined in the json data.
-    Includes putting a "rule" property in the table to construct the rules later on.
     """
     for loc_name, loc_info in LOCATION_TABLE.items():
         if loc_info["level"] in world.excluded_levels:
             continue
 
-        # Exclude relevant locations if not shuffled
+        if should_include_location(world, loc_info):
+            add_location(world, loc_name, loc_info)
+
+            # Assign item distributions to support the vanilla options
+            item_type = loc_info.get("type", -1)
+            if item_type != -1:
+                world.item_distributions[item_type] += 1
+
+    def should_include_location(world: Turok2World, loc_info: dict) -> bool:
+        """
+        Determines whether a location should be included based on the settings and its type.
+        """
         item_type = loc_info.get("type", -1)
+        weighted_group = loc_info.get("weighted_group", WeightedItemGroup.NONE)
 
-        if not world.options.randomize_weapons and item_type == ItemType.WEAPON.value:
-            continue
-        if not world.options.randomize_ammo_pickups and item_type == ItemType.AMMO.value:
-            continue
-        if should_skip_health(item_type, world.options.randomize_health_pickups):
-            continue
-        if should_skip_life_force(item_type, world.options.randomize_life_forces):
-            continue
-        if not world.options.randomize_mission_items and item_type == ItemType.MISSION_ITEM.value:
-            continue
-        if item_type == ItemType.NUKE_PART.value and \
-            (world.options.nuke_behavior == NukeBehavior.option_vanilla_in_pool_if_level_excluded or \
-            world.options.nuke_behavior == NukeBehavior.option_vanilla_start_with_if_level_excluded):
-            continue
-        if not world.options.randomize_switches and item_type == ItemType.SWITCH.value:
-            continue
-        if not world.options.randomize_mission_objectives and item_type == ItemType.MISSION_OBJECTIVE.value:
-            continue
+        if item_type == ItemType.WEAPON.value:
+            return world.options.randomize_weapons
+        if item_type == ItemType.AMMO.value:
+            return world.options.randomize_ammo_pickups
+        if weighted_group == WeightedItemGroup.HEALTH:
+            return should_include_health_location(item_type)
+        if weighted_group == WeightedItemGroup.LIFE_FORCE:
+            return should_include_life_force_location(item_type)
+        if item_type == ItemType.MISSION_ITEM.value:
+            return world.options.randomize_mission_items
+        if item_type == ItemType.NUKE_PART.value:
+            return world.options.nuke_behavior in (
+                NukeBehavior.option_disabled,
+                NukeBehavior.option_nuke_part_hunt,
+                NukeBehavior.option_weapon_pickup
+            )
+        if item_type == ItemType.SWITCH.value:
+            return world.options.randomize_switches
+        if item_type == ItemType.MISSION_OBJECTIVE.value:
+            return world.options.randomize_mission_objectives
 
+        return True
+
+    def add_location(world: Turok2World,  loc_name: str, loc_info) -> None:
+        """
+        Adds the given location to the world.
+        """
         region_obj = world.get_region(loc_info["region"])
         location = Turok2Location(
             world.player,
@@ -133,53 +152,36 @@ def create_locations(world: Turok2World) -> None:
         )
         region_obj.locations.append(location)
 
-def should_skip_health(item_type: int, health_option) -> bool:
-    """
-    Returns whether this is a health item and, if so, if its location should be skipped
-    """
-    health_types = {
-        ItemType.SILVER_HEALTH.value,
-        ItemType.BLUE_HEALTH.value,
-        ItemType.FULL_HEALTH.value,
-        ItemType.ULTRA_HEALTH.value,
-    }
+    def should_include_health_location(item_type: int) -> bool:
+        """
+        Returns whether the given health item type's location should be included.
+        """
+        health_option = world.options.randomize_health_pickups
 
-    if item_type not in health_types:
-        return False
+        if health_option == RandomizeHealthPickups.option_none:
+            return False
+        if health_option == RandomizeHealthPickups.option_full_and_ultra_only:
+            return item_type in {
+                ItemType.FULL_HEALTH.value,
+                ItemType.ULTRA_HEALTH.value,
+            }
 
-    if health_option == RandomizeHealthPickups.option_none:
         return True
 
-    if health_option == RandomizeHealthPickups.option_full_and_ultra_only:
-        return item_type not in {
-            ItemType.FULL_HEALTH.value,
-            ItemType.ULTRA_HEALTH.value,
-        }
+    def should_include_life_force_location(item_type: int) -> bool:
+        """
+        Returns whether the given Life Force item type's location should be included.
+        """
+        life_force_option = world.options.randomize_life_forces
 
-    return False
+        if life_force_option == RandomizeLifeForces.option_none:
+            return False
+        if life_force_option == RandomizeLifeForces.option_yellow_only:
+            return item_type == ItemType.LIFE_FORCE_1.value
+        if life_force_option == RandomizeLifeForces.option_red_only:
+            return item_type == ItemType.LIFE_FORCE_10.value
 
-def should_skip_life_force(item_type: int, life_force_option) -> bool:
-    """
-    Returns whether this is a Life Force item and, if so, if its location should be skipped
-    """
-    life_force_types = {
-        ItemType.LIFE_FORCE_1.value,
-        ItemType.LIFE_FORCE_10.value,
-    }
-
-    if item_type not in life_force_types:
-        return False
-
-    if life_force_option == RandomizeLifeForces.option_none:
         return True
-
-    if life_force_option == RandomizeLifeForces.option_yellow_only:
-        return item_type != ItemType.LIFE_FORCE_1.value
-
-    if life_force_option == RandomizeLifeForces.option_red_only:
-        return item_type != ItemType.LIFE_FORCE_10.value
-
-    return False
             
 def create_events(world: Turok2World) -> None:
     """

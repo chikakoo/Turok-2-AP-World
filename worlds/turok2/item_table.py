@@ -26,6 +26,27 @@ class ItemType(Enum):
     # Technically not items, but will still be used in the location table the same way
     SWITCH = 16
     MISSION_OBJECTIVE = 17
+
+class WeightedItemGroup(Enum):
+    """
+    Types used to identify item groups that are related so weights can be applied.
+    """
+    NONE = 0
+    LIFE_FORCE = 1
+    HEALTH = 2,
+    AMMO = 3
+
+ITEM_TYPE_TO_GROUP = {
+    ItemType.LIFE_FORCE_1: WeightedItemGroup.LIFE_FORCE,
+    ItemType.LIFE_FORCE_10: WeightedItemGroup.LIFE_FORCE,
+
+    ItemType.SILVER_HEALTH: WeightedItemGroup.HEALTH,
+    ItemType.BLUE_HEALTH: WeightedItemGroup.HEALTH,
+    ItemType.FULL_HEALTH: WeightedItemGroup.HEALTH,
+    ItemType.ULTRA_HEALTH: WeightedItemGroup.HEALTH,
+
+    ItemType.ULTRA_HEALTH: WeightedItemGroup.AMMO,
+}
     
 class TrapType(Enum):
     """
@@ -41,6 +62,7 @@ ITEM_TABLE = {
         "id": 100000, 
         "actor_id": 1705,
         "type": ItemType.LIFE_FORCE_1.value,
+        "weighted_group": WeightedItemGroup.LIFE_FORCE,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
@@ -48,6 +70,7 @@ ITEM_TABLE = {
         "id": 100001, 
         "actor_id": 1706, 
         "type": ItemType.LIFE_FORCE_10.value,
+        "weighted_group": WeightedItemGroup.LIFE_FORCE,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
@@ -56,6 +79,7 @@ ITEM_TABLE = {
         "id": 100002,
         "actor_id": 1701,
         "type": ItemType.SILVER_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
@@ -63,6 +87,7 @@ ITEM_TABLE = {
         "id": 100003,
         "actor_id": 1702,
         "type": ItemType.BLUE_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
@@ -70,6 +95,7 @@ ITEM_TABLE = {
         "id": 100004,
         "actor_id": 1703,
         "type": ItemType.FULL_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
@@ -77,6 +103,7 @@ ITEM_TABLE = {
         "id": 100005,
         "actor_id": 1704,
         "type": ItemType.ULTRA_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler
     },
@@ -84,6 +111,7 @@ ITEM_TABLE = {
         "id": 100102,
         "actor_id": 1701,
         "type": ItemType.SILVER_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -92,6 +120,7 @@ ITEM_TABLE = {
         "id": 100103,
         "actor_id": 1702,
         "type": ItemType.BLUE_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -100,6 +129,7 @@ ITEM_TABLE = {
         "id": 100104,
         "actor_id": 1703,
         "type": ItemType.FULL_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -108,6 +138,7 @@ ITEM_TABLE = {
         "id": 100105,
         "actor_id": 1704,
         "type": ItemType.ULTRA_HEALTH.value,
+        "weighted_group": WeightedItemGroup.HEALTH,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_PICKUP.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -118,6 +149,7 @@ ITEM_TABLE = {
         "id": 400000,
         "actor_id": 30000, # This is limited to an int16 in-game
         "type": ItemType.AMMO.value,
+        "weighted_group": WeightedItemGroup.AMMO,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_AMMO.value,
         "class": ItemClassification.filler
     },
@@ -125,6 +157,7 @@ ITEM_TABLE = {
         "id": 400100,
         "actor_id": 30000, # This is limited to an int16 in-game
         "type": ItemType.AMMO.value,
+        "weighted_group": WeightedItemGroup.AMMO,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_AMMO.value,
         "class": ItemClassification.filler,
         "is_local": True
@@ -683,7 +716,6 @@ ITEM_TABLE = {
         "id": 900000,
         "actor_id": 900000,
         "type": ItemType.TRAP.value,
-        "trap_type": TrapType.ENEMY.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
         "class": ItemClassification.trap
     },
@@ -691,7 +723,6 @@ ITEM_TABLE = {
         "id": 900010,
         "actor_id": 900010,
         "type": ItemType.TRAP.value,
-        "trap_type": TrapType.DAMAGE.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
         "class": ItemClassification.trap
     },
@@ -699,7 +730,6 @@ ITEM_TABLE = {
         "id": 900020,
         "actor_id": 900020,
         "type": ItemType.TRAP.value,
-        "trap_type": TrapType.SPAM.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
         "class": ItemClassification.trap
     }
