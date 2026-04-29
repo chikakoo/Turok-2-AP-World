@@ -4,7 +4,7 @@ from .item_table import *
 from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
 from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, JunkItemPoolDistribution
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -355,60 +355,62 @@ def handle_vanilla_locations(world: Turok2World) -> None:
             world.get_location("[6-Hub] Center - Primagen Key") \
                 .place_locked_item(world.create_item("Primagen Key 6"))
 
+def prepare_weights(pairs: Iterable[tuple]) -> tuple[list[str], list[int]]:
+    """
+    Returns a dictionary of value to weight given a list of pairs.
+    """
+    pairs = [(name, weight) for name, weight in pairs if weight > 0]
+    if not pairs:
+        return [], []
+
+    names = [name for name, _ in pairs]
+    weights = [weight for _, weight in pairs]
+    return names, weights
+
+def get_random_ammo_item_name() -> str:
+    """
+    Gets a random ammo pickup based on the weight settings.
+    """
+    return "Random Ammo Pack"
+    
+def get_random_health_pickup_item_name(world: Turok2World) -> str | None:
+    """
+    Gets a random health pickup based on the weight settings.
+    """
+    health_pickups = [
+        ("Silver Health", world.item_weights.get(ItemType.SILVER_HEALTH, 0)),
+        ("Blue Health", world.item_weights.get(ItemType.BLUE_HEALTH, 0)),
+        ("Full Health", world.item_weights.get(ItemType.FULL_HEALTH, 0)),
+        ("Ultra Health", world.item_weights.get(ItemType.ULTRA_HEALTH, 0))
+    ]
+    
+    names, weights = prepare_weights(health_pickups)
+    if not names:
+        return None
+        
+    return world.random.choices(names, weights=weights, k=1)[0]
+        
+def get_random_life_force_item_name(world: Turok2World) -> str | None:
+    """
+    Gets a random life force based on the weight settings.
+    """
+    life_forces = [
+        ("Life Force 1", world.item_weights.get(ItemType.LIFE_FORCE_1, 0)),
+        ("Life Force 10", world.item_weights.get(ItemType.LIFE_FORCE_10, 0))
+    ]
+
+    names, weights = prepare_weights(life_forces)
+    if not names:
+        return None
+    
+    return world.random.choices(names, weights=weights, k=1)[0]
+
 def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, itempool: list[Item]) -> None:
     """
     Generates the junk item pool based on the options.
     Traps are a percentage of the junk item pool.
     Uses vanilla-like distributions if applicable for item types and subtypes.
-    """ 
-    def prepare_weights(pairs: Iterable[tuple]) -> tuple[list[str], list[int]]:
-        """Returns a dictionary of value to weight given a list of pairs."""
-        pairs = [(name, weight) for name, weight in pairs if weight > 0]
-        if not pairs:
-            return [], []
-
-        names = [name for name, _ in pairs]
-        weights = [weight for _, weight in pairs]
-        return names, weights
-    
-    def get_random_ammo_item_name() -> str:
-        """
-        Gets a random ammo pickup based on the weight settings.
-        """
-        return "Random Ammo Pack"
-    
-    def get_random_health_pickup_item_name(world: Turok2World) -> str | None:
-        """
-        Gets a random health pickup based on the weight settings.
-        """
-        health_pickups = [
-            ("Silver Health", world.options.silver_health_weight),
-            ("Blue Health", world.options.blue_health_weight),
-            ("Full Health", world.options.full_health_weight),
-            ("Ultra Health", world.options.ultra_health_weight)
-        ]
-        
-        names, weights = prepare_weights(health_pickups)
-        if not names:
-            return None
-            
-        return world.random.choices(names, weights=weights, k=1)[0]
-        
-    def get_random_life_force_item_name(world: Turok2World) -> str | None:
-        """
-        Gets a random life force based on the weight settings.
-        """
-        life_forces = [
-            ("Life Force 1", world.options.life_force_1_weight),
-            ("Life Force 10", world.options.life_force_10_weight)
-        ]
-
-        names, weights = prepare_weights(life_forces)
-        if not names:
-            return None
-        
-        return world.random.choices(names, weights=weights, k=1)[0]
-    
+    """     
     def get_junk_category_weights(world: Turok2World) -> list[tuple[WeightedItemGroup, int]]:
         """
         Gets a set of weights depending on the options:
@@ -425,15 +427,9 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
             ]
 
         # Vanilla or Vanilla Custom
-        group_counts = defaultdict(int)
-        for item_type, count in world.item_distributions.items():
-            group = ITEM_TYPE_TO_GROUP.get(item_type)
-            if group and group != WeightedItemGroup.NONE:
-                group_counts[group] += count
-
-        return list(group_counts.items())
+        return list(world.category_weights.items())
     
-    def generate_non_trap_junk(world, count) -> list[str]:
+    def generate_non_trap_junk(world: Turok2World, count: int) -> list[Item]:
         """
         Computes a list of item names to be used as junk items.
         Categories/specific items are based on options.
@@ -457,10 +453,9 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
                 continue
 
             if item:
-                result.append(item)
+                result.append(world.create_item(item))
 
         return result
-    
 
     def get_random_trap_item_name(world: Turok2World) -> str | None:
         """
@@ -481,12 +476,14 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
         return world.random.choices(names, weights=weights, k=1)[0]
     
     def generate_traps(world, count) -> list[str]:
-        """Generates a list of trap names generated based on the weight option"""
+        """
+        Generates a list of trap names generated based on the weight option.
+        """
         result = []
         for _ in range(count):
             trap = get_random_trap_item_name(world)
             if trap:
-                result.append(trap)
+                result.append(world.create_item(trap))
 
         return result
     
@@ -533,7 +530,7 @@ def create_all_items(world: Turok2World) -> None:
         [ItemType.SILVER_HEALTH.value, ItemType.BLUE_HEALTH.value, ItemType.FULL_HEALTH.value, ItemType.ULTRA_HEALTH.value],
         "Health",
         world.options.local_health_percentage)
-    force_local_items(world, itempool, [ItemType.AMMO], "Ammo", world.options.local_ammo_percentage)
+    force_local_items(world, itempool, [ItemType.AMMO.value], "Ammo", world.options.local_ammo_percentage)
     force_local_weapons(world, itempool)
     
     # Force the early weapon, if the setting is on
@@ -543,37 +540,44 @@ def create_all_items(world: Turok2World) -> None:
     handle_vanilla_locations(world)
     
     world.multiworld.itempool += itempool
-    
-    """
-    Print out the item pool by type for debugging
-    Leave this commented out in released versions
-    """
-    
-    """
-    item_counts: dict[str, int] = Counter()
-    total_items = len(itempool)
 
-    for item in itempool:
-        item_counts[item] += 1
+    debug_print_summary(world, itempool)
 
-    print(f"Item pool summary for player {world.player}:")
-    for item, count in item_counts.items():
-        percentage = (count / total_items) * 100
-        print(f"{item.name}: {count} ({percentage:.1f}%)")
-    """
-
-def map_ap_item_to_game(ap_item_id) -> tuple[int, int]:
+def map_ap_item_to_game(ap_item_id: str) -> tuple[int, int]:
     """
     Maps the given AP item id to the game so that the appropriate message
     type and actor id can be sent.
     
     If the item is not mapped returns NONE so the game will ignore the item.
     """
-    name, item = ID_TO_ITEM.get(ap_item_id, (None, None))
+    _, item = ID_TO_ITEM.get(ap_item_id, (None, None))
     
     if not item:
         print(f"Unknown AP item id {ap_item_id}")
         return APMessageType.AP_MSGTYPE_NONE.value, 0
         
     return item["msg_type"], item.get("actor_id", 0)
+
+def debug_print_summary(world: Turok2World, itempool: list[Item]) -> None:
+    """
+    Print out the item pool by type for debugging.
+    """
+    print(f"Vanilla junk items found for player {world.player}:")
+    for group, count in world.category_weights.items():
+        print(f"{group.name}: {count}")
+
+    print(f"Vanilla junk item weights found for player {world.player}:")
+    for item, count in world.item_weights.items():
+        print(f"{item.name}: {count}")
+
+    print(f"Item pool summary for player {world.player}:")
+    item_counts: dict[str, int] = Counter()
+    total_items = len(itempool)
+
+    for item in itempool:
+        item_counts[item] += 1
+
+    for item, count in item_counts.items():
+        percentage = (count / total_items) * 100
+        print(f"{item.name}: {count} ({percentage:.1f}%)")
  

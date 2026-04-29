@@ -7,9 +7,10 @@ import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
-from .options import PrimagenGoal, RandomizePrimagenKeys, NukeBehavior, RandomizeHealthPickups, RandomizeLifeForces
+from .options import PrimagenGoal, RandomizePrimagenKeys, NukeBehavior, \
+    RandomizeHealthPickups, RandomizeLifeForces, JunkItemPoolDistribution
 from . import items
-from .items import ItemType, WeightedItemGroup
+from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -97,18 +98,19 @@ def create_locations(world: Turok2World) -> None:
     """
     Creates the locations by looking at all of the regions defined in the json data.
     """
-    for loc_name, loc_info in LOCATION_TABLE.items():
-        if loc_info["level"] in world.excluded_levels:
-            continue
-
-        if should_include_location(world, loc_info):
-            add_location(world, loc_name, loc_info)
-
-            # Assign item distributions to support the vanilla options
-            item_type = loc_info.get("type", -1)
-            if item_type != -1:
-                world.item_distributions[item_type] += 1
-
+    def add_location(world: Turok2World,  loc_name: str, loc_info) -> None:
+        """
+        Adds the given location to the world.
+        """
+        region_obj = world.get_region(loc_info["region"])
+        location = Turok2Location(
+            world.player,
+            loc_name,
+            loc_info["ap_id"],
+            region_obj
+        )
+        region_obj.locations.append(location)
+    
     def should_include_location(world: Turok2World, loc_info: dict) -> bool:
         """
         Determines whether a location should be included based on the settings and its type.
@@ -138,19 +140,6 @@ def create_locations(world: Turok2World) -> None:
             return world.options.randomize_mission_objectives
 
         return True
-
-    def add_location(world: Turok2World,  loc_name: str, loc_info) -> None:
-        """
-        Adds the given location to the world.
-        """
-        region_obj = world.get_region(loc_info["region"])
-        location = Turok2Location(
-            world.player,
-            loc_name,
-            loc_info["ap_id"],
-            region_obj
-        )
-        region_obj.locations.append(location)
 
     def should_include_health_location(item_type: int) -> bool:
         """
@@ -183,6 +172,23 @@ def create_locations(world: Turok2World) -> None:
 
         return True
             
+    for loc_name, loc_info in LOCATION_TABLE.items():
+        if loc_info["level"] in world.excluded_levels:
+            continue
+
+        if should_include_location(world, loc_info):
+            add_location(world, loc_name, loc_info)
+
+            # Assign item weights and distributions to support the vanilla options
+            item_type_raw = loc_info.get("type", None)
+            if item_type_raw is not None:
+                item_type = ItemType(item_type_raw)
+                item_group = ITEM_TYPE_TO_GROUP.get(item_type, None)
+                if item_group is not None:
+                    world.category_weights[item_group] += 1
+                if world.options.junk_item_pool_distribution == JunkItemPoolDistribution.option_vanilla:
+                    world.item_weights[item_type] += 1
+
 def create_events(world: Turok2World) -> None:
     """
     Creates events in regions from the JSON data.

@@ -45,7 +45,7 @@ ITEM_TYPE_TO_GROUP = {
     ItemType.FULL_HEALTH: WeightedItemGroup.HEALTH,
     ItemType.ULTRA_HEALTH: WeightedItemGroup.HEALTH,
 
-    ItemType.ULTRA_HEALTH: WeightedItemGroup.AMMO,
+    ItemType.AMMO: WeightedItemGroup.AMMO,
 }
     
 class TrapType(Enum):
