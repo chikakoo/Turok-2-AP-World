@@ -578,7 +578,7 @@ def create_all_items(world: Turok2World) -> None:
     
     world.multiworld.itempool += itempool
 
-    debug_print_summary(world, itempool)
+    #debug_print_summary(world, itempool)
 
 def map_ap_item_to_game(ap_item_id: str) -> tuple[int, int]:
     """
