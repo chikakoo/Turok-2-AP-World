@@ -8,6 +8,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Core gameplay change so that the player always starts in the hub with starting level keys
   - Added health/ammo spawns by the checkpoint station
   - Level 1 now requries 3 Level 1 Keys to enter
+- Added inventory progress UI with a way to warp back to the hub checkpoint station
 - Significant new options
   - Progressive warps are included by default, to limit your progress through levels until you get the progressive warp items
     - Options exist to control the starting number of them, and how far each item lets you go into each level
@@ -30,8 +31,8 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Options to further configure filler item distrubution, including making it put all randomized vanilla items back into the pool
   - Removed the Open Hub setting, as you always start there now
   - Removed the level key randomization setting, as they will always be randomized
-- Added inventory progress UI with a way to warp back to the hub checkpoint station
-- Removed the jank extra level teleports, since the UI can be used instead
+- Added a "Useful" AP model to use for off-world useful items
+- Removed the jank extra level warp portals, since the UI can be used instead
 - Support the Start Inventory setting
 
 ## v0.2.X

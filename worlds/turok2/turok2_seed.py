@@ -80,7 +80,8 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
 
         # Add the appropriate kind of snippet based on the type
         type = LOCATION_TABLE[location_name]["type"]
-        if type in (ItemType.SWITCH.value, ItemType.MISSION_OBJECTIVE.value):
+        is_action_object = type in (ItemType.SWITCH.value, ItemType.MISSION_OBJECTIVE.value)
+        if is_action_object:
             location_tag_id = LOCATION_TABLE[location_name]["tag_id"]
             snippet = f"AddActionObject(\"{location_name}\", {location_id}, {location_tag_id}"
         else:
@@ -99,12 +100,19 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
             snippet += f", {actor_id});"
         # Else, it should be the location name and player name (so we can display it on pickup)
         else:
-            if location.item.advancement:
-                is_progression = "true"
-            else:
-                is_progression = "false"
             player_name = self.multiworld.get_player_name(location.item.player)
-            snippet += f", \"{player_name}'s {location.item.name}\", {is_progression});"
+            message = f"{player_name}'s {location.item.name}".replace("_", " ") # Turok font doesn't support underscores
+
+            if is_action_object:
+                snippet += f", \"{message}\");"
+            else:
+                if location.item.advancement:
+                    progression_type = 2
+                elif location.item.useful:
+                    progression_type = 1
+                else:
+                    progression_type = 0
+                snippet += f", \"{message}\", {progression_type});"
         
         angelscript_snippets.append(snippet)
         
