@@ -27,20 +27,43 @@ Static pickups (those not spawned from destructibles):
   - (L4) Satchel Charges; Cave Door Keys
   - (L5) Satchel Charges
   - (L6) Ion Capacitors; Blue Laser Cells; Red Laser Cells
+- Activated Switches
+- Mission Objectives
 
 ## What does randomization mean?
 
 If randomized, weapons have a single copy in the item pool. Once found, it is unlocked like in the vanilla game. See the ammo explanation later on for how ammo is changed.
 
-Life force tiles, health, and ammo are not actually shuffled, but are generated from the junk item pool based on yaml settings. Weights of specific health and Life Forces can be configured.
+Life force tiles, health, and ammo can be shuffled throughout the worlds depending on settings. They can also be generated 
+based on filler items.
+
+Life force tiles, health, and ammo are not actually shuffled, but are generated from the filler item pool based on yaml settings. Weights of specific health and Life Forces can be configured.
 
 ## What core changes have been made?
 
-### Collection status displays
+### Main gameplay
 
-When picking up an item, it will show you how many checks are left on the map. There are two menus you can use to track progress as well:
-- Holding your **zoom in + zoom out buttons** at the same time for a bit will show the current collection progress for the current level
-- Holding **jump + zoom in + zoom out** at the same time will show the current collection progress for the current level
+#### Hub changes
+
+When starting a new game, you will be immediately dropped off by the hub's checkpoint station. You will start with a set (or sets, depending on settings) of level keys for the levels that start unlocked. Press **zoom out** to view a UI where you can see what keys you start with (see the **Inventory and Warp UI** section).
+
+There is a set of ammo and health respawns by the checkpoint station for convenience, and to prevent potential softlocks due to lack of resources.
+
+There are now three level 1 keys which must be obtained to enter level 1, which is blocked by a barrier by default.
+
+#### Progressive warps
+
+To make the game more multiworld friendly, there are settings to control how far into each level you can go to in the form of progressive warps. These are shown as purple-colored level keys in the UI.
+
+There are sets of progressive warp items for each level. Each one you has controls how many portals deep into the level you can go, depending on the "Progressive Warp Strength" setting. For example, if you have 2 level 1 warps with strength 1, you can go through 2 of the warp portals before you get blocked. If strength is 2, that number becomes 4.
+
+This is highly recommended to keep on if you are playing in a multiworld. If you don't have it on, you can immediately get to the end of most levels without any items, which makes the progression balancing really bad.
+
+### Inventory and Warp UI
+
+When first spawning into a map, or picking up an item, it will show you how many checks are left there. There are two menus you can use to track progress as well:
+- While not scoping, press **zoom out** to open a UI where you can see your inventory progress. You can also click the "Warp to Hub" button to return to the hub. For modding reasons, you cannot use this menu while in a level's totem or boss (but you **can** warp out of the Primagen fight).
+- While not scoping, press **zoon in** to show a quick summary of the map/level you are on.
 
 These are important, because **the randomizer breaks the in-game inventory screen.** It will not accurately show your progress.
 
@@ -52,15 +75,11 @@ They won't show up like this if the in-game option is off, though.
 
 ### Ammo
 
-Randomized ammo is now "Random Ammo" to avoid ammo starvation. When received, it grants between 20-75% of your ammo back in a random weapon (including alt ammo). It will roll to (not 100% of the time) give ammo back in weapons with no ammo first, then ones missing ammo. Otherwise, it will choose from your entire weapon list. 
+Randomized ammo pickups are now "Random Ammo Packs" to avoid ammo starvation. When received, it grants between 20-75% (by default, this is configurable) of your ammo back in a random weapon, including alt ammo. It will roll to (not 100% of the time) give ammo back in weapons with no ammo first, then ones missing ammo. Otherwise, it will choose from your entire weapon list. 
 
-Random Ammo looks like 6 shotgun shells in the Archipelago colors.
+Random Ammo Packs look like 6 shotgun shells in the Archipelago colors.
 
 Ammo from destructables, most generators, and enemy drops are unchanged.
-
-### New Portals
-
-To allow access to the hub before completing levels 2-6, additional portals have been added near the start of the level. Use them if you need to return but you haven't completed the mission objectives.
 
 ### Totem Missions
 
@@ -109,6 +128,8 @@ To do this manually, load into your save file and **press the tilde (~) key**. T
 Note that **this is not optimized for speed**, and will take a bit to run (it will process about 10 checks per second, due to the client's tick rate). It's not expected that this will ever be needed.
 
 ## Help! I'm softlocked!
+
+If you are stick in the geometry or something similar, see if you can open the UI by pressing your **zoom out** key. Then, click the "Warp to Hub" button. If this doesn't work, opening the console with the tilde "_~_" key and entering "_warp 60_" will also warp you back to the hub.
 
 If something is messed up with the randomizer/Archipelago and you didn't get an item you were supposed to, please post on Discord so it can be fixed. All debug console commands are included with the mod, so you should be able to give yourself any item you need to get yourself unstuck. To see the list of commands, do the following:
 - Press "_~_" to open the console.
