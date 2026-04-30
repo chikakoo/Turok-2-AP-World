@@ -245,9 +245,12 @@ def get_required_seed_items(world: Turok2World):
         if data["type"] == ItemType.PRIMAGEN_KEY.value:
             needed_for_goal = (world.options.primagen_goal != PrimagenGoal.option_none and
                 world.options.randomize_primagen_keys != RandomizePrimagenKeys.option_levels)
+            in_pool = world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_in_pool or \
+                (is_level_excluded and 
+                 world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_in_pool_if_level_excluded)
             start_with = is_level_excluded and \
                 world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_start_with_if_level_excluded
-            return needed_for_goal or start_with
+            return needed_for_goal and (in_pool or start_with)
         
         # Nuke
         if data["type"] == ItemType.NUKE_PART.value:
@@ -304,7 +307,8 @@ def handle_vanilla_locations(world: Turok2World) -> None:
         world.options.randomize_talismans == RandomizeTalismans.option_vanilla_start_with_if_level_excluded)
     place_primagen_keys = \
         (world.options.primagen_goal != PrimagenGoal.option_none and
-        (world.options.randomize_primagen_keys != RandomizePrimagenKeys.option_in_pool))
+        (world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_in_pool_if_level_excluded or
+        world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_start_with_if_level_excluded))
 
     if 1 not in world.excluded_levels:
         if place_primagen_keys:
