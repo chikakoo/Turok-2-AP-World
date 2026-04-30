@@ -195,6 +195,7 @@ def create_locations(world: Turok2World) -> None:
         )
 
         for loc_name, loc_info in selected:
+            world.included_ammo_pickup_locations.append((loc_name, loc_info))
             add_location(world, loc_name, loc_info)
 
     def add_health_locations(world: Turok2World) -> None:

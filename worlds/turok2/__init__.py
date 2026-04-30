@@ -45,15 +45,20 @@ class Turok2World(World):
         - starting_levels: What levels are started with
         - excluded_levels: What level locations to exclude
         - vanilla_item_counts: Dict from ItemType to item weights (silver health, etc)
+        - ammo_pickup_locations: All ammo pickup locations that could exist
+        - included_ammo_pickup_locations: All ammo pickup locations that are in the seed
+        - health_pickup_locations: All health pickup locations that could exist
+        - life_force_locations: All Life Force locations that could exist
         """
         super().__init__(multiworld, player)
         self.starting_levels = []
         self.excluded_levels = []
         self.vanilla_item_counts = defaultdict(int)
         self.ammo_pickup_locations = []
+        self.included_ammo_pickup_locations = []
         self.health_pickup_locations = []
         self.life_force_locations = []
-
+        
     def generate_early(self) -> None:
         """Sets up starting/excluded levels and validates options"""
        

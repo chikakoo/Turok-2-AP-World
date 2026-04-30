@@ -127,13 +127,22 @@ def get_angelscript_for_ammo(self: "Turok2World") -> str:
     been collected. This will tell the mod to still replace the item, and to tell it that
     it isn't an AP check.
     """
-    if not self.options.randomize_weapons or self.options.randomize_ammo_pickups:
+    if not self.options.randomize_weapons or self.options.randomize_ammo_pickups.value == 100:
         return ""
+    
+    randomized_ammo_names = {
+        loc_name for loc_name, _ in self.included_ammo_pickup_locations
+    }
     
     angelscript_snippets = []
     actor_id = ITEM_TABLE["Random Ammo Pack"]["actor_id"]
     for loc_name, loc_info in LOCATION_TABLE.items():
         if loc_info.get("type", -1) == ItemType.AMMO.value:
+
+            # If we HAVE randomized this location, then skip
+            if loc_name in randomized_ammo_names:
+                continue
+
             loc_position = loc_info.get("position")
             loc_id = loc_info.get("ap_id") * -1
             snippet = f"AddReplacement(\"{loc_name}\", {loc_id}, \"{loc_position}\", {actor_id});"
