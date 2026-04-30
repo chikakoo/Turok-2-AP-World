@@ -3,13 +3,12 @@ from Options import Choice, OptionGroup, OptionList, PerGameCommonOptions, Range
 
 # TODO:
 # death link
-# possible setting for % of life tiles/health/ammo included
 
 class LevelGoal(Range):
     """
     The number of levels you need to complete for your goal.
 
-    If the Primagen goal is None, the minimum value is 1.
+    If the Primagen goal is None, it will fail to generate if this is not set to at least 1.
     """
     display_name = "Levels Goal"
     range_start = 0
@@ -33,10 +32,12 @@ class PrimagenGoal(Choice):
 class RandomizePrimagenKeys(Choice):
     """
     If the Primagen goal is not None, sets how you get the Primagen Keys.
-    - Vanilla In Pool If level Excluded: Primagen Keys are in their vanilla locations. 
-                                         If that level is excluded, it will be in the item pool.
-    - Vanilla Start With If Level Excluded: Primagen Keys are in their vanilla loactions.
-                                            If that level is excluded, you will start with it.
+    - Vanilla In Pool If level Excluded: 
+         Primagen Keys are in their vanilla locations. 
+         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded: 
+         Primagen Keys are in their vanilla loactions.
+         If that level is excluded, you will start with it.
     - In Pool: The Primagen keys will be in the item pool to find.
     - Levels: The Primagen keys will be given to you after you complete the number of levels 
               specified in the LevelGoal setting.
@@ -89,10 +90,6 @@ class RandomizeHealthPickups(NamedRange):
     - None: No health pickup locations will be included
     - All: All health pickup locations will be included
     - Full And Ultra Only (value of -1): Only full and ultra health locations will be included.
-
-                                         This can put a lot of high-healing items in the pool if using vanilla
-                                         JunkItemPoolDistribution. Consider setting it to vanilla_custom_weights
-                                         and modifying health weights if it ends up being too easy.
     """
     display_name = "Randomize Health Pickups"
     range_start = 0
@@ -139,10 +136,12 @@ class RandomizeTalismans(Choice):
     """
     Whether to include talismans in the list of locations to check.
     Setting this to False will place them in their vanilla locations.
-    - Vanilla In Pool If level Excluded: Talismans are in their vanilla locations. 
-                                         If that level is excluded, it will be in the item pool.
-    - Vanilla Start With If Level Excluded: Talismans are in their vanilla loactions.
-                                            If that level is excluded, you will start with it.
+    - Vanilla In Pool If level Excluded: 
+         Talismans are in their vanilla locations. 
+         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded:
+         Talismans are in their vanilla loactions.
+         If that level is excluded, you will start with it.
     - In Pool: The talisman will be in the item pool.
     """
     display_name = "Randomize Talismans"
@@ -164,7 +163,7 @@ class RandomizeSwitches(Toggle):
     Each switch triggered will be a check. Includes switches you touch and shoot.
     Talisman/Oblivion portal switches as well as the level 5 force field generators are included here.
     
-    This will put one junk item into the item pool per switch.
+    This will put one filler item into the item pool per switch.
     """
     display_name = "Randomize Switches"
     default = True
@@ -173,7 +172,7 @@ class RandomizeMissionObjectives(Toggle):
     """
     Each mission objective task will be a check. For example, each rescued child is one check.
     
-    This will put one junk item into the item pool per mission objective task.
+    This will put one filler item into the item pool per mission objective task.
     """
     display_name = "Randomize Mission Objectives"
     default = True
@@ -189,10 +188,12 @@ class NukeBehavior(Choice):
     """
     Defines how to get the Nuke weapon.
     - Disabled: There is no Nuke. Oblivion portals will have a random check.
-    - Vanilla In Pool If level Excluded: The 6 Nuke Parts are in their vanilla locations. 
-                                         If that level is excluded, it will be in the item pool.
-    - Vanilla Start With If Level Excluded: The 6 Nuke Parts are in their vanilla loactions.
-                                            If that level is excluded, you will start with it.
+    - Vanilla In Pool If level Excluded: 
+         The 6 Nuke Parts are in their vanilla locations. 
+         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded: 
+         The 6 Nuke Parts are in their vanilla loactions.
+         If that level is excluded, you will start with it.
     - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
     - Weapon Pickup: The Nuke will be obtaned as a single item. Oblivion portals will have a random check.
     """
@@ -383,141 +384,131 @@ class LocalWeaponPercentage(Range):
     range_end = 100
     default = 50
 
-class JunkItemPoolDistribution(Choice):
+class FillerDistribution(Choice):
     """
-    How the junk item pool will be calculated. In all options, traps will take up the
+    How the filler item pool will be calculated. In all options, traps will take up the
     given percentage of the item pool.
 
-    Junk items are Life Forces, Health, Ammo pickups, and traps.
+    Filler items are Life Forces, Health, Ammo pickups, and traps.
 
     In all cases, if more locations need to be filled, the weights defined in the 
-    JunkItemPool<Type>Weight and <Type>Weight settings will be used.
+    Filler<Type>Weight and <Type>Weight settings will be used.
 
     - Vanilla: Randomized vanilla items will be added to the pool. 
-    - Vanilla Custom Weights: Randomized vanilla items will be added to the pool, but health and life forces 
-                              will use the weights specified in the <Silver/Blue/Full/Ultra>HealthWeight 
-                              and LifeForce<1/10>Weight settings.
-    - Custom: Uses the weights defined in the JunkItemPool<Type>Weight and <Type>Weight settings.
+    - Vanilla Custom Weights:
+         Randomized vanilla items will be added to the pool, but health and life forces 
+         will use the weights specified in the <Silver/Blue/Full/Ultra>HealthWeight 
+         and LifeForce<1/10>Weight settings.
+    - Custom: Uses the weights defined in the Filler<Type>Weight and <Type>Weight settings.
     """
-    display_name = "Junk Item Pool Distribution"
+    display_name = "Filler Distribution"
     option_vanilla = 0
     option_vanilla_custom_weights = 1
     option_custom = 2
     default = option_vanilla
     
-class JunkItemPoolHealthWeight(Range):
+class FillerHealthWeight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Custom.
-
-    The weight of health pickups in the non-progressive item pool.
+    The weight of non-vanilla health pickups in the non-progressive item pool.
     Consider setting this to none if not including health pickup locations.
     """
-    display_name = "Junk Item Pool Health Weight"
+    display_name = "Filler Health Weight"
     range_start = 0
-    range_end = 100
-    default = 40
+    range_end = 1000
+    default = 25
     
-class JunkItemPoolAmmoWeight(Range):
+class FillerAmmoWeight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Custom.
-
-    The weight of ammo pickups in the non-progressive item pool.
+    The weight of non-vanilla ammo pickups in the non-progressive item pool.
     Consider setting this to none if not including weapons and ammo locations.
     """
-    display_name = "Junk Item Pool Ammo Weight"
+    display_name = "Filler Ammo Weight"
     range_start = 0
-    range_end = 100
-    default = 40
+    range_end = 1000
+    default = 25
     
-class JunkItemPoolLifeForceWeight(Range):
+class FillerLifeForceWeight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Custom.
-
-    The weight of life forces in the non-progressive item pool.
+    The weight of non-vanilla life forces in the non-progressive item pool.
     Consider setting this to none if not including Life Force locations.
     """
-    display_name = "Junk Item Pool Ammo Weight"
+    display_name = "Filler Life Force Weight"
     range_start = 0
-    range_end = 100
-    default = 80
+    range_end = 1000
+    default = 50
 
 class SilverHealthWeight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
-
-    The weight of a silver health when a health pickup is rolled.
+    The weight of a silver health when a non-vanilla or custom weighted health pickup is rolled.
     Weighed against all other health pickups.
     """
     display_name = "Silver Health Weight"
     range_start = 0
-    range_end = 100
+    range_end = 1000
     default = 28
 
 class BlueHealthWeight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
-
-    The weight of a blue health when a health pickup is rolled.
+    The weight of a blue health when a non-vanilla or custom weighted health pickup is rolled.
     Weighed against all other health pickups.
     """
     display_name = "Blue Health Weight"
     range_start = 0
-    range_end = 100
+    range_end = 1000
     default = 65
 
 class FullHealthWeight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
-
-    The weight of a full health when a health pickup is rolled.
+    The weight of a full health when a non-vanilla or custom weighted health pickup is rolled.
     Weighed against all other health pickups.
     """
     display_name = "Full Health Weight"
     range_start = 0
-    range_end = 100
+    range_end = 1000
     default = 5
 
 class UltraHealthWeight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
-
-    The weight of an ultra health when a health pickup is rolled.
+    The weight of an ultra health when a non-vanilla or custom weighted health pickup is rolled.
     Weighed against all other health pickups.
     """
     display_name = "Ultra Health Weight"
     range_start = 0
-    range_end = 100
+    range_end = 1000
     default = 2
 
 class LifeForce1Weight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+    Only used if FillerDistribution is set to Vanilla Custom Weights or Custom.
 
-    The weight of a Life Force 1 when Life Forces are rolled.
+    The weight of a Life Force 1 when non-vanilla or custom weighted Life Forces are rolled.
     Weighed against all Life Force pickups.
     """
     display_name = "Life Force 1 Weight"
     range_start = 0
-    range_end = 100
+    range_end = 1000
     default = 92
 
 class LifeForce10Weight(Range):
     """
-    Only used if JunkItemPoolDistribution is set to Vanilla Custom Weights or Custom.
+    Only used if FillerDistribution is set to Vanilla Custom Weights or Custom.
 
-    The weight of a Life Force 10 when Life Forces are rolled.
+    The weight of a Life Force 10 when non-vanilla or custom weighted Life Forces are rolled.
     Weighed against all Life Force pickups.
     """
     display_name = "Life Force 10 Weight"
     range_start = 0
-    range_end = 100
+    range_end = 1000
     default = 8
 
-class JunkItemPoolTrapPercentage(Range):
+class TrapPercentage(Range):
     """
-    The percentage of traps in the junk item pool.
+    The percentage of traps in the filler item pool.
+
+    Generally, more locations means more traps, so be careful when including a ton of item types
+    (such as all Life Forces).
     """
-    display_name = "Junk Item Pool Trap Percentage"
+    display_name = "Trap Percentage"
     range_start = 0
     range_end = 100
     default = 0
@@ -528,8 +519,8 @@ class EnemyTrapWeight(Range):
     """
     display_name = "Enemy Trap"
     range_start = 0
-    range_end = 100
-    default = 40
+    range_end = 1000
+    default = 50
     
 class DamageTrapWeight(Range):
     """
@@ -543,8 +534,8 @@ class DamageTrapWeight(Range):
     """
     display_name = "Damage Trap"
     range_start = 0
-    range_end = 100
-    default = 40
+    range_end = 1000
+    default = 25
     
 class SpamTrapWeight(Range):
     """
@@ -552,8 +543,8 @@ class SpamTrapWeight(Range):
     """
     display_name = "Spam Trap"
     range_start = 0
-    range_end = 100
-    default = 40
+    range_end = 1000
+    default = 25
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
@@ -588,10 +579,10 @@ class Turok2Options(PerGameCommonOptions):
     local_health_percentage: LocalHealthPercentage
     local_ammo_percentage: LocalAmmoPercentage
     
-    junk_item_pool_distribution: JunkItemPoolDistribution
-    junk_item_pool_health_weight: JunkItemPoolHealthWeight
-    junk_item_pool_ammo_weight: JunkItemPoolAmmoWeight
-    junk_item_pool_life_force_weight: JunkItemPoolLifeForceWeight
+    filler_distribution: FillerDistribution
+    filler_health_weight: FillerHealthWeight
+    filler_ammo_weight: FillerAmmoWeight
+    filler_life_force_weight: FillerLifeForceWeight
     
     silver_health_weight: SilverHealthWeight
     blue_health_weight: BlueHealthWeight
@@ -600,7 +591,7 @@ class Turok2Options(PerGameCommonOptions):
     life_force_1_weight: LifeForce1Weight
     life_force_10_weight: LifeForce10Weight
 
-    junk_item_pool_trap_percentage: JunkItemPoolTrapPercentage
+    trap_percentage: TrapPercentage
     enemy_trap_weight: EnemyTrapWeight
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
@@ -642,12 +633,12 @@ option_groups = [
         LocalHealthPercentage,
         LocalAmmoPercentage,
     ]),
-    OptionGroup("Junk Item Pool", [
-        JunkItemPoolDistribution,
+    OptionGroup("Filler Item Pool", [
+        FillerDistribution,
 
-        JunkItemPoolHealthWeight,
-        JunkItemPoolAmmoWeight,
-        JunkItemPoolLifeForceWeight,
+        FillerHealthWeight,
+        FillerAmmoWeight,
+        FillerLifeForceWeight,
         
         SilverHealthWeight,
         BlueHealthWeight,
@@ -657,7 +648,7 @@ option_groups = [
         LifeForce10Weight,
     ]),
     OptionGroup("Traps", [
-        JunkItemPoolTrapPercentage,
+        TrapPercentage,
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight

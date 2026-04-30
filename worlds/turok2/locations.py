@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
 from .options import PrimagenGoal, RandomizePrimagenKeys, NukeBehavior, \
-    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, JunkItemPoolDistribution
+    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, FillerDistribution
 from . import items
 from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
 
@@ -116,7 +116,7 @@ def create_locations(world: Turok2World) -> None:
         item_type_raw = loc_info.get("type", None)
         if item_type_raw is not None:
             item_type = ItemType(item_type_raw)
-            if world.options.junk_item_pool_distribution == JunkItemPoolDistribution.option_vanilla:
+            if world.options.filler_distribution == FillerDistribution.option_vanilla:
                 world.vanilla_item_counts[item_type] += 1
     
     def try_add_location(world: Turok2World, loc_name: str, loc_info: dict) -> bool:

@@ -3,7 +3,7 @@ import math
 from .item_table import *
 from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
-from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, JunkItemPoolDistribution
+from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution
 from collections import Counter, defaultdict
 
 if TYPE_CHECKING:
@@ -28,9 +28,9 @@ def get_random_filler_item_name(world: Turok2World) -> str:
     """
     fallback_item = "Life Force 1"
     category_pairs = [
-        (WeightedItemGroup.HEALTH, world.options.junk_item_pool_health_weight),
-        (WeightedItemGroup.AMMO, world.options.junk_item_pool_ammo_weight),
-        (WeightedItemGroup.LIFE_FORCE, world.options.junk_item_pool_life_force_weight)
+        (WeightedItemGroup.HEALTH, world.options.filler_health_weight),
+        (WeightedItemGroup.AMMO, world.options.filler_ammo_weight),
+        (WeightedItemGroup.LIFE_FORCE, world.options.filler_life_force_weight)
     ]
     names, weights = prepare_weights(category_pairs)
     if not names:
@@ -426,13 +426,13 @@ def get_random_life_force_item_name(world: Turok2World) -> str | None:
     
     return world.random.choices(names, weights=weights, k=1)[0]
 
-def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, itempool: list[Item]) -> None:
+def generate_filler_items(world: Turok2World, needed_number_of_filler_items: int, itempool: list[Item]) -> None:
     """
-    Generates the junk item pool based on the options.
-    Traps are a percentage of the junk item pool.
+    Generates the filler item pool based on the options.
+    Traps are a percentage of the filler item pool.
     Uses vanilla-like distributions if applicable for item types and subtypes.
     """
-    def generate_vanilla_non_trap_junk(
+    def generate_vanilla_non_trap_filler(
         world: Turok2World, 
         number_of_filler_slots: int) -> list[Item]:
         """
@@ -469,7 +469,7 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
         result = []
 
         # If vanilla, add the items to the pool as is
-        if world.options.junk_item_pool_distribution == JunkItemPoolDistribution.option_vanilla:
+        if world.options.filler_distribution == FillerDistribution.option_vanilla:
             for item_type, count in allocated.items():
                 item_name = ITEM_TYPE_TO_NAME[item_type]
                 for _ in range(count):
@@ -499,9 +499,9 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
         Gets a random trap name to add to the item pool based on the weights.
         """
         traps = [
-            (TrapType.ENEMY.value, world.options.enemy_trap_weight),
-            (TrapType.DAMAGE.value, world.options.damage_trap_weight),
-            (TrapType.SPAM.value, world.options.spam_trap_weight)
+            ("Enemy Trap", world.options.enemy_trap_weight),
+            ("Damage Trap", world.options.damage_trap_weight),
+            ("Spam Trap", world.options.spam_trap_weight)
         ]
         traps = [(name, weight) for name, weight in traps if weight > 0]
         
@@ -524,13 +524,13 @@ def generate_junk_items(world: Turok2World, needed_number_of_filler_items: int, 
 
         return result
     
-    trap_percent = world.options.junk_item_pool_trap_percentage / 100
+    trap_percent = world.options.trap_percentage / 100
     trap_count = round(needed_number_of_filler_items * trap_percent)
     non_trap_count = needed_number_of_filler_items - trap_count
 
     # If we're using custom distribution, then get_random_filler_item_name handles this
-    if world.options.junk_item_pool_distribution != JunkItemPoolDistribution.option_custom:
-        itempool += generate_vanilla_non_trap_junk(world, non_trap_count)
+    if world.options.filler_distribution != FillerDistribution.option_custom:
+        itempool += generate_vanilla_non_trap_filler(world, non_trap_count)
     itempool += generate_traps(world, trap_count)
 
 def create_all_items(world: Turok2World) -> None:
@@ -554,9 +554,9 @@ def create_all_items(world: Turok2World) -> None:
         number_of_items = len(itempool)
         return max(0, number_of_unfilled_locations - number_of_items)
 
-    # Fill the world with computed junk items
+    # Fill the world with computed filler items
     needed_number_of_filler_items = compute_needed_number_of_filler_items(world, itempool)
-    generate_junk_items(world, needed_number_of_filler_items, itempool)
+    generate_filler_items(world, needed_number_of_filler_items, itempool)
     
     # Fill out the rest of the pool (calls get_random_filler_item_name) and force some to be local
     needed_number_of_filler_items = compute_needed_number_of_filler_items(world, itempool)
@@ -599,7 +599,7 @@ def debug_print_summary(world: Turok2World, itempool: list[Item]) -> None:
     """
     Print out the item pool by type for debugging.
     """
-    print(f"Vanilla junk items found for player {world.player}:")
+    print(f"Vanilla filler items found for player {world.player}:")
     for item, count in world.vanilla_item_counts.items():
         print(f"{item.name}: {count}")
 

@@ -8,7 +8,7 @@ from . import items, locations, web_world
 from .item_table import ITEM_NAME_TO_ID
 from . import options as turok2_options
 from .turok2_seed import gen_turok2_seed
-from .options import PrimagenGoal, JunkItemPoolDistribution
+from .options import PrimagenGoal, FillerDistribution
 from collections import Counter, defaultdict
 from .items import ItemType
 
