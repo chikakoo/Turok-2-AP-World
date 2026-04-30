@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, OptionList, PerGameCommonOptions, Range, NamedRange, Toggle
+from Options import Choice, OptionGroup, OptionList, OptionSet, PerGameCommonOptions, Range, NamedRange, Toggle
 
 # TODO:
 # death link
@@ -183,6 +183,48 @@ class ForceEarlyWeapon(Toggle):
     """
     display_name = "Force Early Weapon"
     default = True
+
+class BossWeaponList(OptionSet):
+    """
+    A pool of weapons from which one will be received when starting the boss for level 4, 5, or 6.
+    This is separate from the Archipelago item pool.
+
+    Due to technical limitations, these bossescannot be warped out of (but the Primagen can be).
+    They can technically be defeated with only the bow, but it's extremely painful. It is very highly
+    recommended that at least one good weapon is in this list.
+
+    The defaults are weapons that are usually helpful enough on these bosses. The other choices are either
+    difficult to use, not that great, or can't always do damage. Only clear out/modify this list if you 
+    know what you're doing.
+
+    All valid weapons for this setting are:
+    ["Tek Bow", "Pistol", "Mag 60", "Shotgun", "Shredder", "Plasma Rifle", "Firestorm Cannon", 
+    "P.F.M. Layer", "Grenade Launcher", "Scorpion Launcher", "Flame Thrower", "Razor Wind"]
+    """
+    display_name = "Boss Weapon List"
+    valid_keys = frozenset({
+        "Tek Bow",
+        "Pistol",
+        "Mag 60",
+        "Shotgun",
+        "Shredder",
+        "Plasma Rifle",
+        "Firestorm Cannon",
+        "P.F.M. Layer",
+        "Grenade Launcher",
+        "Scorpion Launcher",
+        "Flame Thrower",
+        "Razor Wind"
+    })
+    default = frozenset({
+        "Mag 60",
+        "Shotgun",
+        "Shredder",
+        "Plasma Rifle",
+        "Firestorm Cannon",
+        "Grenade Launcher",
+        "Flame Thrower"
+    })
     
 class NukeBehavior(Choice):
     """
@@ -565,6 +607,7 @@ class Turok2Options(PerGameCommonOptions):
     starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
     force_early_weapon: ForceEarlyWeapon
+    boss_weapon_list: BossWeaponList
     nuke_behavior: NukeBehavior
     level_key_packs: LevelKeyPacks
     progressive_warps: ProgressiveWarps
@@ -617,6 +660,7 @@ option_groups = [
         StartingLevels,
         ExcludedLevels,
         ForceEarlyWeapon,
+        BossWeaponList,
         NukeBehavior,
         LevelKeyPacks,
         ProgressiveWarps,

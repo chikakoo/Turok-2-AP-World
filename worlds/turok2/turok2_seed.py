@@ -148,6 +148,9 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
     - OPTION_STARTING_WEAPONS: An array of ints containing starting weapons
     - OPTION_LEVEL_KEY_PACKS: Receive all level keys at once when getting one of them
+    - OPTION_BOSS_WEAPON_4: The weapon to receive when startnig the level 4 boss fight
+    - OPTION_BOSS_WEAPON_5: The weapon to receive when startnig the level 5 boss fight
+    - OPTION_BOSS_WEAPON_6: The weapon to receive when startnig the level 6 boss fight
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
@@ -196,6 +199,15 @@ def get_settings_string(self: "Turok2World") -> str:
             return f"#define {name} {joined}\n"
         else:
             return f"#define {name}\n"
+        
+    def get_boss_weapon_macro(self: "Turok2World", level_number: int) -> str:
+        weapon_id = 0
+        weapon_choices = list(self.options.boss_weapon_list.value)
+        if weapon_choices:
+            weapon_name = self.random.choice(weapon_choices)
+            weapon_id = ITEM_TABLE[weapon_name].get("actor_id", 0)
+
+        return f"#define OPTION_BOSS_WEAPON_{level_number} {weapon_id}\n"
 
     return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
@@ -208,4 +220,7 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
         format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids) +
-        f"#define OPTION_LEVEL_KEY_PACKS {level_key_packs}")
+        f"#define OPTION_LEVEL_KEY_PACKS {level_key_packs}\n" +
+        get_boss_weapon_macro(self, 4) +
+        get_boss_weapon_macro(self, 5) +
+        get_boss_weapon_macro(self, 6))
