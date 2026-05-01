@@ -173,8 +173,8 @@ def create_locations(world: Turok2World) -> None:
         NONE = special_names.get("none")
         ALL = special_names.get("all")
 
-        # We should not exclude ANY location here for UT generations, or it will desync
-        # The server will filter out locations instead
+        # We should not exclude ANY location for Universal Tracker generations, or it will desync
+        # It will filter out locations that don't exist on the server
         is_ut_generation = hasattr(world.multiworld, "generation_is_fake")
 
         if option == ALL or is_ut_generation:

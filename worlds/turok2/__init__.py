@@ -188,6 +188,12 @@ class Turok2World(World):
             pick_levels(self, starting_option_counts.get("Random", 0), level_pool))
         self.excluded_levels.extend(
             pick_levels(self, excluded_option_counts.get("Random", 0), level_pool))
+        
+        # We should not exclude ANY level for Universal Tracker generations, or it will desync
+        # It will filter out locations that don't exist on the server
+        is_ut_generation = hasattr(self.multiworld, "generation_is_fake")
+        if is_ut_generation:
+            self.excluded_levels = []
 
     def create_regions(self) -> None:
         """Creates all regions/locations/events and the completion condition"""
