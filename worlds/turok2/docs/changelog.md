@@ -7,7 +7,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Hub changes
   - Core gameplay change so that the player always starts in the hub with starting level keys
   - Added health/ammo spawns by the checkpoint station
-  - Level 1 now requries 3 Level 1 Keys to enter
+  - Level 1 now requires 3 Level 1 Keys to enter
 - Added inventory progress UI with a way to warp back to the hub checkpoint station
 - Significant new options
   - Progressive warps are included by default, to limit your progress through levels until you get the progressive warp items
@@ -34,6 +34,10 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added a "Useful" AP model to use for off-world useful items
 - Removed the jank extra level warp portals, since the UI can be used instead
 - Support the Start Inventory setting
+- Bug fixes
+  - Issues with syncing items with AP...
+     - If you collect some before connecting to the client
+     - If you disconnect from the client, collect some, then reconnect
 
 ## v0.2.X
 

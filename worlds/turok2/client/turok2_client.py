@@ -97,7 +97,7 @@ class Turok2Context(CommonContext):
             except Exception:
                 attempt += 1
                 if attempt > 5:
-                    logger.warn("Connected to the exe, but didn't find the AP memory block. This can happen if the intro cutscene plays uninterrupted. Retrying...")
+                    logger.warning("Connected to the exe, but didn't find the AP memory block. This can happen if the intro cutscene plays uninterrupted. Retrying...")
                     await self.connect_to_game_async()
                     attempt = 0
                 
@@ -163,7 +163,7 @@ class Turok2Context(CommonContext):
                 await asyncio.sleep(0.1)
 
             except Exception:
-                logger.warn("Lost connection to game. Reconnecting...")
+                logger.warning("Lost connection to game. Reconnecting...")
                 await asyncio.sleep(5) # If the game was closed, let it close completely
 
                 while True:
@@ -239,6 +239,7 @@ class Turok2Context(CommonContext):
             return
         
         msg_data = self.read_int(APMemoryOffset.OUT_DATA)
+        self.locations_checked.add(msg_data)
         await self.check_locations([msg_data])
             
         # Mark block ready for next message
