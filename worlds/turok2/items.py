@@ -557,6 +557,10 @@ def create_all_items(world: Turok2World) -> None:
         number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
         number_of_items = len(itempool)
         return max(0, number_of_unfilled_locations - number_of_items)
+    
+    # Handle vanilla locations, which places locked items or gives them to you if the level is excluded
+    # Do this before filler so we don't overfill with items
+    handle_vanilla_locations(world)
 
     # Fill the world with computed filler items
     needed_number_of_filler_items = compute_needed_number_of_filler_items(world, itempool)
@@ -573,12 +577,7 @@ def create_all_items(world: Turok2World) -> None:
         world.options.local_health_percentage)
     force_local_items(world, itempool, [ItemType.AMMO.value], "Ammo", world.options.local_ammo_percentage)
     force_local_weapons(world, itempool)
-    
-    # Force the early weapon, if the setting is on
     force_early_weapon(world, itempool)
-
-    # Handle vanilla locations, which places locked items or gives them to you if the level is excluded
-    handle_vanilla_locations(world)
     
     world.multiworld.itempool += itempool
 

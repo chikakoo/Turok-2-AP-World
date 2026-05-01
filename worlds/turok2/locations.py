@@ -173,14 +173,27 @@ def create_locations(world: Turok2World) -> None:
         NONE = special_names.get("none")
         ALL = special_names.get("all")
 
+        # We should not exclude ANY location here for UT generations, or it will desync
+        # The server will filter out locations instead
+        is_ut_generation = hasattr(world.multiworld, "generation_is_fake")
+
+        if option == ALL or is_ut_generation:
+            return list(locations)
         if option == NONE:
             return []
-        if option == ALL:
-            return list(locations)
         if option in filters:
             return [loc for loc in locations if filters[option](loc)]
 
         return select_percentage(world, locations, option)
+    
+    def select_percentage(world, items, percent):
+        """
+        Selects a random percentage of values from the given list of items.
+        """
+        count = round(len(items) * percent / 100)
+        shuffled = list(items)
+        world.random.shuffle(shuffled)
+        return shuffled[:count]
     
     def add_ammo_locations(world: Turok2World) -> None:
         """
@@ -240,16 +253,7 @@ def create_locations(world: Turok2World) -> None:
 
         for loc_name, loc_info in selected:
             add_location(world, loc_name, loc_info)
-    
-    def select_percentage(world, items, percent):
-        """
-        Selects a random percentage of values from the given list of items.
-        """
-        count = round(len(items) * percent / 100)
-        shuffled = list(items)
-        world.random.shuffle(shuffled)
-        return shuffled[:count]
-            
+
     for loc_name, loc_info in LOCATION_TABLE.items():
         if loc_info["level"] in world.excluded_levels:
             continue
