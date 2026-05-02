@@ -6,7 +6,7 @@
     "[2-1] Start Right Wall Path - Box of Bullets": { "region": "[2-1]", "ap_id": 125004, "position": "125_-616_-9474_0", "type": 6 },
     "[2-1] Start Right Wall Path - Shells 1": { "region": "[2-1]", "ap_id": 125005, "position": "125_-609_-8974_0", "type": 6 },
     "[2-1] Start Right Wall Path - Shells 2": { "region": "[2-1]", "ap_id": 125006, "position": "125_-102_-8974_0", "type": 6 },
-    "[2-1] Start Left Wall Path - Full Health": { "region": "[2-1]", "ap_id": 125007, "position": "125_-358_-9216_0", "type": 4 },
+    "[2-1] Start Right Wall Path - Full Health": { "region": "[2-1]", "ap_id": 125007, "position": "125_-358_-9216_0", "type": 4 },
     "[2-1] Start Left Wall Path - Shells by Turrets": { "region": "[2-1]", "ap_id": 125008, "position": "125_-6953_-5885_0", "type": 6 },
     "[2-1] Start Left Wall Path - Box of Bullets in Wall": { "region": "[2-1]", "ap_id": 125009, "position": "125_-5431_-4669_0", "type": 6 },
     "[2-1] Start Left Wall Path - Box of Shells in Wall": { "region": "[2-1]", "ap_id": 125010, "position": "125_-5430_-5167_0", "type": 6 },

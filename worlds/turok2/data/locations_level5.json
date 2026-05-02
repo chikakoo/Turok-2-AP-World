@@ -646,7 +646,7 @@
     "[5-2] Level Key - Switch": { "region": "[5-2]", "ap_id": 84061, "tag_id": "31", "type": 16 },
     "[5-3] Intersection Straight - Force Field Generator": { "region": "[5-3]", "ap_id": 85079, "tag_id": "61", "type": 16 },
     "[5-3] Elevator Switch - Switch 1": { "region": "[5-3]", "ap_id": 85080, "tag_id": "55", "type": 16 },
-    "[5-3] Elevator Switch - Switch 2": { "region": "[5-4]", "ap_id": 85081, "tag_id": "56", "type": 16 },
+    "[5-3] Elevator Switch - Switch 2": { "region": "[5-3]", "ap_id": 85081, "tag_id": "56", "type": 16 },
     "[5-4] Switch Loop - Switch 1": { "region": "[5-4]", "ap_id": 86054, "tag_id": "30", "type": 16 },
     "[5-4] Switch Loop - Switch 2": { "region": "[5-4]", "ap_id": 86055, "tag_id": "29", "type": 16 },
     "[5-4] Switch Loop - Switch 3": { "region": "[5-4]", "ap_id": 86056, "tag_id": "28", "type": 16 },

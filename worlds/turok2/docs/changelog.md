@@ -23,14 +23,17 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Options to start with and/or exclude sets of levels to control the size of the seed
   - Options to choose what to do with various randomized items if the level they are normally in is excluded
   - Options to choose a % of randomized Ammo/Health/Life Force pickups rather than doing all of them
-  - Option to only randomize the full/ultra healths when randomizing healths
+  - Option to only randomize full/ultra healths when randomizing health pickups
   - Options to only randomize red or yellow Life Forces when randomizing Life Forces
-  - Option to define a list of weapons you can receive when entering one of the late-game bosses, for balance reasons
+  - Option to define a list of weapons you can receive when entering one of the late-game bosses
   - Option to turn level keys into "Level Key Packs", which give you all of them in one item
   - Options to configure how much ammo the Random Ammo Pack can give
   - Options to further configure filler item distrubution, including making it put all randomized vanilla items back into the pool
   - Removed the Open Hub setting, as you always start there now
   - Removed the level key randomization setting, as they will always be randomized
+- Location name changes
+  - Each location is prefixed by the map it's on for easier Universal Tracker visuals
+  - Spawning into a map now shows the progress count automatically to help track progress/where you are
 - Added a "Useful" AP model to use for off-world useful items
 - Removed the jank extra level warp portals, since the UI can be used instead
 - Support the Start Inventory setting

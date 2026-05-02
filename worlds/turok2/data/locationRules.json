@@ -47,7 +47,7 @@
     "[6-1] Whispers - Primagen Key Switch": {
         "has": "Whispers"
     },
-    "[6-1] Generator in River - Place Ion Capacitors": {
+    "[6-1] Generator - Place Ion Capacitors": {
         "mission_item_requirement": {
             "item": "Ion Capacitor",
             "count": 16

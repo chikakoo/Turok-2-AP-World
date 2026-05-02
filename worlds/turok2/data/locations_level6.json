@@ -540,7 +540,7 @@
     "[6-1] Catwalks Top - Door Switch": { "region": "[6-1]", "ap_id": 115087, "tag_id": "36", "type": 16 },
     "[6-1] Whispers - Primagen Key Switch": { "region": "[6-1]", "ap_id": 115088, "tag_id": "39", "type": 16 },
     "[6-1] Whispers Jump - Bridge Switch": { "region": "[6-1]", "ap_id": 115089, "tag_id": "38", "type": 16 },
-    "[6-1] Generator in River - Place Ion Capacitors": { "region": "[6-1]", "ap_id": 115090, "tag_id": "45", "type": 17 },
+    "[6-1] Generator - Place Ion Capacitors": { "region": "[6-1]", "ap_id": 115090, "tag_id": "45", "type": 17 },
     "[6-1] Exit - Portal Switch": { "region": "[6-1]", "ap_id": 115091, "tag_id": "37", "type": 16 },
     "[6-Hub] Wing 1 End - Door Switch": { "region": "[6-Hub] Wing 2", "ap_id": 114071, "tag_id": "39", "type": 16 },
     "[6-Hub] Wing 2 - Portal Switch": { "region": "[6-Hub] Wing 2", "ap_id": 114072, "tag_id": "43", "type": 16 },
