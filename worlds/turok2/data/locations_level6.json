@@ -598,6 +598,10 @@
     "[6-4d] Generator - Oblivion Portal Switch": { "region": "[6-4d] Generator", "ap_id": 123048, "tag_id": "49", "type": 16 },
     "[6-4d] Generator - Place Ion Capacitors": { "region": "[6-4d] Generator", "ap_id": 123049, "tag_id": "31", "type": 17 },
     "[6-4d] Generator in River - Primagen Key Switch": { "region": "[6-4d] Generator River", "ap_id": 123050, "tag_id": "23", "type": 16 },
-    "[6-4d] Right Fork - Portal Switch": { "region": "[6-4d]", "ap_id": 123051, "tag_id": "25", "type": 16 },
-    "[6-Hub] Wing 4 End - Door Switch": { "region": "[6-Hub] End", "ap_id": 114078, "tag_id": "47", "type": 16 }
+    "[6-Oblivion] Start - Left Valve": { "region": "[6-Oblivion]", "ap_id": 83001, "tag_id": "32", "type": 16 },
+    "[6-Oblivion] Start - Right Valve": { "region": "[6-Oblivion]", "ap_id": 83002, "tag_id": "37", "type": 16 },
+    "[6-Oblivion] Elevator Room - Left Valve": { "region": "[6-Oblivion]", "ap_id": 83003, "tag_id": "33", "type": 16 },
+    "[6-Oblivion] Elevator Room - Rght Valve": { "region": "[6-Oblivion]", "ap_id": 83004, "tag_id": "36", "type": 16 },
+    "[6-Oblivion] Elevator Side Rooms - Left Valve": { "region": "[6-Oblivion]", "ap_id": 83005, "tag_id": "35", "type": 16 },
+    "[6-Oblivion] Elevator Side Rooms - Right Valve": { "region": "[6-Oblivion]", "ap_id": 83006, "tag_id": "34", "type": 16 }
 }
