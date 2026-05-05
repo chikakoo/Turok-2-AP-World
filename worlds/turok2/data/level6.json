@@ -255,7 +255,10 @@
             "name": "[6-4d] Generator",
             "exits": [
                 { "to": "[6-Oblivion]" },
-                { "to": "[6-4d] Generator River" }
+                { 
+                    "to": "[6-4d] Generator River",
+                    "rule": { "has": "Breath of Life" }
+                }
             ]
         },
         {
