@@ -604,5 +604,6 @@
     "[6-4d] Oblivion Elevator Room - Left Valve": { "region": "[6-Oblivion]", "ap_id": 83003, "tag_id": "33", "type": 16 },
     "[6-4d] Oblivion Elevator Room - Rght Valve": { "region": "[6-Oblivion]", "ap_id": 83004, "tag_id": "36", "type": 16 },
     "[6-4d] Oblivion Elevator Side Rooms - Left Valve": { "region": "[6-Oblivion]", "ap_id": 83005, "tag_id": "35", "type": 16 },
-    "[6-4d] Oblivion Elevator Side Rooms - Right Valve": { "region": "[6-Oblivion]", "ap_id": 83006, "tag_id": "34", "type": 16 }
+    "[6-4d] Oblivion Elevator Side Rooms - Right Valve": { "region": "[6-Oblivion]", "ap_id": 83006, "tag_id": "34", "type": 16 },
+    "[6-Hub] Wing 4 End - Door Switch": { "region": "[6-Hub] End", "ap_id": 114078, "tag_id": "47", "type": 16 }
 }
