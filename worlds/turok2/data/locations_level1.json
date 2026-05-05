@@ -478,7 +478,7 @@
     "[1-9] End Portal - Box of Bullets": { "region": "[1-9]", "ap_id": 59125, "position": "59_-9984_5427_-307", "type": 6 },
     "[1-9] End Portal - Explosive Shells": { "region": "[1-9]", "ap_id": 59126, "position": "59_-10102_5421_-307", "type": 6 },
     "[1-9] End Portal - Quiver of Tek Arrows": { "region": "[1-9]", "ap_id": 59127, "position": "59_-10240_5427_-307", "type": 6 },
-    "[1-Oblivion] End - Nuke Part": { "region": "[1-Oblivion]", "ap_id": 78000, "position": "78_-1075_-358_0", "type": 11 },
+    "[1-9] Oblivion - Nuke Part": { "region": "[1-Oblivion]", "ap_id": 78000, "position": "78_-1075_-358_0", "type": 11 },
     "[1-1] Ground - Activate Beacon": { "region": "[1-1]", "ap_id": 51019, "tag_id": "10", "type": 17 },
     "[1-2] Lower Water - Switch After Water": { "region": "[1-2] Lower", "ap_id": 52071, "tag_id": "18", "type": 16 },
     "[1-2] Catwalks - Switch": { "region": "[1-2] Lower", "ap_id": 52072, "tag_id": "16", "type": 16 },
