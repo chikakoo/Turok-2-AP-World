@@ -230,10 +230,21 @@
                 { 
                     "to": "[2-Totem]",
                     "rule": {
-                        "mission_item_requirement": {
-                            "item": "Graveyard Key",
-                            "count": 2
-                        }
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "Graveyard Key",
+                                    "count": 2
+                                }
+                            },
+                            {
+                                "progressive_warp": {
+                                    "level": 2,
+                                    "count": 11
+                                }
+                            }
+                        ]
+                        
                     }
                 }
             ]
