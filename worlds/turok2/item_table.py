@@ -548,6 +548,7 @@ ITEM_TABLE = {
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
         "class": ItemClassification.useful,
+        "exclude_from_ammo_upgrades": True,
         "count": 1,
         "groups": []
     },
@@ -693,6 +694,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
         "class": ItemClassification.useful,
         "count": 1,
+        "exclude_from_ammo_upgrades": True,
         "groups": ["Early Weapon", "Good Weapon"]
     },
     "Harpoon Gun": {
@@ -720,6 +722,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
         "class": ItemClassification.useful,
         "count": 1,
+        "exclude_from_ammo_upgrades": True,
         "groups": []
     },
 

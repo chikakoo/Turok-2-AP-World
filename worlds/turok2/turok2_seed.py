@@ -246,6 +246,7 @@ def get_settings_string(self: "Turok2World") -> str:
         get_boss_weapon_macro(self, 5) +
         get_boss_weapon_macro(self, 6) +
         
+        f"define OPTION_PROGRESSIVE_AMMO_COUNT {self.options.progressive_weapon_ammo_upgrades}" +
         get_ammo_macro("BULLET", 50, self.options.max_bullet_multiplier.value) +
         get_ammo_macro("SHOTGUN_SHELL", 20, self.options.max_shotgun_shell_multiplier.value) +
         get_ammo_macro("EXPLOSIVE_SHOTGUN_SHELL", 10, self.options.max_explosive_shotgun_shell_multiplier.value) +
