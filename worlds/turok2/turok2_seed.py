@@ -2,6 +2,7 @@ import os
 import io
 import zipfile
 import Utils
+import math
 from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
@@ -225,7 +226,10 @@ def get_settings_string(self: "Turok2World") -> str:
             weapon_id = ITEM_TABLE[weapon_name].get("actor_id", 0)
 
         return f"#define OPTION_BOSS_WEAPON_{level_number} {weapon_id}\n"
-
+    
+    def get_ammo_macro(ammo_name: str, vanilla_max: int, multiplier: int) -> str:
+        return f"#define OPTION_MAX_{ammo_name} {math.ceil(vanilla_max * (multiplier / 100))}\n"
+    
     return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
@@ -240,4 +244,21 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_LEVEL_KEY_PACKS {level_key_packs}\n" +
         get_boss_weapon_macro(self, 4) +
         get_boss_weapon_macro(self, 5) +
-        get_boss_weapon_macro(self, 6))
+        get_boss_weapon_macro(self, 6) +
+        
+        get_ammo_macro("BULLET", 50, self.options.max_bullet_multiplier.value) +
+        get_ammo_macro("SHOTGUN_SHELL", 20, self.options.max_shotgun_shell_multiplier.value) +
+        get_ammo_macro("EXPLOSIVE_SHOTGUN_SHELL", 10, self.options.max_explosive_shotgun_shell_multiplier.value) +
+        get_ammo_macro("TEK_ARROW", 10, self.options.max_tek_arrow_multiplier.value) +
+        get_ammo_macro("TRANQUILIZER_DART", 15, self.options.max_tranquilizer_dart_multiplier.value) +
+        get_ammo_macro("CHARGE_DART", 30, self.options.max_charge_dart_multiplier.value) +
+        get_ammo_macro("PLASMA_ROUND", 150, self.options.max_plasma_round_multiplier.value) +
+        get_ammo_macro("SUNFIRE_POD", 6, self.options.max_sunfire_pod_multiplier.value) +
+        get_ammo_macro("BORE", 10, self.options.max_bore_multiplier.value) +
+        get_ammo_macro("MINE", 10, self.options.max_mine_multiplier.value) +
+        get_ammo_macro("GRENADE", 10, self.options.max_grenade_multiplier.value) +
+        get_ammo_macro("SCORPION_MISSILE", 12, self.options.max_scorpion_missile_multiplier.value) +
+        get_ammo_macro("FLAME_THROWER", 50, self.options.max_flame_thrower_multiplier.value) +
+        get_ammo_macro("NUKE_AMMO", 5, self.options.max_nuke_ammo_multiplier.value) +
+        get_ammo_macro("SPEAR", 12, self.options.max_spear_multiplier.value) +
+        get_ammo_macro("TORPEDO", 3, self.options.max_torpedo_multiplier.value))

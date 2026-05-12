@@ -176,6 +176,184 @@ class RandomizeMissionObjectives(Toggle):
     """
     display_name = "Randomize Mission Objectives"
     default = True
+
+class ProgressiveWeaponAmmoUpgrades(Range):
+    """
+    Only used if randomizing weapons. Standard arrows are not affected for balance reasons.
+    
+    Places multiple of each weapon in the item pool. Ammo will be consumed an additional number of times for each 
+    progressive weapon not found. Use this in combination with the max ammo multipliers to nerf/buff weapons as 
+    the seed progresses.
+
+    Example with the Mag 60: if set to 3, the first Mag 60 will consume 3x the normal ammo per shot (9).
+    The second will comsume 2x (6). All three will be vanilla behavior (3).
+    """
+    display_name = "Progressive Ammo Upgrades"
+    range_start = 1
+    range_end = 5
+    default = 1
+
+class AmmoMultiplierBase(NamedRange):
+    """Base values for ammo multipliers."""
+    range_start = 1
+    range_end = 400
+    default = 100
+    special_range_names = {
+        "quarter": 25,
+        "half": 50,
+        "vanilla": 100,
+        "double": 200,
+        "triple": 300,
+        "quadruple": 400
+    }
+
+class MaxBulletMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of bullets you can carry.
+    Affects both the Pistol and the Mag 60.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 50.
+    """
+    display_name = "Max Bullet Multiplier"
+
+class MaxShotgunShellMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of normal shotgun shells you can carry.
+    Affects both the Shotgun and the Shredder.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 20.
+    """
+    display_name = "Max Shotgun Shell Multiplier"
+
+class MaxExplosiveShotgunShellMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of explosive shotgun shells you can carry.
+    Affects both the Shotgun and the Shredder.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 10.
+    """
+    display_name = "Max Explosive Shotgun Shell Multiplier"
+
+class MaxTekArrowMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of tek arrows you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 10.
+    """
+    display_name = "Max Tek Arrow Multiplier"
+
+class MaxTranquilizerDartMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of tranquilizer darts you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 15.
+    """
+    display_name = "Max Tranquilizer Dart Multiplier"
+
+class MaxChargeDartMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of charge darts you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 30.
+    """
+    display_name = "Max Charge Dart Multiplier"
+
+class MaxPlasmaRoundMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of plasma rounds you can carry.
+    Affects both the Plasma Rifle and the Firestorm Cannon.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 150.
+    """
+    display_name = "Max Plasma Rounds Multiplier"
+
+class MaxSunfirePodMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of sunfire pods you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 6.
+    """
+    display_name = "Max Sunfire Pod Multiplier"
+
+class MaxBoreMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of bores you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 10.
+    """
+    display_name = "Max Sunfire Pod Multiplier"
+
+class MaxMineMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of mines (PFMs) you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 10.
+    """
+    display_name = "Max Mine Multiplier"
+
+class MaxGrenadeMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of grenades you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 10.
+    """
+    display_name = "Max Grenade Multiplier"
+
+class MaxScorpionMissileMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of scorpion missiles you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 12.
+    """
+    display_name = "Max Scorpion Missile Multiplier"
+
+class MaxFlameThrowerFuelMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max amount of Flame Thrower fuel you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 50.
+    """
+    display_name = "Max Flame Thrower Fuel Multiplier"
+
+class MaxNukeAmmoMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of Nuke ammo you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 5.
+    """
+    display_name = "Max Nuke Ammo Multiplier"
+
+class MaxSpearMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of spears (for the harpoon gun) you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 12.
+    """
+    display_name = "Max Spear Multiplier"
+
+class MaxTorpedoMultiplier(AmmoMultiplierBase):
+    """
+    A percentage multiplier for the max number of torpedos you can carry.
+    Be careful with setting this to low values, as it will severely limit your shot count.
+
+    Vanilla max capacity is 3.
+    """
+    display_name = "Max Torpedo Multiplier"
     
 class ForceEarlyWeapon(Toggle):
     """
@@ -603,6 +781,24 @@ class Turok2Options(PerGameCommonOptions):
     randomize_mission_items: RandomizeMissionItems
     randomize_switches: RandomizeSwitches
     randomize_mission_objectives: RandomizeMissionObjectives
+
+    progressive_weapon_ammo_upgrades: ProgressiveWeaponAmmoUpgrades
+    max_tek_arrow_multiplier: MaxTekArrowMultiplier
+    max_bullet_multiplier: MaxBulletMultiplier
+    max_shotgun_shell_multiplier: MaxShotgunShellMultiplier
+    max_explosive_shotgun_shell_multiplier: MaxExplosiveShotgunShellMultiplier
+    max_tranquilizer_dart_multiplier: MaxTranquilizerDartMultiplier
+    max_charge_dart_multiplier: MaxChargeDartMultiplier
+    max_plasma_round_multiplier: MaxPlasmaRoundMultiplier
+    max_sunfire_pod_multiplier: MaxSunfirePodMultiplier
+    max_bore_multiplier: MaxBoreMultiplier
+    max_mine_multiplier: MaxMineMultiplier
+    max_grenade_multiplier: MaxGrenadeMultiplier
+    max_scorpion_missile_multiplier: MaxScorpionMissileMultiplier
+    max_flame_thrower_multiplier: MaxFlameThrowerFuelMultiplier
+    max_nuke_ammo_multiplier: MaxNukeAmmoMultiplier
+    max_spear_multiplier: MaxSpearMultiplier
+    max_torpedo_multiplier: MaxTorpedoMultiplier
     
     starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
@@ -655,6 +851,25 @@ option_groups = [
         RandomizeMissionItems,
         RandomizeSwitches,
         RandomizeMissionObjectives
+    ]),
+    OptionGroup("Ammo Options", [
+        ProgressiveWeaponAmmoUpgrades,
+        MaxBulletMultiplier,
+        MaxShotgunShellMultiplier,
+        MaxExplosiveShotgunShellMultiplier,
+        MaxTekArrowMultiplier,
+        MaxTranquilizerDartMultiplier,
+        MaxChargeDartMultiplier,
+        MaxPlasmaRoundMultiplier,
+        MaxSunfirePodMultiplier,
+        MaxBoreMultiplier,
+        MaxMineMultiplier,
+        MaxGrenadeMultiplier,
+        MaxScorpionMissileMultiplier,
+        MaxFlameThrowerFuelMultiplier,
+        MaxNukeAmmoMultiplier,
+        MaxSpearMultiplier,
+        MaxTorpedoMultiplier
     ]),
     OptionGroup("Progression Options", [
         StartingLevels,
