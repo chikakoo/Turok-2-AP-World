@@ -169,6 +169,10 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_BOSS_WEAPON_4: The weapon to receive when startnig the level 4 boss fight
     - OPTION_BOSS_WEAPON_5: The weapon to receive when startnig the level 5 boss fight
     - OPTION_BOSS_WEAPON_6: The weapon to receive when startnig the level 6 boss fight
+    - OPTION_WEAPON_BARRIERS: Whether we're using weapon barriers
+    - OPTION_WEAPON_BARRIER_<name>: The number of unique weapons to pass the weapon barrier
+    - OPTION_PROGRESSIVE_AMMO_COUNT: The number of progressive weapons in the pool per weapon
+    - OPTION_MAX_<ammo type>: The max number of the given ammo type the player can carry
     """
     # Defaults - will result in no goal
     primagen_lair_is_goal = "false"
@@ -178,6 +182,7 @@ def get_settings_string(self: "Turok2World") -> str:
     randomize_weapons = "false"
     progressive_warps = 0
     level_key_packs = "false"
+    weapon_barriers = "false"
 
     # Set whether levels give primagen keys
     if self.options.randomize_primagen_keys == RandomizePrimagenKeys.option_levels:
@@ -200,6 +205,10 @@ def get_settings_string(self: "Turok2World") -> str:
     # Level key packs
     if self.options.level_key_packs:
         level_key_packs = "true"
+
+    # Weapon barriers
+    if self.options.use_weapon_barriers:
+        weapon_barriers = "true"
 
     # Starting inventory
     inventory_item_ids = []
@@ -230,6 +239,13 @@ def get_settings_string(self: "Turok2World") -> str:
     def get_ammo_macro(ammo_name: str, vanilla_max: int, multiplier: int) -> str:
         return f"#define OPTION_MAX_{ammo_name} {math.ceil(vanilla_max * (multiplier / 100))}\n"
     
+    def get_weapon_barrier_macro(self: "Turok2World", name: str, key: int) -> str:
+        if self.options.use_weapon_barriers:
+            value = self.options.weapon_barrier_settings.value.get(key)
+        else:
+            value = 0
+        return f"#define OPTION_WEAPON_BARRIER_{name} {value}\n"
+    
     return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
@@ -245,6 +261,26 @@ def get_settings_string(self: "Turok2World") -> str:
         get_boss_weapon_macro(self, 4) +
         get_boss_weapon_macro(self, 5) +
         get_boss_weapon_macro(self, 6) +
+
+        f"#define OPTION_WEAPON_BARRIERS {weapon_barriers}\n" +
+        get_weapon_barrier_macro(self, "1_START", "Level 1 Start") +
+        get_weapon_barrier_macro(self, "1_MID", "Level 1 Mid") +
+        get_weapon_barrier_macro(self, "1_END", "Level 1 End") +
+        get_weapon_barrier_macro(self, "2_START", "Level 2 Start") +
+        get_weapon_barrier_macro(self, "2_MID", "Level 2 Mid") +
+        get_weapon_barrier_macro(self, "2_END", "Level 2 End") +
+        get_weapon_barrier_macro(self, "3_START", "Level 3 Start") +
+        get_weapon_barrier_macro(self, "3_MID", "Level 3 Mid") +
+        get_weapon_barrier_macro(self, "3_END", "Level 3 End") +
+        get_weapon_barrier_macro(self, "4_START", "Level 4 Start") +
+        get_weapon_barrier_macro(self, "4_MID", "Level 4 Mid") +
+        get_weapon_barrier_macro(self, "4_END", "Level 4 End") +
+        get_weapon_barrier_macro(self, "5_START", "Level 5 Start") +
+        get_weapon_barrier_macro(self, "5_MID", "Level 5 Mid") +
+        get_weapon_barrier_macro(self, "5_END", "Level 5 End") +
+        get_weapon_barrier_macro(self, "6_START", "Level 6 Start") +
+        get_weapon_barrier_macro(self, "6_MID", "Level 6 Mid") +
+        get_weapon_barrier_macro(self, "6_END", "Level 6 End") +
         
         f"#define OPTION_PROGRESSIVE_AMMO_COUNT {self.options.progressive_weapon_ammo_upgrades}\n" +
         get_ammo_macro("BULLET", 50, self.options.max_bullet_multiplier.value) +

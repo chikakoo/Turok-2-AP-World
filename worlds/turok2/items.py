@@ -59,7 +59,11 @@ def create_item_with_correct_classification(world: Turok2World, name: str) -> Tu
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
     
     # The torpedo launcher is not progressive if we aren't including it in logic
-    if name == "Torpedo Launcher" and not world.options.guarantee_torpedo_launcher:
+    if name == "Torpedo Launcher":
+        if not world.options.guarantee_torpedo_launcher:
+            classification = ItemClassification.useful
+    # Barrier weapons are only progressive if using barriers
+    elif not world.options.use_weapon_barriers and name in world.item_name_groups["Barrier Weapon"]:
         classification = ItemClassification.useful
 
     return Turok2Item(
@@ -117,7 +121,7 @@ def force_early_weapon(world: Turok2World, itempool: list[Item]):
     def is_valid_early_weapon(item_name: str) -> bool:
         data = ITEM_TABLE[item_name]
         groups = data.get("groups", [])
-        return "Early Weapon" in groups 
+        return "Barrier Weapon" in groups 
 
     weapon_items = [
         item for item in itempool

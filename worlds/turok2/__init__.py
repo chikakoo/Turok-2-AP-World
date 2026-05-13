@@ -8,9 +8,8 @@ from . import items, locations, web_world
 from .item_table import ITEM_NAME_TO_ID
 from . import options as turok2_options
 from .turok2_seed import gen_turok2_seed
-from .options import PrimagenGoal, FillerDistribution
+from .options import PrimagenGoal
 from collections import Counter, defaultdict
-from .items import ItemType
 
 class Turok2Settings(settings.Group):
     class Turok2Path(settings.FilePath):
@@ -95,6 +94,24 @@ class Turok2World(World):
         if not starting_specific_levels.isdisjoint(excluded_specific_levels):
             raise OptionError(f"Turok 2 for {self.player_name}: "
                 "Starting levels cannot be excluded. Adjust `starting_levels` or `excluded_levels`.")
+        
+        # If the torpedo launcher is guaranteed, it shouldn't be excluded
+        if self.options.guarantee_torpedo_launcher and "Torpedo Launcher" in self.options.excluded_weapons.value:
+            raise OptionError(f"Turok 2 for {self.player_name}: "
+                "Torpedo launcher is excluded, but it is also guaranteed. Adjust `guarantee_torpedo_launcher` or `excluded_weapons`.")
+        
+        # Validate that there are enough weapons to pass all the barriers
+        if self.options.use_weapon_barriers:
+            barrier_weapons = self.item_name_groups["Barrier Weapon"]
+            excluded_weapons = set(self.options.excluded_weapons.value)
+            available_barrier_weapons = len(barrier_weapons - excluded_weapons)
+            max_required = max(self.options.weapon_barrier_settings.value.values())
+            if max_required > available_barrier_weapons:
+                raise OptionError(
+                    f"Turok 2 for {self.player_name}: "
+                    f"Weapon Barrier Settings requires {max_required} progressive weapons, "
+                    f"but only {available_barrier_weapons} Barrier Weapons remain after exclusions. "
+                    f"Adjust `use_weapon_barriers`, `weapon_barrier_settings`, or `excluded_weapons`.")
         
         self.initialize_levels()
 
@@ -221,12 +238,3 @@ class Turok2World(World):
         
     def generate_output(self, output_directory: str) -> None:
         gen_turok2_seed(self, output_directory)
-    
-    """
-    def fill_hook(self,
-        progitempool: List["Item"],
-        usefulitempool: List["Item"],
-        filleritempool: List["Item"],
-        fill_locations: List["Location"]) -> None:
-            progitempool.sort(key = lambda item: item.player == self.player and (item.name == "Shredder" or item.name == "Mag 60" or item.name == "Tek Bow"))
-    """

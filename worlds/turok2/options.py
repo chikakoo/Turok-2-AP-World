@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, OptionList, OptionSet, ItemSet, PerGameCommonOptions, Range, NamedRange, Toggle
+from Options import Choice, OptionGroup, OptionList, OptionSet, OptionDict, \
+    ItemSet, PerGameCommonOptions, Range, NamedRange, Toggle
+from schema import Schema, And
 
 # TODO:
 # death link
@@ -135,6 +137,84 @@ class ExcludedWeapons(ItemSet):
         "Torpedo Launcher"
     }
     default = []
+
+class UseWeaponBarriers(Toggle):
+    """
+    Places green warp barriers at the start, middle, and/or end of each level that you cannot pass until you obtain
+    a certain number of unique progressive weapons. These include all weapons in the game, excluding the Talon, Bow,
+    Flare Gun, Nuke, Harpoon Gun, and Torpedo Launcher.
+
+    It's recommended to use this if you want to avoid potentially using the bow for longer periods of time.
+    
+    The specific settings are configured in WeaponBarrierSettings. 
+    """
+    display_name = "Use Weapon Barriers"
+    default = True
+
+class WeaponBarrierSettings(OptionDict):
+    """
+    Controls when weapon barriers appear (see UseWeaponBarriers for more details).
+    Must contain the keys "Level X Start", "Level X Mid", and "Level X End" for levels 1-6.
+    - Start places a barrier on the second warp of each level
+    - Mid places a barrier on the map of the second checkpoint station of each level
+      - Level 6 is the exception, which places it on the portal to Wing 3
+    - End places a barrier leading to the final map of each level
+
+    Note that the max number of progressive weapons is 17.
+    """
+    display_name = "Weapon Barrier Settings"
+    default = {
+        "Level 1 Start": 1,
+        "Level 1 Mid": 2,
+        "Level 1 End": 3,
+        "Level 2 Start": 2,
+        "Level 2 Mid": 3,
+        "Level 2 End": 4,
+        "Level 3 Start": 2,
+        "Level 3 Mid": 4,
+        "Level 3 End": 4,
+        "Level 4 Start": 3,
+        "Level 4 Mid": 5,
+        "Level 4 End": 6,
+        "Level 5 Start": 4,
+        "Level 5 Mid": 5,
+        "Level 5 End": 7,
+        "Level 6 Start": 4,
+        "Level 6 Mid": 6,
+        "Level 6 End": 8
+    }
+
+    required_keys = [
+        "Level 1 Start",
+        "Level 1 Mid",
+        "Level 1 End",
+        "Level 2 Start",
+        "Level 2 Mid",
+        "Level 2 End",
+        "Level 3 Start",
+        "Level 3 Mid",
+        "Level 3 End",
+        "Level 4 Start",
+        "Level 4 Mid",
+        "Level 4 End",
+        "Level 5 Start",
+        "Level 5 Mid",
+        "Level 5 End",
+        "Level 6 Start",
+        "Level 6 Mid",
+        "Level 6 End"
+    ]
+    schema = Schema(
+        {
+            key: And(
+                int,
+                lambda n: 0 <= n <= 17,
+                error=f"{key} must be an integer between 0 and 17"
+            )
+            for key in required_keys
+        },
+        ignore_extra_keys=False
+    )
 
 class RandomizeAmmoPickups(NamedRange):
     """
@@ -851,6 +931,9 @@ class Turok2Options(PerGameCommonOptions):
     randomize_weapons: RandomizeWeapons
     starting_weapons: StartingWeapons
     excluded_weapons: ExcludedWeapons
+    use_weapon_barriers: UseWeaponBarriers
+    weapon_barrier_settings: WeaponBarrierSettings
+
     randomize_ammo_pickups: RandomizeAmmoPickups
     randomize_health_pickups: RandomizeHealthPickups
     randomize_life_forces: RandomizeLifeForces
@@ -919,9 +1002,14 @@ option_groups = [
         PrimagenGoal,
         RandomizePrimagenKeys
     ]),
-    OptionGroup("Item Pool Options", [
+    OptionGroup("Weapon Options", [
         RandomizeWeapons,
+        StartingWeapons,
         ExcludedWeapons,
+        UseWeaponBarriers,
+        WeaponBarrierSettings
+    ]),
+    OptionGroup("Item Pool Options", [
         RandomizeAmmoPickups,
         RandomizeHealthPickups,
         RandomizeLifeForces,

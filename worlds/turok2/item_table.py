@@ -547,162 +547,162 @@ ITEM_TABLE = {
         "actor_id": 2001,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "exclude_from_ammo_upgrades": True,
         "count": 1,
-        "groups": []
+        "groups": ["Barrier Weapon"]
     },
     "Tek Bow": {
         "id": 300001,
         "actor_id": 2002,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Early Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Pistol": {
         "id": 300002,
         "actor_id": 2004,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Early Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Mag 60": {
         "id": 300003,
         "actor_id": 2005,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Tranquilizer Gun": {
         "id": 300004,
         "actor_id": 2006,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": []
+        "groups": ["Barrier Weapon"]
     },
     "Charge Dart Rifle": {
         "id": 300005,
         "actor_id": 2007,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Shotgun": {
         "id": 300006,
         "actor_id": 2008,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Early Weapon", "Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Shredder": {
         "id": 300007,
         "actor_id": 2009,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Plasma Rifle": {
         "id": 300008,
         "actor_id": 2010,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Early Weapon", "Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Firestorm Cannon": {
         "id": 300009,
         "actor_id": 2011,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Sunfire Pod": {
         "id": 300010,
         "actor_id": 2012,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": []
+        "groups": ["Barrier Weapon"]
     },
     "Cerebral Bore": {
         "id": 300011,
         "actor_id": 2014,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "P.F.M. Layer": {
         "id": 300012,
         "actor_id": 2015,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": []
+        "groups": ["Barrier Weapon"]
     },
     "Grenade Launcher": {
         "id": 300013,
         "actor_id": 2016,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Early Weapon", "Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Scorpion Launcher": {
         "id": 300014,
         "actor_id": 2017,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Flame Thrower": {
         "id": 300015,
         "actor_id": 2110,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Early Weapon", "Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Razor Wind": {
         "id": 300016,
         "actor_id": 2111,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
         "exclude_from_ammo_upgrades": True,
-        "groups": ["Early Weapon", "Good Weapon"]
+        "groups": ["Barrier Weapon"]
     },
     "Harpoon Gun": {
         "id": 300017,
         "actor_id": 2100,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.useful,
+        "class": ItemClassification.progression,
         "count": 1,
         "groups": []
     },
