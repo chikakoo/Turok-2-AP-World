@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, OptionList, OptionSet, PerGameCommonOptions, Range, NamedRange, Toggle
+from Options import Choice, OptionGroup, OptionList, OptionSet, ItemSet, PerGameCommonOptions, Range, NamedRange, Toggle
 
 # TODO:
 # death link
@@ -60,6 +60,42 @@ class RandomizeWeapons(Toggle):
     """
     display_name = "Randomize Weapons"
     default = True
+
+class ExcludedWeapons(ItemSet):
+    """
+    The set of weapons to exclude from the item pool, meaning you won't see them in your seed.
+    Does not affect the ones in the BossWeaponList.
+
+    Valid weapons: [
+        "War Blade", "Tek Bow", "Pistol", "Mag 60", "Tranquilizer Gun",
+        "Charge Dart Rifle", "Shotgun", "Shredder", "Plasma Rifle", "Firestorm Cannon",
+        "Sunfire Pod", "Cerebral Bore", "P.F.M. Layer", "Grenade Launcher", "Scorpion Launcher",
+        "Flame Thrower", "Razor Wind", "Harpoon Gun", "Torpedo Launcher"
+    ]
+    """
+    display_name = "Excluded Weapons"
+    valid_keys = {
+        "War Blade",
+        "Tek Bow",
+        "Pistol",
+        "Mag 60",
+        "Tranquilizer Gun",
+        "Charge Dart Rifle",
+        "Shotgun",
+        "Shredder",
+        "Plasma Rifle",
+        "Firestorm Cannon",
+        "Sunfire Pod",
+        "Cerebral Bore",
+        "P.F.M. Layer",
+        "Grenade Launcher",
+        "Scorpion Launcher",
+        "Flame Thrower",
+        "Razor Wind",
+        "Harpoon Gun",
+        "Torpedo Launcher"
+    }
+    default = []
 
 class RandomizeAmmoPickups(NamedRange):
     """
@@ -180,10 +216,11 @@ class RandomizeMissionObjectives(Toggle):
 class ProgressiveWeaponAmmoUpgrades(Range):
     """
     Only used if randomizing weapons. Standard arrows are not affected for balance reasons.
+    Does not include weapons with no ammo.
     
-    Places multiple of each weapon in the item pool. Ammo will be consumed an additional number of times for each 
-    progressive weapon not found. Use this in combination with the max ammo multipliers to nerf/buff weapons as 
-    the seed progresses.
+    Places multiple of each weapon in the item pool.
+    For each of the same progressive weapon found, less ammo will be consumed.
+    Use this in combination with the max ammo multipliers to nerf/buff weapons as the seed progresses.
 
     Example with the Mag 60: if set to 3, the first Mag 60 will consume 3x the normal ammo per shot (9).
     The second will comsume 2x (6). All three will be vanilla behavior (3).
@@ -773,6 +810,7 @@ class Turok2Options(PerGameCommonOptions):
     randomize_primagen_keys: RandomizePrimagenKeys
     
     randomize_weapons: RandomizeWeapons
+    excluded_weapons: ExcludedWeapons
     randomize_ammo_pickups: RandomizeAmmoPickups
     randomize_health_pickups: RandomizeHealthPickups
     randomize_life_forces: RandomizeLifeForces
@@ -843,6 +881,7 @@ option_groups = [
     ]),
     OptionGroup("Item Pool Options", [
         RandomizeWeapons,
+        ExcludedWeapons,
         RandomizeAmmoPickups,
         RandomizeHealthPickups,
         RandomizeLifeForces,

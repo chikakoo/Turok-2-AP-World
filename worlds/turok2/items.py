@@ -283,7 +283,7 @@ def get_required_seed_items(world: Turok2World):
             return world.options.randomize_mission_items
         
         # Weapons
-        if data["type"] == ItemType.WEAPON.value:
+        if data["type"] == ItemType.WEAPON.value and not name in world.options.excluded_weapons.value:
             return world.options.randomize_weapons
         
         # Progressive warps
