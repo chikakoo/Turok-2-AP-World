@@ -61,6 +61,45 @@ class RandomizeWeapons(Toggle):
     display_name = "Randomize Weapons"
     default = True
 
+class StartingWeapons(OptionList):
+    """
+    The list of weapons to start with. Include them multiple times in the list if you wish to
+    start with multiple ProgressiveWeaponAmmoUpgrades.
+
+    Will not be included if in the ExcludedWeapon list.
+
+    Valid weapons: [
+        "War Blade", "Tek Bow", "Pistol", "Mag 60", "Tranquilizer Gun",
+        "Charge Dart Rifle", "Shotgun", "Shredder", "Plasma Rifle", "Firestorm Cannon",
+        "Sunfire Pod", "Cerebral Bore", "P.F.M. Layer", "Grenade Launcher", "Scorpion Launcher",
+        "Flame Thrower", "Razor Wind", "Harpoon Gun", "Torpedo Launcher", "Nuke"
+    ]
+    """
+    display_name = "Starting Weapons"
+    valid_keys = {
+        "War Blade",
+        "Tek Bow",
+        "Pistol",
+        "Mag 60",
+        "Tranquilizer Gun",
+        "Charge Dart Rifle",
+        "Shotgun",
+        "Shredder",
+        "Plasma Rifle",
+        "Firestorm Cannon",
+        "Sunfire Pod",
+        "Cerebral Bore",
+        "P.F.M. Layer",
+        "Grenade Launcher",
+        "Scorpion Launcher",
+        "Flame Thrower",
+        "Razor Wind",
+        "Harpoon Gun",
+        "Torpedo Launcher",
+        "Nuke"
+    }
+    default = []
+
 class ExcludedWeapons(ItemSet):
     """
     The set of weapons to exclude from the item pool, meaning you won't see them in your seed.
@@ -810,6 +849,7 @@ class Turok2Options(PerGameCommonOptions):
     randomize_primagen_keys: RandomizePrimagenKeys
     
     randomize_weapons: RandomizeWeapons
+    starting_weapons: StartingWeapons
     excluded_weapons: ExcludedWeapons
     randomize_ammo_pickups: RandomizeAmmoPickups
     randomize_health_pickups: RandomizeHealthPickups
