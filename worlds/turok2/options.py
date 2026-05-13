@@ -140,9 +140,11 @@ class ExcludedWeapons(ItemSet):
 
 class UseWeaponBarriers(Toggle):
     """
+    Cannot be used unless playing with randomized weapons.
+
     Places green warp barriers at the start, middle, and/or end of each level that you cannot pass until you obtain
-    a certain number of unique progressive weapons. These include all weapons in the game, excluding the Talon, Bow,
-    Flare Gun, Nuke, Harpoon Gun, and Torpedo Launcher.
+    a certain number of unique weapons. These include all weapons in the game, excluding the Talon, Bow, Flare Gun,
+    Nuke, Harpoon Gun, and Torpedo Launcher.
 
     It's recommended to use this if you want to avoid potentially using the bow for longer periods of time.
     

@@ -100,8 +100,13 @@ class Turok2World(World):
             raise OptionError(f"Turok 2 for {self.player_name}: "
                 "Torpedo launcher is excluded, but it is also guaranteed. Adjust `guarantee_torpedo_launcher` or `excluded_weapons`.")
         
-        # Validate that there are enough weapons to pass all the barriers
         if self.options.use_weapon_barriers:
+            # You can't use weapon barriers if not randomizing weapons
+            if not self.options.randomize_weapons:
+                raise OptionError(f"Turok 2 for {self.player_name}: "
+                    "Cannot use weapon barriers if not randomizing weapons. Adjust `randomize_weapons` or `use_weapon_barriers`.")
+
+            # Validate that there are enough weapons to pass all the barriers
             barrier_weapons = self.item_name_groups["Barrier Weapon"]
             excluded_weapons = set(self.options.excluded_weapons.value)
             available_barrier_weapons = len(barrier_weapons - excluded_weapons)
