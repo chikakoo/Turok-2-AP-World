@@ -51,10 +51,19 @@
             "exits": [{ 
                 "to": "[3-3]",
                 "rule": {
-                    "progressive_warp": {
-                        "level": 3,
-                        "count": 2
-                    }
+                    "and": [
+                        {
+                            "progressive_warp": {
+                                "level": 3,
+                                "count": 2
+                            }
+                        },
+                        {
+                            "weapon_requirement": {
+                                "location": "Level 3 Start"
+                            }
+                        }
+                    ]
                 }
             }]
         },
@@ -69,10 +78,19 @@
                 { 
                     "to": "[3-4] Lower",
                     "rule": {
-                        "progressive_warp": {
-                            "level": 3,
-                            "count": 3
-                        }
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 3,
+                                    "count": 3
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 3 Mid"
+                                }
+                            }
+                        ]
                     }
                 }
             ]
@@ -186,6 +204,11 @@
                                     "level": 3,
                                     "count": 8
                                 }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 3 End"
+                                }
                             }
                         ]
                     }
@@ -197,10 +220,19 @@
                 { 
                     "to": "[3-8]",
                     "rule": {
-                        "progressive_warp": {
-                            "level": 3,
-                            "count": 8
-                        }
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 3,
+                                    "count": 8
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 3 End"
+                                }
+                            }
+                        ]
                     }
                 }
             ]

@@ -622,7 +622,7 @@
     "[5-E3] Lava Room Platform - LF10 4": { "region": "[5-E3] Fire", "ap_id": 96024, "position": "96_1331_-1433_358", "type": 1 },
     "[5-E3] Lava Room Platform - Firestorm Cannon": { "region": "[5-E3] Fire", "ap_id": 96025, "position": "96_1228_-1792_358", "type": 13 },
     "[5-E3] Lava Room Platform - Scorpion Launcher": { "region": "[5-E3] Fire", "ap_id": 96026, "position": "96_1484_-1536_358", "type": 13 },
-    "[5-E3] Lava Room Platform - Flame Thower": { "region": "[5-E3] Fire", "ap_id": 96027, "position": "96_1228_-1536_358", "type": 13 },
+    "[5-E3] Lava Room Platform - Flame Thrower": { "region": "[5-E3] Fire", "ap_id": 96027, "position": "96_1228_-1536_358", "type": 13 },
     "[5-E3] Lava Room Platform - P.F.M. Layer": { "region": "[5-E3] Fire", "ap_id": 96028, "position": "96_972_-1536_358", "type": 13 },
     "[5-E3] Lava Room Platform - Shredder": { "region": "[5-E3] Fire", "ap_id": 96029, "position": "96_1228_-1280_358", "type": 13 },
     "[5-E3] Lava Room Switch - Blue Health 1": { "region": "[5-E3]", "ap_id": 96030, "position": "96_4506_-2455_921", "type": 2 },

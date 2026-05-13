@@ -183,7 +183,6 @@ class WeaponBarrierSettings(OptionDict):
         "Level 6 Mid": 6,
         "Level 6 End": 8
     }
-
     required_keys = [
         "Level 1 Start",
         "Level 1 Mid",

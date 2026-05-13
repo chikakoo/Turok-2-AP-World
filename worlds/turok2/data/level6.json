@@ -27,10 +27,19 @@
                 { 
                     "to": "[6-Hub] Wing 2",
                     "rule": {
-                        "progressive_warp": {
-                            "level": 6,
-                            "count": 2
-                        }
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 6,
+                                    "count": 2
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 6 Start"
+                                }
+                            }
+                        ]
                     }
                 }
             ]
@@ -125,10 +134,19 @@
             "exits": [{
                 "to": "[6-3a]",
                 "rule": {
-                    "progressive_warp": {
-                        "level": 6,
-                        "count": 6
-                    }
+                    "and": [
+                        {
+                            "progressive_warp": {
+                                "level": 6,
+                                "count": 6
+                            }
+                        },
+                        {
+                            "weapon_requirement": {
+                                "location": "Level 6 Mid"
+                            }
+                        }
+                    ]
                 }
             }]
         },
@@ -239,10 +257,19 @@
                 {
                     "to": "[6-Hub] End",
                     "rule": {
-                        "progressive_warp": {
-                            "level": 6,
-                            "count": 13
-                        }
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 6,
+                                    "count": 13
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 6 End"
+                                }
+                            }
+                        ]
                     }
                 }
             ]

@@ -428,21 +428,6 @@ def has_level_keys(world: Turok2World, args: dict):
     count = 1 if world.options.level_key_packs else args.get("count", 1)
     item = args.get("item")
     return lambda state: state.has(item, world.player, count)
-
-def weapon_requirement(world: Turok2World, args: dict):
-    """
-    Checks whether the weapon requirements are met (categories and count).
-    Returns true if weapons are not randomized, as it's assumed the game's given weapons are enough.
-    """
-    if not world.options.randomize_weapons:
-        return lambda state: True
-
-    category = args.get("category")
-    if not category:
-        raise Exception("weapon_requirement missing 'category'")
-
-    count = args.get("count", 1)
-    return compute_category_rule(world, category, count)
     
 def mission_item_requirement(world: Turok2World, args: dict):
     """
@@ -487,11 +472,28 @@ def progressive_warp(world: Turok2World, args: dict):
     item = f"Progressive Warp L{level}"
     return lambda state: state.has(item, world.player, count)
 
+def weapon_requirement(world: Turok2World, args: dict):
+    """
+    Checks whether the correct number of weapons are obtained to pass the barrier
+    """
+    if not world.options.use_weapon_barriers:
+        return lambda state: True
+
+    location = args.get("location")
+    if location is None:
+        raise Exception("weapon_requirement missing 'location'")
+
+    count = world.options.weapon_barrier_settings.value.get(location)
+    if count == None:
+        raise Exception(f"weapon_requirement passed invalid location: {location}")
+    
+    return compute_category_rule(world, "Barrier Weapon", count)
+
 NAMED_RULES = {
     "has_level_keys": has_level_keys,
-    "weapon_requirement": weapon_requirement,
     "mission_item_requirement": mission_item_requirement,
     "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
     "weapons_not_randomized": weapons_not_randomized,
-    "progressive_warp": progressive_warp
+    "progressive_warp": progressive_warp,
+    "weapon_requirement": weapon_requirement
 }

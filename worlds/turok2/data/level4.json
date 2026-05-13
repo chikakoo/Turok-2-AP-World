@@ -61,10 +61,19 @@
                 { 
                     "to": "[4-3]",
                     "rule": {
-                        "progressive_warp": {
-                            "level": 4,
-                            "count": 2
-                        }
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 4,
+                                    "count": 2
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 4 Start"
+                                }
+                            }
+                        ]
                     }
                 }
             ]
@@ -98,10 +107,19 @@
             "exits": [{ 
                 "to": "[4-4]",
                 "rule": {
-                    "progressive_warp": {
-                        "level": 4,
-                        "count": 3
-                    }
+                    "and": [
+                        {
+                            "progressive_warp": {
+                                "level": 4,
+                                "count": 3
+                            }
+                        },
+                        {
+                            "weapon_requirement": {
+                                "location": "Level 4 Mid"
+                            }
+                        }
+                    ]
                 }
             }]
         },
@@ -311,10 +329,19 @@
             "exits": [{ 
                 "to": "[4-6] After Vent",
                 "rule": {
-                    "progressive_warp": {
-                        "level": 4,
-                        "count": 10
-                    }
+                    "and": [
+                        {
+                            "progressive_warp": {
+                                "level": 4,
+                                "count": 10
+                            }
+                        },
+                        {
+                            "weapon_requirement": {
+                                "location": "Level 4 End"
+                            }
+                        }
+                    ]
                 }
             }]
         },
