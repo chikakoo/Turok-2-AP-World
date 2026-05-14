@@ -1,7 +1,9 @@
+import re
 from dataclasses import dataclass
 from Options import Choice, OptionGroup, OptionList, OptionSet, OptionDict, \
     ItemSet, PerGameCommonOptions, Range, NamedRange, Toggle
 from schema import Schema, And
+from typing import List
 
 # TODO:
 # death link
@@ -233,6 +235,136 @@ class RandomizeAmmoPickups(NamedRange):
         "all": 100
     }
 
+class ProgressiveWeaponAmmoUpgrades(Range):
+    """
+    Only used if randomizing weapons. Standard arrows are not affected for balance reasons.
+    Does not include weapons with no ammo.
+    
+    Places multiple of each weapon in the item pool.
+    For each of the same progressive weapon found, less ammo will be consumed.
+    Use this in combination with the max ammo multipliers to nerf/buff weapons as the seed progresses.
+
+    Example with the Mag 60: if set to 3, the first Mag 60 will consume 3x the normal ammo per shot (9).
+    The second will comsume 2x (6). All three will be vanilla behavior (3).
+    """
+    display_name = "Progressive Ammo Upgrades"
+    range_start = 1
+    range_end = 5
+    default = 1
+
+SPECIAL_AMMO_NAMES = {
+    "quarter": 25,
+    "half": 50,
+    "vanilla": 100,
+    "double": 200,
+    "triple": 300,
+    "quadruple": 400
+}
+
+def validate_ammo_multiplier(value):
+    """
+    Validates that the given value...
+    - is between 1 and 400, inclusive, or...
+    - is one of the SPECIAL_AMMO_NAMES, or...
+    - is of the format "low-high", where low <= high and both are between 1 and 400
+    """
+    if isinstance(value, int):
+        return 1 <= value <= 400
+
+    if isinstance(value, str):
+        if value in SPECIAL_AMMO_NAMES:
+            return True
+
+        match = re.fullmatch(r"\s*(\d+)\s*-\s*(\d+)\s*", value)
+        if match:
+            low = int(match.group(1))
+            high = int(match.group(2))
+
+            return (
+                1 <= low <= 400 and
+                1 <= high <= 400 and
+                low <= high
+            )
+
+    return False
+
+@dataclass(frozen=True)
+class AmmoData:
+    vanilla_max: int
+    macro_suffix: str
+
+class MaxAmmoSettings(OptionDict):
+    """
+    Defines the max ammo percentages for the various ammo types.
+    For example, 100 would be vanilla, 200 would be double vanilla, etc.
+
+    Be careful with setting these to low values, as it will severely limit your shot count.
+    
+    Inputs accepted:
+    - Any number between 1 and 400
+    - A range in the format "low-high"
+      - e.g. "Bullets": "50-150" would generate a value between 50-150, inclusive
+    - "quarter": Equal to 25
+    - "half": Equal to 50
+    - "vanilla": Equal to 100
+    - "double": Equal to 200
+    - "triple": Equal to 300
+    - "quadruple": Equal to 400
+
+    Vanilla ammo counts, for reference:
+    - Bullets: 50
+    - Shotgun Shells: 20
+    - Explosive Shotgun Shells: 10
+    - Tek Arrows: 10
+    - Tranquilizer Darts: 15
+    - Charge Darts: 30
+    - Plasma Rounds: 150
+    - Sunfire Pods: 6
+    - Bores: 10
+    - Mines: 10
+    - Grenades: 10
+    - Scorpion Missiles: 12
+    - Flame Thrower Fuel: 50
+    - Nuke Ammo: 5
+    - Spears: 12
+    - Torpedoes: 3
+    """
+    display_name = "Max Ammo Settings"
+
+    ammo_data = {
+        "Bullets": AmmoData(vanilla_max=50, macro_suffix="BULLET"),
+        "Shotgun Shells": AmmoData(vanilla_max=20, macro_suffix="SHOTGUN_SHELL"),
+        "Explosive Shotgun Shells": AmmoData(vanilla_max=10, macro_suffix="EXPLOSIVE_SHOTGUN_SHELL"),
+        "Tek Arrows": AmmoData(vanilla_max=10, macro_suffix="TEK_ARROW"),
+        "Tranquilizer Darts": AmmoData(vanilla_max=15, macro_suffix="TRANQUILIZER_DART"),
+        "Charge Darts": AmmoData(vanilla_max=30, macro_suffix="CHARGE_DART"),
+        "Plasma Rounds": AmmoData(vanilla_max=150, macro_suffix="PLASMA_ROUND"),
+        "Sunfire Pods": AmmoData(vanilla_max=6, macro_suffix="SUNFIRE_POD"),
+        "Bores": AmmoData(vanilla_max=10, macro_suffix="BORE"),
+        "Mines": AmmoData(vanilla_max=10, macro_suffix="MINE"),
+        "Grenades": AmmoData(vanilla_max=10, macro_suffix="GRENADE"),
+        "Scorpion Missiles": AmmoData(vanilla_max=12, macro_suffix="SCORPION_MISSILE"),
+        "Flame Thrower Fuel": AmmoData(vanilla_max=50, macro_suffix="FLAME_THROWER"),
+        "Nuke Ammo": AmmoData(vanilla_max=5, macro_suffix="NUKE_AMMO"),
+        "Spears": AmmoData(vanilla_max=12, macro_suffix="SPEAR"),
+        "Torpedoes": AmmoData(vanilla_max=3, macro_suffix="TORPEDO")
+    }
+    default = {
+        key: "vanilla"
+        for key in ammo_data.keys()
+    }
+
+    schema = Schema(
+        {
+            key: And(
+                validate_ammo_multiplier,
+                error=f"{key} must be an integer, special name, or range (values between 1-400)."
+            )
+            for key in ammo_data.keys()
+        },
+        ignore_extra_keys=False
+    )
+
 class RandomizeHealthPickups(NamedRange):
     """
     Whether to include static health pickups in the list of locations to check.
@@ -333,185 +465,6 @@ class RandomizeMissionObjectives(Toggle):
     display_name = "Randomize Mission Objectives"
     default = True
 
-class ProgressiveWeaponAmmoUpgrades(Range):
-    """
-    Only used if randomizing weapons. Standard arrows are not affected for balance reasons.
-    Does not include weapons with no ammo.
-    
-    Places multiple of each weapon in the item pool.
-    For each of the same progressive weapon found, less ammo will be consumed.
-    Use this in combination with the max ammo multipliers to nerf/buff weapons as the seed progresses.
-
-    Example with the Mag 60: if set to 3, the first Mag 60 will consume 3x the normal ammo per shot (9).
-    The second will comsume 2x (6). All three will be vanilla behavior (3).
-    """
-    display_name = "Progressive Ammo Upgrades"
-    range_start = 1
-    range_end = 5
-    default = 1
-
-class AmmoMultiplierBase(NamedRange):
-    """Base values for ammo multipliers."""
-    range_start = 1
-    range_end = 400
-    default = 100
-    special_range_names = {
-        "quarter": 25,
-        "half": 50,
-        "vanilla": 100,
-        "double": 200,
-        "triple": 300,
-        "quadruple": 400
-    }
-
-class MaxBulletMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of bullets you can carry.
-    Affects both the Pistol and the Mag 60.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 50.
-    """
-    display_name = "Max Bullet Multiplier"
-
-class MaxShotgunShellMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of normal shotgun shells you can carry.
-    Affects both the Shotgun and the Shredder.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 20.
-    """
-    display_name = "Max Shotgun Shell Multiplier"
-
-class MaxExplosiveShotgunShellMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of explosive shotgun shells you can carry.
-    Affects both the Shotgun and the Shredder.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 10.
-    """
-    display_name = "Max Explosive Shotgun Shell Multiplier"
-
-class MaxTekArrowMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of tek arrows you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 10.
-    """
-    display_name = "Max Tek Arrow Multiplier"
-
-class MaxTranquilizerDartMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of tranquilizer darts you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 15.
-    """
-    display_name = "Max Tranquilizer Dart Multiplier"
-
-class MaxChargeDartMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of charge darts you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 30.
-    """
-    display_name = "Max Charge Dart Multiplier"
-
-class MaxPlasmaRoundMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of plasma rounds you can carry.
-    Affects both the Plasma Rifle and the Firestorm Cannon.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 150.
-    """
-    display_name = "Max Plasma Rounds Multiplier"
-
-class MaxSunfirePodMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of sunfire pods you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 6.
-    """
-    display_name = "Max Sunfire Pod Multiplier"
-
-class MaxBoreMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of bores you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 10.
-    """
-    display_name = "Max Sunfire Pod Multiplier"
-
-class MaxMineMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of mines (PFMs) you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 10.
-    """
-    display_name = "Max Mine Multiplier"
-
-class MaxGrenadeMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of grenades you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 10.
-    """
-    display_name = "Max Grenade Multiplier"
-
-class MaxScorpionMissileMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of scorpion missiles you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 12.
-    """
-    display_name = "Max Scorpion Missile Multiplier"
-
-class MaxFlameThrowerFuelMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max amount of Flame Thrower fuel you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 50.
-    """
-    display_name = "Max Flame Thrower Fuel Multiplier"
-
-class MaxNukeAmmoMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of Nuke ammo you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 5.
-    """
-    display_name = "Max Nuke Ammo Multiplier"
-
-class MaxSpearMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of spears (for the harpoon gun) you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 12.
-    """
-    display_name = "Max Spear Multiplier"
-
-class MaxTorpedoMultiplier(AmmoMultiplierBase):
-    """
-    A percentage multiplier for the max number of torpedos you can carry.
-    Be careful with setting this to low values, as it will severely limit your shot count.
-
-    Vanilla max capacity is 3.
-    """
-    display_name = "Max Torpedo Multiplier"
-    
 class ForceEarlyWeapon(Toggle):
     """
     Forces an early weapon so you have more than just the bow.
@@ -936,6 +889,9 @@ class Turok2Options(PerGameCommonOptions):
     weapon_barrier_settings: WeaponBarrierSettings
 
     randomize_ammo_pickups: RandomizeAmmoPickups
+    progressive_weapon_ammo_upgrades: ProgressiveWeaponAmmoUpgrades
+    max_ammo_settings: MaxAmmoSettings
+
     randomize_health_pickups: RandomizeHealthPickups
     randomize_life_forces: RandomizeLifeForces
     randomize_eagle_feathers: RandomizeEagleFeathers
@@ -943,24 +899,6 @@ class Turok2Options(PerGameCommonOptions):
     randomize_mission_items: RandomizeMissionItems
     randomize_switches: RandomizeSwitches
     randomize_mission_objectives: RandomizeMissionObjectives
-
-    progressive_weapon_ammo_upgrades: ProgressiveWeaponAmmoUpgrades
-    max_tek_arrow_multiplier: MaxTekArrowMultiplier
-    max_bullet_multiplier: MaxBulletMultiplier
-    max_shotgun_shell_multiplier: MaxShotgunShellMultiplier
-    max_explosive_shotgun_shell_multiplier: MaxExplosiveShotgunShellMultiplier
-    max_tranquilizer_dart_multiplier: MaxTranquilizerDartMultiplier
-    max_charge_dart_multiplier: MaxChargeDartMultiplier
-    max_plasma_round_multiplier: MaxPlasmaRoundMultiplier
-    max_sunfire_pod_multiplier: MaxSunfirePodMultiplier
-    max_bore_multiplier: MaxBoreMultiplier
-    max_mine_multiplier: MaxMineMultiplier
-    max_grenade_multiplier: MaxGrenadeMultiplier
-    max_scorpion_missile_multiplier: MaxScorpionMissileMultiplier
-    max_flame_thrower_multiplier: MaxFlameThrowerFuelMultiplier
-    max_nuke_ammo_multiplier: MaxNukeAmmoMultiplier
-    max_spear_multiplier: MaxSpearMultiplier
-    max_torpedo_multiplier: MaxTorpedoMultiplier
     
     starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
@@ -997,7 +935,7 @@ class Turok2Options(PerGameCommonOptions):
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
     
-option_groups = [
+option_groups: List[OptionGroup] = [
     OptionGroup("Goal", [
         LevelGoal,
         PrimagenGoal,
@@ -1010,8 +948,12 @@ option_groups = [
         UseWeaponBarriers,
         WeaponBarrierSettings
     ]),
-    OptionGroup("Item Pool Options", [
+    OptionGroup("Ammo Options", [
         RandomizeAmmoPickups,
+        ProgressiveWeaponAmmoUpgrades,
+        MaxAmmoSettings
+    ]),
+    OptionGroup("Item Pool Options", [
         RandomizeHealthPickups,
         RandomizeLifeForces,
         RandomizeEagleFeathers,
@@ -1019,25 +961,6 @@ option_groups = [
         RandomizeMissionItems,
         RandomizeSwitches,
         RandomizeMissionObjectives
-    ]),
-    OptionGroup("Ammo Options", [
-        ProgressiveWeaponAmmoUpgrades,
-        MaxBulletMultiplier,
-        MaxShotgunShellMultiplier,
-        MaxExplosiveShotgunShellMultiplier,
-        MaxTekArrowMultiplier,
-        MaxTranquilizerDartMultiplier,
-        MaxChargeDartMultiplier,
-        MaxPlasmaRoundMultiplier,
-        MaxSunfirePodMultiplier,
-        MaxBoreMultiplier,
-        MaxMineMultiplier,
-        MaxGrenadeMultiplier,
-        MaxScorpionMissileMultiplier,
-        MaxFlameThrowerFuelMultiplier,
-        MaxNukeAmmoMultiplier,
-        MaxSpearMultiplier,
-        MaxTorpedoMultiplier
     ]),
     OptionGroup("Progression Options", [
         StartingLevels,
@@ -1079,7 +1002,7 @@ option_groups = [
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight
-    ])
+    ]),
 ]
 
 option_presets = {

@@ -7,7 +7,7 @@ from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
 from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup_item_name
-from .options import PrimagenGoal, RandomizePrimagenKeys
+from .options import PrimagenGoal, RandomizePrimagenKeys, MaxAmmoSettings, SPECIAL_AMMO_NAMES
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -236,9 +236,6 @@ def get_settings_string(self: "Turok2World") -> str:
 
         return f"#define OPTION_BOSS_WEAPON_{level_number} {weapon_id}\n"
     
-    def get_ammo_macro(ammo_name: str, vanilla_max: int, multiplier: int) -> str:
-        return f"#define OPTION_MAX_{ammo_name} {math.ceil(vanilla_max * (multiplier / 100))}\n"
-    
     def get_weapon_barrier_macro(self: "Turok2World", name: str, key: int) -> str:
         if self.options.use_weapon_barriers:
             value = self.options.weapon_barrier_settings.value.get(key)
@@ -246,7 +243,33 @@ def get_settings_string(self: "Turok2World") -> str:
             value = 0
         return f"#define OPTION_WEAPON_BARRIER_{name} {value}\n"
     
-    return (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
+    def get_ammo_macro(self: "Turok2World", ammo_name: str, vanilla_max: int, multiplier: int | str) -> str:
+        """
+        Gets the ammo macro for the given macro ammo name. This will get the value from the options and
+        convert the percentage to the actual ammo value it should be.
+
+        e.g. Bullets (max ammo 50) set to "half" will have a macro setting it to 25.
+        """
+        def resolve_ammo_multiplier(self: "Turok2World", multiplier: int | str) -> int:
+            """
+            Takes in the setting for the random ammo multiplier and resolves it based on its type.
+            - Integers are returned as is
+            - Special names are translated based on the table
+            - low-high ranges are parsed, and a random value is chosen from the range
+            """
+            if isinstance(multiplier, int):
+                return multiplier
+
+            if multiplier in SPECIAL_AMMO_NAMES:
+                return SPECIAL_AMMO_NAMES[multiplier]
+
+            low, high = map(int, multiplier.split("-"))
+            return self.random.randint(low, high)
+    
+        max_ammo_value = resolve_ammo_multiplier(self, multiplier)
+        return f"#define OPTION_MAX_{ammo_name} {math.ceil(vanilla_max * (max_ammo_value / 100))}\n"
+    
+    settings_macros = (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
@@ -282,20 +305,14 @@ def get_settings_string(self: "Turok2World") -> str:
         get_weapon_barrier_macro(self, "6_MID", "Level 6 Mid") +
         get_weapon_barrier_macro(self, "6_END", "Level 6 End") +
         
-        f"#define OPTION_PROGRESSIVE_AMMO_COUNT {self.options.progressive_weapon_ammo_upgrades}\n" +
-        get_ammo_macro("BULLET", 50, self.options.max_bullet_multiplier.value) +
-        get_ammo_macro("SHOTGUN_SHELL", 20, self.options.max_shotgun_shell_multiplier.value) +
-        get_ammo_macro("EXPLOSIVE_SHOTGUN_SHELL", 10, self.options.max_explosive_shotgun_shell_multiplier.value) +
-        get_ammo_macro("TEK_ARROW", 10, self.options.max_tek_arrow_multiplier.value) +
-        get_ammo_macro("TRANQUILIZER_DART", 15, self.options.max_tranquilizer_dart_multiplier.value) +
-        get_ammo_macro("CHARGE_DART", 30, self.options.max_charge_dart_multiplier.value) +
-        get_ammo_macro("PLASMA_ROUND", 150, self.options.max_plasma_round_multiplier.value) +
-        get_ammo_macro("SUNFIRE_POD", 6, self.options.max_sunfire_pod_multiplier.value) +
-        get_ammo_macro("BORE", 10, self.options.max_bore_multiplier.value) +
-        get_ammo_macro("MINE", 10, self.options.max_mine_multiplier.value) +
-        get_ammo_macro("GRENADE", 10, self.options.max_grenade_multiplier.value) +
-        get_ammo_macro("SCORPION_MISSILE", 12, self.options.max_scorpion_missile_multiplier.value) +
-        get_ammo_macro("FLAME_THROWER", 50, self.options.max_flame_thrower_multiplier.value) +
-        get_ammo_macro("NUKE_AMMO", 5, self.options.max_nuke_ammo_multiplier.value) +
-        get_ammo_macro("SPEAR", 12, self.options.max_spear_multiplier.value) +
-        get_ammo_macro("TORPEDO", 3, self.options.max_torpedo_multiplier.value))
+        f"#define OPTION_PROGRESSIVE_AMMO_COUNT {self.options.progressive_weapon_ammo_upgrades}\n")
+
+    for ammo_name, ammo_data in MaxAmmoSettings.ammo_data.items():
+        settings_macros += get_ammo_macro(
+            self,
+            ammo_data.macro_suffix,
+            ammo_data.vanilla_max,
+            self.options.max_ammo_settings.value[ammo_name]
+        )
+    
+    return settings_macros
