@@ -673,6 +673,50 @@ class MaxRandomAmmoPercent(Range):
     range_end = 100
     default = 75
     
+class RandomizeEnemies(Choice):
+    """
+    Randomizes most enemies in the game. Every time an area is loaded, each enemy is replaced with one from a pool
+    based on the option set here.
+
+    Areas can be reloaded to see a different set of enemies if enemy-activated doors cannot be triggered (or if it's
+    generally too hard).
+
+	- Vanilla: Enemies are not randomized
+	- Same Level: Uses a pool of enemies from the current level, excluding oblivion enemies.
+                  Oblivion portals will only contain oblivion enemies.
+	- Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
+                                   Oblivion portals can also include enemies from that level.
+                                   This is generally harder than the "Same Level" setting.
+    - Similar Difficulty: Uses a pool of enemies of similar difficulty of the current level.
+    - Scale to Weapons: Uses pools from increasingly higher levels the more weapons you own.
+    - Chaos: Any enemy from the game can be anywhere. This is generally be the hardest setting.
+    """
+    display_name = "Randomize Enemies"
+    option_vanilla = 0
+    option_same_level = 1
+    option_same_level_include_oblivion = 2
+    option_similar_difficulty = 3
+    options_scale_to_weapons = 4
+    option_chaos = 5
+    default = option_vanilla
+
+class RandomizeEnemySpawners(Choice):
+    """
+    Only used if RandomizeEnemies is not set to Vanilla.
+
+    Randomizes what enemies will be spawed by most enemy spawners. This will be a potentially different enemy for every spawn.
+    Be careful, as this could poentially make some areas very difficult.
+
+    - Vanilla: Enemy spawners are not randomized
+    - Use Randomize Enemies Setting: Uses the same pool as RandomizeEnemies
+    - Easy Only: Uses a pool containing low health, easy to kill enemies
+    """
+    display_name = "Randomize Enemy Spawners"
+    option_vanilla = 0
+    option_use_randomize_enemies_setting = 1
+    option_easy_only = 2
+    default = option_vanilla
+
 class LocalHealthPercentage(Range):
     """
     The percentage of filler health pickups forced to your local world.
@@ -913,6 +957,8 @@ class Turok2Options(PerGameCommonOptions):
 
     min_random_ammo_percent: MinRandomAmmoPercent
     max_random_ammo_percent: MaxRandomAmmoPercent
+    randomize_enemies: RandomizeEnemies
+    randomize_enemy_spawners: RandomizeEnemySpawners
 
     local_weapon_percentage: LocalWeaponPercentage
     local_health_percentage: LocalHealthPercentage
@@ -977,6 +1023,8 @@ option_groups: List[OptionGroup] = [
     OptionGroup("Gameplay Options", [
         MinRandomAmmoPercent,
         MaxRandomAmmoPercent,
+        RandomizeEnemies,
+        RandomizeEnemySpawners
     ]),
     OptionGroup("Local Item Pool", [
         LocalWeaponPercentage,

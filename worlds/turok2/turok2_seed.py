@@ -281,6 +281,10 @@ def get_settings_string(self: "Turok2World") -> str:
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
         format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids) +
         f"#define OPTION_LEVEL_KEY_PACKS {level_key_packs}\n" +
+
+        f"#define OPTION_ENEMIZER {self.options.randomize_enemies.value}\n" +
+        f"#define OPTION_ENEMIZER_SPAWNERS {self.options.randomize_enemy_spawners.value}\n" +
+
         get_boss_weapon_macro(self, 4) +
         get_boss_weapon_macro(self, 5) +
         get_boss_weapon_macro(self, 6) +
