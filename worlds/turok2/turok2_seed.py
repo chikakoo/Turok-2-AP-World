@@ -284,6 +284,7 @@ def get_settings_string(self: "Turok2World") -> str:
 
         f"#define OPTION_ENEMIZER {self.options.randomize_enemies.value}\n" +
         f"#define OPTION_ENEMIZER_SPAWNERS {self.options.randomize_enemy_spawners.value}\n" +
+        f"#define OPTION_ENEMY_TRAP_POOL {self.options.enemy_trap_pool.value}\n" +
 
         get_boss_weapon_macro(self, 4) +
         get_boss_weapon_macro(self, 5) +

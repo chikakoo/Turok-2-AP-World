@@ -887,6 +887,27 @@ class TrapPercentage(Range):
     range_end = 100
     default = 0
 
+class EnemyTrapPool(Choice):
+    """
+    The pool of enemies that enemy traps will pull from.
+    If using a level setting and you aren't in a level, it will choose from the pool of all enemies.
+
+	- Same Level: Uses a pool of enemies from the current level, excluding oblivion enemies.
+                  Oblivion portals will only contain oblivion enemies.
+	- Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
+                                   Oblivion portals can also include enemies from that level.
+    - Similar Difficulty: Uses a pool of enemies of similar difficulty of the current level.
+    - Scale to Weapons: Uses pools from increasingly higher levels the more weapons you own.
+    - Chaos: Uses a pool of all enemies.
+    """
+    display_name = "Enemy Trap Pool"
+    option_same_level = 0
+    option_same_level_include_oblivion = 1
+    option_similar_difficulty = 2
+    options_scale_to_weapons = 3
+    option_chaos = 4
+    default = option_same_level
+
 class EnemyTrapWeight(Range):
     """
     Likelihood of receiving a trap that spawns 1-3 random enemies near you.
@@ -977,6 +998,7 @@ class Turok2Options(PerGameCommonOptions):
     life_force_10_weight: LifeForce10Weight
 
     trap_percentage: TrapPercentage
+    enemy_trap_pool: EnemyTrapPool
     enemy_trap_weight: EnemyTrapWeight
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
@@ -1047,6 +1069,7 @@ option_groups: List[OptionGroup] = [
     ]),
     OptionGroup("Traps", [
         TrapPercentage,
+        EnemyTrapPool,
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight
