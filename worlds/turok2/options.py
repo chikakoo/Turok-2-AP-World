@@ -1073,7 +1073,7 @@ option_groups: List[OptionGroup] = [
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight
-    ]),
+    ])
 ]
 
 option_presets = {
