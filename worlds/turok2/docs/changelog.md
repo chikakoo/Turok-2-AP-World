@@ -1,6 +1,38 @@
 # Changelog
 This includes changes in both the mod and AP world, in reverse order of releases.
 
+## v0.4.X
+
+### v0.4.0
+- Weapons and Ammo
+  - Option for different levels of progressive weapons, which impact how much ammo is consumed per shot
+    - For instance, setting this to 3 will result in 3x the ammo consumption, with each additional dup weapon
+      picked up reducing this by 1
+  - Options to configure max ammo for each ammo type, which can be used with progressive weapons to nerf/buff weapons
+    - Supports randomization for more interesting/varied seeds
+  - Options for "weapon barriers", requiring a set number of unique weapons to pass
+    - This helps a lot with balancing early/late game weapons
+    - Configurable for each level's second warp, the warp at the second checkpoint, and the last warp
+      - ...except in Level 6, where the second barrier is at the start of wing 3 (a more convenient halfway point)
+  - Random ammo packs will now show the amount/type(s) of ammo received instead of the weapon name
+  - The hub's ammo pack will now completely refill all owned weapons for quicker restocks
+- Enemies
+  - Added enemy randomization (enemizer)
+    - Enemy pool options:
+      - Same as current level (excluding or including oblivion enemies)
+      - Similar difficulty to current level
+      - Scale to owned unique weapons
+      - No logic (any enemy can be anywhere)
+    - Enemy spawners can be randomized too
+      - Includes graveyards, Sisters of Despair (who spawn the undead), wasp nests, spiders, and hives
+      - Can be set to the same setting as the enemizer, or a more managable set of easy-to-kill enemies
+  - Enemy trap pools are now configurable to the same pool options as the enemizer
+    - They contain the full suite of enemies now as well!
+  - Bug fixes
+    - Fixed dup health/ammo spawners when saving and loading from the hub
+    - Fixed the Ion Capacitor "important" indicator not displaying when mission items are not randomized
+    - Misc location name fixes
+
 ## v0.3.X
 
 ### v0.3.0
