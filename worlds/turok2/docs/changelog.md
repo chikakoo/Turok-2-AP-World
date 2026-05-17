@@ -28,10 +28,10 @@ This includes changes in both the mod and AP world, in reverse order of releases
       - Can be set to the same setting as the enemizer, or a more managable set of easy-to-kill enemies
   - Enemy trap pools are now configurable to the same pool options as the enemizer
     - They contain the full suite of enemies now as well!
-  - Bug fixes
-    - Fixed dup health/ammo spawners when saving and loading from the hub
-    - Fixed the Ion Capacitor "important" indicator not displaying when mission items are not randomized
-    - Misc location name fixes
+- Bug fixes
+  - Fixed dup health/ammo spawners when saving and loading from the hub
+  - Fixed the Ion Capacitor "important" indicator not displaying when mission items are not randomized
+  - Misc location name fixes
 
 ## v0.3.X
 
