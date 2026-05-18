@@ -702,7 +702,7 @@ ITEM_TABLE = {
         "actor_id": 2100,
         "type": ItemType.WEAPON.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
-        "class": ItemClassification.progression,
+        "class": ItemClassification.useful,
         "count": 1,
         "groups": []
     },
