@@ -687,9 +687,9 @@ class RandomizeEnemies(Choice):
 	- Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
                                    Oblivion portals can also include enemies from that level.
                                    This is generally harder than the "Same Level" setting.
-    - Similar Difficulty: Uses a pool of enemies of similar difficulty to the current level.
+    - Similar Difficulty: Uses a pool of enemies of similar difficulty to the ones in the current level.
     - Scale to Weapons: Uses pools from increasingly higher levels the more weapons you own (excludes underwater only ones).
-    - Chaos: Any enemy from the game can be anywhere. This is generally be the hardest setting.
+    - Chaos: Any enemy from the game can be anywhere. This is generally the hardest setting.
     """
     display_name = "Randomize Enemies"
     option_vanilla = 0
@@ -704,14 +704,14 @@ class RandomizeEnemySpawners(Choice):
     """
     Only used if RandomizeEnemies is not set to Vanilla.
 
-    Randomizes what enemies will be spawed by most enemy spawners. This will be a potentially different enemy for every spawn.
-    Be careful, as this could poentially make some areas VERY difficult.
+    Randomizes what enemies will be spawned by most enemy spawners. Every spawn will roll independently from the pool.
+    Be careful, as this could potentially make some areas VERY difficult.
 
-    Spawners affected include undead spawners, Sisters of Despair (who spawn the undead), wasp nests, spiders, and hives.
-    Totem spawns will be determined by the RandomizeEnemies setting, despite them technically spawning in.
+    Spawners affected include undead spawners (Sisters of Despair included), wasp nests, spider holes, and mite hives.
+    Totem spawns are not affected, but are instead determined by the RandomizeEnemies setting.
 
-    Boss spawners for level 4, 5 and 6 will spawn from the "easy only" pool if set to the enemizer setting,
-    Other settings can make it way too difficult. Primagen boss spawns will always be vanilla.
+    Spawners in boss levels always roll from the "easy only" pool if spawners are randomized at all.
+    Primagen boss spawns will always be vanilla.
 
     - Vanilla: Enemy spawners are not randomized
     - Use Randomize Enemies Setting: Uses the same pool as RandomizeEnemies
@@ -902,7 +902,7 @@ class EnemyTrapPool(Choice):
                   Oblivion portals will only contain oblivion enemies.
 	- Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
                                    Oblivion portals can also include enemies from that level.
-    - Similar Difficulty: Uses a pool of enemies of similar difficulty to the current level.
+    - Similar Difficulty: Uses a pool of enemies of similar difficulty to the ones in the current level.
     - Scale to Weapons: Uses pools from increasingly higher levels the more weapons you own (excludes underwater only ones).
     - Chaos: Uses a pool of all enemies.
     """
