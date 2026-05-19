@@ -293,6 +293,7 @@ def get_settings_string(self: "Turok2World") -> str:
         get_weapon_barrier_macro(self, "6_START", "Level 6 Start") +
         get_weapon_barrier_macro(self, "6_MID", "Level 6 Mid") +
         get_weapon_barrier_macro(self, "6_END", "Level 6 End") +
+        get_weapon_barrier_macro(self, "PRIMAGEN", "Primagen") +
         
         f"#define OPTION_PROGRESSIVE_AMMO_COUNT {self.options.progressive_weapon_ammo_upgrades}\n")
 

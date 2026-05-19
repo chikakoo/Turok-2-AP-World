@@ -14,6 +14,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
     - This helps a lot with balancing early/late game weapons
     - Configurable for each level's second warp, the warp at the second checkpoint, and the exit warp
       - ...except in Level 6, where the second barrier is at the start of wing 3 (a more convenient halfway point)
+    - Includes a configurable weapon requirement to enter the Primagen's lair
   - Random ammo packs will now show the amount/type(s) of ammo received instead of the weapon name
   - The hub's ammo pack will now completely refill all owned weapons for quicker restocks
 - Enemies

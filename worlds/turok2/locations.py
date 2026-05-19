@@ -298,6 +298,7 @@ def create_completion_condition(world: Turok2World):
     """
     level_goal = world.options.level_goal
     primagen_keys_needed = []
+    unique_weapons_needed = 0
 
     if (world.options.primagen_goal != PrimagenGoal.option_none and
         world.options.randomize_primagen_keys != RandomizePrimagenKeys.option_levels):
@@ -309,10 +310,12 @@ def create_completion_condition(world: Turok2World):
             "Primagen Key 5",
             "Primagen Key 6"
         ]
+        unique_weapons_needed = world.options.weapon_barrier_settings.value.get("Primagen")
 
     world.multiworld.completion_condition[world.player] = \
         lambda state: (state.has("Level Complete", world.player, level_goal) and 
-            state.has_all(primagen_keys_needed, world.player))
+            state.has_all(primagen_keys_needed, world.player) and
+            state.has_group_unique("Barrier Weapon", world.player, unique_weapons_needed))
     
 def apply_location_rules(world: Turok2World):
     """

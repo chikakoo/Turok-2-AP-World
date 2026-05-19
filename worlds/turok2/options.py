@@ -147,7 +147,7 @@ class UseWeaponBarriers(Toggle):
     a certain number of unique weapons. These include all weapons in the game, excluding the Talon, Bow, Flare Gun,
     Nuke, Harpoon Gun, and Torpedo Launcher.
 
-    It's recommended to use this if you want to avoid potentially using the bow for longer periods of time.
+    It's recommended to use this if you want to avoid potentially using the bow for longer periods of time (especially if using minimal accessibility).
     
     The specific settings are configured in WeaponBarrierSettings. 
     """
@@ -157,11 +157,12 @@ class UseWeaponBarriers(Toggle):
 class WeaponBarrierSettings(OptionDict):
     """
     Controls when weapon barriers appear (see UseWeaponBarriers for more details).
-    Must contain the keys "Level X Start", "Level X Mid", and "Level X End" for levels 1-6.
+    Must contain the keys "Level X Start", "Level X Mid", "Level X End" for levels 1-6, and "Primagen".
     - "Start" places a barrier on the second warp of each level
     - "Mid" places a barrier on the map of the second checkpoint station of each level
       - Level 6 is the exception, which places it on the portal to Wing 3
     - "End" places a barrier on the exit portal, preventing entry to the totem/boss
+    - "Primagen" is the Primagen boss fight
 
     Note that the max number of progressive weapons is 17.
     """
@@ -184,7 +185,8 @@ class WeaponBarrierSettings(OptionDict):
         "Level 5 End": 7,
         "Level 6 Start": 4,
         "Level 6 Mid": 6,
-        "Level 6 End": 8
+        "Level 6 End": 8,
+        "Primagen": 12
     }
     required_keys = [
         "Level 1 Start",
@@ -204,7 +206,8 @@ class WeaponBarrierSettings(OptionDict):
         "Level 5 End",
         "Level 6 Start",
         "Level 6 Mid",
-        "Level 6 End"
+        "Level 6 End",
+        "Primagen"
     ]
     schema = Schema(
         {
