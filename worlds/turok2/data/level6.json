@@ -257,19 +257,10 @@
                 {
                     "to": "[6-Hub] End",
                     "rule": {
-                        "and": [
-                            {
-                                "progressive_warp": {
-                                    "level": 6,
-                                    "count": 13
-                                }
-                            },
-                            {
-                                "weapon_requirement": {
-                                    "location": "Level 6 End"
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 13
+                        }
                     }
                 }
             ]
@@ -323,6 +314,11 @@
                                 "mission_item_requirement": {
                                     "item": "Red Laser Cell",
                                     "count": 2
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 6 End"
                                 }
                             }
                         ]

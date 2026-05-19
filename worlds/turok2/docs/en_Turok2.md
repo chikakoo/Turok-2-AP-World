@@ -29,15 +29,16 @@ Static pickups (those not spawned from destructibles):
   - (L6) Ion Capacitors; Blue Laser Cells; Red Laser Cells
 - Activated Switches
 - Mission Objectives
+- Enemies (these aren't checks)
 
 ## What does randomization mean?
 
-If randomized, weapons have a single copy in the item pool. Once found, it is unlocked like in the vanilla game. See the ammo explanation later on for how ammo is changed.
+Weapons can be randomized to single or multiple copies. If multiple, they will be progressive upgrades, with each upgrade reducing ammo consumption. See the ammo explanation later on for how ammo is changed.
 
 Life force tiles, health, and ammo can be shuffled throughout the worlds depending on settings. They can also be generated 
 based on filler items.
 
-Life force tiles, health, and ammo are not actually shuffled, but are generated from the filler item pool based on yaml settings. Weights of specific health and Life Forces can be configured.
+Enemies have various randomization options to make the game more varied. They aren't Archipelago checks, but can make the game much more challenging/interesting.
 
 ## What core changes have been made?
 
@@ -62,7 +63,7 @@ This is highly recommended to keep on if you are playing in a multiworld. If you
 ### Inventory and Warp UI
 
 When first spawning into a map, or picking up an item, it will show you how many checks are left there. There are two menus you can use to track progress as well:
-- While not scoping, press **zoom out** to open a UI where you can see your inventory progress. You can also click the "Warp to Hub" button to return to the hub. For modding reasons, you cannot use this menu while in a level's totem or boss (but you **can** warp out of the Primagen fight).
+- While not scoping, press **zoom out** to open a UI where you can see your inventory progress. You can also click the "Warp to Hub" button to return to the hub, or the "Warp to Boss" button to warp to the boss/totem of the current level (if you've been there before).
 - While not scoping, press **zoon in** to show a quick summary of the map/level you are on.
 
 These are important, because **the randomizer breaks the in-game inventory screen.** It will not accurately show your progress.
@@ -81,9 +82,11 @@ Random Ammo Packs look like 6 shotgun shells in the Archipelago colors.
 
 Ammo from destructables, most generators, and enemy drops are unchanged.
 
+There are settings to modify and/or randomize the max ammo of each weapon. Additionally, each weapon can be set to consume more ammo per shot. Progressive weapon items will reduce this number.
+
 ### Totem Missions
 
-To prevent softlocks, totem missions will restart if you fail to save an energy totem. This only applies if you have a level goal.
+To prevent softlocks, totem missions will restart if you fail to save an energy totem.
 
 ### Why is my Flare Gun weird/not accessible?
 
@@ -97,7 +100,7 @@ Anything that can be randomized.
 
 ## What does another world's item look like in Turok 2?
 
-Items belonging to other worlds are represented by an Archipelago model. Progression items have a gold border, and all others have a gray one.
+Items belonging to other worlds are represented by an Archipelago model. Progression items have a gold border, useful items have a blue border, and all others have a gray border.
 
 ## When the player receives an item, what happens?
 

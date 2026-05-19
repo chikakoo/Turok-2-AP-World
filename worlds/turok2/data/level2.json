@@ -239,19 +239,10 @@
                 { 
                     "to": "[2-GY3]",
                     "rule": {
-                        "and": [
-                            {
-                                "progressive_warp": {
-                                    "level": 2,
-                                    "count": 11
-                                }
-                            },
-                            {
-                                "weapon_requirement": {
-                                    "location": "Level 2 End"
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 2,
+                            "count": 11
+                        }
                     }
                 },
                 { 

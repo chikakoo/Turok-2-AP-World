@@ -204,11 +204,6 @@
                                     "level": 3,
                                     "count": 8
                                 }
-                            },
-                            {
-                                "weapon_requirement": {
-                                    "location": "Level 3 End"
-                                }
                             }
                         ]
                     }
@@ -220,19 +215,10 @@
                 { 
                     "to": "[3-8]",
                     "rule": {
-                        "and": [
-                            {
-                                "progressive_warp": {
-                                    "level": 3,
-                                    "count": 8
-                                }
-                            },
-                            {
-                                "weapon_requirement": {
-                                    "location": "Level 3 End"
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 3,
+                            "count": 8
+                        }
                     }
                 }
             ]
@@ -251,10 +237,19 @@
                 { 
                     "to": "[3-Totem]",
                     "rule": {
-                        "mission_item_requirement": {
-                            "item": "L3 Satchel Charge",
-                            "count": 3
-                        }
+                        "and": [
+                            {
+                                "mission_item_requirement": {
+                                    "item": "L3 Satchel Charge",
+                                    "count": 3
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 3 End"
+                                }
+                            }
+                        ]
                     }
                 }
             ]

@@ -107,7 +107,6 @@ class StartingWeapons(OptionList):
 class ExcludedWeapons(ItemSet):
     """
     The set of weapons to exclude from the item pool, meaning you won't see them in your seed.
-    Does not affect the ones in the BossWeaponList.
 
     Valid weapons: [
         "War Blade", "Tek Bow", "Pistol", "Mag 60", "Tranquilizer Gun",
@@ -159,10 +158,10 @@ class WeaponBarrierSettings(OptionDict):
     """
     Controls when weapon barriers appear (see UseWeaponBarriers for more details).
     Must contain the keys "Level X Start", "Level X Mid", and "Level X End" for levels 1-6.
-    - Start places a barrier on the second warp of each level
-    - Mid places a barrier on the map of the second checkpoint station of each level
+    - "Start" places a barrier on the second warp of each level
+    - "Mid" places a barrier on the map of the second checkpoint station of each level
       - Level 6 is the exception, which places it on the portal to Wing 3
-    - End places a barrier leading to the final map of each level
+    - "End" places a barrier on the exit portal, preventing entry to the totem/boss
 
     Note that the max number of progressive weapons is 17.
     """
@@ -471,48 +470,6 @@ class ForceEarlyWeapon(Toggle):
     """
     display_name = "Force Early Weapon"
     default = True
-
-class BossWeaponList(OptionSet):
-    """
-    A pool of weapons from which one will be received when starting the boss for level 4, 5, or 6.
-    This is separate from the Archipelago item pool.
-
-    Due to technical limitations, these bossescannot be warped out of (but the Primagen can be).
-    They can technically be defeated with only the bow, but it's extremely painful. It is very highly
-    recommended that at least one good weapon is in this list.
-
-    The defaults are weapons that are usually helpful enough on these bosses. The other choices are either
-    difficult to use, not that great, or can't always do damage. Only clear out/modify this list if you 
-    know what you're doing.
-
-    All valid weapons for this setting are:
-    ["Tek Bow", "Pistol", "Mag 60", "Shotgun", "Shredder", "Plasma Rifle", "Firestorm Cannon", 
-    "P.F.M. Layer", "Grenade Launcher", "Scorpion Launcher", "Flame Thrower", "Razor Wind"]
-    """
-    display_name = "Boss Weapon List"
-    valid_keys = frozenset({
-        "Tek Bow",
-        "Pistol",
-        "Mag 60",
-        "Shotgun",
-        "Shredder",
-        "Plasma Rifle",
-        "Firestorm Cannon",
-        "P.F.M. Layer",
-        "Grenade Launcher",
-        "Scorpion Launcher",
-        "Flame Thrower",
-        "Razor Wind"
-    })
-    default = frozenset({
-        "Mag 60",
-        "Shotgun",
-        "Shredder",
-        "Plasma Rifle",
-        "Firestorm Cannon",
-        "Grenade Launcher",
-        "Flame Thrower"
-    })
     
 class NukeBehavior(Choice):
     """
@@ -974,7 +931,6 @@ class Turok2Options(PerGameCommonOptions):
     starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
     force_early_weapon: ForceEarlyWeapon
-    boss_weapon_list: BossWeaponList
     nuke_behavior: NukeBehavior
     level_key_packs: LevelKeyPacks
     progressive_warps: ProgressiveWarps
@@ -1040,7 +996,6 @@ option_groups: List[OptionGroup] = [
         StartingLevels,
         ExcludedLevels,
         ForceEarlyWeapon,
-        BossWeaponList,
         NukeBehavior,
         LevelKeyPacks,
         ProgressiveWarps,

@@ -166,9 +166,6 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
     - OPTION_STARTING_WEAPONS: An array of ints containing starting weapons
     - OPTION_LEVEL_KEY_PACKS: Receive all level keys at once when getting one of them
-    - OPTION_BOSS_WEAPON_4: The weapon to receive when startnig the level 4 boss fight
-    - OPTION_BOSS_WEAPON_5: The weapon to receive when startnig the level 5 boss fight
-    - OPTION_BOSS_WEAPON_6: The weapon to receive when startnig the level 6 boss fight
     - OPTION_WEAPON_BARRIERS: Whether we're using weapon barriers
     - OPTION_WEAPON_BARRIER_<name>: The number of unique weapons to pass the weapon barrier
     - OPTION_PROGRESSIVE_AMMO_COUNT: The number of progressive weapons in the pool per weapon
@@ -226,16 +223,7 @@ def get_settings_string(self: "Turok2World") -> str:
             return f"#define {name} {joined}\n"
         else:
             return f"#define {name}\n"
-        
-    def get_boss_weapon_macro(self: "Turok2World", level_number: int) -> str:
-        weapon_id = 0
-        weapon_choices = list(self.options.boss_weapon_list.value)
-        if weapon_choices:
-            weapon_name = self.random.choice(weapon_choices)
-            weapon_id = ITEM_TABLE[weapon_name].get("actor_id", 0)
 
-        return f"#define OPTION_BOSS_WEAPON_{level_number} {weapon_id}\n"
-    
     def get_weapon_barrier_macro(self: "Turok2World", name: str, key: int) -> str:
         if self.options.use_weapon_barriers:
             value = self.options.weapon_barrier_settings.value.get(key)
@@ -285,10 +273,6 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_ENEMIZER {self.options.randomize_enemies.value}\n" +
         f"#define OPTION_ENEMIZER_SPAWNERS {self.options.randomize_enemy_spawners.value}\n" +
         f"#define OPTION_ENEMY_TRAP_POOL {self.options.enemy_trap_pool.value}\n" +
-
-        get_boss_weapon_macro(self, 4) +
-        get_boss_weapon_macro(self, 5) +
-        get_boss_weapon_macro(self, 6) +
 
         f"#define OPTION_WEAPON_BARRIERS {weapon_barriers}\n" +
         get_weapon_barrier_macro(self, "1_START", "Level 1 Start") +

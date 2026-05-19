@@ -150,19 +150,10 @@
                 { 
                     "to": "[5-E2]",
                     "rule": {
-                        "and": [
-                            {
-                                "progressive_warp": {
-                                    "level": 5,
-                                    "count": 10
-                                }
-                            },
-                            {
-                                "weapon_requirement": {
-                                    "location": "Level 5 End"
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 10
+                        }
                     }
                 },
                 { 
@@ -180,37 +171,19 @@
                 { 
                     "to": "[5-MC]",
                     "rule": {
-                        "and": [
-                            {
-                                "progressive_warp": {
-                                    "level": 5,
-                                    "count": 10
-                                }
-                            },
-                            {
-                                "weapon_requirement": {
-                                    "location": "Level 5 End"
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 10
+                        }
                     }
                 },
                 { 
                     "to": "[5-E3]",
                     "rule": {
-                        "and": [
-                            {
-                                "progressive_warp": {
-                                    "level": 5,
-                                    "count": 10
-                                }
-                            },
-                            {
-                                "weapon_requirement": {
-                                    "location": "Level 5 End"
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 10
+                        }
                     }
                 },
                 { 

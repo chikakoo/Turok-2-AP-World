@@ -329,19 +329,10 @@
             "exits": [{ 
                 "to": "[4-6] After Vent",
                 "rule": {
-                    "and": [
-                        {
-                            "progressive_warp": {
-                                "level": 4,
-                                "count": 10
-                            }
-                        },
-                        {
-                            "weapon_requirement": {
-                                "location": "Level 4 End"
-                            }
-                        }
-                    ]
+                    "progressive_warp": {
+                        "level": 4,
+                        "count": 10
+                    }
                 }
             }]
         },
@@ -362,6 +353,11 @@
                                 "mission_item_requirement": {
                                     "item": "L4 Satchel Charge",
                                     "count": 3
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 4 End"
                                 }
                             }
                         ]

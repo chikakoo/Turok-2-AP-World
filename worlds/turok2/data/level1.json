@@ -143,19 +143,10 @@
 			"exits": [{ 
 				"to": "[1-9]",
 				"rule": {
-					"and": [
-						{
-							"progressive_warp": {
-								"level": 1,
-								"count": 9
-							}
-						},
-						{
-							"weapon_requirement": {
-								"location": "Level 1 End"
-							}
-						}
-					]
+					"progressive_warp": {
+						"level": 1,
+						"count": 9
+					}
 				}
 			}]
 		},
@@ -166,10 +157,19 @@
 				{
 					"to": "[1-Totem]",
 					"rule": {
-						"mission_item_requirement": {
-							"item": "Beacon Power Cell",
-							"count": 3
-						}
+						"and": [
+							{
+								"mission_item_requirement": {
+									"item": "Beacon Power Cell",
+									"count": 3
+								}
+							},
+							{
+								"weapon_requirement": {
+									"location": "Level 1 End"
+								}
+							}
+						]
 					}
 				}
 			]

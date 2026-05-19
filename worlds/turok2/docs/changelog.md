@@ -12,7 +12,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
     - Supports randomization for more interesting/varied seeds
   - Options for "weapon barriers", requiring a set number of unique weapons to pass
     - This helps a lot with balancing early/late game weapons
-    - Configurable for each level's second warp, the warp at the second checkpoint, and the last warp
+    - Configurable for each level's second warp, the warp at the second checkpoint, and the exit warp
       - ...except in Level 6, where the second barrier is at the start of wing 3 (a more convenient halfway point)
   - Random ammo packs will now show the amount/type(s) of ammo received instead of the weapon name
   - The hub's ammo pack will now completely refill all owned weapons for quicker restocks
@@ -28,6 +28,10 @@ This includes changes in both the mod and AP world, in reverse order of releases
       - Can be set to the same setting as the enemizer, or a more managable set of easy-to-kill enemies
   - Enemy trap pools are now configurable to the same pool options as the enemizer
     - They contain the full suite of enemies now as well!
+- Totem/Boss changes
+  - Allow the player to teleport out of totems/boss fights
+  - Added a UI button to teleport back into the fight if you've been there before, as the end portal will not work twice!
+  - Removed the "Boss Weapon List" option because the weapon barriers will cover this case
 - Bug fixes
   - Fixed random ammo packs sometimes coming back after being collected
   - Fixed dup health/ammo spawners when saving and loading from the hub
