@@ -200,8 +200,9 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
 
         # Add the number of weapons to the pool based on the progressive ammo setting
         # Also push the precollected weapons
-        elif item_type == ItemType.WEAPON.value and not data.get("exclude_from_ammo_upgrades", False):
-            count = world.options.progressive_weapon_ammo_upgrades
+        elif item_type == ItemType.WEAPON.value:
+            if not data.get("exclude_from_ammo_upgrades", False):
+                count = world.options.progressive_weapon_ammo_upgrades
             precollect_count = world.options.starting_weapons.value.count(name)
 
         # Start with talismans if necessary
