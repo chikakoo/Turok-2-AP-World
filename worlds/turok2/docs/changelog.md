@@ -5,14 +5,14 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ### v0.4.0
 - Weapons and Ammo
-  - Option for different levels of progressive weapons, which impact how much ammo is consumed per shot
-    - For instance, setting this to 3 will result in 3x the ammo consumption, with each additional dup weapon
+  - Options for different levels of progressive weapons, which impact how much ammo is consumed per shot
+    - For instance, setting this to 3 will result in 3x the ammo consumption, with each additional duplicate weapon
       picked up reducing this by 1
-  - Options to configure max ammo for each ammo type, which can be used with progressive weapons to nerf/buff weapons
+  - Options to configure max ammo for each ammo type
     - Supports randomization for more interesting/varied seeds
-  - Options for "weapon barriers", requiring a set number of unique weapons to pass
+  - Options for "weapon barriers", requiring a set number of unique weapons to use a warp portal
     - This helps a lot with balancing early/late game weapons
-    - Configurable for each level's second warp, the warp at the second checkpoint, and the exit warp
+    - Configurable for each level's second warp, the warp after the second checkpoint, and the exit warp
       - ...except in Level 6, where the second barrier is at the start of wing 3 (a more convenient halfway point)
     - Includes a configurable weapon requirement to enter the Primagen's lair
   - Random ammo packs will now show the amount/type(s) of ammo received instead of the weapon name
@@ -26,7 +26,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
       - No logic (any enemy can be anywhere)
     - Enemy spawners can be randomized too
       - Includes undead spawners, Sisters of Despair (who spawn the undead), wasp nests, spiders, and hives
-      - Can be set to the same setting as the enemizer, or a more managable set of easy-to-kill enemies
+      - Can be set to the same setting as the enemizer, or a more manageable set of easy-to-kill enemies
   - Enemy trap pools are now configurable to the same pool options as the enemizer
     - They contain the full suite of enemies now as well!
 - Totem/Boss changes
@@ -35,8 +35,8 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Removed the "Boss Weapon List" option because the weapon barriers will cover this case
 - Bug fixes
   - Fixed random ammo packs sometimes coming back after being collected
-  - Fixed dup health/ammo spawners when saving and loading from the hub
-  - Fixed the Ion Capacitor "important" indicator not displaying when mission items are not randomized
+  - Fixed duplicate health/ammo spawners when saving and loading from the hub
+  - Fixed the Beacon Power Cell/Ion Capacitor "important" indicators not displaying when mission items are not randomized
   - Misc location name fixes
 
 ## v0.3.X
