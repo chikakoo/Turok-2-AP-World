@@ -641,10 +641,10 @@ class RandomizeEnemies(Choice):
     Areas can be reloaded to see a different set of enemies if enemy-activated doors cannot be triggered (or if it's
     generally too hard).
 
-	- Vanilla: Enemies are not randomized
-	- Same Level: Uses a pool of enemies from the current level, excluding oblivion enemies.
+    - Vanilla: Enemies are not randomized
+    - Same Level: Uses a pool of enemies from the current level, excluding oblivion enemies.
                   Oblivion portals will only contain oblivion enemies.
-	- Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
+    - Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
                                    Oblivion portals can also include enemies from that level.
                                    This is generally harder than the "Same Level" setting.
     - Similar Difficulty: Uses a pool of enemies of similar difficulty to the ones in the current level.
@@ -656,7 +656,7 @@ class RandomizeEnemies(Choice):
     option_same_level = 1
     option_same_level_include_oblivion = 2
     option_similar_difficulty = 3
-    options_scale_to_weapons = 4
+    option_scale_to_weapons = 4
     option_chaos = 5
     default = option_vanilla
 
@@ -870,7 +870,7 @@ class EnemyTrapPool(Choice):
     option_same_level = 0
     option_same_level_include_oblivion = 1
     option_similar_difficulty = 2
-    options_scale_to_weapons = 3
+    option_scale_to_weapons = 3
     option_chaos = 4
     default = option_same_level
 
