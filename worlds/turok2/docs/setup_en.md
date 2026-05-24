@@ -18,15 +18,17 @@ Installing the mod is very simple. First, locate your Turok 2 installation folde
 
 Once there, create a _mods_ folder. Extract the files from the mod zip (the _.kpf_ files) you downloaded from the [Required Software](#required-software) section into this folder. You should have a few files like: **mods/FileNameHere.kpf**.
 
+Follow the steps in the [Patch Files](#patch-files) section to find and place the _rando.kpf_ patch file here. **The game will fail to run if you don't do this!**
+
 **Test that it worked before playing. You will see a custom title screen if it worked.**
 
 ## Patch files
 
 Turok 2 uses a patch file to do its randomization and apply the game-specific yaml settings to the game.
 
-When your seed is generated, acquire your patch file like you normally would _(downloaded from the room, or extracted from the generated seed zip)_. Extract the files from the patch - you should see one called _rando.kpf_. Place _rando.kpf_ with the other mod files (replace it if it exists already).
+When your seed is generated, acquire your patch file like you normally would _(downloaded from the room, or extracted from the generated seed zip)_. **Extract** the files from the _.apturok2_ patch (or the _.zip_ if extracting locally) - you should see one called _rando.kpf_. Place _rando.kpf_ with the other mod files (replace it if it exists already).
 
-**Failure to install this will result in local items not being randomized!** Or, if you played a previous seed, it will use that seed's randomization. If you see the client telling you that you picked up something that you didn't, make sure you installed the correct patch!
+**Failure to install this will result in the game throwing an error when opening!** Or, if you played a previous seed, it will use that seed's randomization. If you see the client telling you that you picked up something that you didn't, make sure you installed the correct patch!
 
 ## Connecting to the client
 
