@@ -26,7 +26,7 @@ Follow the steps in the [Patch Files](#patch-files) section to find and place th
 
 Turok 2 uses a patch file to do its randomization and apply the game-specific yaml settings to the game.
 
-When your seed is generated, acquire your patch file like you normally would _(downloaded from the room, or extracted from the generated seed zip)_. **Extract** the files from the _.apturok2_ patch (or the _.zip_ if extracting locally) - you should see one called _rando.kpf_. Place _rando.kpf_ with the other mod files (replace it if it exists already).
+When your seed is generated, acquire your patch file like you normally would _(.apturok2 if downloaded from the room, or .zip if using the generated seed zip)_. **Extract** the files from the  patch - you should see one called _rando.kpf_. Place _rando.kpf_ with the other mod files (replace it if it exists already).
 
 **Failure to install this will result in the game throwing an error when opening!** Or, if you played a previous seed, it will use that seed's randomization. If you see the client telling you that you picked up something that you didn't, make sure you installed the correct patch!
 
