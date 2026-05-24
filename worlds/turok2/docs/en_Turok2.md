@@ -14,7 +14,9 @@ To generate it, install the AP world by downloading it and double-clicking it (o
 
 Static pickups (those not spawned from destructibles):
 - Health
-- Ammo and weapons (combined in a single setting for now)
+- Ammo
+- Max Ammo (amounts per ammo type are configurable)
+- Weapons
 - Life Forces
 - Level Keys
 - Eagle Feathers
