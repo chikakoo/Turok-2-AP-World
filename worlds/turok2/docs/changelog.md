@@ -3,6 +3,12 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ## v0.4.X
 
+### v0.4.1
+- Fixed patch file crash when another game's item/slot name contains quotes or backslashes
+  - Quotes are removed entirely, as the game's font won't display them
+  - Backslashes are replaced with forward slashes
+  - Other misc special characters are now handled too
+
 ### v0.4.0
 - Weapons and Ammo
   - Options for different levels of progressive weapons, which impact how much ammo is consumed per shot
