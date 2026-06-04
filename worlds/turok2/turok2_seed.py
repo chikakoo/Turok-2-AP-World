@@ -102,7 +102,15 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
         # Else, it should be the location name and player name (so we can display it on pickup)
         else:
             player_name = self.multiworld.get_player_name(location.item.player)
-            message = f"{player_name}'s {location.item.name}".replace("_", " ") # Turok font doesn't support underscores
+            message = f"{player_name}'s {location.item.name}"
+            message = message.translate(str.maketrans({
+                '"': '', # Quotes and backslashes can mess up the AngelScript, and won't display
+                '\\': '/',
+                '_': ' ', # Underscores won't display
+                '\r': ' ', # The rest of these are just for safety
+                '\n': ' ',
+                '\t': ' '
+            }))
 
             if is_action_object:
                 snippet += f", \"{message}\");"
