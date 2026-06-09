@@ -7,7 +7,7 @@ from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
 from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup_item_name
-from .options import PrimagenGoal, RandomizePrimagenKeys, MaxAmmoSettings, SPECIAL_AMMO_NAMES
+from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, MaxAmmoSettings, SPECIAL_AMMO_NAMES
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -173,7 +173,8 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
     - OPTION_STARTING_WEAPONS: An array of ints containing starting weapons
-    - OPTION_LEVEL_KEY_PACKS: Receive all level keys at once when getting one of them
+    - OPTION_UNLOCK_METHOD_ONE_KEY: Receive all level keys at once when getting one of them
+    - OPTION_UNLOCK_METHOD_ONE_WARP: Receive all level keys at once when getting one progressive warp
     - OPTION_WEAPON_BARRIERS: Whether we're using weapon barriers
     - OPTION_WEAPON_BARRIER_<name>: The number of unique weapons to pass the weapon barrier
     - OPTION_PROGRESSIVE_AMMO_COUNT: The number of progressive weapons in the pool per weapon
@@ -186,7 +187,8 @@ def get_settings_string(self: "Turok2World") -> str:
     levels_give_primagen_keys = "false"
     randomize_weapons = "false"
     progressive_warps = 0
-    level_key_packs = "false"
+    unlock_method_one_key = "false"
+    unlock_method_one_warp = "false"
     weapon_barriers = "false"
 
     # Set whether levels give primagen keys
@@ -207,9 +209,11 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.progressive_warps:
         progressive_warps = self.options.progressive_warp_strength
 
-    # Level key packs
-    if self.options.level_key_packs:
-        level_key_packs = "true"
+    # Level unlocks
+    if self.options.level_unlock_method.value == LevelUnlockMethod.option_one_level_key:
+        unlock_method_one_key = "true"
+    elif self.options.level_unlock_method.value == LevelUnlockMethod.option_one_progressive_warp:
+        unlock_method_one_warp = "true"
 
     # Weapon barriers
     if self.options.use_weapon_barriers:
@@ -276,7 +280,8 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
         format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids) +
-        f"#define OPTION_LEVEL_KEY_PACKS {level_key_packs}\n" +
+        f"#define OPTION_UNLOCK_METHOD_ONE_KEY {unlock_method_one_key}\n" +
+        f"#define OPTION_UNLOCK_METHOD_ONE_WARP {unlock_method_one_warp}\n" +
 
         f"#define OPTION_ENEMIZER {self.options.randomize_enemies.value}\n" +
         f"#define OPTION_ENEMIZER_SPAWNERS {self.options.randomize_enemy_spawners.value}\n" +

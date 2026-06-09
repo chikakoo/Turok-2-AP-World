@@ -7,9 +7,10 @@
 					"level": 1,
 					"to": "[1-1]",
 					"rule": {
-						"has_level_keys": {
-							"item": "Level 1 Key",
-							"count": 3
+						"can_enter_level": {
+							"level_key_item": "Level 1 Key",
+							"progressive_warp_item": "Progressive Warp L1",
+							"vanilla_key_count": 3
 						}
 					}
 				},
@@ -17,9 +18,10 @@
 					"level": 2,
 					"to": "[2-1]",
 					"rule": {
-						"has_level_keys": {
-							"item": "Level 2 Key",
-							"count": 3
+						"can_enter_level": {
+							"level_key_item": "Level 2 Key",
+							"progressive_warp_item": "Progressive Warp L2",
+							"vanilla_key_count": 3
 						}
 					}
 				},
@@ -27,9 +29,10 @@
 					"level": 3,
 					"to": "[3-1]",
 					"rule": {
-						"has_level_keys": {
-							"item": "Level 3 Key",
-							"count": 3
+						"can_enter_level": {
+							"level_key_item": "Level 3 Key",
+							"progressive_warp_item": "Progressive Warp L3",
+							"vanilla_key_count": 3
 						}
 					}
 				},
@@ -37,9 +40,10 @@
 					"level": 4,
 					"to": "[4-1]",
 					"rule": {
-						"has_level_keys": {
-							"item": "Level 4 Key",
-							"count": 3
+						"can_enter_level": {
+							"level_key_item": "Level 4 Key",
+							"progressive_warp_item": "Progressive Warp L4",
+							"vanilla_key_count": 3
 						}
 					}
 				},
@@ -47,9 +51,10 @@
 					"level": 5,
 					"to": "[5-1]",
 					"rule": {
-						"has_level_keys": {
-							"item": "Level 5 Key",
-							"count": 3
+						"can_enter_level": {
+							"level_key_item": "Level 5 Key",
+							"progressive_warp_item": "Progressive Warp L5",
+							"vanilla_key_count": 3
 						}
 					}
 				},
@@ -57,9 +62,10 @@
 					"level": 6,
 					"to": "[6-Hub]",
 					"rule": {
-						"has_level_keys": {
-							"item": "Level 6 Key",
-							"count": 6
+						"can_enter_level": {
+							"level_key_item": "Level 6 Key",
+							"progressive_warp_item": "Progressive Warp L6",
+							"vanilla_key_count": 6
 						}
 					}
 				}

@@ -8,7 +8,7 @@ from . import items, locations, web_world
 from .item_table import ITEM_NAME_TO_ID
 from . import options as turok2_options
 from .turok2_seed import gen_turok2_seed
-from .options import PrimagenGoal
+from .options import PrimagenGoal, LevelUnlockMethod
 from collections import Counter, defaultdict
 
 class Turok2Settings(settings.Group):
@@ -74,6 +74,11 @@ class Turok2World(World):
         starting_level_count = len(starting_random_options) + len(starting_specific_levels)
         excluded_level_count = len(excluded_random_options) + len(excluded_specific_levels)
         accessible_level_count = max_levels - excluded_level_count
+
+        # Adjust the level unlock setting if necessary
+        if not self.options.progressive_warps and \
+            self.options.level_unlock_method.value == LevelUnlockMethod.option_one_progressive_warp:
+            self.options.level_unlock_method.value = LevelUnlockMethod.option_one_level_key
 
         # You must start with at least one level
         if starting_level_count == 0:

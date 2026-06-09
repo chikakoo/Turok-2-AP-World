@@ -7,7 +7,7 @@ import importlib.resources as resources
 from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
-from .options import PrimagenGoal, RandomizePrimagenKeys, NukeBehavior, \
+from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, NukeBehavior, \
     RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, FillerDistribution
 from . import items
 from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
@@ -423,13 +423,23 @@ def compute_category_rule(world: Turok2World, category: str, count: int = 1):
     """
     return lambda state: state.has_group_unique(category, world.player, count)
 
-def has_level_keys(world: Turok2World, args: dict):
+def can_enter_level(world: Turok2World, args: dict):
     """
-    Checks whether the specified number of level keys are obtained for a given level.
-    If level key packs are used, will only check if one key is obtained.
+    Checks whether the player can enter the given level.
+    Takes the level unlock method into account.
     """
-    count = 1 if world.options.level_key_packs else args.get("count", 1)
-    item = args.get("item")
+    if world.options.level_unlock_method.value == LevelUnlockMethod.option_one_progressive_warp:
+        item = args.get("progressive_warp_item")
+    else:
+        item = args.get("level_key_item")
+    
+    count = args.get("vanilla_key_count", 1)
+    if world.options.level_unlock_method.value == LevelUnlockMethod.option_one_level_key or \
+        world.options.level_unlock_method.value == LevelUnlockMethod.option_one_progressive_warp:
+        count = 1
+    else:
+        count = args.get("vanilla_key_count", 1)
+
     return lambda state: state.has(item, world.player, count)
     
 def mission_item_requirement(world: Turok2World, args: dict):
@@ -493,7 +503,7 @@ def weapon_requirement(world: Turok2World, args: dict):
     return compute_category_rule(world, "Barrier Weapon", count)
 
 NAMED_RULES = {
-    "has_level_keys": has_level_keys,
+    "can_enter_level": can_enter_level,
     "mission_item_requirement": mission_item_requirement,
     "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
     "weapons_not_randomized": weapons_not_randomized,

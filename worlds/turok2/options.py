@@ -467,88 +467,6 @@ class RandomizeMissionObjectives(Toggle):
     display_name = "Randomize Mission Objectives"
     default = True
 
-class ForceEarlyWeapon(Toggle):
-    """
-    Forces an early weapon so you have more than just the bow.
-    """
-    display_name = "Force Early Weapon"
-    default = True
-    
-class NukeBehavior(Choice):
-    """
-    Defines how to get the Nuke weapon.
-    - Disabled: There is no Nuke. Oblivion portals will have a random check.
-    - Vanilla In Pool If level Excluded: 
-         The 6 Nuke Parts are in their vanilla locations. 
-         If that level is excluded, it will be in the item pool.
-    - Vanilla Start With If Level Excluded: 
-         The 6 Nuke Parts are in their vanilla loactions.
-         If that level is excluded, you will start with it.
-    - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
-    - Weapon Pickup: The Nuke will be obtaned as a single item. Oblivion portals will have a random check.
-    """
-    display_name = "Nuke Behavior"
-    option_disabled = 0
-    option_vanilla_in_pool_if_level_excluded = 1
-    option_vanilla_start_with_if_level_excluded = 2
-    option_nuke_part_hunt = 3
-    option_weapon_pickup = 4
-    default = option_nuke_part_hunt
-
-class LevelKeyPacks(Toggle):
-    """
-    When receiving a level key, you get all of them.
-    There will be only one level key in the pool for each included level.
-    """
-    display_name = "level Key Packs"
-    default = False
-
-class ProgressiveWarps(Toggle):
-    """
-    Progressive Warp items for each level will be added to the item pool. Warp portals will now be 
-    blocked by a barrier if you do not have the required number of these items.
-    
-    Highly recommended for this to be on if on a multiworld, as it splits up levels into logical sections.
-    """
-    display_name = "Progressive Warps"
-    default = True
-
-class ProgressiveWarpStrength(NamedRange):
-    """
-    Used if Progressive Warps are on.
-    The number of warps each Progressive Warp item allows you to travel through.
-    - Low: Each Progressive Warp advances through one warp
-    - Quarter: Each Progressive Warp advances through roughly a quarter of the level
-    - Half: Each Progressive Warp advances through roughly half of the level
-    - Most: Each Progressive Warp advances through most of the level
-    """
-    display_name = "Progressive Warp Strength"
-    range_start = 1
-    range_end = 15
-    default = 1
-    special_range_names = {
-        "low": 1,
-        "quarter": 3,
-        "half": 5,
-        "most": 8
-    }
-
-class StartingProgressiveWarps(Range):
-    """
-    Used if Progressive Warps are on.
-
-    The number of Progressive Warp items you will start with.
-
-    If set too low, this could cause generation failures for solo worlds if not a lot of item types are
-    included in the item pool, depending on your starting levels.
-
-    If set too high, your sphere 1 will be really big.
-    """
-    display_name = "Starting Progressive Warps"
-    range_start = 0
-    range_end = 20
-    default = 1
-
 class StartingLevels(OptionList):
     """
     The set of levels that will be unlocked at the start of the seed.
@@ -600,6 +518,98 @@ class ExcludedLevels(OptionList):
         "Primagen's Lightship"
     }
     default = []
+
+class ProgressiveWarps(Toggle):
+    """
+    Progressive Warp items for each level will be added to the item pool. Warp portals will now be 
+    blocked by a barrier if you do not have the required number of these items.
+    
+    Highly recommended for this to be on if on a multiworld, as it splits up levels into logical sections.
+    """
+    display_name = "Progressive Warps"
+    default = True
+
+class ProgressiveWarpStrength(NamedRange):
+    """
+    Used if Progressive Warps are on.
+    The number of warps each Progressive Warp item allows you to travel through.
+    - Low: Each Progressive Warp advances through one warp
+    - Quarter: Each Progressive Warp advances through roughly a quarter of the level
+    - Half: Each Progressive Warp advances through roughly half of the level
+    - Most: Each Progressive Warp advances through most of the level
+    """
+    display_name = "Progressive Warp Strength"
+    range_start = 1
+    range_end = 15
+    default = 1
+    special_range_names = {
+        "low": 1,
+        "quarter": 3,
+        "half": 5,
+        "most": 8
+    }
+
+class StartingProgressiveWarps(Range):
+    """
+    Used if Progressive Warps are on.
+
+    The number of Progressive Warp items you will start with.
+
+    If set too low, this could cause generation failures for solo worlds if not a lot of item types are
+    included in the item pool, depending on your starting levels.
+
+    If set too high, your sphere 1 will be really big.
+    """
+    display_name = "Starting Progressive Warps"
+    range_start = 0
+    range_end = 20
+    default = 1
+
+class LevelUnlockMethod(Choice):
+    """
+    Defines how levels that aren't set as starting levels are unlocked.
+    - All Level Keys: Vanilla behavior (levels 1-5 need 3 level keys; level 6 needs 6 level keys)
+    - One Level Key: One level key is needed for entry. Receiving it grants all level keys for that level.
+                     There will be only one level key in the pool for each included level.
+    - One Progressive Warp:
+        One progressive warp is needed for entry.
+        The first one received will grant all level keys as well as the warp progression it normally does.
+        This is a good balance for multiworlds because it prevents levels from being locked out for too long.
+        This setting falls back to One Level Key if progressive warps are off.
+    """
+    display_name = "Level Unlock Method"
+    option_all_level_keys = 0
+    option_one_level_key = 1
+    option_one_progressive_warp = 2
+    default = option_one_progressive_warp
+
+class ForceEarlyWeapon(Toggle):
+    """
+    Forces an early weapon so you have more than just the bow.
+    """
+    display_name = "Force Early Weapon"
+    default = True
+    
+class NukeBehavior(Choice):
+    """
+    Defines how to get the Nuke weapon.
+    - Disabled: There is no Nuke. Oblivion portals will have a random check.
+    - Vanilla In Pool If level Excluded: 
+         The 6 Nuke Parts are in their vanilla locations. 
+         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded: 
+         The 6 Nuke Parts are in their vanilla loactions.
+         If that level is excluded, you will start with it.
+    - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
+    - Weapon Pickup: The Nuke will be obtaned as a single item. Oblivion portals will have a random check.
+    """
+    display_name = "Nuke Behavior"
+    option_disabled = 0
+    option_vanilla_in_pool_if_level_excluded = 1
+    option_vanilla_start_with_if_level_excluded = 2
+    option_nuke_part_hunt = 3
+    option_weapon_pickup = 4
+    default = option_nuke_part_hunt
 
 class GuaranteeTorpedoLauncher(Toggle):
     """
@@ -933,12 +943,13 @@ class Turok2Options(PerGameCommonOptions):
     
     starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
-    force_early_weapon: ForceEarlyWeapon
-    nuke_behavior: NukeBehavior
-    level_key_packs: LevelKeyPacks
     progressive_warps: ProgressiveWarps
     progressive_warp_strength: ProgressiveWarpStrength
     starting_progressive_warps: StartingProgressiveWarps
+    level_unlock_method: LevelUnlockMethod
+
+    force_early_weapon: ForceEarlyWeapon
+    nuke_behavior: NukeBehavior
     guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
 
     min_random_ammo_percent: MinRandomAmmoPercent
@@ -995,15 +1006,17 @@ option_groups: List[OptionGroup] = [
         RandomizeSwitches,
         RandomizeMissionObjectives
     ]),
-    OptionGroup("Progression Options", [
+    OptionGroup("Level Progression Options", [
         StartingLevels,
         ExcludedLevels,
-        ForceEarlyWeapon,
-        NukeBehavior,
-        LevelKeyPacks,
         ProgressiveWarps,
         ProgressiveWarpStrength,
         StartingProgressiveWarps,
+        LevelUnlockMethod
+    ]),
+    OptionGroup("Weapon Progression Options", [
+        ForceEarlyWeapon,
+        NukeBehavior,
         GuaranteeTorpedoLauncher
     ]),
     OptionGroup("Gameplay Options", [

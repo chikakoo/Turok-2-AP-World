@@ -3,7 +3,7 @@ import math
 from .item_table import *
 from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
-from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution
+from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution, LevelUnlockMethod
 from collections import Counter, defaultdict
 
 if TYPE_CHECKING:
@@ -146,7 +146,7 @@ def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
     else:
         candidate_levels = [1]
 
-    # Set up the max number of warps a level can have
+    # Set up the max number of warps a level can have (excluding the potential level entry ones)
     level_caps = {}
     strength = max(world.options.progressive_warp_strength, 1)
     for data in ITEM_TABLE.values():
@@ -187,7 +187,7 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
 
         # Handle level key packs and precollect necessary level keys
         if item_type == ItemType.LEVEL_KEY.value:
-            if world.options.level_key_packs:
+            if world.options.level_unlock_method.value == LevelUnlockMethod.option_one_level_key:
                 count = 1
             if level in world.starting_levels:
                 precollect_count = count
@@ -197,6 +197,10 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
             strength = max(world.options.progressive_warp_strength, 1)
             count = math.ceil(count / strength)
             precollect_count = warp_distributions.get(level, 0)
+
+            # Make sure the level is unlocked if we're starting with it
+            if level in world.starting_levels and precollect_count == 0:
+                precollect_count = 1
 
         # Add the number of weapons to the pool based on the progressive ammo setting
         # Also push the precollected weapons
@@ -277,9 +281,9 @@ def get_required_seed_items(world: Turok2World):
         if name == "Nuke":
             return world.options.nuke_behavior == NukeBehavior.option_weapon_pickup
         
-        # Level keys
+        # Level keys are only excluded if the unlock type is progressive warps
         if data["type"] == ItemType.LEVEL_KEY.value:
-            return True
+            return world.options.level_unlock_method.value != LevelUnlockMethod.option_one_progressive_warp
         
         # Eagle feathers
         if data["type"] == ItemType.EAGLE_FEATHER.value:
