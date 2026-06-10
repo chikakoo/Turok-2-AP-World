@@ -7,6 +7,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Changed the LevelKeyPacks setting to LevelUnlockMethod
   - Adds an option to give level keys on the first progressive warp collected, removing level keys from the pool entirely
 - Removed some dummy pickups in 3-2 that could be misleading. This also prevents an out of logic Grenade Launcher
+- Added a/b to some item locations for clarity and sorting reasons
 
 ## v0.4.X
 
