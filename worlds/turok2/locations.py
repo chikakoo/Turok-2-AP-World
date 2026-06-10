@@ -506,11 +506,35 @@ def weapon_requirement(world: Turok2World, args: dict):
     
     return compute_category_rule(world, "Barrier Weapon", count)
 
+def can_jump_to_level_3_river_ledge(world: Turok2World):
+    """
+    Checks whether the trick to jump to the level 3 river ledge is enabled.
+    """
+    trick_enabled = world.options.level_3_river_ledge_jump.value
+    return lambda state: trick_enabled
+
+def can_skip_level_3_eye_Of_truth(world: Turok2World):
+    """
+    Checks whether the trick to skip the Eye of Truth in level 3 is enabled.
+    """
+    trick_enabled = world.options.level_3_eye_of_truth_skip.value
+    return lambda state: trick_enabled
+
+def can_skip_level_6_eye_Of_truth(world: Turok2World):
+    """
+    Checks whether the trick to skip the Eye of Truth in level 6 is enabled.
+    """
+    trick_enabled = world.options.level_6_eye_of_truth_skip.value
+    return lambda state: trick_enabled
+
 NAMED_RULES = {
     "can_enter_level": can_enter_level,
     "mission_item_requirement": mission_item_requirement,
     "not_guaranteed_torpedo_launcher": not_guaranteed_torpedo_launcher,
     "weapons_not_randomized": weapons_not_randomized,
     "progressive_warp": progressive_warp,
-    "weapon_requirement": weapon_requirement
+    "weapon_requirement": weapon_requirement,
+    "can_jump_to_level_3_river_ledge": can_jump_to_level_3_river_ledge,
+    "can_skip_level_3_eye_Of_truth": can_skip_level_3_eye_Of_truth,
+    "can_skip_level_6_eye_Of_truth": can_skip_level_6_eye_Of_truth
 }

@@ -6,6 +6,10 @@ This includes changes in both the mod and AP world, in reverse order of releases
 ### v0.5.0
 - Changed the LevelKeyPacks setting to LevelUnlockMethod
   - Adds an option to give level keys on the first progressive warp collected, removing level keys from the pool entirely
+- Added tricks for experienced players:
+  - Jump to the red Life Force ledge at the start of level 3
+  - Eye of Truth skips in levels 3 and 6
+- The first Life Force 10 by the level 1 Primagen key no longer requires the Leap of Faith (as the jump is really easy)
 - Removed some dummy pickups in 3-2 that could be misleading. This also prevents an out of logic Grenade Launcher
 - Added a/b to some item locations for clarity and sorting reasons
 

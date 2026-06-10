@@ -8,6 +8,15 @@
                     "to": "[3-1] River",
                     "rule": { "has": "Breath of Life" }
                 },
+                {
+                    "to": "[3-1] River Ledge",
+                    "rule": {
+                        "or": [
+                            "can_jump_to_level_3_river_ledge",
+                            { "has": "Breath of Life" }
+                        ]
+                    }
+                },
                 { 
                     "to": "[3-A1]",
                     "rule": {
@@ -40,6 +49,10 @@
         },
         {
             "name": "[3-1] River",
+            "exits": []
+        },
+        {
+            "name": "[3-1] River Ledge",
             "exits": []
         },
         {
@@ -210,7 +223,12 @@
                 },
                 { 
                     "to": "[3-7] Eye",
-                    "rule": { "has": "Eye of Truth" } 
+                    "rule": {
+                        "or": [
+                            "can_skip_level_3_eye_Of_truth",
+                            { "has": "Eye of Truth" }
+                        ]
+                    }
                 },
                 { 
                     "to": "[3-8]",

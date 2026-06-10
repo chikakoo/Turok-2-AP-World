@@ -691,6 +691,34 @@ class RandomizeEnemySpawners(Choice):
     option_easy_only = 2
     default = option_vanilla
 
+class Level3RiverLedgeJump(Toggle):
+    """
+    Enables a trick to jump to the ledge with the row of red Life Forces near the start of the level.
+    This skips needing the Breath of Life to get them.
+    """
+    display_name = "Level 3 River Ledge Jump"
+    default = False
+
+class Level3EyeOfTruthSkip(Toggle):
+    """
+    Requires ledge grab to be enabled.
+
+    Enables a trick to ledge grab the far end of the invisible Eye of Truth bridge to skip the talisman.
+    This allows access to the new area, as well as all the pickups on the bridge.
+    """
+    display_name = "Level 3 Eye of Truth Skip"
+    default = False
+
+class Level6EyeOfTruthSkip(Toggle):
+    """
+    Requires ledge grab to be enabled.
+
+    Enables a trick to ledge grab the invisible part of the Eye of Truth bridge to skip the talisman.
+    The invisible bridge can be navigated as if you had the talisman.
+    """
+    display_name = "Level 6 Eye of Truth Skip"
+    default = False
+
 class LocalHealthPercentage(Range):
     """
     The percentage of filler health pickups forced to your local world.
@@ -955,6 +983,10 @@ class Turok2Options(PerGameCommonOptions):
     randomize_enemies: RandomizeEnemies
     randomize_enemy_spawners: RandomizeEnemySpawners
 
+    level_3_river_ledge_jump: Level3RiverLedgeJump
+    level_3_eye_of_truth_skip: Level3EyeOfTruthSkip
+    level_6_eye_of_truth_skip: Level6EyeOfTruthSkip
+
     local_weapon_percentage: LocalWeaponPercentage
     local_health_percentage: LocalHealthPercentage
     local_ammo_percentage: LocalAmmoPercentage
@@ -1023,10 +1055,15 @@ option_groups: List[OptionGroup] = [
         RandomizeEnemies,
         RandomizeEnemySpawners
     ]),
+    OptionGroup("Tricks", [
+        Level3RiverLedgeJump,
+        Level3EyeOfTruthSkip,
+        Level6EyeOfTruthSkip
+    ]),
     OptionGroup("Local Item Pool", [
         LocalWeaponPercentage,
         LocalHealthPercentage,
-        LocalAmmoPercentage,
+        LocalAmmoPercentage
     ]),
     OptionGroup("Filler Item Pool", [
         FillerDistribution,
@@ -1040,7 +1077,7 @@ option_groups: List[OptionGroup] = [
         FullHealthWeight,
         UltraHealthWeight,
         LifeForce1Weight,
-        LifeForce10Weight,
+        LifeForce10Weight
     ]),
     OptionGroup("Traps", [
         TrapPercentage,

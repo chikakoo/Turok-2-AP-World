@@ -71,11 +71,16 @@
         {
             "name": "[6-2a]",
             "exits": [
-                { 
+                {
                     "to": "[6-2a] Eye",
-                    "rule": { "has": "Eye of Truth" }
+                    "rule": {
+                        "or": [
+                            "can_skip_level_6_eye_Of_truth",
+                            { "has": "Eye of Truth" }
+                        ]
+                    }
                 },
-                { 
+                {
                     "to": "[6-2b]",
                     "rule": {
                         "progressive_warp": {
