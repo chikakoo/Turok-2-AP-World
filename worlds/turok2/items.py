@@ -198,10 +198,6 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
             count = math.ceil(count / strength)
             precollect_count = warp_distributions.get(level, 0)
 
-            # Make sure the level is unlocked if we're starting with it
-            if level in world.starting_levels and precollect_count == 0:
-                precollect_count = 1
-
         # Add the number of weapons to the pool based on the progressive ammo setting
         # Also push the precollected weapons
         elif item_type == ItemType.WEAPON.value:
@@ -281,9 +277,10 @@ def get_required_seed_items(world: Turok2World):
         if name == "Nuke":
             return world.options.nuke_behavior == NukeBehavior.option_weapon_pickup
         
-        # Level keys are only excluded if the unlock type is progressive warps
+        # Level keys are only excluded if the unlock type is progressive warps and they aren't in the starting levels
         if data["type"] == ItemType.LEVEL_KEY.value:
-            return world.options.level_unlock_method.value != LevelUnlockMethod.option_one_progressive_warp
+            return world.options.level_unlock_method.value != LevelUnlockMethod.option_one_progressive_warp or \
+                data.get("level", -1) in world.starting_levels
         
         # Eagle feathers
         if data["type"] == ItemType.EAGLE_FEATHER.value:

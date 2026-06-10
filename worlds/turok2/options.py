@@ -476,8 +476,6 @@ class StartingLevels(OptionList):
     - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
     - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
 
-    Be careful with this, as there's no soft logic yet to guarantee good weapons for higher levels.
-
     Valid levels: ["Random", "RandomEarly", "RandomLate", "Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
     """
     display_name = "Starting Levels"
@@ -574,14 +572,14 @@ class LevelUnlockMethod(Choice):
     - One Progressive Warp:
         One progressive warp is needed for entry.
         The first one received will grant all level keys as well as the warp progression it normally does.
-        This is a good balance for multiworlds because it prevents levels from being locked out for too long.
+        This balances multiworlds by preventing huge level unlocks if a key is found late.
         This setting falls back to One Level Key if progressive warps are off.
     """
     display_name = "Level Unlock Method"
     option_all_level_keys = 0
     option_one_level_key = 1
     option_one_progressive_warp = 2
-    default = option_one_progressive_warp
+    default = option_all_level_keys
 
 class ForceEarlyWeapon(Toggle):
     """
