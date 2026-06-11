@@ -532,6 +532,13 @@ def can_jump_to_level_3_river_ledge(world: Turok2World):
     trick_enabled = world.options.level_3_river_ledge_jump.value
     return lambda state: trick_enabled
 
+def can_do_level_3_bridge_jump(world: Turok2World):
+    """
+    Checks whether the trick to do the level 3 bridge jump (in 3-4) is enabled.
+    """
+    trick_enabled = world.options.level_3_bridge_jump.value
+    return lambda state: trick_enabled
+
 def can_skip_level_3_eye_Of_truth(world: Turok2World):
     """
     Checks whether the trick to skip the Eye of Truth in level 3 is enabled.
@@ -556,6 +563,7 @@ NAMED_RULES = {
     "river_of_souls_death_jumps": river_of_souls_death_jumps,
     "can_jump_through_lava": can_jump_through_lava,
     "can_jump_to_level_3_river_ledge": can_jump_to_level_3_river_ledge,
+    "can_do_level_3_bridge_jump": can_do_level_3_bridge_jump,
     "can_skip_level_3_eye_Of_truth": can_skip_level_3_eye_Of_truth,
     "can_skip_level_6_eye_Of_truth": can_skip_level_6_eye_Of_truth
 }

@@ -699,10 +699,16 @@ class Level3RiverLedgeJump(Toggle):
     display_name = "Level 3 River Ledge Jump"
     default = False
 
+class Level3BridgeJump(Toggle):
+    """
+    Enables a trick to jump to the bridge from the second ammo storage facility (in 3-4).
+    This will skip the progressive warp portal leading from the bottom to the top of the map.
+    """
+    display_name = "Level 3 Bridge Jump"
+    default = False
+
 class Level3EyeOfTruthSkip(Toggle):
     """
-    Requires ledge grab to be enabled.
-
     Enables a trick to ledge grab the far end of the invisible Eye of Truth bridge to skip the talisman.
     This allows access to the new area, as well as all the pickups on the bridge.
     """
@@ -719,8 +725,6 @@ class Level4SkipTorpedoLauncher(Toggle):
 
 class Level6EyeOfTruthSkip(Toggle):
     """
-    Requires ledge grab to be enabled.
-
     Enables a trick to ledge grab the invisible part of the Eye of Truth bridge to skip the talisman.
     The invisible bridge can be navigated as if you had the talisman.
     """
@@ -1034,6 +1038,7 @@ class Turok2Options(PerGameCommonOptions):
     randomize_enemy_spawners: RandomizeEnemySpawners
 
     level_3_river_ledge_jump: Level3RiverLedgeJump
+    level_3_bridge_jump: Level3BridgeJump
     level_3_eye_of_truth_skip: Level3EyeOfTruthSkip
     level_4_skip_torpedo_launcher: Level4SkipTorpedoLauncher
     level_6_eye_of_truth_skip: Level6EyeOfTruthSkip
@@ -1109,6 +1114,7 @@ option_groups: List[OptionGroup] = [
     ]),
     OptionGroup("Tricks", [
         Level3RiverLedgeJump,
+        Level3BridgeJump,
         Level3EyeOfTruthSkip,
         Level4SkipTorpedoLauncher,
         Level6EyeOfTruthSkip,

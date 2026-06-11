@@ -8,6 +8,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Adds an option to give level keys on the first progressive warp collected, removing level keys from the pool entirely
 - Added tricks:
   - Jump to the red Life Force ledge at the start of level 3
+  - Jump to the bridge by the second ammo storage in level 3, skipping the lower portal
   - Eye of Truth skips in levels 3 and 6
   - guarantee_torpedo_launcher is now level_4_skip_torpedo_launcher for trick name consistency
 - Added options for River of Souls and Lava pickups:

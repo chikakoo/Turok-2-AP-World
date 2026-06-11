@@ -167,10 +167,15 @@
                 { 
                     "to": "[3-4] Upper",
                     "rule": {
-                        "progressive_warp": {
-                            "level": 3,
-                            "count": 4
-                        }
+                        "or": [
+                            "can_do_level_3_bridge_jump",
+                            {
+                                "progressive_warp": {
+                                    "level": 3,
+                                    "count": 4
+                                }
+                            }
+                        ]
                     }
                 }
             ]
