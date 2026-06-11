@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
 from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, NukeBehavior, \
-    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, FillerDistribution
+    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, FillerDistribution, \
+    RiverOfSoulsDeathJumps, JumpThroughLava
 from . import items
 from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
 
@@ -310,7 +311,11 @@ def create_completion_condition(world: Turok2World):
             "Primagen Key 5",
             "Primagen Key 6"
         ]
-        unique_weapons_needed = world.options.weapon_barrier_settings.value.get("Primagen")
+
+        if world.options.use_weapon_barriers:
+            unique_weapons_needed = world.options.weapon_barrier_settings.value.get("Primagen")
+        else:
+            unique_weapons_needed = 0
 
     world.multiworld.completion_condition[world.player] = \
         lambda state: (state.has("Level Complete", world.player, level_goal) and 
@@ -459,7 +464,7 @@ def mission_item_requirement(world: Turok2World, args: dict):
 
 def not_guaranteed_torpedo_launcher(world: Turok2World):
     """Checks whether the Torpedo Launcher is in logic"""
-    not_guaranteed_torpedo_launcher = not world.options.guarantee_torpedo_launcher
+    not_guaranteed_torpedo_launcher = world.options.level_4_skip_torpedo_launcher
     return lambda state: not_guaranteed_torpedo_launcher
 
 def weapons_not_randomized(world: Turok2World):
@@ -506,6 +511,20 @@ def weapon_requirement(world: Turok2World, args: dict):
     
     return compute_category_rule(world, "Barrier Weapon", count)
 
+def river_of_souls_death_jumps(world: Turok2World):
+    """
+    Checks whether logic allows items just above the River of Souls to be collected without Breath of Life.
+    """
+    death_jumps_required = world.options.river_of_souls_death_jumps.value == RiverOfSoulsDeathJumps.option_in_logic
+    return lambda state: death_jumps_required
+
+def can_jump_through_lava(world: Turok2World):
+    """
+    Checks whether logic allows the player to jump through lava without Heart of Fire.
+    """
+    trick_enabled = world.options.jump_through_lava.value == JumpThroughLava.option_in_logic
+    return lambda state: trick_enabled
+
 def can_jump_to_level_3_river_ledge(world: Turok2World):
     """
     Checks whether the trick to jump to the level 3 river ledge is enabled.
@@ -534,6 +553,8 @@ NAMED_RULES = {
     "weapons_not_randomized": weapons_not_randomized,
     "progressive_warp": progressive_warp,
     "weapon_requirement": weapon_requirement,
+    "river_of_souls_death_jumps": river_of_souls_death_jumps,
+    "can_jump_through_lava": can_jump_through_lava,
     "can_jump_to_level_3_river_ledge": can_jump_to_level_3_river_ledge,
     "can_skip_level_3_eye_Of_truth": can_skip_level_3_eye_Of_truth,
     "can_skip_level_6_eye_Of_truth": can_skip_level_6_eye_Of_truth

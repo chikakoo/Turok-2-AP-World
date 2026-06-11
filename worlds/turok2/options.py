@@ -476,7 +476,11 @@ class StartingLevels(OptionList):
     - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
     - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
 
-    Valid levels: ["Random", "RandomEarly", "RandomLate", "Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
+    Valid levels: [
+        "Random", "RandomEarly", "RandomLate", 
+        "Port of Adia", "River of Souls", "Death Marshes",
+         "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"
+    ]
     """
     display_name = "Starting Levels"
     valid_keys = {
@@ -501,7 +505,11 @@ class ExcludedLevels(OptionList):
     - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
     - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
     
-    Valid levels: ["Random", "RandomEarly", "RandomLate", "Port of Adia", "River of Souls", "Death Marshes", "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"]
+    Valid levels: [
+        "Random", "RandomEarly", "RandomLate", 
+        "Port of Adia", "River of Souls", "Death Marshes",
+        "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"
+    ]
     """
     display_name = "Excluded Levels"
     valid_keys = {
@@ -609,14 +617,6 @@ class NukeBehavior(Choice):
     option_weapon_pickup = 4
     default = option_nuke_part_hunt
 
-class GuaranteeTorpedoLauncher(Toggle):
-    """
-    Whether the Torpedo Launcher is in logic for the last part of the water maze in Level 4.
-    The two switches before you can drop back down to the start are always in logic.
-    """
-    display_name = "Guarantee Torpedo Launcher"
-    default = True
-
 class MinRandomAmmoPercent(Range):
     """
     When receiving a random ammo, the minimum percentage of ammo you can get
@@ -709,6 +709,14 @@ class Level3EyeOfTruthSkip(Toggle):
     display_name = "Level 3 Eye of Truth Skip"
     default = False
 
+class Level4SkipTorpedoLauncher(Toggle):
+    """
+    If true, the Torpedo Launcher is not in logic for the last part of the water maze in Level 4.
+    The two switches before you can drop back down to the start are always in logic.
+    """
+    display_name = "Level 4 Skip Torpedo Launcher"
+    default = False
+
 class Level6EyeOfTruthSkip(Toggle):
     """
     Requires ledge grab to be enabled.
@@ -718,6 +726,49 @@ class Level6EyeOfTruthSkip(Toggle):
     """
     display_name = "Level 6 Eye of Truth Skip"
     default = False
+
+class RiverOfSoulsDeathJumps(Choice):
+    """
+    Some items on the surface of the River of Souls can be obtained by jumping into them and taking a death.
+    This setting controls how this is handled logically.
+
+    - Out of logic: If you would normally die getting this, it isn't in logic. Nothing prevents you from getting it.
+    - In logic: Requires a death or save scumming AP checks. Infinite lives cheat may be required.
+    - Prevent Collection: The mod will prevent collection until Breath of Life is obtained.
+
+    The checks in logic for this are:
+    - Level 3-1
+      - The 5 Life Forces at the start by the Breath of Life icon.
+      - The 4 Life Forces by the single river log. The two far ones can be obtained from the platform near the wasp hive.
+    - Level 3-3
+      - 3 of the Life Forces at the start by the Breath of Life icon.
+      - The 4 Life Forces by the checkpoint ladder. The far one can be obtained by jumping to it from the bridge.
+    """
+    display_name = "River of Souls Death Jumps"
+    option_out_of_logic = 0
+    option_in_logic = 1
+    option_prevent_collection = 2
+    default = option_out_of_logic = 0
+
+class JumpThroughLava(Choice):
+    """
+    You have a little bit of time to repeatedly jump through lava before you die. This can be used to get
+    pickups without the Heart of Fire. This setting controls how this is handled logically.
+
+    - Out of logic: If Heart of Fire is meant to be required, it isn't in logic. Nothing prevents you from getting it.
+    - In logic: All lava items are in logic and will require you to jump through lava to get them.
+    - Prevent Collection: The mod will prevent collection until Heart of Fire is obtained.
+
+    The checks in logic for this are:
+    - Level 4-7: All items in the small and big lava rooms
+    - Level 5-9: The Life Forces on the lava in the exit room
+    - Level 5-E3: The weapons on the platform (technically lava jumps aren't required to get here)
+    """
+    display_name = "Jump Through Lava"
+    option_out_of_logic = 0
+    option_in_logic = 1
+    option_prevent_collection = 2
+    default = option_out_of_logic = 0
 
 class LocalHealthPercentage(Range):
     """
@@ -976,7 +1027,6 @@ class Turok2Options(PerGameCommonOptions):
 
     force_early_weapon: ForceEarlyWeapon
     nuke_behavior: NukeBehavior
-    guarantee_torpedo_launcher: GuaranteeTorpedoLauncher
 
     min_random_ammo_percent: MinRandomAmmoPercent
     max_random_ammo_percent: MaxRandomAmmoPercent
@@ -985,7 +1035,10 @@ class Turok2Options(PerGameCommonOptions):
 
     level_3_river_ledge_jump: Level3RiverLedgeJump
     level_3_eye_of_truth_skip: Level3EyeOfTruthSkip
+    level_4_skip_torpedo_launcher: Level4SkipTorpedoLauncher
     level_6_eye_of_truth_skip: Level6EyeOfTruthSkip
+    river_of_souls_death_jumps: RiverOfSoulsDeathJumps
+    jump_through_lava: JumpThroughLava
 
     local_weapon_percentage: LocalWeaponPercentage
     local_health_percentage: LocalHealthPercentage
@@ -1046,8 +1099,7 @@ option_groups: List[OptionGroup] = [
     ]),
     OptionGroup("Weapon Progression Options", [
         ForceEarlyWeapon,
-        NukeBehavior,
-        GuaranteeTorpedoLauncher
+        NukeBehavior
     ]),
     OptionGroup("Gameplay Options", [
         MinRandomAmmoPercent,
@@ -1058,7 +1110,10 @@ option_groups: List[OptionGroup] = [
     OptionGroup("Tricks", [
         Level3RiverLedgeJump,
         Level3EyeOfTruthSkip,
-        Level6EyeOfTruthSkip
+        Level4SkipTorpedoLauncher,
+        Level6EyeOfTruthSkip,
+        RiverOfSoulsDeathJumps,
+        JumpThroughLava
     ]),
     OptionGroup("Local Item Pool", [
         LocalWeaponPercentage,
@@ -1094,6 +1149,6 @@ option_presets = {
     },
     "advanced": {
         "force_early_weapon": False,
-        "guarantee_torpedo_launcher": False
+        "level_4_skip_torpedo_launcer": False
     }
 }

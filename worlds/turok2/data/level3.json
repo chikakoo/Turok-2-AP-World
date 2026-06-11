@@ -8,6 +8,15 @@
                     "to": "[3-1] River",
                     "rule": { "has": "Breath of Life" }
                 },
+                { 
+                    "to": "[3-1] Above River",
+                    "rule": {
+                        "or": [
+                            "river_of_souls_death_jumps",
+                            { "has": "Breath of Life" }
+                        ]
+                    }
+                },
                 {
                     "to": "[3-1] River Ledge",
                     "rule": {
@@ -52,6 +61,10 @@
             "exits": []
         },
         {
+            "name": "[3-1] Above River",
+            "exits": []
+        },
+        {
             "name": "[3-1] River Ledge",
             "exits": []
         },
@@ -87,6 +100,15 @@
                     "to": "[3-3] River",
                     "rule": { "has": "Breath of Life" }
                 },
+                { 
+                    "to": "[3-3] Above River",
+                    "rule": {
+                        "or": [
+                            "river_of_souls_death_jumps",
+                            { "has": "Breath of Life" }
+                        ]
+                    }
+                },
                 { "to": "[3-Oblivion]" },
                 { 
                     "to": "[3-4] Lower",
@@ -110,6 +132,10 @@
         },
         {
             "name": "[3-3] River",
+            "exits": []
+        },
+        {
+            "name": "[3-3] Above River",
             "exits": []
         },
         {

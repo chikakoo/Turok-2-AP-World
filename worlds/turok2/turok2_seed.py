@@ -7,7 +7,8 @@ from worlds.Files import APPlayerContainer
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
 from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup_item_name
-from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, MaxAmmoSettings, SPECIAL_AMMO_NAMES
+from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, MaxAmmoSettings, SPECIAL_AMMO_NAMES, \
+    RiverOfSoulsDeathJumps, JumpThroughLava
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -173,6 +174,8 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
     - OPTION_STARTING_WEAPONS: An array of ints containing starting weapons
+    - OPTION_DISABLE_PICKUPS_OVER_RIVER: Whether to disable pickups over the River of Souls pre-Breath of Life
+    - OPTION_DISABLE_PICKUPS_OVER_LAVA: Whether to disable pickups over lava pre-Heart of Fire
     - OPTION_UNLOCK_METHOD_ONE_KEY: Receive all level keys at once when getting one of them
     - OPTION_UNLOCK_METHOD_ONE_WARP: Receive all level keys at once when getting one progressive warp
     - OPTION_WEAPON_BARRIERS: Whether we're using weapon barriers
@@ -187,6 +190,8 @@ def get_settings_string(self: "Turok2World") -> str:
     levels_give_primagen_keys = "false"
     randomize_weapons = "false"
     progressive_warps = 0
+    disable_pickups_over_river = "false"
+    disable_pickups_over_lava = "false"
     unlock_method_one_key = "false"
     unlock_method_one_warp = "false"
     weapon_barriers = "false"
@@ -208,6 +213,12 @@ def get_settings_string(self: "Turok2World") -> str:
     # Progressive warps
     if self.options.progressive_warps:
         progressive_warps = self.options.progressive_warp_strength
+
+    # Disable pickups over river/lava
+    if self.options.river_of_souls_death_jumps.value == RiverOfSoulsDeathJumps.option_prevent_collection:
+        disable_pickups_over_river = "true"
+    if self.options.jump_through_lava.value == JumpThroughLava.option_prevent_collection:
+        disable_pickups_over_lava = "true"
 
     # Level unlocks
     if self.options.level_unlock_method.value == LevelUnlockMethod.option_one_level_key:
@@ -280,6 +291,10 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
         format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids) +
+
+        f"#define OPTION_DISABLE_PICKUPS_OVER_RIVER {disable_pickups_over_river}\n" +
+        f"#define OPTION_DISABLE_PICKUPS_OVER_LAVA {disable_pickups_over_lava}\n" +
+
         f"#define OPTION_UNLOCK_METHOD_ONE_KEY {unlock_method_one_key}\n" +
         f"#define OPTION_UNLOCK_METHOD_ONE_WARP {unlock_method_one_warp}\n" +
 

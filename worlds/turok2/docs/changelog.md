@@ -6,12 +6,20 @@ This includes changes in both the mod and AP world, in reverse order of releases
 ### v0.5.0
 - Changed the LevelKeyPacks setting to LevelUnlockMethod
   - Adds an option to give level keys on the first progressive warp collected, removing level keys from the pool entirely
-- Added tricks for experienced players:
+- Added tricks:
   - Jump to the red Life Force ledge at the start of level 3
   - Eye of Truth skips in levels 3 and 6
+  - guarantee_torpedo_launcher is now level_4_skip_torpedo_launcher for trick name consistency
+- Added options for River of Souls and Lava pickups:
+  - Out of logic: If you would normally die getting this, it isn't in logic.
+  - In logic: Requires a death or save scumming AP checks (or the jump through lava trick). Infinite lives cheat may be required.
+  - Prevent Collection: The mod will prevent collection until the appropriate talisman is obtained.
 - The first Life Force 10 by the level 1 Primagen key no longer requires the Leap of Faith (as the jump is really easy)
 - Removed some dummy pickups in 3-2 that could be misleading. This also prevents an out of logic Grenade Launcher
 - Added a/b to some item locations for clarity and sorting reasons
+- Big fixes
+  - Fixed being able to could collect items after dying if your body touches them (not vanilla behavior)
+  - Fixed potential generation failures when weapon randomization and weapon barriers are off
 
 ## v0.4.X
 

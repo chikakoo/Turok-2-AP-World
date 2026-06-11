@@ -3,7 +3,8 @@ import math
 from .item_table import *
 from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
-from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution, LevelUnlockMethod
+from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution, \
+    LevelUnlockMethod, JumpThroughLava
 from collections import Counter, defaultdict
 
 if TYPE_CHECKING:
@@ -58,10 +59,16 @@ def create_item_with_correct_classification(world: Turok2World, name: str) -> Tu
     """
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
     
-    # The torpedo launcher is not progressive if we aren't including it in logic
-    if name == "Torpedo Launcher":
-        if not world.options.guarantee_torpedo_launcher:
+    # Heart of Fire is not progressive if the player can jump through lava
+    if name == "Heart of Fire":
+        if world.options.jump_through_lava.value == JumpThroughLava.option_in_logic:
             classification = ItemClassification.useful
+
+    # The torpedo launcher is not progressive if we aren't including it in logic
+    elif name == "Torpedo Launcher":
+        if world.options.level_4_skip_torpedo_launcher:
+            classification = ItemClassification.useful
+            
     # Barrier weapons are only progressive if using barriers
     elif not world.options.use_weapon_barriers and name in world.item_name_groups["Barrier Weapon"]:
         classification = ItemClassification.useful

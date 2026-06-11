@@ -100,10 +100,10 @@ class Turok2World(World):
             raise OptionError(f"Turok 2 for {self.player_name}: "
                 "Starting levels cannot be excluded. Adjust `starting_levels` or `excluded_levels`.")
         
-        # If the torpedo launcher is guaranteed, it shouldn't be excluded
-        if self.options.guarantee_torpedo_launcher and "Torpedo Launcher" in self.options.excluded_weapons.value:
+        # If the torpedo launcher is required, it shouldn't be excluded
+        if not self.options.level_4_skip_torpedo_launcher and "Torpedo Launcher" in self.options.excluded_weapons.value:
             raise OptionError(f"Turok 2 for {self.player_name}: "
-                "Torpedo launcher is excluded, but it is also guaranteed. Adjust `guarantee_torpedo_launcher` or `excluded_weapons`.")
+                "Torpedo launcher is excluded, but it is also required. Adjust `level_4_skip_torpedo_launcher` or `excluded_weapons`.")
         
         if self.options.use_weapon_barriers:
             # You can't use weapon barriers if not randomizing weapons

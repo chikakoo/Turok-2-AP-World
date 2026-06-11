@@ -162,7 +162,12 @@
                 },
                 { 
                     "to": "[5-9] Fire",
-                    "rule": { "has": "Heart of Fire" }
+                    "rule": {
+                        "or": [
+                            "can_jump_through_lava",
+                            { "has": "Heart of Fire" }
+                        ]
+                    }
                 },
                 { 
                     "to": "[5-9] River",
@@ -274,7 +279,12 @@
 			"exits": [
                 { 
                     "to": "[5-E3] Fire",
-                    "rule": { "has": "Heart of Fire" }
+                    "rule": {
+                        "or": [
+                            "can_jump_through_lava",
+                            { "has": "Heart of Fire" }
+                        ]
+                    }
                 }
             ]
 		},
