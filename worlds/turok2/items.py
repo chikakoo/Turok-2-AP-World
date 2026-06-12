@@ -332,7 +332,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
                 .place_locked_item(world.create_item("Level 2 Eagle Feather"))
         
         if place_talismans:
-            world.get_location("[2-Talisman] Talisman - Leap of Faith") \
+            world.get_location("[2-8] Talisman - Leap of Faith") \
                 .place_locked_item(world.create_item("Leap of Faith"))
             
         if place_primagen_keys:
@@ -345,7 +345,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
                 .place_locked_item(world.create_item("Level 3 Eagle Feather"))
         
         if place_talismans:
-            world.get_location("[3-Talisman] Talisman - Breath of Life") \
+            world.get_location("[3-6] Talisman - Breath of Life") \
                 .place_locked_item(world.create_item("Breath of Life"))
             
         if place_primagen_keys:
@@ -358,7 +358,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
                 .place_locked_item(world.create_item("Level 4 Eagle Feather"))
             
         if place_talismans:
-            world.get_location("[4-Talisman] Talisman - Heart of Fire") \
+            world.get_location("[4-2] Talisman - Heart of Fire") \
                 .place_locked_item(world.create_item("Heart of Fire"))
             
         if place_primagen_keys:
@@ -371,7 +371,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
                 .place_locked_item(world.create_item("Level 5 Eagle Feather"))
             
         if place_talismans:
-            world.get_location("[5-Talisman] Talisman - Whispers") \
+            world.get_location("[5-6] Talisman - Whispers") \
                 .place_locked_item(world.create_item("Whispers"))
             
         if place_primagen_keys:
@@ -384,7 +384,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
                 .place_locked_item(world.create_item("Level 6 Eagle Feather"))
             
         if place_talismans:
-            world.get_location("[6-Talisman] Talisman - Eye of Truth") \
+            world.get_location("[6-4b] Talisman - Eye of Truth") \
                 .place_locked_item(world.create_item("Eye of Truth"))
             
         if place_primagen_keys:

@@ -310,7 +310,11 @@ def create_completion_condition(world: Turok2World):
             "Primagen Key 5",
             "Primagen Key 6"
         ]
-        unique_weapons_needed = world.options.weapon_barrier_settings.value.get("Primagen")
+
+        if world.options.use_weapon_barriers:
+            unique_weapons_needed = world.options.weapon_barrier_settings.value.get("Primagen")
+        else:
+            unique_weapons_needed = 0
 
     world.multiworld.completion_condition[world.player] = \
         lambda state: (state.has("Level Complete", world.player, level_goal) and 
