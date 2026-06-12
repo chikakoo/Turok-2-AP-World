@@ -21,6 +21,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Big fixes
   - Fixed being able to could collect items after dying if your body touches them (not vanilla behavior)
   - Fixed potential generation failures when weapon randomization and weapon barriers are off
+  - Fixed generation failures when not randomizing talismans
 
 ## v0.4.X
 
