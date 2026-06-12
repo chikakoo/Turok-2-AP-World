@@ -26,6 +26,11 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ## v0.4.X
 
+### v0.4.2
+- Fixed potential generation failures when weapon randomization and weapon barriers are off
+- Fixed generation failures when not randomizing talismans
+- Fixed enemy traps spawning directly on the player, which was never intended
+
 ### v0.4.1
 - Fixed patch file crash when another game's item/slot name contains quotes or backslashes
   - Quotes are removed entirely, as the game's font won't display them
