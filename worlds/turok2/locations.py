@@ -154,6 +154,8 @@ def create_locations(world: Turok2World) -> None:
             return world.options.randomize_switches
         if item_type == ItemType.MISSION_OBJECTIVE.value:
             return world.options.randomize_mission_objectives
+        if item_type == ItemType.ENEMY.value:
+            return world.options.enemysanity
 
         return True
     

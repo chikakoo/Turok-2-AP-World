@@ -26,6 +26,7 @@ class ItemType(Enum):
     # Technically not items, but will still be used in the location table the same way
     SWITCH = 16
     MISSION_OBJECTIVE = 17
+    ENEMY = 18
 
 class WeightedItemGroup(Enum):
     """
