@@ -23,6 +23,9 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ## v0.4.X
 
+### v0.4.3
+- Fixed the Nuke weapon not being received if the final Nuke Part is sent from another world
+
 ### v0.4.2
 - Fixed potential generation failures when weapon randomization and weapon barriers are off
 - Fixed generation failures when not randomizing talismans
