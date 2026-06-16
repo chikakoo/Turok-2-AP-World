@@ -1005,6 +1005,28 @@ class SpamTrapWeight(Range):
     range_start = 0
     range_end = 1000
     default = 25
+
+class UncheckedPickupIndicators(Toggle):
+    """
+    Whether to show all unchecked pickups with the game's important (!) indicator.
+    Requires the in-game "Show Hints" option to be on.
+
+    This can be toggled from the rando's custom UI. The value defined here is just the default.
+    """
+    display_name = "Unchecked Pickup Indicators"
+    default = True
+
+class UncheckedEnemyIndicators(Toggle):
+    """
+    Only applicable if using Enemysanity.
+    
+    Whether to show all unchecked enemies with the game's important (!) indicator.
+    Requires the in-game "Show Hints" option to be on.
+
+    This can be toggled from the rando's custom UI. The value defined here is just the default.
+    """
+    display_name = "Unchecked Enemy Indicators"
+    default = True
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
@@ -1074,6 +1096,9 @@ class Turok2Options(PerGameCommonOptions):
     enemy_trap_weight: EnemyTrapWeight
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
+
+    unchecked_pickup_indicators: UncheckedPickupIndicators
+    unchecked_enemy_indicators: UncheckedEnemyIndicators
     
 option_groups: List[OptionGroup] = [
     OptionGroup("Goal", [
@@ -1153,6 +1178,10 @@ option_groups: List[OptionGroup] = [
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight
+    ]),
+    OptionGroup("Gameplay Options", [
+        UncheckedPickupIndicators,
+        UncheckedEnemyIndicators
     ])
 ]
 

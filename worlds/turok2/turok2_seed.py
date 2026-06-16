@@ -163,6 +163,8 @@ def get_angelscript_for_ammo(self: "Turok2World") -> str:
 def get_settings_string(self: "Turok2World") -> str:
     """
     Sets up the macro file with any settings the game needs to know:
+    - OPTION_MARK_PICKUPS: The default value for the pickup (!) indicator
+    - OPTION_MARK_ENEMIES: The default value for the enemy (!) indicator
     - OPTION_GOAL_PRIMAGEN_LAIR: Whether entering the lair is the goal
     - OPTION_GOAL_DEFEAT_PRIMAGEN: Whether defeating the Primagen is the goal
     - OPTION_GOAL_LEVELS: How many levels is the goal
@@ -184,6 +186,8 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_MAX_<ammo type>: The max number of the given ammo type the player can carry
     """
     # Defaults - will result in no goal
+    mark_pickups = "false"
+    mark_enemies = "false"
     primagen_lair_is_goal = "false"
     defeat_primagen_is_goal = "false"
     level_goal = self.options.level_goal
@@ -195,6 +199,12 @@ def get_settings_string(self: "Turok2World") -> str:
     unlock_method_one_key = "false"
     unlock_method_one_warp = "false"
     weapon_barriers = "false"
+
+    # Set the important (!) indicators
+    if self.options.unchecked_pickup_indicators:
+        mark_pickups = "true"
+    if self.options.unchecked_enemy_indicators:
+        mark_enemies = "true"
 
     # Set whether levels give primagen keys
     if self.options.randomize_primagen_keys == RandomizePrimagenKeys.option_levels:
@@ -280,7 +290,11 @@ def get_settings_string(self: "Turok2World") -> str:
         max_ammo_value = resolve_ammo_multiplier(self, multiplier)
         return f"#define OPTION_MAX_{ammo_name} {math.ceil(vanilla_max * (max_ammo_value / 100))}\n"
     
-    settings_macros = (f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
+    settings_macros = (
+        f"#define OPTION_MARK_PICKUPS {mark_pickups}\n" +
+        f"#define OPTION_MARK_ENEMIES {mark_enemies}\n" +
+
+        f"#define OPTION_GOAL_PRIMAGEN_LAIR {primagen_lair_is_goal}\n" +
         f"#define OPTION_GOAL_DEFEAT_PRIMAGEN {defeat_primagen_is_goal}\n" +
         f"#define OPTION_GOAL_LEVELS {level_goal}\n" +
         f"#define OPTION_GOAL_LEVELS_GIVE_PRIMAGEN_KEYS {levels_give_primagen_keys}\n" +
