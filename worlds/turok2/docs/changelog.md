@@ -3,6 +3,9 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ## v0.4.X
 
+### v0.4.4
+- Fixed a rare crash when a killing a random enemy spawned from a wasp nest
+
 ### v0.4.3
 - Fixed the Nuke weapon not being received if the final Nuke Part is sent from another world
 
