@@ -23,6 +23,10 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ## v0.4.X
 
+### v0.4.5
+- Fixed a crash caused by enemizer randomizing enemies in the level 6 boss fight
+  - This disables random spawns during the fight, and will potentially be added back when the root cause is found
+
 ### v0.4.4
 - Fixed a rare crash when a killing a random enemy spawned from a wasp nest
 
