@@ -20,6 +20,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added a/b to some item locations for clarity and sorting reasons
 - Big fixes
   - Fixed being able to could collect items after dying if your body touches them (not vanilla behavior)
+  - Fixed the real root cause of the enemizer crash, allowing the level 6 boss spawns to be randomized again
 
 ## v0.4.X
 
