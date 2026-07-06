@@ -62,6 +62,12 @@
             "count": 16
         }
     },
+    "[6-3b] Start - Elite Guard Across Leap of Faith": {
+        "or": [
+            { "has": "Leap of Faith" },
+            "has_sniper_weapon"
+        ]
+    },
     "[6-4d] Generator - Place Ion Capacitors": {
         "mission_item_requirement": {
             "item": "Ion Capacitor",

@@ -558,14 +558,6 @@ class RandomizeEnemies(Choice):
     option_chaos = 5
     default = option_vanilla
 
-class Enemysanity(Toggle):
-    """
-    Adds a check for killing each static (non-enemy spawner) enemy in the game, excluding bosses.
-    Note that this only includes enemies that exist in all difficulties.
-    """
-    display_name = "Enemysanity"
-    default = False
-
 class RandomizeEnemySpawners(Choice):
     """
     Only used if RandomizeEnemies is not set to Vanilla.
@@ -588,6 +580,17 @@ class RandomizeEnemySpawners(Choice):
     option_use_randomize_enemies_setting = 1
     option_easy_only = 2
     default = option_vanilla
+
+class Enemysanity(Toggle):
+    """
+    Adds a check for killing each static (non-enemy spawner) enemy in the game, excluding bosses.
+    Note that this only includes enemies that exist in all difficulties.
+
+    This works with RandomizeEnemies, but note that you may occasionally have to reload the map to
+    re-randomize if an enemy ends up being too hard to kill due to its size, behavior, etc.
+    """
+    display_name = "Enemysanity"
+    default = False
 
 class ForceEarlyWeapon(Toggle):
     """
@@ -1142,7 +1145,7 @@ option_groups: List[OptionGroup] = [
     OptionGroup("Enemy Options", [
         RandomizeEnemies,
         RandomizeEnemySpawners,
-        Enemysanity,
+        Enemysanity
     ]),
     OptionGroup("Tricks", [
         Level3RiverLedgeJump,

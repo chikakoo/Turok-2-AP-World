@@ -513,6 +513,12 @@ def weapon_requirement(world: Turok2World, args: dict):
     
     return compute_category_rule(world, "Barrier Weapon", count)
 
+def has_sniper_weapon(world: Turok2World):
+    """
+    Checks whether the player has a sniper weapon (Tek Bow or Plasma Rifle)
+    """
+    return compute_category_rule(world, "Sniper Weapon")
+
 def river_of_souls_death_jumps(world: Turok2World):
     """
     Checks whether logic allows items just above the River of Souls to be collected without Breath of Life.
@@ -562,6 +568,7 @@ NAMED_RULES = {
     "weapons_not_randomized": weapons_not_randomized,
     "progressive_warp": progressive_warp,
     "weapon_requirement": weapon_requirement,
+    "has_sniper_weapon": has_sniper_weapon,
     "river_of_souls_death_jumps": river_of_souls_death_jumps,
     "can_jump_through_lava": can_jump_through_lava,
     "can_jump_to_level_3_river_ledge": can_jump_to_level_3_river_ledge,
