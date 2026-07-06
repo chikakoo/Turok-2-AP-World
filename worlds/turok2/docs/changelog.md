@@ -17,7 +17,11 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Prevent Collection: The mod will prevent collection until the appropriate talisman is obtained.
 - The first Life Force 10 by the level 1 Primagen key no longer requires the Leap of Faith (as the jump is really easy)
 - Removed some dummy pickups in 3-2 that could be misleading. This also prevents an out of logic Grenade Launcher
-- Added a/b to some item locations for clarity and sorting reasons
+- Enemizer will no longer randomize the Mites in the 5-6 switch room because they get stuck easily and could force you to warp out
+- Location changes:
+  - Added a/b to some map names for clarity and sorting reasons
+  - Changed various location names to be clearer about what they refer to
+  - Added a missing explosive shells check in Level 6
 - Big fixes
   - Fixed being able to could collect items after dying if your body touches them (not vanilla behavior)
   - Fixed the real root cause of the enemizer crash, allowing the level 6 boss spawns to be randomized again
