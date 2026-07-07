@@ -581,16 +581,24 @@ class RandomizeEnemySpawners(Choice):
     option_easy_only = 2
     default = option_vanilla
 
-class Enemysanity(Toggle):
+class Enemysanity(NamedRange):
     """
     Adds a check for killing each static (non-enemy spawner) enemy in the game, excluding bosses.
     Note that this only includes enemies that exist in all difficulties.
 
     This works with RandomizeEnemies, but note that you may occasionally have to reload the map to
     re-randomize if an enemy ends up being too hard to kill due to its size, behavior, etc.
+
+    Each 1% adds approximately 15 locations.
     """
     display_name = "Enemysanity"
-    default = False
+    range_start = 0
+    range_end = 100
+    default = 0
+    special_range_names = {
+        "none": 0,
+        "all": 100
+    }
 
 class ForceEarlyWeapon(Toggle):
     """
