@@ -514,7 +514,7 @@
     "[5-6] Right Path - Mite Spawned From Switch 2": { "region": "[5-6]", "ap_id": 88107, "tag_id": "51", "type": 18 },
     "[5-6] Right Path - Mite Spawned From Switch 3": { "region": "[5-6]", "ap_id": 88108, "tag_id": "67", "type": 18 },
     "[5-6] Right Path - Mite Spawned From Switch 4": { "region": "[5-6]", "ap_id": 88109, "tag_id": "68", "type": 18 },
-    "[5-6] Left Path - Drone by Exit Door": { "region": "[5-6]", "ap_id": 88110, "tag_id": "26", "type": 18 },
+    "[5-6] Left Path - Drone by Exit Door Spawned From Nearby Hall": { "region": "[5-6]", "ap_id": 88110, "tag_id": "26", "type": 18 },
     "[5-6] Left Path - Worker 1": { "region": "[5-6]", "ap_id": 88111, "tag_id": "52", "type": 18 },
     "[5-6] Left Path - Worker 2": { "region": "[5-6]", "ap_id": 88112, "tag_id": "53", "type": 18 },
     "[5-6] Left Path - Worker 3": { "region": "[5-6]", "ap_id": 88113, "tag_id": "54", "type": 18 },
