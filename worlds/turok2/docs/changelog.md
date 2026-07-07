@@ -4,6 +4,11 @@ This includes changes in both the mod and AP world, in reverse order of releases
 ## v0.5.X
 
 ### v0.5.0
+- Added Enemysanity, which adds one checks for killing enemies
+  - This only includes enmies present in all difficulties
+  - A select few enemies have shared IDs; these have a shared check
+- To better support Enemysanity (and to not force the player to need to take damage), in-game enemy spawns requiring an item to be picked up now happen when the item is touched
+  - Also fixes several missed instances of these which would never spawn
 - Changed the LevelKeyPacks setting to LevelUnlockMethod
   - Adds an option to give level keys on the first progressive warp collected, removing level keys from the pool entirely
 - Added tricks:
@@ -17,9 +22,15 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Prevent Collection: The mod will prevent collection until the appropriate talisman is obtained.
 - The first Life Force 10 by the level 1 Primagen key no longer requires the Leap of Faith (as the jump is really easy)
 - Removed some dummy pickups in 3-2 that could be misleading. This also prevents an out of logic Grenade Launcher
-- Added a/b to some item locations for clarity and sorting reasons
+- Enemizer will no longer randomize the Mites in the 5-6 switch room because they get stuck easily and could force you to warp out
+- Location changes:
+  - Added a/b to some map names for clarity and sorting reasons
+  - Changed various location names to be clearer about what they refer to
+  - Added a missing explosive shells check in Level 6
 - Big fixes
   - Fixed being able to could collect items after dying if your body touches them (not vanilla behavior)
+  - Fixed the real root cause of the enemizer crash, allowing the level 6 boss spawns to be randomized again
+  - Fixed the overall level progress count not non-pickup checks
 
 ## v0.4.X
 

@@ -26,6 +26,7 @@ class ItemType(Enum):
     # Technically not items, but will still be used in the location table the same way
     SWITCH = 16
     MISSION_OBJECTIVE = 17
+    ENEMY = 18
 
 class WeightedItemGroup(Enum):
     """
@@ -559,7 +560,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
         "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Barrier Weapon"]
+        "groups": ["Barrier Weapon", "Sniper Weapon"]
     },
     "Pistol": {
         "id": 300002,
@@ -622,7 +623,7 @@ ITEM_TABLE = {
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_WEAPON.value,
         "class": ItemClassification.progression,
         "count": 1,
-        "groups": ["Barrier Weapon"]
+        "groups": ["Barrier Weapon", "Sniper Weapon"]
     },
     "Firestorm Cannon": {
         "id": 300009,

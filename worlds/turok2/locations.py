@@ -8,8 +8,8 @@ from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
 from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, NukeBehavior, \
-    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, FillerDistribution, \
-    RiverOfSoulsDeathJumps, JumpThroughLava
+    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, Enemysanity, \
+    FillerDistribution, RiverOfSoulsDeathJumps, JumpThroughLava
 from . import items
 from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
 
@@ -154,6 +154,9 @@ def create_locations(world: Turok2World) -> None:
             return world.options.randomize_switches
         if item_type == ItemType.MISSION_OBJECTIVE.value:
             return world.options.randomize_mission_objectives
+        if item_type == ItemType.ENEMY.value:
+            world.enemy_locations.append((loc_name, loc_info))
+            return False
 
         return True
     
@@ -198,7 +201,7 @@ def create_locations(world: Turok2World) -> None:
     
     def add_ammo_locations(world: Turok2World) -> None:
         """
-        Adds all the ammo locations to the loction list.
+        Adds all the ammo locations to the location list.
         If it's a % fill, adds the appropriate percentage of locations.
         """
         selected = resolve_locations_with_option(
@@ -214,7 +217,7 @@ def create_locations(world: Turok2World) -> None:
 
     def add_health_locations(world: Turok2World) -> None:
         """
-        Adds all the health locations to the loction list.
+        Adds all the health locations to the location list.
         If it's a % fill, adds the appropriate percentage of locations.
         """
         special = RandomizeHealthPickups.special_range_names
@@ -236,7 +239,7 @@ def create_locations(world: Turok2World) -> None:
 
     def add_life_force_locations(world: Turok2World) -> None:
         """
-        Adds all the life froce locations to the loction list.
+        Adds all the life froce locations to the location list.
         If it's a % fill, adds the appropriate percentage of locations.
         """
         special = RandomizeLifeForces.special_range_names
@@ -255,6 +258,21 @@ def create_locations(world: Turok2World) -> None:
         for loc_name, loc_info in selected:
             add_location(world, loc_name, loc_info)
 
+    def add_enemy_locations(world: Turok2World) -> None:
+        """
+        Adds all the enemy locations to the location list.
+        If it's a % fill, adds the appropriate percentage of locations.
+        """
+        selected = resolve_locations_with_option(
+            world,
+            world.enemy_locations,
+            world.options.enemysanity.value,
+            Enemysanity.special_range_names
+        )
+
+        for loc_name, loc_info in selected:
+            add_location(world, loc_name, loc_info)
+
     for loc_name, loc_info in LOCATION_TABLE.items():
         if loc_info["level"] in world.excluded_levels:
             continue
@@ -265,6 +283,7 @@ def create_locations(world: Turok2World) -> None:
     add_ammo_locations(world)
     add_health_locations(world)
     add_life_force_locations(world)
+    add_enemy_locations(world)
     
 def create_events(world: Turok2World) -> None:
     """
@@ -511,6 +530,12 @@ def weapon_requirement(world: Turok2World, args: dict):
     
     return compute_category_rule(world, "Barrier Weapon", count)
 
+def has_sniper_weapon(world: Turok2World):
+    """
+    Checks whether the player has a sniper weapon (Tek Bow or Plasma Rifle)
+    """
+    return compute_category_rule(world, "Sniper Weapon")
+
 def river_of_souls_death_jumps(world: Turok2World):
     """
     Checks whether logic allows items just above the River of Souls to be collected without Breath of Life.
@@ -560,6 +585,7 @@ NAMED_RULES = {
     "weapons_not_randomized": weapons_not_randomized,
     "progressive_warp": progressive_warp,
     "weapon_requirement": weapon_requirement,
+    "has_sniper_weapon": has_sniper_weapon,
     "river_of_souls_death_jumps": river_of_souls_death_jumps,
     "can_jump_through_lava": can_jump_through_lava,
     "can_jump_to_level_3_river_ledge": can_jump_to_level_3_river_ledge,

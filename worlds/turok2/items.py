@@ -101,7 +101,7 @@ def force_local_items(
     for item in selected_items:
         item.name += " (L)" # Hack to use the local version
         
-    print(f"Forced {count} items of type {type_string} locally for Player {world.player}")
+    #print(f"Forced {count} items of type {type_string} locally for Player {world.player}")
 
 def force_local_weapons(world: Turok2World, itempool: list[Item]):
     """
@@ -116,7 +116,7 @@ def force_local_weapons(world: Turok2World, itempool: list[Item]):
     for weapon in world.random.sample(weapons, k=count):
         world.options.local_items.value.add(weapon.name)
         
-    print(f"Forced {count} {ItemType.WEAPON} items locally for Player {world.player}")
+    #print(f"Forced {count} {ItemType.WEAPON} items locally for Player {world.player}")
 
 def force_early_weapon(world: Turok2World, itempool: list[Item]):
     """
@@ -138,7 +138,7 @@ def force_early_weapon(world: Turok2World, itempool: list[Item]):
     weapon = world.random.choices(weapon_items, k=1)[0]
     world.multiworld.local_early_items[world.player][weapon.name] = 1
 
-    print(f"Early weapon {weapon.name} for Player {world.player}")
+    #print(f"Early weapon {weapon.name} for Player {world.player}")
 
 def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
     """

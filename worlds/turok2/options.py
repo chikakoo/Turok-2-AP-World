@@ -53,6 +53,128 @@ class RandomizePrimagenKeys(Choice):
     option_levels = 3
     default = option_in_pool
 
+class StartingLevels(OptionList):
+    """
+    The set of levels that will be unlocked at the start of the seed.
+
+    You can add multiples of the following entries:
+    - Random: Will pick from any non-excluded level
+    - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
+    - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
+
+    Valid levels: [
+        "Random", "RandomEarly", "RandomLate", 
+        "Port of Adia", "River of Souls", "Death Marshes",
+         "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"
+    ]
+    """
+    display_name = "Starting Levels"
+    valid_keys = {
+        "Random",
+        "RandomEarly",
+        "RandomLate",
+        "Port of Adia",
+        "River of Souls",
+        "Death Marshes",
+        "Lair of the Blind Ones",
+        "Hive of the Mantids",
+        "Primagen's Lightship"
+    }
+    default = [ "Port of Adia" ]
+
+class ExcludedLevels(OptionList):
+    """
+    The set of levels that will never be unlocked.
+
+    You can add multiples of the following entries:
+    - Random: Will pick from any non-excluded level
+    - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
+    - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
+    
+    Valid levels: [
+        "Random", "RandomEarly", "RandomLate", 
+        "Port of Adia", "River of Souls", "Death Marshes",
+        "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"
+    ]
+    """
+    display_name = "Excluded Levels"
+    valid_keys = {
+        "Random",
+        "RandomEarly",
+        "RandomLate",
+        "Port of Adia",
+        "River of Souls",
+        "Death Marshes",
+        "Lair of the Blind Ones",
+        "Hive of the Mantids",
+        "Primagen's Lightship"
+    }
+    default = []
+
+class ProgressiveWarps(Toggle):
+    """
+    Progressive Warp items for each level will be added to the item pool. Warp portals will now be 
+    blocked by a barrier if you do not have the required number of these items.
+    
+    Highly recommended for this to be on if on a multiworld, as it splits up levels into logical sections.
+    """
+    display_name = "Progressive Warps"
+    default = True
+
+class ProgressiveWarpStrength(NamedRange):
+    """
+    Used if Progressive Warps are on.
+    The number of warps each Progressive Warp item allows you to travel through.
+    - Low: Each Progressive Warp advances through one warp
+    - Quarter: Each Progressive Warp advances through roughly a quarter of the level
+    - Half: Each Progressive Warp advances through roughly half of the level
+    - Most: Each Progressive Warp advances through most of the level
+    """
+    display_name = "Progressive Warp Strength"
+    range_start = 1
+    range_end = 15
+    default = 1
+    special_range_names = {
+        "low": 1,
+        "quarter": 3,
+        "half": 5,
+        "most": 8
+    }
+
+class StartingProgressiveWarps(Range):
+    """
+    Used if Progressive Warps are on.
+
+    The number of Progressive Warp items you will start with.
+
+    If set too low, this could cause generation failures for solo worlds if not a lot of item types are
+    included in the item pool, depending on your starting levels.
+
+    If set too high, your sphere 1 will be really big.
+    """
+    display_name = "Starting Progressive Warps"
+    range_start = 0
+    range_end = 20
+    default = 1
+
+class LevelUnlockMethod(Choice):
+    """
+    Defines how levels that aren't set as starting levels are unlocked.
+    - All Level Keys: Vanilla behavior (levels 1-5 need 3 level keys; level 6 needs 6 level keys)
+    - One Level Key: One level key is needed for entry. Receiving it grants all level keys for that level.
+                     There will be only one level key in the pool for each included level.
+    - One Progressive Warp:
+        One progressive warp is needed for entry.
+        The first one received will grant all level keys as well as the warp progression it normally does.
+        This balances multiworlds by preventing huge level unlocks if a key is found late.
+        This setting falls back to One Level Key if progressive warps are off.
+    """
+    display_name = "Level Unlock Method"
+    option_all_level_keys = 0
+    option_one_level_key = 1
+    option_one_progressive_warp = 2
+    default = option_all_level_keys
+
 class RandomizeWeapons(Toggle):
     """
     Whether to include static weapon pickups in the list of locations to check.
@@ -138,88 +260,6 @@ class ExcludedWeapons(ItemSet):
         "Torpedo Launcher"
     }
     default = []
-
-class UseWeaponBarriers(Toggle):
-    """
-    Cannot be used unless playing with randomized weapons.
-
-    Places green warp barriers at the start, middle, and/or end of each level that you cannot pass until you obtain
-    a certain number of unique weapons. These include all weapons in the game, excluding the Talon, Bow, Flare Gun,
-    Nuke, Harpoon Gun, and Torpedo Launcher.
-
-    It's recommended to use this if you want to avoid potentially using the bow for longer periods of time (especially if using minimal accessibility).
-    
-    The specific settings are configured in WeaponBarrierSettings. 
-    """
-    display_name = "Use Weapon Barriers"
-    default = True
-
-class WeaponBarrierSettings(OptionDict):
-    """
-    Controls when weapon barriers appear (see UseWeaponBarriers for more details).
-    Must contain the keys "Level X Start", "Level X Mid", "Level X End" for levels 1-6, and "Primagen".
-    - "Start" places a barrier on the second warp of each level
-    - "Mid" places a barrier on the map of the second checkpoint station of each level
-      - Level 6 is the exception, which places it on the portal to Wing 3
-    - "End" places a barrier on the exit portal, preventing entry to the totem/boss
-    - "Primagen" is the Primagen boss fight
-
-    Note that the max number of progressive weapons is 17.
-    """
-    display_name = "Weapon Barrier Settings"
-    default = {
-        "Level 1 Start": 1,
-        "Level 1 Mid": 2,
-        "Level 1 End": 3,
-        "Level 2 Start": 2,
-        "Level 2 Mid": 3,
-        "Level 2 End": 4,
-        "Level 3 Start": 2,
-        "Level 3 Mid": 4,
-        "Level 3 End": 4,
-        "Level 4 Start": 3,
-        "Level 4 Mid": 5,
-        "Level 4 End": 6,
-        "Level 5 Start": 4,
-        "Level 5 Mid": 5,
-        "Level 5 End": 7,
-        "Level 6 Start": 4,
-        "Level 6 Mid": 6,
-        "Level 6 End": 8,
-        "Primagen": 12
-    }
-    required_keys = [
-        "Level 1 Start",
-        "Level 1 Mid",
-        "Level 1 End",
-        "Level 2 Start",
-        "Level 2 Mid",
-        "Level 2 End",
-        "Level 3 Start",
-        "Level 3 Mid",
-        "Level 3 End",
-        "Level 4 Start",
-        "Level 4 Mid",
-        "Level 4 End",
-        "Level 5 Start",
-        "Level 5 Mid",
-        "Level 5 End",
-        "Level 6 Start",
-        "Level 6 Mid",
-        "Level 6 End",
-        "Primagen"
-    ]
-    schema = Schema(
-        {
-            key: And(
-                int,
-                lambda n: 0 <= n <= 17,
-                error=f"{key} must be an integer between 0 and 17"
-            )
-            for key in required_keys
-        },
-        ignore_extra_keys=False
-    )
 
 class RandomizeAmmoPickups(NamedRange):
     """
@@ -367,6 +407,30 @@ class MaxAmmoSettings(OptionDict):
         ignore_extra_keys=False
     )
 
+class MinRandomAmmoPercent(Range):
+    """
+    When receiving a random ammo, the minimum percentage of ammo you can get
+    in a random weapon.
+
+    If greater than MaxRandomAmmoPercent, this becomes the max.
+    """
+    display_name = "Min Random Ammo Percent"
+    range_start = 0
+    range_end = 100
+    default = 20
+    
+class MaxRandomAmmoPercent(Range):
+    """
+    When receiving a random ammo, the maximum percentage of ammo you can get
+    in a random weapon.
+
+    If less than MinRandomAmmoPercent, this becomes the min.
+    """
+    display_name = "Max Random Ammo Percent"
+    range_start = 0
+    range_end = 100
+    default = 75
+
 class RandomizeHealthPickups(NamedRange):
     """
     Whether to include static health pickups in the list of locations to check.
@@ -467,180 +531,6 @@ class RandomizeMissionObjectives(Toggle):
     display_name = "Randomize Mission Objectives"
     default = True
 
-class StartingLevels(OptionList):
-    """
-    The set of levels that will be unlocked at the start of the seed.
-
-    You can add multiples of the following entries:
-    - Random: Will pick from any non-excluded level
-    - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
-    - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
-
-    Valid levels: [
-        "Random", "RandomEarly", "RandomLate", 
-        "Port of Adia", "River of Souls", "Death Marshes",
-         "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"
-    ]
-    """
-    display_name = "Starting Levels"
-    valid_keys = {
-        "Random",
-        "RandomEarly",
-        "RandomLate",
-        "Port of Adia",
-        "River of Souls",
-        "Death Marshes",
-        "Lair of the Blind Ones",
-        "Hive of the Mantids",
-        "Primagen's Lightship"
-    }
-    default = [ "Port of Adia" ]
-
-class ExcludedLevels(OptionList):
-    """
-    The set of levels that will never be unlocked.
-
-    You can add multiples of the following entries:
-    - Random: Will pick from any non-excluded level
-    - RandomEarly: Will pick from any non-excluded level, prioritizing levels 1-3
-    - RandomLate: Will pick from any non-excluded level, prioritizing levels 4-6
-    
-    Valid levels: [
-        "Random", "RandomEarly", "RandomLate", 
-        "Port of Adia", "River of Souls", "Death Marshes",
-        "Lair of the Blind Ones", "Hive of the Mantids", "Primagen's Lightship"
-    ]
-    """
-    display_name = "Excluded Levels"
-    valid_keys = {
-        "Random",
-        "RandomEarly",
-        "RandomLate",
-        "Port of Adia",
-        "River of Souls",
-        "Death Marshes",
-        "Lair of the Blind Ones",
-        "Hive of the Mantids",
-        "Primagen's Lightship"
-    }
-    default = []
-
-class ProgressiveWarps(Toggle):
-    """
-    Progressive Warp items for each level will be added to the item pool. Warp portals will now be 
-    blocked by a barrier if you do not have the required number of these items.
-    
-    Highly recommended for this to be on if on a multiworld, as it splits up levels into logical sections.
-    """
-    display_name = "Progressive Warps"
-    default = True
-
-class ProgressiveWarpStrength(NamedRange):
-    """
-    Used if Progressive Warps are on.
-    The number of warps each Progressive Warp item allows you to travel through.
-    - Low: Each Progressive Warp advances through one warp
-    - Quarter: Each Progressive Warp advances through roughly a quarter of the level
-    - Half: Each Progressive Warp advances through roughly half of the level
-    - Most: Each Progressive Warp advances through most of the level
-    """
-    display_name = "Progressive Warp Strength"
-    range_start = 1
-    range_end = 15
-    default = 1
-    special_range_names = {
-        "low": 1,
-        "quarter": 3,
-        "half": 5,
-        "most": 8
-    }
-
-class StartingProgressiveWarps(Range):
-    """
-    Used if Progressive Warps are on.
-
-    The number of Progressive Warp items you will start with.
-
-    If set too low, this could cause generation failures for solo worlds if not a lot of item types are
-    included in the item pool, depending on your starting levels.
-
-    If set too high, your sphere 1 will be really big.
-    """
-    display_name = "Starting Progressive Warps"
-    range_start = 0
-    range_end = 20
-    default = 1
-
-class LevelUnlockMethod(Choice):
-    """
-    Defines how levels that aren't set as starting levels are unlocked.
-    - All Level Keys: Vanilla behavior (levels 1-5 need 3 level keys; level 6 needs 6 level keys)
-    - One Level Key: One level key is needed for entry. Receiving it grants all level keys for that level.
-                     There will be only one level key in the pool for each included level.
-    - One Progressive Warp:
-        One progressive warp is needed for entry.
-        The first one received will grant all level keys as well as the warp progression it normally does.
-        This balances multiworlds by preventing huge level unlocks if a key is found late.
-        This setting falls back to One Level Key if progressive warps are off.
-    """
-    display_name = "Level Unlock Method"
-    option_all_level_keys = 0
-    option_one_level_key = 1
-    option_one_progressive_warp = 2
-    default = option_all_level_keys
-
-class ForceEarlyWeapon(Toggle):
-    """
-    Forces an early weapon so you have more than just the bow.
-    """
-    display_name = "Force Early Weapon"
-    default = True
-    
-class NukeBehavior(Choice):
-    """
-    Defines how to get the Nuke weapon.
-    - Disabled: There is no Nuke. Oblivion portals will have a random check.
-    - Vanilla In Pool If level Excluded: 
-         The 6 Nuke Parts are in their vanilla locations. 
-         If that level is excluded, it will be in the item pool.
-    - Vanilla Start With If Level Excluded: 
-         The 6 Nuke Parts are in their vanilla loactions.
-         If that level is excluded, you will start with it.
-    - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
-    - Weapon Pickup: The Nuke will be obtaned as a single item. Oblivion portals will have a random check.
-    """
-    display_name = "Nuke Behavior"
-    option_disabled = 0
-    option_vanilla_in_pool_if_level_excluded = 1
-    option_vanilla_start_with_if_level_excluded = 2
-    option_nuke_part_hunt = 3
-    option_weapon_pickup = 4
-    default = option_nuke_part_hunt
-
-class MinRandomAmmoPercent(Range):
-    """
-    When receiving a random ammo, the minimum percentage of ammo you can get
-    in a random weapon.
-
-    If greater than MaxRandomAmmoPercent, this becomes the max.
-    """
-    display_name = "Min Random Ammo Percent"
-    range_start = 0
-    range_end = 100
-    default = 20
-    
-class MaxRandomAmmoPercent(Range):
-    """
-    When receiving a random ammo, the maximum percentage of ammo you can get
-    in a random weapon.
-
-    If less than MinRandomAmmoPercent, this becomes the min.
-    """
-    display_name = "Max Random Ammo Percent"
-    range_start = 0
-    range_end = 100
-    default = 75
-    
 class RandomizeEnemies(Choice):
     """
     Randomizes most enemies in the game. Every time an area is loaded, each enemy is replaced with one from a pool
@@ -690,6 +580,135 @@ class RandomizeEnemySpawners(Choice):
     option_use_randomize_enemies_setting = 1
     option_easy_only = 2
     default = option_vanilla
+
+class Enemysanity(NamedRange):
+    """
+    Adds a check for killing each static (non-enemy spawner) enemy in the game, excluding bosses.
+    Note that this only includes enemies that exist in all difficulties.
+
+    This works with RandomizeEnemies, but note that you may occasionally have to reload the map to
+    re-randomize if an enemy ends up being too hard to kill due to its size, behavior, etc.
+
+    Each 1% adds approximately 15 locations.
+    """
+    display_name = "Enemysanity"
+    range_start = 0
+    range_end = 100
+    default = 0
+    special_range_names = {
+        "none": 0,
+        "all": 100
+    }
+
+class ForceEarlyWeapon(Toggle):
+    """
+    Forces an early weapon so you have more than just the bow.
+    """
+    display_name = "Force Early Weapon"
+    default = True
+    
+class NukeBehavior(Choice):
+    """
+    Defines how to get the Nuke weapon.
+    - Disabled: There is no Nuke. Oblivion portals will have a random check.
+    - Vanilla In Pool If level Excluded: 
+         The 6 Nuke Parts are in their vanilla locations. 
+         If that level is excluded, it will be in the item pool.
+    - Vanilla Start With If Level Excluded: 
+         The 6 Nuke Parts are in their vanilla loactions.
+         If that level is excluded, you will start with it.
+    - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
+    - Weapon Pickup: The Nuke will be obtaned as a single item. Oblivion portals will have a random check.
+    """
+    display_name = "Nuke Behavior"
+    option_disabled = 0
+    option_vanilla_in_pool_if_level_excluded = 1
+    option_vanilla_start_with_if_level_excluded = 2
+    option_nuke_part_hunt = 3
+    option_weapon_pickup = 4
+    default = option_nuke_part_hunt
+
+class UseWeaponBarriers(Toggle):
+    """
+    Cannot be used unless playing with randomized weapons.
+
+    Places green warp barriers at the start, middle, and/or end of each level that you cannot pass until you obtain
+    a certain number of unique weapons. These include all weapons in the game, excluding the Talon, Bow, Flare Gun,
+    Nuke, Harpoon Gun, and Torpedo Launcher.
+
+    It's recommended to use this if you want to avoid potentially using the bow for longer periods of time (especially if using minimal accessibility).
+    
+    The specific settings are configured in WeaponBarrierSettings. 
+    """
+    display_name = "Use Weapon Barriers"
+    default = True
+
+class WeaponBarrierSettings(OptionDict):
+    """
+    Controls when weapon barriers appear (see UseWeaponBarriers for more details).
+    Must contain the keys "Level X Start", "Level X Mid", "Level X End" for levels 1-6, and "Primagen".
+    - "Start" places a barrier on the second warp of each level
+    - "Mid" places a barrier on the map of the second checkpoint station of each level
+      - Level 6 is the exception, which places it on the portal to Wing 3
+    - "End" places a barrier on the exit portal, preventing entry to the totem/boss
+    - "Primagen" is the Primagen boss fight
+
+    Note that the max number of progressive weapons is 17.
+    """
+    display_name = "Weapon Barrier Settings"
+    default = {
+        "Level 1 Start": 1,
+        "Level 1 Mid": 2,
+        "Level 1 End": 3,
+        "Level 2 Start": 2,
+        "Level 2 Mid": 3,
+        "Level 2 End": 4,
+        "Level 3 Start": 2,
+        "Level 3 Mid": 4,
+        "Level 3 End": 4,
+        "Level 4 Start": 3,
+        "Level 4 Mid": 5,
+        "Level 4 End": 6,
+        "Level 5 Start": 4,
+        "Level 5 Mid": 5,
+        "Level 5 End": 7,
+        "Level 6 Start": 4,
+        "Level 6 Mid": 6,
+        "Level 6 End": 8,
+        "Primagen": 12
+    }
+    required_keys = [
+        "Level 1 Start",
+        "Level 1 Mid",
+        "Level 1 End",
+        "Level 2 Start",
+        "Level 2 Mid",
+        "Level 2 End",
+        "Level 3 Start",
+        "Level 3 Mid",
+        "Level 3 End",
+        "Level 4 Start",
+        "Level 4 Mid",
+        "Level 4 End",
+        "Level 5 Start",
+        "Level 5 Mid",
+        "Level 5 End",
+        "Level 6 Start",
+        "Level 6 Mid",
+        "Level 6 End",
+        "Primagen"
+    ]
+    schema = Schema(
+        {
+            key: And(
+                int,
+                lambda n: 0 <= n <= 17,
+                error=f"{key} must be an integer between 0 and 17"
+            )
+            for key in required_keys
+        },
+        ignore_extra_keys=False
+    )
 
 class Level3RiverLedgeJump(Toggle):
     """
@@ -997,22 +1016,55 @@ class SpamTrapWeight(Range):
     range_start = 0
     range_end = 1000
     default = 25
+
+class UncheckedPickupIndicators(Toggle):
+    """
+    Whether to show all unchecked pickups with the game's important (!) indicator.
+    Requires the in-game "Show Hints" option to be on.
+
+    This can be toggled from the rando's custom UI. The value defined here is just the default.
+    """
+    display_name = "Unchecked Pickup Indicators"
+    default = True
+
+class UncheckedEnemyIndicators(Toggle):
+    """
+    Only applicable if using Enemysanity.
+    
+    Whether to show all unchecked enemies with the game's important (!) indicator.
+    Requires the in-game "Show Hints" option to be on.
+
+    This can be toggled from the rando's custom UI. The value defined here is just the default.
+    """
+    display_name = "Unchecked Enemy Indicators"
+    default = True
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
     level_goal: LevelGoal
     primagen_goal: PrimagenGoal
     randomize_primagen_keys: RandomizePrimagenKeys
+
+    starting_levels: StartingLevels
+    excluded_levels: ExcludedLevels
+    progressive_warps: ProgressiveWarps
+    progressive_warp_strength: ProgressiveWarpStrength
+    starting_progressive_warps: StartingProgressiveWarps
+    level_unlock_method: LevelUnlockMethod
     
     randomize_weapons: RandomizeWeapons
     starting_weapons: StartingWeapons
     excluded_weapons: ExcludedWeapons
     use_weapon_barriers: UseWeaponBarriers
     weapon_barrier_settings: WeaponBarrierSettings
+    force_early_weapon: ForceEarlyWeapon
+    nuke_behavior: NukeBehavior
 
     randomize_ammo_pickups: RandomizeAmmoPickups
     progressive_weapon_ammo_upgrades: ProgressiveWeaponAmmoUpgrades
     max_ammo_settings: MaxAmmoSettings
+    min_random_ammo_percent: MinRandomAmmoPercent
+    max_random_ammo_percent: MaxRandomAmmoPercent
 
     randomize_health_pickups: RandomizeHealthPickups
     randomize_life_forces: RandomizeLifeForces
@@ -1022,21 +1074,10 @@ class Turok2Options(PerGameCommonOptions):
     randomize_switches: RandomizeSwitches
     randomize_mission_objectives: RandomizeMissionObjectives
     
-    starting_levels: StartingLevels
-    excluded_levels: ExcludedLevels
-    progressive_warps: ProgressiveWarps
-    progressive_warp_strength: ProgressiveWarpStrength
-    starting_progressive_warps: StartingProgressiveWarps
-    level_unlock_method: LevelUnlockMethod
-
-    force_early_weapon: ForceEarlyWeapon
-    nuke_behavior: NukeBehavior
-
-    min_random_ammo_percent: MinRandomAmmoPercent
-    max_random_ammo_percent: MaxRandomAmmoPercent
     randomize_enemies: RandomizeEnemies
     randomize_enemy_spawners: RandomizeEnemySpawners
-
+    enemysanity: Enemysanity
+    
     level_3_river_ledge_jump: Level3RiverLedgeJump
     level_3_bridge_jump: Level3BridgeJump
     level_3_eye_of_truth_skip: Level3EyeOfTruthSkip
@@ -1066,6 +1107,9 @@ class Turok2Options(PerGameCommonOptions):
     enemy_trap_weight: EnemyTrapWeight
     damage_trap_weight: DamageTrapWeight
     spam_trap_weight: SpamTrapWeight
+
+    unchecked_pickup_indicators: UncheckedPickupIndicators
+    unchecked_enemy_indicators: UncheckedEnemyIndicators
     
 option_groups: List[OptionGroup] = [
     OptionGroup("Goal", [
@@ -1073,17 +1117,29 @@ option_groups: List[OptionGroup] = [
         PrimagenGoal,
         RandomizePrimagenKeys
     ]),
+    OptionGroup("Level Progression Options", [
+        StartingLevels,
+        ExcludedLevels,
+        ProgressiveWarps,
+        ProgressiveWarpStrength,
+        StartingProgressiveWarps,
+        LevelUnlockMethod
+    ]),
     OptionGroup("Weapon Options", [
         RandomizeWeapons,
         StartingWeapons,
         ExcludedWeapons,
+        ForceEarlyWeapon,
+        NukeBehavior,
         UseWeaponBarriers,
-        WeaponBarrierSettings
+        WeaponBarrierSettings,
     ]),
     OptionGroup("Ammo Options", [
         RandomizeAmmoPickups,
         ProgressiveWeaponAmmoUpgrades,
-        MaxAmmoSettings
+        MaxAmmoSettings,
+        MinRandomAmmoPercent,
+        MaxRandomAmmoPercent
     ]),
     OptionGroup("Item Pool Options", [
         RandomizeHealthPickups,
@@ -1094,23 +1150,10 @@ option_groups: List[OptionGroup] = [
         RandomizeSwitches,
         RandomizeMissionObjectives
     ]),
-    OptionGroup("Level Progression Options", [
-        StartingLevels,
-        ExcludedLevels,
-        ProgressiveWarps,
-        ProgressiveWarpStrength,
-        StartingProgressiveWarps,
-        LevelUnlockMethod
-    ]),
-    OptionGroup("Weapon Progression Options", [
-        ForceEarlyWeapon,
-        NukeBehavior
-    ]),
-    OptionGroup("Gameplay Options", [
-        MinRandomAmmoPercent,
-        MaxRandomAmmoPercent,
+    OptionGroup("Enemy Options", [
         RandomizeEnemies,
-        RandomizeEnemySpawners
+        RandomizeEnemySpawners,
+        Enemysanity
     ]),
     OptionGroup("Tricks", [
         Level3RiverLedgeJump,
@@ -1146,6 +1189,10 @@ option_groups: List[OptionGroup] = [
         EnemyTrapWeight,
         DamageTrapWeight,
         SpamTrapWeight
+    ]),
+    OptionGroup("Gameplay Options", [
+        UncheckedPickupIndicators,
+        UncheckedEnemyIndicators
     ])
 ]
 

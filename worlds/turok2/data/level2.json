@@ -110,14 +110,8 @@
             "name": "[2-5]",
             "exits": [
                 { 
-                    "to": "[2-5] River Leaps",
-                    "rule": 
-                    { 
-                        "has": [
-                            "Leap of Faith",
-                            "Breath of Life"
-                        ]
-                    }
+                    "to": "[2-5] River",
+                    "rule": { "has": "Breath of Life" }
                 },
                 { 
                     "to": "[2-6a]",
@@ -129,6 +123,13 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "[2-5] River",
+            "exits": [{
+                "to": "[2-5] River Leaps",
+                "rule": { "has": "Leap of Faith" }
+            }]
         },
         {
             "name": "[2-5] River Leaps",

@@ -48,6 +48,7 @@ class Turok2World(World):
         - included_ammo_pickup_locations: All ammo pickup locations that are in the seed
         - health_pickup_locations: All health pickup locations that could exist
         - life_force_locations: All Life Force locations that could exist
+        - enemy_locations: All enemy locations that could exist
         """
         super().__init__(multiworld, player)
         self.starting_levels = []
@@ -57,6 +58,7 @@ class Turok2World(World):
         self.included_ammo_pickup_locations = []
         self.health_pickup_locations = []
         self.life_force_locations = []
+        self.enemy_locations = []
         
     def generate_early(self) -> None:
         """Sets up starting/excluded levels and validates options"""

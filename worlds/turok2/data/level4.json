@@ -203,20 +203,10 @@
                 { 
                     "to": "[4-6]",
                     "rule": {
-                        "and": [
-                            {
-                                "mission_item_requirement": {
-                                    "item": "Cave Door Key",
-                                    "count": 4
-                                } 
-                            },
-                            {
-                                "progressive_warp": {
-                                    "level": 4,
-                                    "count": 5
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 5
+                        }
                     }
                 }
             ]
@@ -227,6 +217,18 @@
         },
         {
             "name": "[4-6]",
+            "exits": [{
+                "to": "[4-6] Cave Door",
+                "rule": {
+                    "mission_item_requirement": {
+                        "item": "Cave Door Key",
+                        "count": 4
+                    } 
+                }
+            }]
+        },
+        {
+            "name": "[4-6] Cave Door",
             "exits": [
                 { "to": "[4-Oblivion]" },
                 { 
