@@ -93,7 +93,7 @@
     "[1-2a] Lower Water - Raptoid Behind Switch Door": { "region": "[1-2] Lower", "ap_id": 52071, "tag_id": "7", "type": 18 },
     "[1-2a] Catwalks - Endtrail": { "region": "[1-2] Lower", "ap_id": 52072, "tag_id": "6", "type": 18 },
     "[1-2a] Child - Endtrail by Cage": { "region": "[1-2] Lower", "ap_id": 52073, "tag_id": "3", "type": 18 },
-    "[1-2a] Child - Endtrail Above Cave": { "region": "[1-2] Lower", "ap_id": 52074, "tag_id": "4", "type": 18 },
+    "[1-2a] Child - Endtrail Above Cage": { "region": "[1-2] Lower", "ap_id": 52074, "tag_id": "4", "type": 18 },
     "[1-2a] Child - Raptoid After Cage Switch": { "region": "[1-2] Lower", "ap_id": 52075, "tag_id": "10", "type": 18 },
     "[1-2a] Lower Water - Endtrail After Catwalk Switch": { "region": "[1-2] Lower", "ap_id": 52076, "tag_id": "2", "type": 18 },
     "[1-2a] Lower Water - Raptoid by Portal 1": { "region": "[1-2] Lower", "ap_id": 52077, "tag_id": "8", "type": 18 },
