@@ -10,11 +10,33 @@ from NetUtils import ClientStatus
 logger = logging.getLogger("Client")
 
 MAP_ID_TO_MAP_DATA = {
+    # Level 1
     5100: { "map": "1-1", "section": "" },
     5200: { "map": "1-2a", "section": "" },
     5201: { "map": "1-2b", "section": "" },
     5300: { "map": "1-3", "section": "Front" },
-    5301: { "map": "1-3", "section": "Back" }
+    5301: { "map": "1-3", "section": "Back" },
+    5500: { "map": "1-4", "section": "" },
+    5400: { "map": "1-5", "section": "" },
+    5600: { "map": "1-6", "section": "" },
+    5700: { "map": "1-7", "section": "" },
+    5800: { "map": "1-8", "section": "" },
+    5900: { "map": "1-9", "section": "Catwalks" },
+    5901: { "map": "1-9", "section": "End" },
+
+    # Level 2
+    # Level 3
+    # Level 4
+    # Level 5
+    # Level 6
+
+    # Oblivion
+    7800: { "map": "1-O", "section": "" },
+    7900: { "map": "2-O", "section": "" },
+    8000: { "map": "3-O", "section": "" },
+    8100: { "map": "4-O", "section": "" },
+    8200: { "map": "5-O", "section": "" },
+    8300: { "map": "6-O", "section": "" },
 
     #TODO: finish this!
 }
