@@ -1,13 +1,23 @@
 import asyncio
 import pymem
 import logging
-from .ap_memory_constants import APStatus, APMessageType, APMemoryOffset
+from .ap_memory_constants import APStatus, APMemoryOffset
 from argparse import Namespace
 from CommonClient import CommonContext, server_loop, gui_enabled
 from ..items import map_ap_item_to_game
 from NetUtils import ClientStatus
 
 logger = logging.getLogger("Client")
+
+MAP_ID_TO_MAP_DATA = {
+    5100: { "map": "1-1", "section": "" },
+    5200: { "map": "1-2a", "section": "" },
+    5201: { "map": "1-2b", "section": "" },
+    5300: { "map": "1-3", "section": "Front" },
+    5301: { "map": "1-3", "section": "Back" }
+
+    #TODO: finish this!
+}
 
 class Turok2Context(CommonContext):
     game = "Turok 2"
@@ -18,9 +28,11 @@ class Turok2Context(CommonContext):
     items_handling = 0b001
     
     highest_processed_index = 0
+    current_map_id: int  # Server state set by the client
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
+        self.current_map_id = ""
         
     async def server_auth(self, password_requested: bool = False) -> None:
         if password_requested and not self.password:
@@ -159,6 +171,7 @@ class Turok2Context(CommonContext):
                 await self.check_goal()
                 await self.process_incoming() # Send the game pending items
                 await self.process_outgoing() # Game sending us checks
+                await self.process_current_map() # Send current map to trackers
 
                 await asyncio.sleep(0.1)
 
@@ -244,6 +257,29 @@ class Turok2Context(CommonContext):
             
         # Mark block ready for next message
         self.write_int(APMemoryOffset.OUT_STATUS, APStatus.AP_READY)
+
+    async def process_current_map(self):
+        """
+        Grabs the current map id and sends a message to trackers with the matching level name if it changed.
+        """
+        current_map_id = self.read_int(APMemoryOffset.CURRENT_MAP_ID)
+        if self.current_map_id != current_map_id:
+            self.current_map_id = current_map_id
+
+            current_map_data = MAP_ID_TO_MAP_DATA.get(current_map_id)
+            if current_map_data:
+                # Send a Bounced message to all trackers connected to the current slot
+                message = {
+                    "cmd": "Bounce",
+                    "slots": [self.slot],
+                    "tags": ["Tracker"],
+                    "data": {
+                        "type": "MapUpdate",
+                        "map": current_map_data.get("map"),
+                        "section": current_map_data.get("section")
+                    }
+                }
+                await self.send_msgs([message])
     
 async def main(args: Namespace, exe_name) -> None:
     ctx = Turok2Context(args.url, None)

@@ -61,3 +61,5 @@ class APMemoryOffset(Enum):
     OUT_DATA = 36
     OUT_LAST_PROCESSED_ITEM_IDX = 40
     OUT_GOAL_REACHED = 44
+
+    CURRENT_MAP_ID = 48
