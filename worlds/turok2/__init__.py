@@ -265,7 +265,6 @@ class Turok2World(World):
             # Progression
             "level_unlock_method",
             "progressive_weapon_ammo_upgrades",
-            "weapon_barrier_settings",
 
             # Tricks
             "level_3_river_ledge_jump",
@@ -277,10 +276,48 @@ class Turok2World(World):
             "jump_through_lava"
         )
 
-        # There are no weapon requirements if the setting is off
-        if not self.options.use_weapon_barriers.value:
-            for key in slot_data["weapon_barrier_settings"]:
-                slot_data["weapon_barrier_settings"][key] = 0
+        # Weapon barriers - set to 0 if the setting is off
+        if self.options.use_weapon_barriers.value:
+            slot_data["weapon_barrier_level_1_start"] = self.options.weapon_barrier_settings.value.get("Level 1 Start")
+            slot_data["weapon_barrier_level_1_mid"] = self.options.weapon_barrier_settings.value.get("Level 1 Mid")
+            slot_data["weapon_barrier_level_1_end"] = self.options.weapon_barrier_settings.value.get("Level 1 End")
+            slot_data["weapon_barrier_level_2_start"] = self.options.weapon_barrier_settings.value.get("Level 2 Start")
+            slot_data["weapon_barrier_level_2_mid"] = self.options.weapon_barrier_settings.value.get("Level 2 Mid")
+            slot_data["weapon_barrier_level_2_end"] = self.options.weapon_barrier_settings.value.get("Level 2 End")
+            slot_data["weapon_barrier_level_3_start"] = self.options.weapon_barrier_settings.value.get("Level 3 Start")
+            slot_data["weapon_barrier_level_3_mid"] = self.options.weapon_barrier_settings.value.get("Level 3 Mid")
+            slot_data["weapon_barrier_level_3_end"] = self.options.weapon_barrier_settings.value.get("Level 3 End")
+            slot_data["weapon_barrier_level_4_start"] = self.options.weapon_barrier_settings.value.get("Level 4 Start")
+            slot_data["weapon_barrier_level_4_mid"] = self.options.weapon_barrier_settings.value.get("Level 4 Mid")
+            slot_data["weapon_barrier_level_4_end"] = self.options.weapon_barrier_settings.value.get("Level 4 End")
+            slot_data["weapon_barrier_level_5_start"] = self.options.weapon_barrier_settings.value.get("Level 5 Start")
+            slot_data["weapon_barrier_level_5_mid"] = self.options.weapon_barrier_settings.value.get("Level 5 Mid")
+            slot_data["weapon_barrier_level_5_end"] = self.options.weapon_barrier_settings.value.get("Level 5 End")
+            slot_data["weapon_barrier_level_6_start"] = self.options.weapon_barrier_settings.value.get("Level 6 Start")
+            slot_data["weapon_barrier_level_6_mid"] = self.options.weapon_barrier_settings.value.get("Level 6 Mid")
+            slot_data["weapon_barrier_level_6_end"] = self.options.weapon_barrier_settings.value.get("Level 6 End")
+            slot_data["weapon_barrier_primagen"] = self.options.weapon_barrier_settings.value.get("Primagen")
+        else:
+            slot_data["weapon_barrier_level_1_start"] = 0
+            slot_data["weapon_barrier_level_1_mid"] = 0
+            slot_data["weapon_barrier_level_1_end"] = 0
+            slot_data["weapon_barrier_level_2_start"] = 0
+            slot_data["weapon_barrier_level_2_mid"] = 0
+            slot_data["weapon_barrier_level_2_end"] = 0
+            slot_data["weapon_barrier_level_3_start"] = 0
+            slot_data["weapon_barrier_level_3_mid"] = 0
+            slot_data["weapon_barrier_level_3_end"] = 0
+            slot_data["weapon_barrier_level_4_start"] = 0
+            slot_data["weapon_barrier_level_4_mid"] = 0
+            slot_data["weapon_barrier_level_4_end"] = 0
+            slot_data["weapon_barrier_level_5_start"] = 0
+            slot_data["weapon_barrier_level_5_mid"] = 0
+            slot_data["weapon_barrier_level_5_end"] = 0
+            slot_data["weapon_barrier_level_6_start"] = 0
+            slot_data["weapon_barrier_level_6_mid"] = 0
+            slot_data["weapon_barrier_level_6_end"] = 0
+            slot_data["weapon_barrier_primagen"] = 0
+
 
         # Progressive warps - 0 if off, other numbers indicate the strength
         if self.options.progressive_warps:
