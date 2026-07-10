@@ -1,5 +1,6 @@
 import settings
 import typing
+from typing import Any
 from . import components as components
 from worlds.AutoWorld import World
 from BaseClasses import MultiWorld
@@ -10,6 +11,7 @@ from . import options as turok2_options
 from .turok2_seed import gen_turok2_seed
 from .options import PrimagenGoal, LevelUnlockMethod
 from collections import Counter, defaultdict
+from collections.abc import Mapping
 
 class Turok2Settings(settings.Group):
     class Turok2Path(settings.FilePath):
@@ -250,3 +252,44 @@ class Turok2World(World):
         
     def generate_output(self, output_directory: str) -> None:
         gen_turok2_seed(self, output_directory)
+
+    def fill_slot_data(self) -> Mapping[str, Any]:
+        """
+        Fills the slot data with the options used, to be used by trackers and UT (eventually)
+        """
+        slot_data = self.options.as_dict(
+            # Goal
+            "level_goal",
+            "primagen_goal",
+            
+            # Progression
+            "level_unlock_method",
+            "progressive_weapon_ammo_upgrades",
+            "weapon_barrier_settings",
+
+            # Tricks
+            "level_3_river_ledge_jump",
+            "level_3_bridge_jump",
+            "level_3_eye_of_truth_skip",
+            "level_4_skip_torpedo_launcher",
+            "level_6_eye_of_truth_skip",
+            "river_of_souls_death_jumps",
+            "jump_through_lava"
+        )
+
+        # There are no weapon requirements if the setting is off
+        if not self.options.use_weapon_barriers.value:
+            for key in slot_data["weapon_barrier_settings"]:
+                slot_data["weapon_barrier_settings"][key] = 0
+
+        # Progressive warps - 0 if off, other numbers indicate the strength
+        if self.options.progressive_warps:
+            slot_data["progressive_warps"] = self.options.progressive_warp_strength.value
+        else:
+            slot_data["progressive_warps"] = 0
+
+        # Included levels
+        for level in range(1, 7):
+            slot_data[f"include_level_{level}"] = level not in self.excluded_levels
+
+        return slot_data
