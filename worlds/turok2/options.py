@@ -1,6 +1,6 @@
 import re
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, OptionList, OptionSet, OptionDict, \
+from Options import Choice, OptionGroup, OptionList, OptionDict, \
     ItemSet, PerGameCommonOptions, Range, NamedRange, Toggle
 from schema import Schema, And
 from typing import List
@@ -14,7 +14,7 @@ class LevelGoal(Range):
 
     If the Primagen goal is None, it will fail to generate if this is not set to at least 1.
     """
-    display_name = "Levels Goal"
+    display_name = "Level Goal"
     range_start = 0
     range_end = 6
     default = 2

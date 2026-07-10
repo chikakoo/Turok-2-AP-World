@@ -10,6 +10,9 @@ from NetUtils import ClientStatus
 logger = logging.getLogger("Client")
 
 MAP_ID_TO_MAP_DATA = {
+    # Hub
+    6000: { "map": "Hub", "section": "" },
+
     # Level 1
     5100: { "map": "1-1", "section": "" },
     5200: { "map": "1-2a", "section": "" },
