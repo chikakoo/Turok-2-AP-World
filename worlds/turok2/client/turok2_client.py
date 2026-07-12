@@ -11,21 +11,21 @@ logger = logging.getLogger("Client")
 
 MAP_ID_TO_MAP_DATA = {
     # Hub
-    6000: { "map": "Hub", "section": "" },
+    6000: { "level": "Hub", "map": "", "section": "" },
 
     # Level 1
-    5100: { "map": "1-1", "section": "" },
-    5200: { "map": "1-2a", "section": "" },
-    5201: { "map": "1-2b", "section": "" },
-    5300: { "map": "1-3", "section": "Front" },
-    5301: { "map": "1-3", "section": "Back" },
-    5500: { "map": "1-4", "section": "" },
-    5400: { "map": "1-5", "section": "" },
-    5600: { "map": "1-6", "section": "" },
-    5700: { "map": "1-7", "section": "" },
-    5800: { "map": "1-8", "section": "" },
-    5900: { "map": "1-9", "section": "Catwalks" },
-    5901: { "map": "1-9", "section": "End" },
+    5100: { "level": "Level 1", "map": "1-1", "section": "" },
+    5200: { "level": "Level 1", "map": "1-2a", "section": "" },
+    5201: { "level": "Level 1", "map": "1-2b", "section": "" },
+    5300: { "level": "Level 1", "map": "1-3", "section": "Front" },
+    5301: { "level": "Level 1", "map": "1-3", "section": "Back" },
+    5500: { "level": "Level 1", "map": "1-4", "section": "" },
+    5400: { "level": "Level 1", "map": "1-5", "section": "" },
+    5600: { "level": "Level 1", "map": "1-6", "section": "" },
+    5700: { "level": "Level 1", "map": "1-7", "section": "" },
+    5800: { "level": "Level 1", "map": "1-8", "section": "" },
+    5900: { "level": "Level 1", "map": "1-9", "section": "Catwalks" },
+    5901: { "level": "Level 1", "map": "1-9", "section": "End" },
 
     # Level 2
     # Level 3
@@ -34,12 +34,12 @@ MAP_ID_TO_MAP_DATA = {
     # Level 6
 
     # Oblivion
-    7800: { "map": "1-O", "section": "" },
-    7900: { "map": "2-O", "section": "" },
-    8000: { "map": "3-O", "section": "" },
-    8100: { "map": "4-O", "section": "" },
-    8200: { "map": "5-O", "section": "" },
-    8300: { "map": "6-O", "section": "" },
+    7800: { "level": "Level 1", "map": "1-O", "section": "" },
+    7900: { "level": "Level 2", "map": "2-O", "section": "" },
+    8000: { "level": "Level 3", "map": "3-O", "section": "" },
+    8100: { "level": "Level 4", "map": "4-O", "section": "" },
+    8200: { "level": "Level 5", "map": "5-O", "section": "" },
+    8300: { "level": "Level 6", "map": "6-O", "section": "" },
 
     #TODO: finish this!
 }
@@ -300,6 +300,7 @@ class Turok2Context(CommonContext):
                     "tags": ["Tracker"],
                     "data": {
                         "type": "MapUpdate",
+                        "level": current_map_data.get("level"),
                         "map": current_map_data.get("map"),
                         "section": current_map_data.get("section")
                     }
