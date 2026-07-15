@@ -370,8 +370,25 @@ def handle_vanilla_locations(world: Turok2World) -> None:
                 .place_locked_item(world.create_item("Heart of Fire"))
             
         if place_primagen_keys:
-                world.get_location("[4-1] Primagen Key - Primagen Key") \
-                .place_locked_item(world.create_item("Primagen Key 4"))
+            world.get_location("[4-1] Primagen Key - Primagen Key") \
+            .place_locked_item(world.create_item("Primagen Key 4"))
+
+        # Cave door key events will always exist if this level is included
+        use_cave_door_key_event = "Cave Door Key Used"
+        world.get_location("[4-1] Whispers Drop - Unlock Cave Door") \
+            .place_locked_item(world.create_item(use_cave_door_key_event))
+        world.get_location("[4-3] Cave Door - Unlock Cave Door") \
+            .place_locked_item(world.create_item(use_cave_door_key_event))
+        world.get_location("[4-V1] Start - Unlock Cave Door") \
+            .place_locked_item(world.create_item(use_cave_door_key_event))
+        world.get_location("[4-6a] Start - Unlock Cave Door") \
+            .place_locked_item(world.create_item(use_cave_door_key_event))
+        world.get_location("[4-8a] Blue Cave Ledges 2 - Unlock Cave Door") \
+            .place_locked_item(world.create_item(use_cave_door_key_event))
+        world.get_location("[4-V3] At Cave Door - Unlock Cave Door Left") \
+            .place_locked_item(world.create_item(use_cave_door_key_event))
+        world.get_location("[4-V3] At Cave Door - Unlock Cave Door Right") \
+            .place_locked_item(world.create_item(use_cave_door_key_event))
             
     if 5 not in world.excluded_levels:
         if place_feathers:
@@ -398,6 +415,19 @@ def handle_vanilla_locations(world: Turok2World) -> None:
         if place_primagen_keys:
             world.get_location("[6-Hub] Center - Primagen Key") \
                 .place_locked_item(world.create_item("Primagen Key 6"))
+            
+        # Create locked items for the level 6 switches if not randomized so they can still be tracked
+        if not world.options.randomize_switches:
+            press_primagen_key_switch_event = "Primagen Key Switch Pressed"
+            world.get_location("[6-1] Whispers - Primagen Key Switch") \
+                .place_locked_item(world.create_item(press_primagen_key_switch_event))
+            world.get_location("[6-2a] Eye of Truth - Primagen Key Switch") \
+                .place_locked_item(world.create_item(press_primagen_key_switch_event))
+            world.get_location("[6-3b] Leap - Primagen Key Switch") \
+                .place_locked_item(world.create_item(press_primagen_key_switch_event))
+            world.get_location("[6-4d] Generator in River - Primagen Key Switch") \
+                .place_locked_item(world.create_item(press_primagen_key_switch_event))
+
 
 def prepare_weights(pairs: Iterable[tuple]) -> tuple[list, list[int]]:
     """

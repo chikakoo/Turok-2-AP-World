@@ -82,7 +82,11 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
 
         # Add the appropriate kind of snippet based on the type
         type = LOCATION_TABLE[location_name]["type"]
-        is_action_object = type in (ItemType.SWITCH.value, ItemType.MISSION_OBJECTIVE.value, ItemType.ENEMY.value)
+        is_action_object = type in (
+            ItemType.SWITCH.value, 
+            ItemType.MISSION_OBJECTIVE.value, 
+            ItemType.ENEMY.value, 
+            ItemType.EVENT.value)
         if is_action_object:
             location_tag_id = LOCATION_TABLE[location_name]["tag_id"]
             snippet = f"AddActionObject(\"{location_name}\", {location_id}, {location_tag_id}"

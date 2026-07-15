@@ -27,6 +27,7 @@ class ItemType(Enum):
     SWITCH = 16
     MISSION_OBJECTIVE = 17
     ENEMY = 18
+    EVENT = 99 # Will not provide a real check - used for tracking purposes
 
 class WeightedItemGroup(Enum):
     """
@@ -748,6 +749,22 @@ ITEM_TABLE = {
         "type": ItemType.TRAP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
         "class": ItemClassification.trap
+    },
+
+    # Events
+    "Cave Door Key Used": {
+        "id": 1000000,
+        "actor_id": 0, # So the mod doesn't give anything
+        "type": ItemType.EVENT.value,
+        "msg_type": APMessageType.AP_MSGTYPE_NONE,
+        "class": ItemClassification.progression
+    },
+    "Primagen Key Switch Pressed": {
+        "id": 1000001,
+        "actor_id": 0, # So the mod doesn't give anything
+        "type": ItemType.EVENT.value,
+        "msg_type": APMessageType.AP_MSGTYPE_NONE,
+        "class": ItemClassification.progression
     }
 }
 

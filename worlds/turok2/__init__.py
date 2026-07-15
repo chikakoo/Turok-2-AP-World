@@ -264,6 +264,7 @@ class Turok2World(World):
             
             # Progression
             "level_unlock_method",
+            "randomize_weapons",
             "progressive_weapon_ammo_upgrades",
 
             # Tricks

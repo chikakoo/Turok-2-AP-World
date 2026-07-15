@@ -151,7 +151,7 @@ def create_locations(world: Turok2World) -> None:
                 NukeBehavior.option_weapon_pickup
             )
         if item_type == ItemType.SWITCH.value:
-            return world.options.randomize_switches
+            return world.options.randomize_switches or loc_name.endswith(" - Primagen Key Switch")
         if item_type == ItemType.MISSION_OBJECTIVE.value:
             return world.options.randomize_mission_objectives
         if item_type == ItemType.ENEMY.value:
