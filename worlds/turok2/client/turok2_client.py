@@ -16,8 +16,8 @@ MAP_ID_TO_MAP_DATA = {
     # Level 1
     5100: { "level": "Level 1", "map": "1-1", "section": "" },
     5200: { "level": "Level 1", "map": "1-2a", "section": "" },
-    5201: { "level": "Level 1", "map": "1-2b", "section": "" },
     5300: { "level": "Level 1", "map": "1-3", "section": "Front" },
+    5201: { "level": "Level 1", "map": "1-2b", "section": "" },
     5301: { "level": "Level 1", "map": "1-3", "section": "Back" },
     5500: { "level": "Level 1", "map": "1-4", "section": "" },
     5400: { "level": "Level 1", "map": "1-5", "section": "" },
@@ -28,6 +28,20 @@ MAP_ID_TO_MAP_DATA = {
     5901: { "level": "Level 1", "map": "1-9", "section": "End" },
 
     # Level 2
+    12500: { "level": "Level 2", "map": "2-1", "section": "" },
+    12600: { "level": "Level 2", "map": "2-2", "section": "" },
+    12700: { "level": "Level 2", "map": "2-3", "section": "" },
+    12800: { "level": "Level 2", "map": "2-4", "section": "" },
+    12900: { "level": "Level 2", "map": "2-5", "section": "" },
+    13000: { "level": "Level 2", "map": "2-6a", "section": "" },
+    13001: { "level": "Level 2", "map": "2-6b", "section": "" },
+    13300: { "level": "Level 2", "map": "2-GY1", "section": "" },
+    13002: { "level": "Level 2", "map": "2-6c", "section": "" },
+    13100: { "level": "Level 2", "map": "2-7", "section": "" },
+    13400: { "level": "Level 2", "map": "2-GY2", "section": "" },
+    13200: { "level": "Level 2", "map": "2-8", "section": "" },
+    13500: { "level": "Level 2", "map": "2-GY3", "section": "" },
+
     # Level 3
     # Level 4
     # Level 5
