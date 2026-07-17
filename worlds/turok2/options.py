@@ -506,7 +506,7 @@ class RandomizeTalismans(Choice):
     
 class RandomizeMissionItems(Toggle):
     """
-    Whether to include items needed to finish the level. For example, the beacon power cells
+    Whether to include items needed to finish the level. For example, the power cells
     in level 1 or the graveyard keys in level 2.
     """
     display_name = "Randomize Mission Items"

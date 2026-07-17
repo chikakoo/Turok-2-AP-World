@@ -1,19 +1,19 @@
 {
     "[1-1] Ground - Activate Beacon": {
         "mission_item_requirement": {
-            "item": "Beacon Power Cell",
+            "item": "Power Cell",
             "count": 3
         }
     },
     "[1-3] Single Ship - Activate Beacon": {
         "mission_item_requirement": {
-            "item": "Beacon Power Cell",
+            "item": "Power Cell",
             "count": 3
         }
     },
     "[1-3] Two Ships - Activate Beacon": {
         "mission_item_requirement": {
-            "item": "Beacon Power Cell",
+            "item": "Power Cell",
             "count": 3
         }
     },

@@ -160,7 +160,7 @@
 						"and": [
 							{
 								"mission_item_requirement": {
-									"item": "Beacon Power Cell",
+									"item": "Power Cell",
 									"count": 3
 								}
 							},

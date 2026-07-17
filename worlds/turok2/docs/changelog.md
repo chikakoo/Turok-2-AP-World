@@ -22,7 +22,12 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Prevent Collection: The mod will prevent collection until the appropriate talisman is obtained.
 - The first Life Force 10 by the level 1 Primagen key no longer requires the Leap of Faith (as the jump is really easy)
 - Removed some dummy pickups in 3-2 that could be misleading. This also prevents an out of logic Grenade Launcher
-- Enemizer will no longer randomize the Mites in the 5-6 switch room because they get stuck easily and could force you to warp out
+- The "Beacon Power Cell" item is now just "Power Cell", as that's what it's actually called
+- Removed the item counts from the level progress text popup (just use the UI one)
+- QoL Changes
+  - Enemizer will no longer randomize the Mites in the 5-6 switch room because they get stuck easily and could force you to warp out
+  - The checkpoint station portal cutscenes are now skipped, allowing for much faster warps
+  - Added level prefixes to the quick warp menu
 - Location changes:
   - Added a/b to some map names for clarity and sorting reasons
   - Changed various location names to be clearer about what they refer to
@@ -30,7 +35,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Big fixes
   - Fixed being able to could collect items after dying if your body touches them (not vanilla behavior)
   - Fixed the real root cause of the enemizer crash, allowing the level 6 boss spawns to be randomized again
-  - Fixed the overall level progress count not non-pickup checks
+  - Fixed the overall level progress count not including non-pickup checks
 
 ## v0.4.X
 

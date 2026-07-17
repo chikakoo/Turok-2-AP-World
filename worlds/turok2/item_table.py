@@ -396,7 +396,7 @@ ITEM_TABLE = {
     },
     
     # Mission Items
-    "Beacon Power Cell": {
+    "Power Cell": {
         "id": 200100,
         "actor_id": 4200,
         "type": ItemType.MISSION_ITEM.value,
