@@ -272,6 +272,7 @@ class Turok2World(World):
             "level_3_bridge_jump",
             "level_3_eye_of_truth_skip",
             "level_4_skip_torpedo_launcher",
+            "level_5_jump_to_primagen_key_path",
             "level_6_eye_of_truth_skip",
             "river_of_souls_death_jumps",
             "jump_through_lava"

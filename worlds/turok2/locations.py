@@ -571,6 +571,13 @@ def can_skip_level_3_eye_Of_truth(world: Turok2World):
     trick_enabled = world.options.level_3_eye_of_truth_skip.value
     return lambda state: trick_enabled
 
+def can_skip_level_5_breath_of_life(world: Turok2World):
+    """
+    Checks whether the trick to skip the Breath of Life in level 5 is enabled.
+    """
+    trick_enabled = world.options.level_5_jump_to_primagen_key_path.value
+    return lambda state: trick_enabled
+
 def can_skip_level_6_eye_Of_truth(world: Turok2World):
     """
     Checks whether the trick to skip the Eye of Truth in level 6 is enabled.
@@ -591,5 +598,6 @@ NAMED_RULES = {
     "can_jump_to_level_3_river_ledge": can_jump_to_level_3_river_ledge,
     "can_do_level_3_bridge_jump": can_do_level_3_bridge_jump,
     "can_skip_level_3_eye_Of_truth": can_skip_level_3_eye_Of_truth,
-    "can_skip_level_6_eye_Of_truth": can_skip_level_6_eye_Of_truth
+    "can_skip_level_6_eye_Of_truth": can_skip_level_6_eye_Of_truth,
+    "can_skip_level_5_breath_of_life": can_skip_level_5_breath_of_life
 }

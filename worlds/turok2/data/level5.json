@@ -171,7 +171,12 @@
                 },
                 { 
                     "to": "[5-9] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "or": [
+                            "can_skip_level_5_breath_of_life",
+                            { "has": "Breath of Life" }
+                        ]
+                    }
                 },
                 { 
                     "to": "[5-MC]",

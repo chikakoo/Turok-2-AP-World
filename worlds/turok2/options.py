@@ -742,6 +742,14 @@ class Level4SkipTorpedoLauncher(Toggle):
     display_name = "Level 4 Skip Torpedo Launcher"
     default = False
 
+class Level5JumpToPrimagenKeyPath(Toggle):
+    """
+    Enables a trick to jump from the Embryo 3 catwalk to the Primagen Key path in Level 5. This allows
+    you to skip the Breath of Life here.
+    """
+    display_name = "Level 5 Jump to Primagen Key Path"
+    default = False
+
 class Level6EyeOfTruthSkip(Toggle):
     """
     Enables a trick to ledge grab the invisible part of the Eye of Truth bridge to skip the talisman.
@@ -1082,6 +1090,7 @@ class Turok2Options(PerGameCommonOptions):
     level_3_bridge_jump: Level3BridgeJump
     level_3_eye_of_truth_skip: Level3EyeOfTruthSkip
     level_4_skip_torpedo_launcher: Level4SkipTorpedoLauncher
+    level_5_jump_to_primagen_key_path: Level5JumpToPrimagenKeyPath
     level_6_eye_of_truth_skip: Level6EyeOfTruthSkip
     river_of_souls_death_jumps: RiverOfSoulsDeathJumps
     jump_through_lava: JumpThroughLava
@@ -1160,6 +1169,7 @@ option_groups: List[OptionGroup] = [
         Level3BridgeJump,
         Level3EyeOfTruthSkip,
         Level4SkipTorpedoLauncher,
+        Level5JumpToPrimagenKeyPath,
         Level6EyeOfTruthSkip,
         RiverOfSoulsDeathJumps,
         JumpThroughLava

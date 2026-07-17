@@ -15,6 +15,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Jump to the red Life Force ledge at the start of level 3
   - Jump to the bridge by the second ammo storage in level 3, skipping the lower portal
   - Eye of Truth skips in levels 3 and 6
+  - Jump to the Primagen Key path in level 5, skipping the Breath of Life
   - guarantee_torpedo_launcher is now level_4_skip_torpedo_launcher for trick name consistency
 - Added options for River of Souls and Lava pickups:
   - Out of logic: If you would normally die getting this, it isn't in logic.
