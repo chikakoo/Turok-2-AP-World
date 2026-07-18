@@ -449,13 +449,8 @@ def compute_category_rule(world: Turok2World, category: str, count: int = 1):
 
 def can_enter_level(world: Turok2World, args: dict):
     """
-    Checks whether the player can enter the given level.
-    If it's a starting level, this is always true.
-    This will also take the level unlock method into account.
+    Checks whether the player can enter the given level, taking the level unlock method into account.
     """
-    if args.get("level", -1) in world.starting_levels:
-        return lambda state: True
-
     if world.options.level_unlock_method.value == LevelUnlockMethod.option_one_progressive_warp:
         item = args.get("progressive_warp_item")
     else:
