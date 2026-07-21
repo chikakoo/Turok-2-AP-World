@@ -31,6 +31,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Added options to remove the (!) indicators for pickups and enemies separately. This is also toggleable in the UI.
   - The checkpoint station portal cutscenes are now skipped, allowing for much faster warps
   - Added level prefixes to the quick warp menu
+  - All level intro and talisman cutscenes are now skipped
   - Removed some dummy pickups in 3-2 that could be misleading. This also prevents an out of logic Grenade Launcher
 - Misc Changes
   - The "Beacon Power Cell" item is now just "Power Cell", as that's what it's actually called
