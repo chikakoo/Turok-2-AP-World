@@ -36,6 +36,8 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Misc Changes
   - The "Beacon Power Cell" item is now just "Power Cell", as that's what it's actually called
   - Removed the item counts from the level progress text popup (just use the UI one)
+  - Various behind the scenes changes for the future Poptracker update
+    - Includes adding "Cave Door Key Used" locations to be able to track key usage
 - Bug fixes
   - Fixed being able to could collect items after dying if your body touches them (not vanilla behavior)
   - Fixed the real root cause of the enemizer crash, allowing the level 6 boss spawns to be randomized again
