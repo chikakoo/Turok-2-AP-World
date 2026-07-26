@@ -2,6 +2,8 @@
 
 ## IMPORTANT
 
+**Linux and Mac are not supported. If you get it to work through VMs/Proton/etc, please let me know so we can add instructions for others.**
+
 **If "Auto-Switch New Weapon" is on and you receive a new weapon while on the Riding Gun in Level 2, you will be softlocked! Turn off that setting for this map! If you DO get softlocked in this way, press "_~_" to open the console, then type "_warp 125_" to reload the map.**
 
 ## Where is the options page?
@@ -31,7 +33,8 @@ Static pickups (those not spawned from destructibles):
   - (L6) Ion Capacitors; Blue Laser Cells; Red Laser Cells
 - Activated Switches
 - Mission Objectives
-- Enemies (these aren't checks)
+- What enemies are (enemizer)
+- Whether killing enemies give checks (enemysanity)
 
 ## What does randomization mean?
 
@@ -40,7 +43,7 @@ Weapons can be randomized to single or multiple copies. If multiple, they will b
 Life force tiles, health, and ammo can be shuffled throughout the worlds depending on settings. They can also be generated 
 based on filler items.
 
-Enemies have various randomization options to make the game more varied. They aren't Archipelago checks, but can make the game much more challenging/interesting.
+Enemies have various randomization options to make the game more varied, including randomizing what they are, and/or making them checks.
 
 ## What core changes have been made?
 
@@ -72,9 +75,9 @@ These are important, because **the randomizer breaks the in-game inventory scree
 
 ### Pickup indicators
 
-All checks will use the in-game "important" item exclamation point to make them easier to find. This is not yet a togglable setting.
+All checks will use the in-game "important" item exclamation point to make them easier to find. There are separate options for pickups and enemies which are togglable through the UI.
 
-They won't show up like this if the in-game option is off, though.
+They won't show up like this if the in-game "Show Hints" option is off, though.
 
 ### Ammo
 
