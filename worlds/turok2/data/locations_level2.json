@@ -504,7 +504,7 @@
     "[2-6a] Raptor Pagoda - Blue Health Behind Warp 2": { "region": "[2-6a]", "ap_id": 130001, "position": "130_6451_3527_307", "type": 2 },
     "[2-6a] Raptor Pagoda - Tek Bow": { "region": "[2-6a]", "ap_id": 130002, "position": "130_5427_3788_307", "type": 13 },
     "[2-6a] Raptor Pagoda - Full Health": { "region": "[2-6a]", "ap_id": 130003, "position": "130_2508_3788_0", "type": 4 },
-    "[2-6a] Raptor Pagoda - Shells in Left Wall": { "region": "[2-6a]", "ap_id": 130004, "position": "130_1850_2602_0", "type": 6 },
+    "[2-6a] Raptor Pagoda - Box of Shells in Left Wall": { "region": "[2-6a]", "ap_id": 130004, "position": "130_1850_2602_0", "type": 6 },
     "[2-6a] Raptor Pagoda - Box of Bullets in Left Wall": { "region": "[2-6a]", "ap_id": 130005, "position": "130_1630_2609_0", "type": 6 },
     "[2-6a] Raptor Pagoda - LF1 Trail 1": { "region": "[2-6a]", "ap_id": 130006, "position": "130_1620_3784_-229", "type": 0 },
     "[2-6a] Raptor Pagoda - LF1 Trail 2": { "region": "[2-6a]", "ap_id": 130007, "position": "130_1499_3787_-230", "type": 0 },
