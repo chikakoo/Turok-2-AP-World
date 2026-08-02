@@ -647,7 +647,7 @@
     "[2-6c] Silo - LF1 Trail to Silo 1": { "region": "[2-6c]", "ap_id": 130144, "position": "130_3635_1280_-5222", "type": 0 },
     "[2-6c] Silo - LF1 Trail to Silo 2": { "region": "[2-6c]", "ap_id": 130145, "position": "130_3891_1280_-5219", "type": 0 },
     "[2-6c] Silo - Blue Health on Bridge 1": { "region": "[2-6c]", "ap_id": 130146, "position": "130_5580_1285_-3993", "type": 2 },
-    "[2-6c] Silo - Shells by Bridge 2": { "region": "[2-6c]", "ap_id": 130147, "position": "130_6516_2080_-3379", "type": 6 },
+    "[2-6c] Silo - Box of Shells by Bridge 2": { "region": "[2-6c]", "ap_id": 130147, "position": "130_6516_2080_-3379", "type": 6 },
     "[2-6c] Silo - Blue Health on Bridge 2": { "region": "[2-6c]", "ap_id": 130148, "position": "130_5580_1275_-3379", "type": 2 },
     "[2-6c] Silo - Box of Bullets by Bridge 2": { "region": "[2-6c]", "ap_id": 130149, "position": "130_6529_478_-3379", "type": 6 },
     "[2-6c] Silo - Silver Health by Exit 1": { "region": "[2-6c]", "ap_id": 130150, "position": "130_6220_-1258_-3532", "type": 3 },
