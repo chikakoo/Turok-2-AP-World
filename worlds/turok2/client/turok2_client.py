@@ -44,9 +44,61 @@ MAP_ID_TO_MAP_DATA = {
     13500: { "level": "Level 2", "map": "2-GY3", "section": "" },
 
     # Level 3
+    6100: { "level": "Level 3", "map": "3-1", "section": "" },
+    6900: { "level": "Level 3", "map": "3-A1", "section": "" },
+    6200: { "level": "Level 3", "map": "3-2", "section": "" },
+    6300: { "level": "Level 3", "map": "3-3", "section": "" },
+    6400: { "level": "Level 3", "map": "3-4a", "section": "" },
+    7000: { "level": "Level 3", "map": "3-A2", "section": "" },
+    6401: { "level": "Level 3", "map": "3-4b", "section": "" },
+    6500: { "level": "Level 3", "map": "3-5", "section": "" },
+    6600: { "level": "Level 3", "map": "3-6", "section": "" },
+    6700: { "level": "Level 3", "map": "3-7", "section": "" },
+    7100: { "level": "Level 3", "map": "3-A3", "section": "" },
+    6800: { "level": "Level 3", "map": "3-8", "section": "" },
+
     # Level 4
+    9800: { "level": "Level 4", "map": "4-1", "section": "" },
+    9900: { "level": "Level 4", "map": "4-2", "section": "" },
+    10000: { "level": "Level 4", "map": "4-3", "section": "" },
+    10100: { "level": "Level 4", "map": "4-4", "section": "" },
+    10600: { "level": "Level 4", "map": "4-V1", "section": "" },
+    10200: { "level": "Level 4", "map": "4-5", "section": "" },
+    10700: { "level": "Level 4", "map": "4-V2", "section": "" },
+    10300: { "level": "Level 4", "map": "4-6a", "section": "" },
+    10400: { "level": "Level 4", "map": "4-7", "section": "" },
+    10500: { "level": "Level 4", "map": "4-8a", "section": "" },
+    10800: { "level": "Level 4", "map": "4-V3", "section": "" },
+    10501: { "level": "Level 4", "map": "4-8b", "section": "" },
+    10301: { "level": "Level 4", "map": "4-6b", "section": "" },
+
     # Level 5
+    12400: { "level": "Level 5", "map": "5-1", "section": "" },
+    8400: { "level": "Level 5", "map": "5-2", "section": "" },
+    8500: { "level": "Level 5", "map": "5-3", "section": "" },
+    8600: { "level": "Level 5", "map": "5-4", "section": "" },
+    8700: { "level": "Level 5", "map": "5-5", "section": "" },
+    8800: { "level": "Level 5", "map": "5-6", "section": "" },
+    8900: { "level": "Level 5", "map": "5-7", "section": "" },
+    9000: { "level": "Level 5", "map": "5-8", "section": "" },
+    9400: { "level": "Level 5", "map": "5-E1", "section": "" },
+    9100: { "level": "Level 5", "map": "5-9", "section": "" },
+    9500: { "level": "Level 5", "map": "5-E2", "section": "" },
+    9600: { "level": "Level 5", "map": "5-E3", "section": "" },
+    9300: { "level": "Level 5", "map": "5-MC", "section": "" },
+    9200: { "level": "Level 5", "map": "5-10", "section": "" },
+
     # Level 6
+    11400: { "level": "Level 6", "map": "6-Hub", "section": "" },
+    11500: { "level": "Level 6", "map": "6-1", "section": "" },
+    11600: { "level": "Level 6", "map": "6-2a", "section": "" },
+    11700: { "level": "Level 6", "map": "6-2b", "section": "" },
+    11800: { "level": "Level 6", "map": "6-3a", "section": "" },
+    11900: { "level": "Level 6", "map": "6-3b", "section": "" },
+    12000: { "level": "Level 6", "map": "6-4a", "section": "" },
+    12100: { "level": "Level 6", "map": "6-4b", "section": "" },
+    12200: { "level": "Level 6", "map": "6-4c", "section": "" },
+    12300: { "level": "Level 6", "map": "6-4d", "section": "" },
 
     # Oblivion
     7800: { "level": "Level 1", "map": "1-O", "section": "" },
@@ -54,9 +106,7 @@ MAP_ID_TO_MAP_DATA = {
     8000: { "level": "Level 3", "map": "3-O", "section": "" },
     8100: { "level": "Level 4", "map": "4-O", "section": "" },
     8200: { "level": "Level 5", "map": "5-O", "section": "" },
-    8300: { "level": "Level 6", "map": "6-O", "section": "" },
-
-    #TODO: finish this!
+    8300: { "level": "Level 6", "map": "6-O", "section": "" }
 }
 
 class Turok2Context(CommonContext):
