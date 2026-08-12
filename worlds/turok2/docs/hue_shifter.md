@@ -27,7 +27,9 @@ You must have python installed with the ability to run python scripts.
 
 In the script, you can and should modify the values under the USER CONSTANTS section toward the top of the file. Here's a summary of what each does:
 - GAME_DIRECTORY: The game's directory to grab textures from. Modify this to point at the directory you extracted game.kpf to!
-- SHIFT_RANGE: A value between 0 and 359. This affects how much the image will be changed by. It will roll a random inclusive number from 0 to this value. Lower values will produce images that look similar to the original ones.
+- HUE_RANGE: A value between 0 and 359. This affects how much the image will be changed by. It will roll a random inclusive number from 0 to this value. Lower values will produce images that look similar to the original ones.
+- SATURATION_RANGE: A value between 0 and 100. This will roll a random value in this range and adjust the current saturation by +/- that value. So, 25 can adjust from up to -25% to 25%. A value of 100 can produce completely grayscale images.
+- BRIGHTNESS_RANGE: A value between 0 and 100. This will roll a random value in this range and adjust the current brightness by +/- that value. So, 25 can adjust from up to -25% to 25%. A value of 100 can produce completely black images.
 - REPLACE_IN_MODS_FOLDER: Set to True or False to do the following -
   - True: packages the new images in the appropriate kpf in MODS_DIRECTORY, ready to play after the script runs
   - False: outputs the images to HUE_SHIFTER_OUTPUT_DIRECTORY if you just want the hue shifted images
