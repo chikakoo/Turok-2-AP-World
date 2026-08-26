@@ -325,7 +325,7 @@
     "[6-2b] Generator Place Capacitor - Trooper": { "region": "[6-2b] Place Capacitor", "ap_id": 117054, "tag_id": "18", "type": 18 },
     "[6-2b] Generator Place Capacitor - Bio-Bot Spawned From Trooper": { "region": "[6-2b] Place Capacitor", "ap_id": 117055, "tag_id": "14", "type": 18 },
     "[6-2b] Generator Place Capacitor - Bio-Bot Spawned From Bio-Bot": { "region": "[6-2b] Place Capacitor", "ap_id": 117056, "tag_id": "13", "type": 18 },
-    "[6-2b] Exit - Bio-Bot": { "region": "[6-2b] Place Capacitor", "ap_id": 117057, "tag_id": "16", "type": 18 },
+    "[6-2b] Exit - Bio-Bot": { "region": "[6-2b]", "ap_id": 117057, "tag_id": "16", "type": 18 },
     "[6-Hub] Wing 2 End - Blue Health": { "region": "[6-Hub] Wing 3", "ap_id": 114044, "position": "114_-1689_3072_0", "type": 2 },
     "[6-Hub] Wing 2 End - Grenade Launcher": { "region": "[6-Hub] Wing 3", "ap_id": 114045, "position": "114_-1125_1531_155", "type": 13 },
     "[6-Hub] Wing 3 - LF1 1": { "region": "[6-Hub] Wing 3", "ap_id": 114046, "position": "114_2443_1006_25", "type": 0 },
