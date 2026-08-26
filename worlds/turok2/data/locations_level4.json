@@ -25,7 +25,7 @@
     "[4-1] Drop Progress Path - LF1 Trail 5": { "region": "[4-1]", "ap_id": 98023, "position": "98_3174_3225_-1825", "type": 0 },
     "[4-1] Drop Progress Path - LF1 Trail 6": { "region": "[4-1]", "ap_id": 98024, "position": "98_3174_3430_-1791", "type": 0 },
     "[4-1] Drop Progress Path - LF1 Trail 7": { "region": "[4-1]", "ap_id": 98025, "position": "98_3174_3430_-1945", "type": 0 },
-    "[4-1] Drop Progress Path - Blue Health by LF Trail": { "region": "[4-1] Whispers", "ap_id": 98026, "position": "98_2640_2148_-1841", "type": 2 },
+    "[4-1] Drop Progress Path - Blue Health by LF Trail": { "region": "[4-1]", "ap_id": 98026, "position": "98_2640_2148_-1841", "type": 2 },
     "[4-1] Whispers Path - Firestorm Cannon": { "region": "[4-1] Whispers", "ap_id": 98027, "position": "98_-2508_-1587_-614", "type": 13 },
     "[4-1] Whispers Drop - Missiles on Pillar Drop 1": { "region": "[4-1] Whispers", "ap_id": 98028, "position": "98_-2079_-2545_-1354", "type": 6 },
     "[4-1] Whispers Drop - Missiles on Pillar Drop 2": { "region": "[4-1] Whispers", "ap_id": 98029, "position": "98_-2169_-2395_-1354", "type": 6 },
