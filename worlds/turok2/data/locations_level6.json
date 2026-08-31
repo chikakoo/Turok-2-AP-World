@@ -573,7 +573,7 @@
     "[6-4b] Top - Explosive Shells in Wall by Talisman Portal": { "region": "[6-4b]", "ap_id": 121031, "position": "121_618_-2515_307", "type": 6 },
     "[6-4b] Back Left - Door Switch": { "region": "[6-4b]", "ap_id": 121032, "tag_id": "15", "type": 16 },
     "[6-4b] Right - Timed Door Switch": { "region": "[6-4b]", "ap_id": 121033, "tag_id": "13", "type": 16 },
-    "[6-4b] Left - Droid Switch": { "region": "[6-4b]", "ap_id": 121034, "tag_id": "14", "type": 16 },
+    "[6-4b] Left - Bio-Bot Switch": { "region": "[6-4b]", "ap_id": 121034, "tag_id": "14", "type": 16 },
     "[6-4b] Top - Elevator Switch": { "region": "[6-4b]", "ap_id": 121035, "tag_id": "16", "type": 16 },
     "[6-4b] Top - Door Switch": { "region": "[6-4b]", "ap_id": 121036, "tag_id": "12", "type": 16 },
     "[6-4b] Top - Destroy Assembly Plant": { "region": "[6-4b]", "ap_id": 121037, "tag_id": "20", "type": 17 },
