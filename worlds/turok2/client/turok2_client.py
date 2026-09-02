@@ -6,6 +6,7 @@ from argparse import Namespace
 from CommonClient import CommonContext, server_loop, gui_enabled
 from ..items import map_ap_item_to_game
 from NetUtils import ClientStatus
+from typing import Any
 
 logger = logging.getLogger("Client")
 
@@ -370,6 +371,14 @@ class Turok2Context(CommonContext):
                     }
                 }
                 await self.send_msgs([message])
+
+    def on_package(self, cmd: str, args: dict[str, Any]) -> None:
+        """
+        On a connection, clear the current map id so trackers can switch to the
+        current map, if any.
+        """
+        if cmd == "Connected":
+            self.current_map_id = ""
     
 async def main(args: Namespace, exe_name) -> None:
     ctx = Turok2Context(args.url, None)
