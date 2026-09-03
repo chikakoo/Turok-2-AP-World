@@ -618,7 +618,7 @@ class NukeBehavior(Choice):
          The 6 Nuke Parts are in their vanilla loactions.
          If that level is excluded, you will start with it.
     - Nuke Part Hunt: The 6 Nuke Parts will be shuffled into the pool. Oblivion portals will have a random check.
-    - Weapon Pickup: The Nuke will be obtaned as a single item. Oblivion portals will have a random check.
+    - Weapon Pickup: The Nuke will be obtained as a single item. Oblivion portals will have a random check.
     """
     display_name = "Nuke Behavior"
     option_disabled = 0
