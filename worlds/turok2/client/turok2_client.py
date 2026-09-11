@@ -71,6 +71,7 @@ MAP_ID_TO_MAP_DATA = {
     10800: { "level": "Level 4", "map": "4-V3", "section": "" },
     10501: { "level": "Level 4", "map": "4-8b", "section": "" },
     10301: { "level": "Level 4", "map": "4-6b", "section": "" },
+    100: { "level": "Level 4", "map": "4-6b", "section": "" },
 
     # Level 5
     12400: { "level": "Level 5", "map": "5-1", "section": "" },
