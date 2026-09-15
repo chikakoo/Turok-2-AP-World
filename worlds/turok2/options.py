@@ -8,6 +8,16 @@ from typing import List
 # TODO:
 # death link
 
+class GenerateForOffline(Toggle):
+    """
+    Receive starting inventory without connecting to AP. Only set to True if you want to play
+    completely solo, with no auto trackers or AP server. If set to True...
+    - The game will not work properly with the built-in tracker
+    - You will receive duplicate starting items from the AP server if you do connect
+    """
+    display_name = "Generate for Offline"
+    default = False
+
 class LevelGoal(Range):
     """
     The number of levels you need to complete for your goal.
@@ -1049,6 +1059,8 @@ class UncheckedEnemyIndicators(Toggle):
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
+    generate_for_offline: GenerateForOffline
+
     level_goal: LevelGoal
     primagen_goal: PrimagenGoal
     randomize_primagen_keys: RandomizePrimagenKeys
@@ -1121,6 +1133,9 @@ class Turok2Options(PerGameCommonOptions):
     unchecked_enemy_indicators: UncheckedEnemyIndicators
     
 option_groups: List[OptionGroup] = [
+    OptionGroup("Generation", [
+        GenerateForOffline
+    ]),
     OptionGroup("Goal", [
         LevelGoal,
         PrimagenGoal,
@@ -1212,6 +1227,6 @@ option_presets = {
     },
     "advanced": {
         "force_early_weapon": False,
-        "level_4_skip_torpedo_launcer": False
+        "level_4_skip_torpedo_launcher": False
     }
 }

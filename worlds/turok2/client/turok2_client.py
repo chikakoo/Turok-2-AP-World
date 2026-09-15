@@ -3,10 +3,18 @@ import pymem
 import logging
 from .ap_memory_constants import APStatus, APMemoryOffset
 from argparse import Namespace
-from CommonClient import CommonContext, server_loop, gui_enabled
+from CommonClient import server_loop, gui_enabled
 from ..items import map_ap_item_to_game
 from NetUtils import ClientStatus
 from typing import Any
+
+# Use UTs context if using UT, else use CommonContext
+tracker_loaded = False
+try:
+    from worlds.tracker.TrackerClient import TrackerGameContext as SuperContext
+    tracker_loaded = True
+except ModuleNotFoundError:
+    from CommonClient import CommonContext as SuperContext
 
 logger = logging.getLogger("Client")
 
@@ -110,13 +118,9 @@ MAP_ID_TO_MAP_DATA = {
     8300: { "level": "Level 6", "map": "6-O", "section": "" }
 }
 
-class Turok2Context(CommonContext):
+class Turok2Context(SuperContext):
+    tags = {"AP"}
     game = "Turok 2"
-    
-    # 0: Our starting inventory is handled locally
-    # 0: We do NOT get sent items from our own world (as we'd get dups)
-    # 1: We get items sent to us from other worlds
-    items_handling = 0b001
     
     highest_processed_index = 0
     current_map_id: int  # Server state set by the client
@@ -124,6 +128,11 @@ class Turok2Context(CommonContext):
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.current_map_id = ""
+
+        # 1: Our starting inventory is handled remotely
+        # 0: We do NOT get sent items from our own world (as we'd get dups)
+        # 1: We get items sent to us from other worlds
+        self.items_handling = 0b101        
         
     async def server_auth(self, password_requested: bool = False) -> None:
         if password_requested and not self.password:
@@ -193,14 +202,14 @@ class Turok2Context(CommonContext):
                 
                 self.game_connected = True
                 print(f"Found AP block at {hex(self.ap_base)}")
-                logger.info("Connected!")
+                logger.info("Connected to game process!")
                 
                 return self.ap_base
                     
             except Exception:
                 attempt += 1
                 if attempt > 5:
-                    logger.warning("Connected to the exe, but didn't find the AP memory block. This can happen if the intro cutscene plays uninterrupted. Retrying...")
+                    logger.warning("Connected to the exe, but didn't find the AP memory block. Please check that that mod and AP world are compatible versions. This can also happen if the intro cutscene plays uninterrupted. Retrying...")
                     await self.connect_to_game_async()
                     attempt = 0
                 
@@ -378,6 +387,8 @@ class Turok2Context(CommonContext):
         On a connection, clear the current map id so trackers can switch to the
         current map, if any.
         """
+        super().on_package(cmd, args) # For UT to respond to network events
+
         if cmd == "Connected":
             self.current_map_id = ""
     
@@ -386,6 +397,8 @@ async def main(args: Namespace, exe_name) -> None:
     ctx.auth = args.name
     ctx.exe_name = exe_name
 
+    if tracker_loaded:
+        ctx.run_generator()
     if gui_enabled:
         ctx.run_gui()
     ctx.run_cli()

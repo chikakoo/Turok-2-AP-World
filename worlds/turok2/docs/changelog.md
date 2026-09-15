@@ -4,8 +4,10 @@ This includes changes in both the mod and AP world, in reverse order of releases
 ## v0.6.X
 
 ### v0.6.0
-- Support yamless for Universal Tracker
 - Background changes to support the poptracker and auto tabbing
+- Support yamless for Universal Tracker
+- Starting inventory is now received from the AP server
+  - Added a generate_for_offline setting if you don't want to connect to AP (you'll get the starting inventory like before)
 
 ## v0.5.X
 

@@ -259,7 +259,7 @@ class Turok2World(World):
 
     def fill_slot_data(self) -> Mapping[str, Any]:
         """
-        Fills the slot data with the options used, to be used by trackers and UT (eventually)
+        Fills the slot data with the options used, to be used by trackers and UT
         """
         slot_data = self.options.as_dict(
             # Goal

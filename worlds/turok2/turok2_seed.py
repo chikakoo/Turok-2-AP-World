@@ -244,15 +244,18 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.use_weapon_barriers:
         weapon_barriers = "true"
 
-    # Starting inventory
+    # Starting inventory - only fill these if in offline mode, since this is handled by the server normally
+    generate_for_offline = self.options.generate_for_offline.value
     inventory_item_ids = []
     weapon_item_ids = []
-    for item in self.multiworld.precollected_items[self.player]:
-        item_data = ITEM_TABLE[item.name]
-        if item_data.get("msg_type") == APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value:
-            inventory_item_ids.append(item_data["actor_id"])
-        elif item_data.get("type") == ItemType.WEAPON.value:    
-            weapon_item_ids.append(item_data["actor_id"])
+
+    if generate_for_offline:
+        for item in self.multiworld.precollected_items[self.player]:
+            item_data = ITEM_TABLE[item.name]
+            if item_data.get("msg_type") == APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value:
+                inventory_item_ids.append(item_data["actor_id"])
+            elif item_data.get("type") == ItemType.WEAPON.value:    
+                weapon_item_ids.append(item_data["actor_id"])
 
     def format_starting_items_macro(name: str, values: list[int]) -> str:
         if values:
