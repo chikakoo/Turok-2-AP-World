@@ -1,6 +1,6 @@
 import settings
 import typing
-from typing import Any
+from typing import Any, Dict
 from . import components as components
 from worlds.AutoWorld import World
 from BaseClasses import MultiWorld
@@ -35,6 +35,7 @@ class Turok2World(World):
     options: turok2_options.Turok2Options
     settings: typing.ClassVar[Turok2Settings]
 
+    ut_can_gen_without_yaml = True
     location_name_to_id = locations.LOCATION_NAME_TO_ID
     item_name_to_id = ITEM_NAME_TO_ID
     item_name_groups = items.get_item_name_groups()
@@ -64,6 +65,9 @@ class Turok2World(World):
         
     def generate_early(self) -> None:
         """Sets up starting/excluded levels and validates options"""
+
+        # Fill all options if this is Universal Tracker generation
+        self.try_fill_options_from_slot_data()
        
         # Ensure there is a goal
         if self.options.primagen_goal == PrimagenGoal.option_none and self.options.level_goal == 0:
@@ -261,12 +265,18 @@ class Turok2World(World):
             # Goal
             "level_goal",
             "primagen_goal",
+            "randomize_primagen_keys",
             
             # Progression
             "level_unlock_method",
+            "use_weapon_barriers",
+            "progressive_warps",
             "randomize_mission_items",
             "randomize_weapons",
+            "randomize_switches",
+            "randomize_mission_objectives",
             "progressive_weapon_ammo_upgrades",
+            "nuke_behavior",
 
             # Tricks
             "level_3_river_ledge_jump",
@@ -281,48 +291,19 @@ class Turok2World(World):
 
         # Weapon barriers - set to 0 if the setting is off
         if self.options.use_weapon_barriers.value:
-            slot_data["weapon_barrier_level_1_start"] = self.options.weapon_barrier_settings.value.get("Level 1 Start")
-            slot_data["weapon_barrier_level_1_mid"] = self.options.weapon_barrier_settings.value.get("Level 1 Mid")
-            slot_data["weapon_barrier_level_1_end"] = self.options.weapon_barrier_settings.value.get("Level 1 End")
-            slot_data["weapon_barrier_level_2_start"] = self.options.weapon_barrier_settings.value.get("Level 2 Start")
-            slot_data["weapon_barrier_level_2_mid"] = self.options.weapon_barrier_settings.value.get("Level 2 Mid")
-            slot_data["weapon_barrier_level_2_end"] = self.options.weapon_barrier_settings.value.get("Level 2 End")
-            slot_data["weapon_barrier_level_3_start"] = self.options.weapon_barrier_settings.value.get("Level 3 Start")
-            slot_data["weapon_barrier_level_3_mid"] = self.options.weapon_barrier_settings.value.get("Level 3 Mid")
-            slot_data["weapon_barrier_level_3_end"] = self.options.weapon_barrier_settings.value.get("Level 3 End")
-            slot_data["weapon_barrier_level_4_start"] = self.options.weapon_barrier_settings.value.get("Level 4 Start")
-            slot_data["weapon_barrier_level_4_mid"] = self.options.weapon_barrier_settings.value.get("Level 4 Mid")
-            slot_data["weapon_barrier_level_4_end"] = self.options.weapon_barrier_settings.value.get("Level 4 End")
-            slot_data["weapon_barrier_level_5_start"] = self.options.weapon_barrier_settings.value.get("Level 5 Start")
-            slot_data["weapon_barrier_level_5_mid"] = self.options.weapon_barrier_settings.value.get("Level 5 Mid")
-            slot_data["weapon_barrier_level_5_end"] = self.options.weapon_barrier_settings.value.get("Level 5 End")
-            slot_data["weapon_barrier_level_6_start"] = self.options.weapon_barrier_settings.value.get("Level 6 Start")
-            slot_data["weapon_barrier_level_6_mid"] = self.options.weapon_barrier_settings.value.get("Level 6 Mid")
-            slot_data["weapon_barrier_level_6_end"] = self.options.weapon_barrier_settings.value.get("Level 6 End")
+            for i in range(1, 7):
+                slot_data[f"weapon_barrier_level_{i}_start"] = self.options.weapon_barrier_settings.value.get(f"Level {i} Start")
+                slot_data[f"weapon_barrier_level_{i}_mid"] = self.options.weapon_barrier_settings.value.get(f"Level {i} Mid")
+                slot_data[f"weapon_barrier_level_{i}_end"] = self.options.weapon_barrier_settings.value.get(f"Level {i} End")
             slot_data["weapon_barrier_primagen"] = self.options.weapon_barrier_settings.value.get("Primagen")
         else:
-            slot_data["weapon_barrier_level_1_start"] = 0
-            slot_data["weapon_barrier_level_1_mid"] = 0
-            slot_data["weapon_barrier_level_1_end"] = 0
-            slot_data["weapon_barrier_level_2_start"] = 0
-            slot_data["weapon_barrier_level_2_mid"] = 0
-            slot_data["weapon_barrier_level_2_end"] = 0
-            slot_data["weapon_barrier_level_3_start"] = 0
-            slot_data["weapon_barrier_level_3_mid"] = 0
-            slot_data["weapon_barrier_level_3_end"] = 0
-            slot_data["weapon_barrier_level_4_start"] = 0
-            slot_data["weapon_barrier_level_4_mid"] = 0
-            slot_data["weapon_barrier_level_4_end"] = 0
-            slot_data["weapon_barrier_level_5_start"] = 0
-            slot_data["weapon_barrier_level_5_mid"] = 0
-            slot_data["weapon_barrier_level_5_end"] = 0
-            slot_data["weapon_barrier_level_6_start"] = 0
-            slot_data["weapon_barrier_level_6_mid"] = 0
-            slot_data["weapon_barrier_level_6_end"] = 0
+            for i in range(1, 7):
+                slot_data[f"weapon_barrier_level_{i}_start"] = 0
+                slot_data[f"weapon_barrier_level_{i}_mid"] = 0
+                slot_data[f"weapon_barrier_level_{i}_end"] = 0
             slot_data["weapon_barrier_primagen"] = 0
 
-
-        # Progressive warps - 0 if off, other numbers indicate the strength
+        # Progressive warps - 0 is off, other numbers indicate the strength
         if self.options.progressive_warps:
             slot_data["progressive_warps"] = self.options.progressive_warp_strength.value
         else:
@@ -333,3 +314,71 @@ class Turok2World(World):
             slot_data[f"include_level_{level}"] = level not in self.excluded_levels
 
         return slot_data
+
+    @staticmethod
+    def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Used by Universal Tracker. Nothing to manipulate, so just return back slot_data.
+        """
+        return slot_data
+
+    def try_fill_options_from_slot_data(self):
+        """
+        Tries to fill the options from the slot data of the current world.
+        Any setting that restricts items from showing up will not impact UT and are usually excluded here.
+        Everything affecting logic will be included.
+
+        Does nothing if this isn't Universal Tracker generation.
+        """
+        if hasattr(self.multiworld, "re_gen_passthrough") and "Turok 2" in self.multiworld.re_gen_passthrough:
+            slot_data = self.multiworld.re_gen_passthrough["Turok 2"]
+
+            def populate_simple_options(list_options: list[str]):
+                for option in list_options:
+                    getattr(self.options, option).value = slot_data[option]
+
+            populate_simple_options([
+                # Goal
+                "level_goal",
+                "primagen_goal",
+                "randomize_primagen_keys",
+                
+                # Progression
+                "level_unlock_method",
+                "use_weapon_barriers",
+                "randomize_mission_items",
+                "randomize_weapons",
+                "randomize_switches",
+                "randomize_mission_objectives",
+                "progressive_weapon_ammo_upgrades",
+                "nuke_behavior",
+
+                # Tricks
+                "level_3_river_ledge_jump",
+                "level_3_bridge_jump",
+                "level_3_eye_of_truth_skip",
+                "level_4_skip_torpedo_launcher",
+                "level_5_jump_to_primagen_key_path",
+                "level_6_eye_of_truth_skip",
+                "river_of_souls_death_jumps",
+                "jump_through_lava"
+            ])
+
+            # Weapon barriers - set to 0 if the setting is off
+            if self.options.use_weapon_barriers.value:
+                for i in range(1, 7):
+                    self.options.weapon_barrier_settings.value[f"Level {i} Start"] = slot_data[f"weapon_barrier_level_{i}_start"]
+                    self.options.weapon_barrier_settings.value[f"Level {i} Mid"] = slot_data[f"weapon_barrier_level_{i}_mid"]
+                    self.options.weapon_barrier_settings.value[f"Level {i} End"] = slot_data[f"weapon_barrier_level_{i}_end"]
+                slot_data["weapon_barrier_primagen"] = self.options.weapon_barrier_settings.value.get("Primagen")
+            else:
+                for i in range(1, 7):
+                    self.options.weapon_barrier_settings.value[f"Level {i} Start"] = 0
+                    self.options.weapon_barrier_settings.value[f"Level {i} Mid"] = 0
+                    self.options.weapon_barrier_settings.value[f"Level {i} End"] = 0
+                slot_data["weapon_barrier_primagen"] = 0
+
+            # Progressive warps - 0 is off, other numbers indicate the strength
+            progressive_warp_strength = slot_data["progressive_warps"]
+            self.options.progressive_warps.value = progressive_warp_strength > 0
+            self.options.progressive_warp_strength.value = progressive_warp_strength

@@ -1,6 +1,12 @@
 # Changelog
 This includes changes in both the mod and AP world, in reverse order of releases.
 
+## v0.6.X
+
+### v0.6.0
+- Support yamless for Universal Tracker
+- Background changes to support the poptracker and auto tabbing
+
 ## v0.5.X
 
 ### v0.5.0
