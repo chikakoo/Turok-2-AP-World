@@ -8,6 +8,8 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Support yamless for Universal Tracker
 - Starting inventory is now received from the AP server
   - Added a generate_for_offline setting if you don't want to connect to AP (you'll get the starting inventory like before)
+- Fixed a couple item classifications and non-breaking logic bugs
+- Various location name fixes/adjustments
 
 ## v0.5.X
 
