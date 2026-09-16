@@ -10,6 +10,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Added a generate_for_offline setting if you don't want to connect to AP (you'll get the starting inventory like before)
 - Fixed a couple item classifications and non-breaking logic bugs
 - Various location name fixes/adjustments
+- Combined various item weight settings for clarity and simplicity
 
 ## v0.5.X
 

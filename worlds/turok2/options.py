@@ -710,9 +710,7 @@ class WeaponBarrierSettings(OptionDict):
     ]
     schema = Schema(
         {
-            key: And(
-                int,
-                lambda n: 0 <= n <= 17,
+            key: And(int, lambda n: 0 <= n <= 17,
                 error=f"{key} must be an integer between 0 and 17"
             )
             for key in required_keys
@@ -855,119 +853,101 @@ class LocalWeaponPercentage(Range):
 class FillerDistribution(Choice):
     """
     How the filler item pool will be calculated. In all options, traps will take up the
-    given percentage of the item pool.
+    given percentage of the item pool specified in the TrapPercentage setting.
 
     Filler items are Life Forces, Health, Ammo pickups, and traps.
 
     In all cases, if more locations need to be filled, the weights defined in the 
-    Filler<Type>Weight and <Type>Weight settings will be used.
+    FillerWeights setting will be used.
 
     - Vanilla: Randomized vanilla items will be added to the pool. 
     - Vanilla Custom Weights:
          Randomized vanilla items will be added to the pool, but health and life forces 
-         will use the weights specified in the <Silver/Blue/Full/Ultra>HealthWeight 
-         and LifeForce<1/10>Weight settings.
-    - Custom: Uses the weights defined in the Filler<Type>Weight and <Type>Weight settings.
+         will use the weights specified in the HealthWeights and LifeForceWeights settings.
+    - Custom: Uses the weights defined in the FillerWeights setting.
     """
     display_name = "Filler Distribution"
     option_vanilla = 0
     option_vanilla_custom_weights = 1
     option_custom = 2
     default = option_vanilla
+
+class FillerWeights(OptionDict):
+    """
+    The weights of non-vanilla pickups in the non-progressive item pool.
+    Consider setting values to 0 if not including the respective pickup.
+    Accepts values from 0-1000, inclusive.
+    """
+    display_name = "Filler Weights"
     
-class FillerHealthWeight(Range):
-    """
-    The weight of non-vanilla health pickups in the non-progressive item pool.
-    Consider setting this to none if not including health pickup locations.
-    """
-    display_name = "Filler Health Weight"
-    range_start = 0
-    range_end = 1000
-    default = 25
+    filler_data = {
+        "Life Force": 50,
+        "Health": 25,
+        "Ammo": 25
+    }
+    default = filler_data
     
-class FillerAmmoWeight(Range):
-    """
-    The weight of non-vanilla ammo pickups in the non-progressive item pool.
-    Consider setting this to none if not including weapons and ammo locations.
-    """
-    display_name = "Filler Ammo Weight"
-    range_start = 0
-    range_end = 1000
-    default = 25
-    
-class FillerLifeForceWeight(Range):
-    """
-    The weight of non-vanilla life forces in the non-progressive item pool.
-    Consider setting this to none if not including Life Force locations.
-    """
-    display_name = "Filler Life Force Weight"
-    range_start = 0
-    range_end = 1000
-    default = 50
+    schema = Schema(
+        {
+            key: And(int,  lambda value: 0 <= value <= 1000,
+                error=f"{key} must be an integer between 0-1000."
+            )
+            for key in filler_data.keys()
+        },
+        ignore_extra_keys=False
+    )
 
-class SilverHealthWeight(Range):
-    """
-    The weight of a silver health when a non-vanilla or custom weighted health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Silver Health Weight"
-    range_start = 0
-    range_end = 1000
-    default = 28
-
-class BlueHealthWeight(Range):
-    """
-    The weight of a blue health when a non-vanilla or custom weighted health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Blue Health Weight"
-    range_start = 0
-    range_end = 1000
-    default = 65
-
-class FullHealthWeight(Range):
-    """
-    The weight of a full health when a non-vanilla or custom weighted health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Full Health Weight"
-    range_start = 0
-    range_end = 1000
-    default = 5
-
-class UltraHealthWeight(Range):
-    """
-    The weight of an ultra health when a non-vanilla or custom weighted health pickup is rolled.
-    Weighed against all other health pickups.
-    """
-    display_name = "Ultra Health Weight"
-    range_start = 0
-    range_end = 1000
-    default = 2
-
-class LifeForce1Weight(Range):
+class HealthWeights(OptionDict):
     """
     Only used if FillerDistribution is set to Vanilla Custom Weights or Custom.
 
-    The weight of a Life Force 1 when non-vanilla or custom weighted Life Forces are rolled.
-    Weighed against all Life Force pickups.
+    The weight of health pickups when non-vanilla or custom weighted health pickups are rolled.
+    Accepts values from 0-1000, inclusive.
     """
-    display_name = "Life Force 1 Weight"
-    range_start = 0
-    range_end = 1000
-    default = 92
+    display_name = "Health Weights"
+    
+    health_data = {
+        "Blue Health": 65,
+        "Silver Health": 28,
+        "Full Health": 5,
+        "Ultra Health": 2
+    }
+    default = health_data
+    
+    schema = Schema(
+        {
+            key: And(int,  lambda value: 0 <= value <= 1000,
+                error=f"{key} must be an integer between 0-1000."
+            )
+            for key in health_data.keys()
+        },
+        ignore_extra_keys=False
+    )
 
-class LifeForce10Weight(Range):
+class LifeForceWeights(OptionDict):
     """
     Only used if FillerDistribution is set to Vanilla Custom Weights or Custom.
 
-    The weight of a Life Force 10 when non-vanilla or custom weighted Life Forces are rolled.
-    Weighed against all Life Force pickups.
+    The weight of Life Forces when non-vanilla or custom weighted Life Forces are rolled.
+    Accepts values from 0-1000, inclusive.
     """
-    display_name = "Life Force 10 Weight"
-    range_start = 0
-    range_end = 1000
-    default = 8
+    display_name = "Life Force Weights"
+    
+    life_force_data = {
+        "Life Force 1": 92,
+        "Life Force 10": 8
+    }
+    default = life_force_data
+    
+    schema = Schema(
+        {
+            key: And(int,  lambda value: 0 <= value <= 1000,
+                error=f"{key} must be an integer between 0-1000."
+            )
+            for key in life_force_data.keys()
+        },
+        ignore_extra_keys=False
+    )
 
 class TrapPercentage(Range):
     """
@@ -1002,38 +982,37 @@ class EnemyTrapPool(Choice):
     option_chaos = 4
     default = option_same_level
 
-class EnemyTrapWeight(Range):
+class TrapWeights(OptionDict):
     """
-    Likelihood of receiving a trap that spawns 1-3 random enemies near you.
+    The weight of all trap types. Accepts values from 0-1000, inclusive.
+    - Enemy Trap:
+      - Spawns 1-3 random enemies near you.
+    - Damage Trap:
+      - Does damage to you depending on your difficulty. It will never bring your health to 0.
+        - Easy: 5% of your current health
+        - Normal: 10%
+        - Hard+: 20%
+    - Spam Trap:
+      - Spams your screen with useless messages.
     """
-    display_name = "Enemy Trap"
-    range_start = 0
-    range_end = 1000
-    default = 50
+    display_name = "Trap Weights"
     
-class DamageTrapWeight(Range):
-    """
-    Likelihood of receiving a trap that does damage to you depending on your difficulty.
-    It will never bring your health to 0.
-
-    The damage this will do based on your difficulty level is:
-    - Easy: 5% of your current health
-    - Normal: 10%
-    - Hard+: 20%
-    """
-    display_name = "Damage Trap"
-    range_start = 0
-    range_end = 1000
-    default = 25
+    trap_data = {
+        "Enemy Trap": 50,
+        "Damage Trap": 25,
+        "Spam Trap": 25,
+    }
+    default = trap_data
     
-class SpamTrapWeight(Range):
-    """
-    Likelihood of receiving a trap that spams your screen with useless messages.
-    """
-    display_name = "Spam Trap"
-    range_start = 0
-    range_end = 1000
-    default = 25
+    schema = Schema(
+        {
+            key: And(int,  lambda value: 0 <= value <= 1000,
+                error=f"{key} must be an integer between 0-1000."
+            )
+            for key in trap_data.keys()
+        },
+        ignore_extra_keys=False
+    )
 
 class UncheckedPickupIndicators(Toggle):
     """
@@ -1112,22 +1091,14 @@ class Turok2Options(PerGameCommonOptions):
     local_ammo_percentage: LocalAmmoPercentage
     
     filler_distribution: FillerDistribution
-    filler_health_weight: FillerHealthWeight
-    filler_ammo_weight: FillerAmmoWeight
-    filler_life_force_weight: FillerLifeForceWeight
+    filler_weights: FillerWeights
     
-    silver_health_weight: SilverHealthWeight
-    blue_health_weight: BlueHealthWeight
-    full_health_weight: FullHealthWeight
-    ultra_health_weight: UltraHealthWeight
-    life_force_1_weight: LifeForce1Weight
-    life_force_10_weight: LifeForce10Weight
+    health_weights: HealthWeights
+    life_force_weights: LifeForceWeights
 
     trap_percentage: TrapPercentage
     enemy_trap_pool: EnemyTrapPool
-    enemy_trap_weight: EnemyTrapWeight
-    damage_trap_weight: DamageTrapWeight
-    spam_trap_weight: SpamTrapWeight
+    trap_weights: TrapWeights
 
     unchecked_pickup_indicators: UncheckedPickupIndicators
     unchecked_enemy_indicators: UncheckedEnemyIndicators
@@ -1196,24 +1167,14 @@ option_groups: List[OptionGroup] = [
     ]),
     OptionGroup("Filler Item Pool", [
         FillerDistribution,
-
-        FillerHealthWeight,
-        FillerAmmoWeight,
-        FillerLifeForceWeight,
-        
-        SilverHealthWeight,
-        BlueHealthWeight,
-        FullHealthWeight,
-        UltraHealthWeight,
-        LifeForce1Weight,
-        LifeForce10Weight
+        FillerWeights,
+        HealthWeights,
+        LifeForceWeights
     ]),
     OptionGroup("Traps", [
         TrapPercentage,
         EnemyTrapPool,
-        EnemyTrapWeight,
-        DamageTrapWeight,
-        SpamTrapWeight
+        TrapWeights
     ]),
     OptionGroup("Gameplay Options", [
         UncheckedPickupIndicators,

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
 from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution, \
     LevelUnlockMethod, JumpThroughLava
-from collections import Counter, defaultdict
+from collections import Counter
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -29,9 +29,9 @@ def get_random_filler_item_name(world: Turok2World) -> str:
     """
     fallback_item = "Life Force 1"
     category_pairs = [
-        (WeightedItemGroup.HEALTH, world.options.filler_health_weight),
-        (WeightedItemGroup.AMMO, world.options.filler_ammo_weight),
-        (WeightedItemGroup.LIFE_FORCE, world.options.filler_life_force_weight)
+        (WeightedItemGroup.HEALTH, world.options.filler_weights.value["Health"]),
+        (WeightedItemGroup.AMMO, world.options.filler_weights.value["Ammo"]),
+        (WeightedItemGroup.LIFE_FORCE, world.options.filler_weights.value["Life Force"])
     ]
     names, weights = prepare_weights(category_pairs)
     if not names:
@@ -451,14 +451,7 @@ def get_random_health_pickup_item_name(world: Turok2World) -> str | None:
     """
     Gets a random health pickup based on the weight settings.
     """
-    health_pickups = [
-        ("Silver Health", world.options.silver_health_weight),
-        ("Blue Health", world.options.blue_health_weight),
-        ("Full Health", world.options.full_health_weight),
-        ("Ultra Health", world.options.ultra_health_weight)
-    ]
-    
-    names, weights = prepare_weights(health_pickups)
+    names, weights = prepare_weights(tuple(world.options.health_weights.value.items()))
     if not names:
         return None
         
@@ -468,12 +461,7 @@ def get_random_life_force_item_name(world: Turok2World) -> str | None:
     """
     Gets a random life force based on the weight settings.
     """
-    life_forces = [
-        ("Life Force 1", world.options.life_force_1_weight),
-        ("Life Force 10", world.options.life_force_10_weight)
-    ]
-
-    names, weights = prepare_weights(life_forces)
+    names, weights = prepare_weights(tuple(world.options.life_force_weights.value.items()))
     if not names:
         return None
     
@@ -551,12 +539,9 @@ def generate_filler_items(world: Turok2World, needed_number_of_filler_items: int
         """
         Gets a random trap name to add to the item pool based on the weights.
         """
-        traps = [
-            ("Enemy Trap", world.options.enemy_trap_weight),
-            ("Damage Trap", world.options.damage_trap_weight),
-            ("Spam Trap", world.options.spam_trap_weight)
-        ]
-        traps = [(name, weight) for name, weight in traps if weight > 0]
+        traps = [(name, weight) for name, weight 
+            in tuple(world.options.trap_weights.value.items()) 
+            if weight > 0]
         
         if not traps:
             return None
