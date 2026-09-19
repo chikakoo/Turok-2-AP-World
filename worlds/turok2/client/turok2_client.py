@@ -391,6 +391,12 @@ class Turok2Context(SuperContext):
 
         if cmd == "Connected":
             self.current_map_id = ""
+
+    def make_gui(self):
+        """ Sets the client's title. """
+        ui = super().make_gui() 
+        ui.base_title = "Archipelago Turok 2 Client"
+        return ui
     
 async def main(args: Namespace, exe_name) -> None:
     ctx = Turok2Context(args.url, None)

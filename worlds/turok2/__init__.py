@@ -88,6 +88,10 @@ class Turok2World(World):
             self.options.level_unlock_method.value == LevelUnlockMethod.option_one_progressive_warp:
             self.options.level_unlock_method.value = LevelUnlockMethod.option_one_level_key
 
+        # If levels unlock with progressive warps, force the start count to at least one
+        if self.options.level_unlock_method.value == LevelUnlockMethod.option_one_progressive_warp:
+            self.options.starting_progressive_warps.value = max(self.options.starting_progressive_warps.value, 1)
+
         # You must start with at least one level
         if starting_level_count == 0:
             raise OptionError(f"Turok 2 for {self.player_name}: "

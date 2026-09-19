@@ -966,10 +966,10 @@ class EnemyTrapPool(Choice):
     The pool of enemies that enemy traps will pull from.
     If using a level setting and you aren't in a level, it will choose from the pool of all enemies.
 
-	- Same Level: Uses a pool of enemies from the current level, excluding oblivion enemies.
-                  Oblivion portals will only contain oblivion enemies.
-	- Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
-                                   Oblivion portals can also include enemies from that level.
+    - Same Level: Uses a pool of enemies from the current level, excluding oblivion enemies.
+        Oblivion portals will only contain oblivion enemies.
+    - Same Level Include Oblivion: Uses a pool of enemies from the current level including all oblivion enemies.
+        Oblivion portals can also include enemies from that level.
     - Similar Difficulty: Uses a pool of enemies of similar difficulty to the ones in the current level.
     - Scale to Weapons: Uses pools from increasingly higher levels the more weapons you own (excludes underwater only ones).
     - Chaos: Uses a pool of all enemies.

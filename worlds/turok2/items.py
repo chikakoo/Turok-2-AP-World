@@ -135,10 +135,11 @@ def force_early_weapon(world: Turok2World, itempool: list[Item]):
         if is_valid_early_weapon(item.name)
     ]
 
-    weapon = world.random.choices(weapon_items, k=1)[0]
-    world.multiworld.local_early_items[world.player][weapon.name] = 1
+    if weapon_items:
+        weapon = world.random.choices(weapon_items, k=1)[0]
+        world.multiworld.local_early_items[world.player][weapon.name] = 1
 
-    #print(f"Early weapon {weapon.name} for Player {world.player}")
+        #print(f"Early weapon {weapon.name} for Player {world.player}")
 
 def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
     """

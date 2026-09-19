@@ -11,6 +11,9 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Fixed a couple item classifications and non-breaking logic bugs
 - Various location name fixes/adjustments
 - Combined various item weight settings for clarity and simplicity
+- Fixed generation failures when:
+  - Starting with every weapon with force_early_weapon on
+  - Using level unlock method of one_progressive_warp, but with starting_progressive_warps set to 0
 
 ## v0.5.X
 
