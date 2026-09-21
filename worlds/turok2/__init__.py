@@ -136,6 +136,7 @@ class Turok2World(World):
                     f"Adjust `use_weapon_barriers`, `weapon_barrier_settings`, or `excluded_weapons`.")
         
         self.initialize_levels()
+        items.set_local_items(self)
 
     @staticmethod
     def parse_level_option(level_option: list[str]) -> tuple[list[str], set[int]]:

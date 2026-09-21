@@ -79,12 +79,33 @@ def create_item_with_correct_classification(world: Turok2World, name: str) -> Tu
         ITEM_NAME_TO_ID[name],
         world.player
     )
+
+def set_local_items(world: Turok2World) -> None:
+    """ 
+    Populate the local items, including weapons.
+    This cannot be called after generate_early or unit tests will fail.
+    """
+    for name, data in ITEM_TABLE.items():
+        if data.get("is_local"):
+            world.options.local_items.value.add(name)
+
+    weapon_names = [
+        name for name, data 
+        in ITEM_TABLE.items() 
+        if data.get("type", -1) == ItemType.WEAPON.value and not name in world.options.excluded_weapons.value
+    ]
+    
+    count = int(len(weapon_names) * world.options.local_weapon_percentage / 100)
+    for weapon_name in world.random.sample(weapon_names, k=count):
+        world.options.local_items.value.add(weapon_name)
+        #print(f"Local weapon: {weapon_name}")
+        
+    #print(f"Forced {count} {ItemType.WEAPON} items locally for Player {world.player}")
     
 def force_local_items(
     world: Turok2World,
     itempool: list[Item],
     item_types: list[int],
-    type_string: str,
     percentage: int) -> None:
     """
     Forces the percentage of items in the item pool of the given types to be placed in this world.
@@ -102,21 +123,6 @@ def force_local_items(
         item.name += " (L)" # Hack to use the local version
         
     #print(f"Forced {count} items of type {type_string} locally for Player {world.player}")
-
-def force_local_weapons(world: Turok2World, itempool: list[Item]):
-    """
-    Forces the percentage of weapons to be placed in this world.
-    """
-    weapons = [
-        item for item in itempool
-        if ITEM_TABLE[item.name].get("type", -1) == ItemType.WEAPON.value
-    ]
-    
-    count = int(len(weapons) * world.options.local_weapon_percentage / 100)
-    for weapon in world.random.sample(weapons, k=count):
-        world.options.local_items.value.add(weapon.name)
-        
-    #print(f"Forced {count} {ItemType.WEAPON} items locally for Player {world.player}")
 
 def force_early_weapon(world: Turok2World, itempool: list[Item]):
     """
@@ -578,11 +584,6 @@ def create_all_items(world: Turok2World) -> None:
     There must be exactly as many items as locations.
     """
     itempool: list[Item] = []
-    
-    # Populate the local items
-    for name, data in ITEM_TABLE.items():
-        if data.get("is_local"):
-            world.options.local_items.value.add(name)
 
     # Create all progression items
     create_progression_items(world, itempool)
@@ -608,10 +609,8 @@ def create_all_items(world: Turok2World) -> None:
         world, 
         itempool, 
         [ItemType.SILVER_HEALTH.value, ItemType.BLUE_HEALTH.value, ItemType.FULL_HEALTH.value, ItemType.ULTRA_HEALTH.value],
-        "Health",
         world.options.local_health_percentage)
-    force_local_items(world, itempool, [ItemType.AMMO.value], "Ammo", world.options.local_ammo_percentage)
-    force_local_weapons(world, itempool)
+    force_local_items(world, itempool, [ItemType.AMMO.value], world.options.local_ammo_percentage)
     force_early_weapon(world, itempool)
     
     world.multiworld.itempool += itempool
