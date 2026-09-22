@@ -167,6 +167,8 @@ def get_angelscript_for_ammo(self: "Turok2World") -> str:
 def get_settings_string(self: "Turok2World") -> str:
     """
     Sets up the macro file with any settings the game needs to know:
+    - AP_VALIDATION_SEED: The seed generated to validate the slot
+    - AP_SLOT_NAME: Slot name to help with save file validation
     - OPTION_MARK_PICKUPS: The default value for the pickup (!) indicator
     - OPTION_MARK_ENEMIES: The default value for the enemy (!) indicator
     - OPTION_GOAL_PRIMAGEN_LAIR: Whether entering the lair is the goal
@@ -298,6 +300,9 @@ def get_settings_string(self: "Turok2World") -> str:
         return f"#define OPTION_MAX_{ammo_name} {math.ceil(vanilla_max * (max_ammo_value / 100))}\n"
     
     settings_macros = (
+        f"#define AP_VALIDATION_SEED {self.validation_seed}\n" +
+        f"#define AP_SLOT_NAME \"{self.player_name}\"\n" +
+
         f"#define OPTION_MARK_PICKUPS {mark_pickups}\n" +
         f"#define OPTION_MARK_ENEMIES {mark_enemies}\n" +
 

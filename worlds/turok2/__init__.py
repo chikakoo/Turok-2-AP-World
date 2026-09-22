@@ -44,6 +44,7 @@ class Turok2World(World):
     def __init__(self, multiworld: MultiWorld, player: int):
         """
         Initialize instance variables
+        - validation_seed: A random int32 used to validate connections
         - starting_levels: What levels are started with
         - excluded_levels: What level locations to exclude
         - vanilla_item_counts: Dict from ItemType to item weights (silver health, etc)
@@ -54,6 +55,13 @@ class Turok2World(World):
         - enemy_locations: All enemy locations that could exist
         """
         super().__init__(multiworld, player)
+
+        self.validation_seed = self.random.randint(-2147483648, 2147483647)
+
+        # One in 4 billion safety check! We don't want a seed of 0.
+        if self.validation_seed == 0:
+            self.validation_seed = 1
+
         self.starting_levels = []
         self.excluded_levels = []
         self.vanilla_item_counts = defaultdict(int)
@@ -317,6 +325,9 @@ class Turok2World(World):
         # Included levels
         for level in range(1, 7):
             slot_data[f"include_level_{level}"] = level not in self.excluded_levels
+
+        # Validation seed - used for slot verification
+        slot_data["validation_seed"] = self.validation_seed
 
         return slot_data
 

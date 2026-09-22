@@ -152,8 +152,9 @@ class Turok2Context(SuperContext):
         
     ap_base = None
     game_connected = False # Really, it's when AP Base isn't found
+    last_connected_validation_seed = 0
     pm = None
-        
+    
     async def connect_to_game_async(self):
         """
         Connects to the exe_name. If it fails, it sleeps for
@@ -239,6 +240,15 @@ class Turok2Context(SuperContext):
         except Exception:
             return False
 
+    def validate_seed(self):
+        """
+        Validates the seed and returns False if it does not match what we expect.
+        """
+        try:
+            return self.read_int(APMemoryOffset.VALIDATION_SEED) == self.last_connected_validation_seed
+        except Exception:
+            return False
+
     def read_int(self, offset: APMemoryOffset):
         """
         Helper to read the int for the given offset.
@@ -267,6 +277,17 @@ class Turok2Context(SuperContext):
                 if not self.is_ap_block_valid():
                     self.game_connected = False
                     raise Exception("AP block disappeared")
+
+                if self.last_connected_validation_seed == 0:
+                    await asyncio.sleep(0.5)
+                    continue
+
+                if not self.validate_seed():
+                    logger.info("Unmatching seed detected. Are you using the correct patch file?")
+                    logger.info(f"Expected seed: {self.last_connected_validation_seed}")
+                    logger.info("Trying again in 15 seconds...")
+                    await asyncio.sleep(15)
+                    continue
                     
                 await self.check_goal()
                 await self.process_incoming() # Send the game pending items
@@ -384,13 +405,14 @@ class Turok2Context(SuperContext):
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
         """
-        On a connection, clear the current map id so trackers can switch to the
-        current map, if any.
+        On a connection, clear the current map id so trackers can switch to the current map, if any.
+        Also sets the validation seed to verify that connected games are using the correct patch file.
         """
         super().on_package(cmd, args) # For UT to respond to network events
 
         if cmd == "Connected":
             self.current_map_id = ""
+            self.last_connected_validation_seed = args["slot_data"]["validation_seed"]
 
     def make_gui(self):
         """ Sets the client's title. """
