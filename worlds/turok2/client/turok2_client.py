@@ -210,7 +210,7 @@ class Turok2Context(SuperContext):
             except Exception:
                 attempt += 1
                 if attempt > 5:
-                    logger.warning("Connected to the exe, but didn't find the AP memory block. Please check that that mod and AP world are compatible versions. This can also happen if the intro cutscene plays uninterrupted. Retrying...")
+                    logger.warning("Connected to the exe, but didn't find the AP memory block. Please check that the mod and AP world are compatible versions. This can also happen if the intro cutscene plays uninterrupted. Retrying...")
                     await self.connect_to_game_async()
                     attempt = 0
                 
@@ -283,9 +283,9 @@ class Turok2Context(SuperContext):
                     continue
 
                 if not self.validate_seed():
-                    logger.info("Unmatching seed detected. Are you using the correct patch file?")
-                    logger.info(f"Expected seed: {self.last_connected_validation_seed}")
-                    logger.info("Trying again in 15 seconds...")
+                    logger.warning("Unmatching seed detected. Are you using the correct patch file?")
+                    logger.warning(f"Expected seed: {self.last_connected_validation_seed}")
+                    logger.warning("Trying again in 15 seconds...")
                     await asyncio.sleep(15)
                     continue
                     
