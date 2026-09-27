@@ -3,9 +3,18 @@ import pymem
 import logging
 from .ap_memory_constants import APStatus, APMemoryOffset
 from argparse import Namespace
-from CommonClient import CommonContext, server_loop, gui_enabled
+from CommonClient import server_loop, gui_enabled
 from ..items import map_ap_item_to_game
 from NetUtils import ClientStatus
+from typing import Any
+
+# Use UTs context if using UT, else use CommonContext
+tracker_loaded = False
+try:
+    from worlds.tracker.TrackerClient import TrackerGameContext as SuperContext
+    tracker_loaded = True
+except ModuleNotFoundError:
+    from CommonClient import CommonContext as SuperContext
 
 logger = logging.getLogger("Client")
 
@@ -32,7 +41,8 @@ MAP_ID_TO_MAP_DATA = {
     12600: { "level": "Level 2", "map": "2-2", "section": "" },
     12700: { "level": "Level 2", "map": "2-3", "section": "" },
     12800: { "level": "Level 2", "map": "2-4", "section": "" },
-    12900: { "level": "Level 2", "map": "2-5", "section": "" },
+    12900: { "level": "Level 2", "map": "2-5", "section": "Main" },
+    12901: { "level": "Level 2", "map": "2-5", "section": "River" },
     13000: { "level": "Level 2", "map": "2-6a", "section": "" },
     13001: { "level": "Level 2", "map": "2-6b", "section": "" },
     13300: { "level": "Level 2", "map": "2-GY1", "section": "" },
@@ -43,9 +53,61 @@ MAP_ID_TO_MAP_DATA = {
     13500: { "level": "Level 2", "map": "2-GY3", "section": "" },
 
     # Level 3
+    6100: { "level": "Level 3", "map": "3-1", "section": "" },
+    6900: { "level": "Level 3", "map": "3-A1", "section": "" },
+    6200: { "level": "Level 3", "map": "3-2", "section": "" },
+    6300: { "level": "Level 3", "map": "3-3", "section": "" },
+    6400: { "level": "Level 3", "map": "3-4", "section": "" },
+    7000: { "level": "Level 3", "map": "3-A2", "section": "" },
+    6500: { "level": "Level 3", "map": "3-5", "section": "" },
+    6600: { "level": "Level 3", "map": "3-6", "section": "" },
+    6700: { "level": "Level 3", "map": "3-7", "section": "" },
+    7100: { "level": "Level 3", "map": "3-A3", "section": "" },
+    6800: { "level": "Level 3", "map": "3-8", "section": "" },
+
     # Level 4
+    9800: { "level": "Level 4", "map": "4-1", "section": "" },
+    9900: { "level": "Level 4", "map": "4-2", "section": "" },
+    10000: { "level": "Level 4", "map": "4-3", "section": "" },
+    10100: { "level": "Level 4", "map": "4-4", "section": "" },
+    10600: { "level": "Level 4", "map": "4-V1", "section": "" },
+    10200: { "level": "Level 4", "map": "4-5", "section": "" },
+    10700: { "level": "Level 4", "map": "4-V2", "section": "" },
+    10300: { "level": "Level 4", "map": "4-6a", "section": "" },
+    10400: { "level": "Level 4", "map": "4-7", "section": "" },
+    10500: { "level": "Level 4", "map": "4-8", "section": "" },
+    10800: { "level": "Level 4", "map": "4-V3", "section": "" },
+    10301: { "level": "Level 4", "map": "4-6b", "section": "" },
+    100: { "level": "Level 4", "map": "4-6b", "section": "" },
+
     # Level 5
+    12400: { "level": "Level 5", "map": "5-1", "section": "" },
+    8400: { "level": "Level 5", "map": "5-2", "section": "" },
+    8500: { "level": "Level 5", "map": "5-3", "section": "" },
+    8600: { "level": "Level 5", "map": "5-4", "section": "" },
+    8700: { "level": "Level 5", "map": "5-5", "section": "" },
+    8800: { "level": "Level 5", "map": "5-6", "section": "" },
+    8900: { "level": "Level 5", "map": "5-7", "section": "" },
+    9000: { "level": "Level 5", "map": "5-8", "section": "" },
+    9400: { "level": "Level 5", "map": "5-E1", "section": "" },
+    9100: { "level": "Level 5", "map": "5-9", "section": "Start" },
+    9101: { "level": "Level 5", "map": "5-9", "section": "End" },
+    9500: { "level": "Level 5", "map": "5-E2", "section": "" },
+    9600: { "level": "Level 5", "map": "5-E3", "section": "" },
+    9300: { "level": "Level 5", "map": "5-MC", "section": "" },
+    9200: { "level": "Level 5", "map": "5-10", "section": "" },
+
     # Level 6
+    11400: { "level": "Level 6", "map": "6-Hub", "section": "" },
+    11500: { "level": "Level 6", "map": "6-1", "section": "" },
+    11600: { "level": "Level 6", "map": "6-2a", "section": "" },
+    11700: { "level": "Level 6", "map": "6-2b", "section": "" },
+    11800: { "level": "Level 6", "map": "6-3a", "section": "" },
+    11900: { "level": "Level 6", "map": "6-3b", "section": "" },
+    12000: { "level": "Level 6", "map": "6-4a", "section": "" },
+    12100: { "level": "Level 6", "map": "6-4b", "section": "" },
+    12200: { "level": "Level 6", "map": "6-4c", "section": "" },
+    12300: { "level": "Level 6", "map": "6-4d", "section": "" },
 
     # Oblivion
     7800: { "level": "Level 1", "map": "1-O", "section": "" },
@@ -53,18 +115,12 @@ MAP_ID_TO_MAP_DATA = {
     8000: { "level": "Level 3", "map": "3-O", "section": "" },
     8100: { "level": "Level 4", "map": "4-O", "section": "" },
     8200: { "level": "Level 5", "map": "5-O", "section": "" },
-    8300: { "level": "Level 6", "map": "6-O", "section": "" },
-
-    #TODO: finish this!
+    8300: { "level": "Level 6", "map": "6-O", "section": "" }
 }
 
-class Turok2Context(CommonContext):
+class Turok2Context(SuperContext):
+    tags = {"AP"}
     game = "Turok 2"
-    
-    # 0: Our starting inventory is handled locally
-    # 0: We do NOT get sent items from our own world (as we'd get dups)
-    # 1: We get items sent to us from other worlds
-    items_handling = 0b001
     
     highest_processed_index = 0
     current_map_id: int  # Server state set by the client
@@ -72,6 +128,11 @@ class Turok2Context(CommonContext):
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.current_map_id = ""
+
+        # 1: Our starting inventory is handled remotely
+        # 0: We do NOT get sent items from our own world (as we'd get dups)
+        # 1: We get items sent to us from other worlds
+        self.items_handling = 0b101        
         
     async def server_auth(self, password_requested: bool = False) -> None:
         if password_requested and not self.password:
@@ -83,16 +144,17 @@ class Turok2Context(CommonContext):
     # Game integration below
     # ======================
 
-    # Currently on version 5
+    # Currently on version 6
     pattern = (b"\x4B\x52\x50\x41" + 
-        b"\x05\x00\x00\x00" + 
+        b"\x06\x00\x00\x00" + 
         b"\xAD\x0D\x11\x43" +
         b"\xEF\xBE\x37\x13")
         
     ap_base = None
     game_connected = False # Really, it's when AP Base isn't found
+    last_connected_validation_seed = 0
     pm = None
-        
+    
     async def connect_to_game_async(self):
         """
         Connects to the exe_name. If it fails, it sleeps for
@@ -141,14 +203,14 @@ class Turok2Context(CommonContext):
                 
                 self.game_connected = True
                 print(f"Found AP block at {hex(self.ap_base)}")
-                logger.info("Connected!")
+                logger.info("Connected to game process!")
                 
                 return self.ap_base
                     
             except Exception:
                 attempt += 1
                 if attempt > 5:
-                    logger.warning("Connected to the exe, but didn't find the AP memory block. This can happen if the intro cutscene plays uninterrupted. Retrying...")
+                    logger.warning("Connected to the exe, but didn't find the AP memory block. Please check that the mod and AP world are compatible versions. This can also happen if the intro cutscene plays uninterrupted. Retrying...")
                     await self.connect_to_game_async()
                     attempt = 0
                 
@@ -163,7 +225,7 @@ class Turok2Context(CommonContext):
         """
         try:
             return (self.read_int(APMemoryOffset.MAGIC) == 0x4150524B and
-                self.read_int(APMemoryOffset.VERSION) == 5 and
+                self.read_int(APMemoryOffset.VERSION) == 6 and
                 self.read_int(APMemoryOffset.SIGNATURE1) == 0x43110DAD and
                 self.read_int(APMemoryOffset.SIGNATURE2) == 0x1337BEEF and
                 self.read_int(APMemoryOffset.IN_STATUS) in (
@@ -175,6 +237,15 @@ class Turok2Context(CommonContext):
                     APStatus.AP_PROCESSING.value
                 )
             )
+        except Exception:
+            return False
+
+    def validate_seed(self):
+        """
+        Validates the seed and returns False if it does not match what we expect.
+        """
+        try:
+            return self.read_int(APMemoryOffset.VALIDATION_SEED) == self.last_connected_validation_seed
         except Exception:
             return False
 
@@ -206,6 +277,17 @@ class Turok2Context(CommonContext):
                 if not self.is_ap_block_valid():
                     self.game_connected = False
                     raise Exception("AP block disappeared")
+
+                if self.last_connected_validation_seed == 0:
+                    await asyncio.sleep(0.5)
+                    continue
+
+                if not self.validate_seed():
+                    logger.warning("Unmatching seed detected. Are you using the correct patch file?")
+                    logger.warning(f"Expected seed: {self.last_connected_validation_seed}")
+                    logger.warning("Trying again in 15 seconds...")
+                    await asyncio.sleep(15)
+                    continue
                     
                 await self.check_goal()
                 await self.process_incoming() # Send the game pending items
@@ -320,12 +402,31 @@ class Turok2Context(CommonContext):
                     }
                 }
                 await self.send_msgs([message])
+
+    def on_package(self, cmd: str, args: dict[str, Any]) -> None:
+        """
+        On a connection, clear the current map id so trackers can switch to the current map, if any.
+        Also sets the validation seed to verify that connected games are using the correct patch file.
+        """
+        super().on_package(cmd, args) # For UT to respond to network events
+
+        if cmd == "Connected":
+            self.current_map_id = ""
+            self.last_connected_validation_seed = args["slot_data"]["validation_seed"]
+
+    def make_gui(self):
+        """ Sets the client's title. """
+        ui = super().make_gui() 
+        ui.base_title = "Archipelago Turok 2 Client"
+        return ui
     
 async def main(args: Namespace, exe_name) -> None:
     ctx = Turok2Context(args.url, None)
     ctx.auth = args.name
     ctx.exe_name = exe_name
 
+    if tracker_loaded:
+        ctx.run_generator()
     if gui_enabled:
         ctx.run_gui()
     ctx.run_cli()

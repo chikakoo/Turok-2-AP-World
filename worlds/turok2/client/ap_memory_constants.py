@@ -63,3 +63,5 @@ class APMemoryOffset(Enum):
     OUT_GOAL_REACHED = 44
 
     CURRENT_MAP_ID = 48
+
+    VALIDATION_SEED = 52

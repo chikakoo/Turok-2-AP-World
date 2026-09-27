@@ -1,6 +1,25 @@
 # Changelog
 This includes changes in both the mod and AP world, in reverse order of releases.
 
+## v0.6.X
+
+### v0.6.0
+- Background changes to support the poptracker and auto tabbing
+- Support yamless for Universal Tracker
+- Starting inventory is now received from the AP server
+  - Added a generate_for_offline setting if you don't want to connect to AP (you'll get the starting inventory like before)
+- Fixed a couple item classifications and non-breaking logic bugs
+- Various location name fixes/adjustments
+- Combined various item weight settings for clarity and simplicity
+- Added seed validation to prevent playing with the wrong save. This handles:
+  - Loading a save file from a different patch file than it was saved with
+  - Loading a save file for the incorrect slot/multiworld
+- Error fixes found by the fuzzer:
+  - Generation failure when starting with every weapon with force_early_weapon on
+  - Generation failure when level unlock method is one_progressive_warp with starting_progressive_warps set to 0
+  - Unit test failure caused by adding to local_items after generate_early
+- Attempted very rare, hard to reproduce enemizer(?) crash
+
 ## v0.5.X
 
 ### v0.5.0

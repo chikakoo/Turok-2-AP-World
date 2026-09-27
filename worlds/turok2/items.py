@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
 from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution, \
     LevelUnlockMethod, JumpThroughLava
-from collections import Counter, defaultdict
+from collections import Counter
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -29,9 +29,9 @@ def get_random_filler_item_name(world: Turok2World) -> str:
     """
     fallback_item = "Life Force 1"
     category_pairs = [
-        (WeightedItemGroup.HEALTH, world.options.filler_health_weight),
-        (WeightedItemGroup.AMMO, world.options.filler_ammo_weight),
-        (WeightedItemGroup.LIFE_FORCE, world.options.filler_life_force_weight)
+        (WeightedItemGroup.HEALTH, world.options.filler_weights.value["Health"]),
+        (WeightedItemGroup.AMMO, world.options.filler_weights.value["Ammo"]),
+        (WeightedItemGroup.LIFE_FORCE, world.options.filler_weights.value["Life Force"])
     ]
     names, weights = prepare_weights(category_pairs)
     if not names:
@@ -79,12 +79,33 @@ def create_item_with_correct_classification(world: Turok2World, name: str) -> Tu
         ITEM_NAME_TO_ID[name],
         world.player
     )
+
+def set_local_items(world: Turok2World) -> None:
+    """ 
+    Populate the local items, including weapons.
+    This cannot be called after generate_early or unit tests will fail.
+    """
+    for name, data in ITEM_TABLE.items():
+        if data.get("is_local"):
+            world.options.local_items.value.add(name)
+
+    weapon_names = [
+        name for name, data 
+        in ITEM_TABLE.items() 
+        if data.get("type", -1) == ItemType.WEAPON.value and not name in world.options.excluded_weapons.value
+    ]
+    
+    count = int(len(weapon_names) * world.options.local_weapon_percentage / 100)
+    for weapon_name in world.random.sample(weapon_names, k=count):
+        world.options.local_items.value.add(weapon_name)
+        #print(f"Local weapon: {weapon_name}")
+        
+    #print(f"Forced {count} {ItemType.WEAPON} items locally for Player {world.player}")
     
 def force_local_items(
     world: Turok2World,
     itempool: list[Item],
     item_types: list[int],
-    type_string: str,
     percentage: int) -> None:
     """
     Forces the percentage of items in the item pool of the given types to be placed in this world.
@@ -103,21 +124,6 @@ def force_local_items(
         
     #print(f"Forced {count} items of type {type_string} locally for Player {world.player}")
 
-def force_local_weapons(world: Turok2World, itempool: list[Item]):
-    """
-    Forces the percentage of weapons to be placed in this world.
-    """
-    weapons = [
-        item for item in itempool
-        if ITEM_TABLE[item.name].get("type", -1) == ItemType.WEAPON.value
-    ]
-    
-    count = int(len(weapons) * world.options.local_weapon_percentage / 100)
-    for weapon in world.random.sample(weapons, k=count):
-        world.options.local_items.value.add(weapon.name)
-        
-    #print(f"Forced {count} {ItemType.WEAPON} items locally for Player {world.player}")
-
 def force_early_weapon(world: Turok2World, itempool: list[Item]):
     """
     If force_early_weapon is on, force it as one of the local early items.
@@ -135,10 +141,11 @@ def force_early_weapon(world: Turok2World, itempool: list[Item]):
         if is_valid_early_weapon(item.name)
     ]
 
-    weapon = world.random.choices(weapon_items, k=1)[0]
-    world.multiworld.local_early_items[world.player][weapon.name] = 1
+    if weapon_items:
+        weapon = world.random.choices(weapon_items, k=1)[0]
+        world.multiworld.local_early_items[world.player][weapon.name] = 1
 
-    #print(f"Early weapon {weapon.name} for Player {world.player}")
+        #print(f"Early weapon {weapon.name} for Player {world.player}")
 
 def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
     """
@@ -451,14 +458,7 @@ def get_random_health_pickup_item_name(world: Turok2World) -> str | None:
     """
     Gets a random health pickup based on the weight settings.
     """
-    health_pickups = [
-        ("Silver Health", world.options.silver_health_weight),
-        ("Blue Health", world.options.blue_health_weight),
-        ("Full Health", world.options.full_health_weight),
-        ("Ultra Health", world.options.ultra_health_weight)
-    ]
-    
-    names, weights = prepare_weights(health_pickups)
+    names, weights = prepare_weights(tuple(world.options.health_weights.value.items()))
     if not names:
         return None
         
@@ -468,12 +468,7 @@ def get_random_life_force_item_name(world: Turok2World) -> str | None:
     """
     Gets a random life force based on the weight settings.
     """
-    life_forces = [
-        ("Life Force 1", world.options.life_force_1_weight),
-        ("Life Force 10", world.options.life_force_10_weight)
-    ]
-
-    names, weights = prepare_weights(life_forces)
+    names, weights = prepare_weights(tuple(world.options.life_force_weights.value.items()))
     if not names:
         return None
     
@@ -551,12 +546,9 @@ def generate_filler_items(world: Turok2World, needed_number_of_filler_items: int
         """
         Gets a random trap name to add to the item pool based on the weights.
         """
-        traps = [
-            ("Enemy Trap", world.options.enemy_trap_weight),
-            ("Damage Trap", world.options.damage_trap_weight),
-            ("Spam Trap", world.options.spam_trap_weight)
-        ]
-        traps = [(name, weight) for name, weight in traps if weight > 0]
+        traps = [(name, weight) for name, weight 
+            in tuple(world.options.trap_weights.value.items()) 
+            if weight > 0]
         
         if not traps:
             return None
@@ -592,11 +584,6 @@ def create_all_items(world: Turok2World) -> None:
     There must be exactly as many items as locations.
     """
     itempool: list[Item] = []
-    
-    # Populate the local items
-    for name, data in ITEM_TABLE.items():
-        if data.get("is_local"):
-            world.options.local_items.value.add(name)
 
     # Create all progression items
     create_progression_items(world, itempool)
@@ -622,10 +609,8 @@ def create_all_items(world: Turok2World) -> None:
         world, 
         itempool, 
         [ItemType.SILVER_HEALTH.value, ItemType.BLUE_HEALTH.value, ItemType.FULL_HEALTH.value, ItemType.ULTRA_HEALTH.value],
-        "Health",
         world.options.local_health_percentage)
-    force_local_items(world, itempool, [ItemType.AMMO.value], "Ammo", world.options.local_ammo_percentage)
-    force_local_weapons(world, itempool)
+    force_local_items(world, itempool, [ItemType.AMMO.value], world.options.local_ammo_percentage)
     force_early_weapon(world, itempool)
     
     world.multiworld.itempool += itempool

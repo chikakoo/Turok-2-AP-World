@@ -167,6 +167,8 @@ def get_angelscript_for_ammo(self: "Turok2World") -> str:
 def get_settings_string(self: "Turok2World") -> str:
     """
     Sets up the macro file with any settings the game needs to know:
+    - AP_VALIDATION_SEED: The seed generated to validate the slot
+    - AP_SLOT_NAME: Slot name to help with save file validation
     - OPTION_MARK_PICKUPS: The default value for the pickup (!) indicator
     - OPTION_MARK_ENEMIES: The default value for the enemy (!) indicator
     - OPTION_GOAL_PRIMAGEN_LAIR: Whether entering the lair is the goal
@@ -244,15 +246,18 @@ def get_settings_string(self: "Turok2World") -> str:
     if self.options.use_weapon_barriers:
         weapon_barriers = "true"
 
-    # Starting inventory
+    # Starting inventory - only fill these if in offline mode, since this is handled by the server normally
+    generate_for_offline = self.options.generate_for_offline.value
     inventory_item_ids = []
     weapon_item_ids = []
-    for item in self.multiworld.precollected_items[self.player]:
-        item_data = ITEM_TABLE[item.name]
-        if item_data.get("msg_type") == APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value:
-            inventory_item_ids.append(item_data["actor_id"])
-        elif item_data.get("type") == ItemType.WEAPON.value:    
-            weapon_item_ids.append(item_data["actor_id"])
+
+    if generate_for_offline:
+        for item in self.multiworld.precollected_items[self.player]:
+            item_data = ITEM_TABLE[item.name]
+            if item_data.get("msg_type") == APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value:
+                inventory_item_ids.append(item_data["actor_id"])
+            elif item_data.get("type") == ItemType.WEAPON.value:    
+                weapon_item_ids.append(item_data["actor_id"])
 
     def format_starting_items_macro(name: str, values: list[int]) -> str:
         if values:
@@ -295,6 +300,9 @@ def get_settings_string(self: "Turok2World") -> str:
         return f"#define OPTION_MAX_{ammo_name} {math.ceil(vanilla_max * (max_ammo_value / 100))}\n"
     
     settings_macros = (
+        f"#define AP_VALIDATION_SEED {self.validation_seed}\n" +
+        f"#define AP_SLOT_NAME \"{self.player_name}\"\n" +
+
         f"#define OPTION_MARK_PICKUPS {mark_pickups}\n" +
         f"#define OPTION_MARK_ENEMIES {mark_enemies}\n" +
 
