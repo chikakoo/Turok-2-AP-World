@@ -18,6 +18,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Generation failure when starting with every weapon with force_early_weapon on
   - Generation failure when level unlock method is one_progressive_warp with starting_progressive_warps set to 0
   - Unit test failure caused by adding to local_items after generate_early
+- Attempted very rare, hard to reproduce enemizer(?) crash
 
 ## v0.5.X
 
