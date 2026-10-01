@@ -610,6 +610,46 @@ class Enemysanity(NamedRange):
         "all": 100
     }
 
+class RandomizeEnemySizes(Choice):
+    """
+    Whether to resize enemies by the EnemySizeMaxPercentage setting.
+    Off: Do not change enemy sizes
+    Proportional: Resize the length/width/height of each enemy by the same percentage.
+                  Use this if you just want enemies to look bigger or smaller.
+    Unproportional: Roll the length/width/height of each enemy separately.
+                    This can result in very strange looking enemies.
+    """
+    display_name = "Random Enemy Sizes"
+    option_off = 0
+    option_proportional = 1
+    option_unproportional = 2
+    default = option_off
+
+class EnemySizeMaxPercentage(NamedRange):
+    """
+    If RandomizeEnemySizes is not set to off, the percentage to resize each enemy.
+    Each time an enemy spawns, it will resize each enemy by a random value up to the given percentage.
+
+    For example, a value of 10 will resize each enemy from -10% to +10%.
+
+    Values that are too high can result in...
+    - Enemies that are too big (they can get stuck in the geometry)
+    - Enemies that are too small (too hard to hit, or their melee range can't hit you)
+
+    In all cases, you can reload the map to reroll the size.
+    """
+    display_name = "Enemy Size Percentage"
+    range_start = 0
+    range_end = 99
+    default = 0
+    special_range_names = {
+        "none": 0,
+        "small": 10,
+        "medium": 25,
+        "large": 40,
+        "chaos": 99
+    }
+
 class ForceEarlyWeapon(Toggle):
     """
     Forces an early weapon so you have more than just the bow.
@@ -1076,6 +1116,8 @@ class Turok2Options(PerGameCommonOptions):
     randomize_enemies: RandomizeEnemies
     randomize_enemy_spawners: RandomizeEnemySpawners
     enemysanity: Enemysanity
+    randomize_enemy_sizes: RandomizeEnemySizes
+    enemy_size_max_percentage: EnemySizeMaxPercentage
     
     level_3_river_ledge_jump: Level3RiverLedgeJump
     level_3_bridge_jump: Level3BridgeJump
@@ -1148,7 +1190,9 @@ option_groups: List[OptionGroup] = [
     OptionGroup("Enemy Options", [
         RandomizeEnemies,
         RandomizeEnemySpawners,
-        Enemysanity
+        Enemysanity,
+        RandomizeEnemySizes,
+        EnemySizeMaxPercentage
     ]),
     OptionGroup("Tricks", [
         Level3RiverLedgeJump,

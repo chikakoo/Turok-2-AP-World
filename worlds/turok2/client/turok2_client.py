@@ -144,9 +144,9 @@ class Turok2Context(SuperContext):
     # Game integration below
     # ======================
 
-    # Currently on version 6
+    # Currently on version 7
     pattern = (b"\x4B\x52\x50\x41" + 
-        b"\x06\x00\x00\x00" + 
+        b"\x07\x00\x00\x00" + 
         b"\xAD\x0D\x11\x43" +
         b"\xEF\xBE\x37\x13")
         
@@ -225,7 +225,7 @@ class Turok2Context(SuperContext):
         """
         try:
             return (self.read_int(APMemoryOffset.MAGIC) == 0x4150524B and
-                self.read_int(APMemoryOffset.VERSION) == 6 and
+                self.read_int(APMemoryOffset.VERSION) == 7 and
                 self.read_int(APMemoryOffset.SIGNATURE1) == 0x43110DAD and
                 self.read_int(APMemoryOffset.SIGNATURE2) == 0x1337BEEF and
                 self.read_int(APMemoryOffset.IN_STATUS) in (

@@ -186,6 +186,11 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_DISABLE_PICKUPS_OVER_LAVA: Whether to disable pickups over lava pre-Heart of Fire
     - OPTION_UNLOCK_METHOD_ONE_KEY: Receive all level keys at once when getting one of them
     - OPTION_UNLOCK_METHOD_ONE_WARP: Receive all level keys at once when getting one progressive warp
+    - OPTION_ENEMIZER: The enemizer setting
+    - OPTION_ENEMIZER_SPAWNERS: Toe enemy spawner setting
+    - OPTION_ENEMY_TRAP_POOL: The enemy trap pool setting
+    - OPTION_RANDOMIZE_ENEMY_SIZES: Whether to randomize enemy sizes
+    - OPTION_ENEMY_SIZE_MAX_PERCENTAGE: The max percentage to adjust enemy sizes by
     - OPTION_WEAPON_BARRIERS: Whether we're using weapon barriers
     - OPTION_WEAPON_BARRIER_<name>: The number of unique weapons to pass the weapon barrier
     - OPTION_PROGRESSIVE_AMMO_COUNT: The number of progressive weapons in the pool per weapon
@@ -327,6 +332,8 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_ENEMIZER {self.options.randomize_enemies.value}\n" +
         f"#define OPTION_ENEMIZER_SPAWNERS {self.options.randomize_enemy_spawners.value}\n" +
         f"#define OPTION_ENEMY_TRAP_POOL {self.options.enemy_trap_pool.value}\n" +
+        f"#define OPTION_RANDOMIZE_ENEMY_SIZES {self.options.randomize_enemy_sizes.value}\n" +
+        f"#define OPTION_ENEMY_SIZE_MAX_PERCENTAGE {self.options.enemy_size_max_percentage.value}\n" +
 
         f"#define OPTION_WEAPON_BARRIERS {weapon_barriers}\n" +
         get_weapon_barrier_macro(self, "1_START", "Level 1 Start") +
