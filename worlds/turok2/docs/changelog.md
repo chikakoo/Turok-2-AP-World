@@ -4,6 +4,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 ## v0.7.X
 
 ### v0.7.0
+- Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
 
 ## v0.6.X

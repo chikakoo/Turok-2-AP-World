@@ -501,17 +501,25 @@ class RandomizeTalismans(Choice):
     Whether to include talismans in the list of locations to check.
     Setting this to False will place them in their vanilla locations.
     - Vanilla In Pool If level Excluded: 
-         Talismans are in their vanilla locations. 
-         If that level is excluded, it will be in the item pool.
+        Talismans are in their vanilla locations. 
+        If that level is excluded, it will be in the item pool.
     - Vanilla Start With If Level Excluded:
-         Talismans are in their vanilla loactions.
-         If that level is excluded, you will start with it.
-    - In Pool: The talisman will be in the item pool.
+        Talismans are in their vanilla loactions.
+        If that level is excluded, you will start with it.
+    - Shuffle In Pool If level Excluded: 
+        Talismans are in their vanilla locations, will are shuffled with each other.
+        If the level it's shuffled to is excluded, it will be in the item pool.
+    - Shuffle Start With If Level Excluded:
+        Talismans are in their vanilla locations, will are shuffled with each other. 
+        If the level it's shuffled to is excluded, you will start with it.
+    - In Pool: The talisman will be in the item pool and can show up in any world.
     """
     display_name = "Randomize Talismans"
     option_vanilla_in_pool_if_level_excluded = 0
     option_vanilla_start_with_if_level_excluded = 1
-    option_in_pool = 2
+    option_shuffle_in_pool_if_level_excluded = 2
+    option_shuffle_start_with_if_level_excluded = 3
+    option_in_pool = 4
     default = option_in_pool
     
 class RandomizeMissionItems(Toggle):

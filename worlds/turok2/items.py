@@ -188,12 +188,37 @@ def compute_warp_distributions(world: Turok2World) -> dict[int, int]:
 
     return warp_distributions
 
-def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
+def create_talisman_map(world: Turok2World) -> dict[str, int]:
+    """
+    Creates a map of levels to what talisman item is in it.
+    If we're shuffling talismans, shuffle this map.
+    """
+    talisman_map = {
+        "Leap of Faith": 2,
+        "Breath of Life": 3,
+        "Heart of Fire": 4,
+        "Whispers": 5,
+        "Eye of Truth": 6
+    }
+
+    if world.options.randomize_talismans.value in (
+        RandomizeTalismans.option_shuffle_in_pool_if_level_excluded,
+        RandomizeTalismans.option_shuffle_start_with_if_level_excluded):
+        values = list(talisman_map.values())
+        world.random.shuffle(values)
+        return dict(zip(talisman_map.keys(), values))
+        
+    return talisman_map
+
+def create_progression_items(
+        world: Turok2World, 
+        itempool: list[Item],
+        talisman_map: dict[str, int]) -> None:
     """
     Creates all progression items and adds them to the pool or precollects as necessary.
     """
     warp_distributions = compute_warp_distributions(world)
-    for name, data in get_required_seed_items(world):
+    for name, data in get_required_seed_items(world, talisman_map):
         count = data.get("count", 1)
         item_type = data.get("type")
         level = data.get("level", -1)
@@ -221,8 +246,10 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
 
         # Start with talismans if necessary
         elif item_type == ItemType.TALISMAN.value:
-            if (world.options.randomize_talismans == RandomizeTalismans.option_vanilla_start_with_if_level_excluded and
-                level in world.excluded_levels):
+            if (world.options.randomize_talismans.value in (
+                RandomizeTalismans.option_vanilla_start_with_if_level_excluded,
+                RandomizeTalismans.option_shuffle_start_with_if_level_excluded) and
+                talisman_map[name] in world.excluded_levels):
                 precollect_count = 1
 
         # Start with primagen keys if necessary
@@ -249,7 +276,7 @@ def create_progression_items(world: Turok2World, itempool: list[Item]) -> None:
             else:
                 itempool.append(world.create_item(name))
 
-def get_required_seed_items(world: Turok2World):
+def get_required_seed_items(world: Turok2World, talisman_map: dict[str, int]):
     """
     All items required to be in the seed.
     These are all weapons, and all inventory items, depending on settings
@@ -259,11 +286,16 @@ def get_required_seed_items(world: Turok2World):
 
         # Talismans
         if data["type"] == ItemType.TALISMAN.value:
+            is_talisman_excluded = talisman_map[name] in world.excluded_levels
             in_pool = world.options.randomize_talismans == RandomizeTalismans.option_in_pool or \
-                (is_level_excluded and 
-                 world.options.randomize_talismans == RandomizeTalismans.option_vanilla_in_pool_if_level_excluded)
-            start_with = is_level_excluded and \
-                world.options.randomize_talismans == RandomizeTalismans.option_vanilla_start_with_if_level_excluded
+                (is_talisman_excluded and 
+                 world.options.randomize_talismans.value in (
+                    RandomizeTalismans.option_vanilla_in_pool_if_level_excluded,
+                    RandomizeTalismans.option_shuffle_in_pool_if_level_excluded))
+            start_with = is_talisman_excluded and \
+                world.options.randomize_talismans.value in (
+                    RandomizeTalismans.option_vanilla_start_with_if_level_excluded,
+                    RandomizeTalismans.option_shuffle_start_with_if_level_excluded)
             return in_pool or start_with
         
         # Primagen keys
@@ -320,21 +352,26 @@ def get_required_seed_items(world: Turok2World):
         if include_item(name, data)
     ]
 
-def handle_vanilla_locations(world: Turok2World) -> None:
+def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -> None:
     """
     Places certain vanilla progressive items in their correct locations.
     This is done so the tracker can more accurately tell what the next thing to do is.
+    It also handles placing shuffled talismans.
 
     Currently done with feathers, talismans, and Primagen keys.
     """
     place_feathers = not world.options.randomize_eagle_feathers
-    place_talismans = \
-        (world.options.randomize_talismans == RandomizeTalismans.option_vanilla_in_pool_if_level_excluded or
-        world.options.randomize_talismans == RandomizeTalismans.option_vanilla_start_with_if_level_excluded)
+    place_talismans = world.options.randomize_talismans.value in (
+        RandomizeTalismans.option_vanilla_in_pool_if_level_excluded,
+        RandomizeTalismans.option_vanilla_start_with_if_level_excluded,
+        RandomizeTalismans.option_shuffle_in_pool_if_level_excluded,
+        RandomizeTalismans.option_shuffle_start_with_if_level_excluded)
     place_primagen_keys = \
         (world.options.primagen_goal != PrimagenGoal.option_none and
         (world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_in_pool_if_level_excluded or
         world.options.randomize_primagen_keys == RandomizePrimagenKeys.option_vanilla_start_with_if_level_excluded))
+
+    talisman_level_to_name = {value: key for key, value in talisman_map.items()}
 
     if 1 not in world.excluded_levels:
         if place_primagen_keys:
@@ -348,7 +385,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
         
         if place_talismans:
             world.get_location("[2-8] Talisman - Leap of Faith") \
-                .place_locked_item(world.create_item("Leap of Faith"))
+                .place_locked_item(world.create_item(talisman_level_to_name[2]))
             
         if place_primagen_keys:
             world.get_location("[2-8] Primagen Key River Leaps - Primagen Key") \
@@ -361,7 +398,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
         
         if place_talismans:
             world.get_location("[3-6] Talisman - Breath of Life") \
-                .place_locked_item(world.create_item("Breath of Life"))
+                .place_locked_item(world.create_item(talisman_level_to_name[3]))
             
         if place_primagen_keys:
             world.get_location("[3-3] Primagen Key - Primagen Key") \
@@ -374,7 +411,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
             
         if place_talismans:
             world.get_location("[4-2] Talisman - Heart of Fire") \
-                .place_locked_item(world.create_item("Heart of Fire"))
+                .place_locked_item(world.create_item(talisman_level_to_name[4]))
             
         if place_primagen_keys:
             world.get_location("[4-1] Primagen Key - Primagen Key") \
@@ -404,7 +441,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
             
         if place_talismans:
             world.get_location("[5-6] Talisman - Whispers") \
-                .place_locked_item(world.create_item("Whispers"))
+                .place_locked_item(world.create_item(talisman_level_to_name[5]))
             
         if place_primagen_keys:
             world.get_location("[5-10] Eye of Truth Path - Primagen Key") \
@@ -417,7 +454,7 @@ def handle_vanilla_locations(world: Turok2World) -> None:
             
         if place_talismans:
             world.get_location("[6-4b] Talisman - Eye of Truth") \
-                .place_locked_item(world.create_item("Eye of Truth"))
+                .place_locked_item(world.create_item(talisman_level_to_name[6]))
             
         if place_primagen_keys:
             world.get_location("[6-Hub] Center - Primagen Key") \
@@ -434,7 +471,6 @@ def handle_vanilla_locations(world: Turok2World) -> None:
                 .place_locked_item(world.create_item(press_primagen_key_switch_event))
             world.get_location("[6-4d] Generator in River - Primagen Key Switch") \
                 .place_locked_item(world.create_item(press_primagen_key_switch_event))
-
 
 def prepare_weights(pairs: Iterable[tuple]) -> tuple[list, list[int]]:
     """
@@ -585,8 +621,11 @@ def create_all_items(world: Turok2World) -> None:
     """
     itempool: list[Item] = []
 
+    # Create the map for talismans, because they can be shuffled
+    talisman_map = create_talisman_map(world)
+
     # Create all progression items
-    create_progression_items(world, itempool)
+    create_progression_items(world, itempool, talisman_map)
 
     def compute_needed_number_of_filler_items(world: Turok2World, itempool: list[Item]) -> int:
         """Gets the number of locations to fill out."""
@@ -596,7 +635,7 @@ def create_all_items(world: Turok2World) -> None:
     
     # Handle vanilla locations, which places locked items or gives them to you if the level is excluded
     # Do this before filler so we don't overfill with items
-    handle_vanilla_locations(world)
+    handle_vanilla_locations(world, talisman_map)
 
     # Fill the world with computed filler items
     needed_number_of_filler_items = compute_needed_number_of_filler_items(world, itempool)
