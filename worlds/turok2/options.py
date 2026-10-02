@@ -499,18 +499,17 @@ class RandomizeEagleFeathers(Toggle):
 class RandomizeTalismans(Choice):
     """
     Whether to include talismans in the list of locations to check.
-    Setting this to False will place them in their vanilla locations.
-    - Vanilla In Pool If level Excluded: 
+    - Vanilla In Pool If Level Excluded: 
         Talismans are in their vanilla locations. 
         If that level is excluded, it will be in the item pool.
     - Vanilla Start With If Level Excluded:
         Talismans are in their vanilla loactions.
         If that level is excluded, you will start with it.
-    - Shuffle In Pool If level Excluded: 
-        Talismans are in their vanilla locations, will are shuffled with each other.
+    - Shuffle In Pool If Level Excluded: 
+        Talismans are in their vanilla locations and will be shuffled with each other.
         If the level it's shuffled to is excluded, it will be in the item pool.
     - Shuffle Start With If Level Excluded:
-        Talismans are in their vanilla locations, will are shuffled with each other. 
+        Talismans are in their vanilla locations and will be shuffled with each other. 
         If the level it's shuffled to is excluded, you will start with it.
     - In Pool: The talisman will be in the item pool and can show up in any world.
     """
@@ -621,16 +620,15 @@ class Enemysanity(NamedRange):
 class RandomizeEnemySizes(Choice):
     """
     Whether to resize enemies by the EnemySizeMaxPercentage setting.
-    Off: Do not change enemy sizes
-    Proportional: Resize the length/width/height of each enemy by the same percentage.
-                  Use this if you just want enemies to look bigger or smaller.
-    Unproportional: Roll the length/width/height of each enemy separately.
-                    This can result in very strange looking enemies.
+    Off: Do not change enemy sizes.
+    Proportional: Resize enemies, maintaining their proprotions.
+    Disproportionate: Resize enemies, changing each dimension separately.
+                      This can result in very strange looking enemies.
     """
-    display_name = "Random Enemy Sizes"
+    display_name = "Randomize Enemy Sizes"
     option_off = 0
     option_proportional = 1
-    option_unproportional = 2
+    option_disproportionate = 2
     default = option_off
 
 class EnemySizeMaxPercentage(NamedRange):
