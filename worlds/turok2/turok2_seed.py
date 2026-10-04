@@ -4,10 +4,12 @@ import zipfile
 import Utils
 import math
 from worlds.Files import APPlayerContainer
+from enum import StrEnum
 from typing import TYPE_CHECKING
 from .locations import LOCATION_TABLE
 from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup_item_name
-from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, MaxAmmoSettings, SPECIAL_AMMO_NAMES, \
+from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, \
+    RandomizeAmmoTypes, MaxAmmoSettings, SPECIAL_AMMO_NAMES, \
     RiverOfSoulsDeathJumps, JumpThroughLava
 
 if TYPE_CHECKING:
@@ -178,6 +180,7 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_RANDOMIZE_WEAPONS: Whether weapons shuffled (used for replacing ammo spawns)
     - OPTION_PROGRESSIVE_WARPS: The strength of progressive warps - 0 if it is off
     - OPTION_EXCLUDED_LEVELS: What levels will never be accessible
+    - OPTION_AMMO_TYPE_<weapon>: What ammo type is assigned to the weapon
     - OPTION_RANDOM_AMMO_MIN: The min percentage of random ammo you can get
     - OPTION_RANDOM_AMMO_MAX: The max percentage of random ammo you can get
     - OPTION_STARTING_INVENTORY_ITEMS: An array of ints containing starting inventory items
@@ -264,6 +267,69 @@ def get_settings_string(self: "Turok2World") -> str:
             elif item_data.get("type") == ItemType.WEAPON.value:    
                 weapon_item_ids.append(item_data["actor_id"])
 
+    def get_ammo_types_macro(self: "Turok2World") -> str:
+        """
+        Gets the macros for all ammo types, based on the setting.
+        Off: Use the game's defaults
+        Shuffle: Shuffles all ammo assignments
+        Random: Randomize all ammo assignments to any type
+        """
+        class AmmoTypes(StrEnum):
+            ARROWS = "Ammo_Arrow"
+            TEK_ARROWS = "Ammo_TekArrow"
+            BULLETS = "Ammo_Bullet"
+            SHELLS = "Ammo_Shell"
+            EXPLOSIVE_SHELLS = "Ammo_ExpShells"
+            PLASMA_ROUNDS = "Ammo_Plasma"
+            TRANQUILIZER_DARTS = "Ammo_Dart"
+            CHARGE_DARTS = "Ammo_ChargeDart"
+            SUNFIRE_PODS = "Ammo_SunfirePod"
+            BORES = "Ammo_Bore"
+            MINES = "Ammo_Mine"
+            GRENADES = "Ammo_Grenades"
+            SCORPION_MISSILES = "Ammo_Rockets"
+            FLAME_THROWER_FUEL = "Ammo_Fuel"
+            NUKE_AMMO = "Ammo_Nuke"
+            SPEARS = "Ammo_Spears"
+            TORPEDOES = "Ammo_Torpedos"
+
+        ammo_type_mapping = {
+            "TEK_BOW": AmmoTypes.TEK_ARROWS,
+            "TEK_BOW_ALT": AmmoTypes.ARROWS,
+            "PISTOL": AmmoTypes.BULLETS,
+            "MAG60": AmmoTypes.BULLETS,
+            "TRANQUILIZER_GUN": AmmoTypes.TRANQUILIZER_DARTS,
+            "CHARGE_DART_RIFLE": AmmoTypes.CHARGE_DARTS,
+            "SHOTGUN": AmmoTypes.SHELLS,
+            "SHOTGUN_ALT": AmmoTypes.EXPLOSIVE_SHELLS,
+            "SHREDDER": AmmoTypes.SHELLS,
+            "SHREDDER_ALT": AmmoTypes.EXPLOSIVE_SHELLS,
+            "PLASMA_RIFLE": AmmoTypes.PLASMA_ROUNDS,
+            "FIRESTORM_CANNON": AmmoTypes.PLASMA_ROUNDS,
+            "SUNFIRE_POD": AmmoTypes.SUNFIRE_PODS,
+            "CEREBRAL_BORE": AmmoTypes.BORES,
+            "PFM_LAYER": AmmoTypes.MINES,
+            "GRENADE_LAUNCHER": AmmoTypes.GRENADES,
+            "SCORPION_LAUNCHER": AmmoTypes.SCORPION_MISSILES,
+            "HARPOON_GUN": AmmoTypes.SPEARS,
+            "TORPEDO_LAUNCHER": AmmoTypes.TORPEDOES,
+            "FLAME_THROWER": AmmoTypes.FLAME_THROWER_FUEL,
+            "NUKE": AmmoTypes.NUKE_AMMO
+        }
+
+        if self.options.randomize_ammo_types == RandomizeAmmoTypes.option_shuffle:
+            ammo_types = list(ammo_type_mapping.values())
+            self.random.shuffle(ammo_types)
+            ammo_type_mapping = dict(zip(ammo_type_mapping.keys(), ammo_types))
+        elif self.options.randomize_ammo_types == RandomizeAmmoTypes.option_random:
+            ammo_types = list(AmmoTypes)
+            for key in ammo_type_mapping:
+                ammo_type_mapping[key] = self.random.choice(ammo_types)
+
+        # TODO: don't assign the same type to the alt weapons
+            
+        return "\n".join(f"#define OPTION_AMMO_TYPE_{key} \"{value}\"" for key, value in ammo_type_mapping.items()) + "\n"
+
     def format_starting_items_macro(name: str, values: list[int]) -> str:
         if values:
             joined = ", ".join(str(v) for v in values)
@@ -318,8 +384,11 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define OPTION_RANDOMIZE_WEAPONS {randomize_weapons}\n" +
         f"#define OPTION_PROGRESSIVE_WARPS {progressive_warps}\n" +
         format_starting_items_macro("OPTION_EXCLUDED_LEVELS", self.excluded_levels) +
+
+        get_ammo_types_macro(self) +
         f"#define OPTION_RANDOM_AMMO_MIN {self.options.min_random_ammo_percent}\n" +
         f"#define OPTION_RANDOM_AMMO_MAX {self.options.max_random_ammo_percent}\n" +
+
         format_starting_items_macro("OPTION_STARTING_INVENTORY_ITEMS", inventory_item_ids) +
         format_starting_items_macro("OPTION_STARTING_WEAPONS", weapon_item_ids) +
 

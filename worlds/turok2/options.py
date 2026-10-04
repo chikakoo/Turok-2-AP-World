@@ -417,6 +417,23 @@ class MaxAmmoSettings(OptionDict):
         ignore_extra_keys=False
     )
 
+class RandomizeAmmoTypes(Choice):
+    """
+    Randomizes which ammo type is used for each weapon. This does not change the behavior of the weapons.
+    For example, shotguns might use bullets for its normal shots, and bores for its explosive shots.
+
+    Warning that this can drastically change weapon balance!
+
+    - Off: Ammo types are unchanged.
+    - Shuffle: Shuffles existing ammo types. The number of types per included weapon will stay the same.
+    - Random: Completely randomize the ammo types of each weapon. This can result in types being unused.
+    """
+    display_name = "Randomize Ammo Types"
+    option_off = 0
+    option_shuffle = 1
+    option_random = 2
+    default = option_off
+
 class MinRandomAmmoPercent(Range):
     """
     When receiving a random ammo, the minimum percentage of ammo you can get
@@ -1108,6 +1125,7 @@ class Turok2Options(PerGameCommonOptions):
     randomize_ammo_pickups: RandomizeAmmoPickups
     progressive_weapon_ammo_upgrades: ProgressiveWeaponAmmoUpgrades
     max_ammo_settings: MaxAmmoSettings
+    randomize_ammo_types: RandomizeAmmoTypes
     min_random_ammo_percent: MinRandomAmmoPercent
     max_random_ammo_percent: MaxRandomAmmoPercent
 
@@ -1181,6 +1199,7 @@ option_groups: List[OptionGroup] = [
         RandomizeAmmoPickups,
         ProgressiveWeaponAmmoUpgrades,
         MaxAmmoSettings,
+        RandomizeAmmoTypes,
         MinRandomAmmoPercent,
         MaxRandomAmmoPercent
     ]),
