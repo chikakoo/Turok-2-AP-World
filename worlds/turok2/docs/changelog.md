@@ -7,6 +7,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added setting to shuffle/randomize ammo types
 - Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
+- Lock mission items to vanilla locations if not shuffling them (for trackers)
 
 ## v0.6.X
 

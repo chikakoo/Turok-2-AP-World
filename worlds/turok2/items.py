@@ -360,6 +360,7 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
 
     Currently done with feathers, talismans, and Primagen keys.
     """
+    place_mission_items = not world.options.randomize_mission_items
     place_feathers = not world.options.randomize_eagle_feathers
     place_talismans = world.options.randomize_talismans.value in (
         RandomizeTalismans.option_vanilla_in_pool_if_level_excluded,
@@ -373,12 +374,33 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
 
     talisman_level_to_name = {value: key for key, value in talisman_map.items()}
 
+    def place_items_of_type(world: Turok2World, item_name: str, locations: list[str]) -> None:
+        for location in locations:
+            world.get_location(location).place_locked_item(world.create_item(item_name))
+
     if 1 not in world.excluded_levels:
+        if place_mission_items:
+            place_items_of_type(world, "Power Cell", [
+                "[1-1] Inside - Power Cell",
+                "[1-3] Single Ship - Power Cell",
+                "[1-3] Two Ships - Power Cell"
+            ])
+            
         if place_primagen_keys:
             world.get_location("[1-4] Primagen Key Leap - Primagen Key") \
                 .place_locked_item(world.create_item("Primagen Key 1"))
 
     if 2 not in world.excluded_levels:
+        if place_mission_items:
+            place_items_of_type(world, "Gate Key", [
+                "[2-4] Outside Gate Key Door - Right Gate Key",
+                "[2-4] Outside Gate Key Door - Left Gate Key"
+            ])
+            place_items_of_type(world, "Graveyard Key", [
+                "[2-GY3] Area 3 - Right Graveyard Key",
+                "[2-GY3] Area 3 - Left Graveyard Key"
+            ])
+            
         if place_feathers:
             world.get_location("[2-8] Feather Ledge - Eagle Feather") \
                 .place_locked_item(world.create_item("Level 2 Eagle Feather"))
@@ -392,6 +414,13 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
                 .place_locked_item(world.create_item("Primagen Key 2"))
 
     if 3 not in world.excluded_levels:
+        if place_mission_items:
+            place_items_of_type(world, "L3 Satchel Charge", [
+                "[3-1] Prisoner - Satchel Charge",
+                "[3-4a] Ammo Storage - Satchel Charge",
+                "[3-6] Talisman Portal Wall - Satchel Charge on Cell"
+            ])
+                    
         if place_feathers:
             world.get_location("[3-6] Talisman Portal Wall - Eagle Feather") \
                 .place_locked_item(world.create_item("Level 3 Eagle Feather"))
@@ -405,6 +434,22 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
                 .place_locked_item(world.create_item("Primagen Key 3"))
             
     if 4 not in world.excluded_levels:
+        if place_mission_items:
+            place_items_of_type(world, "L4 Satchel Charge", [
+                "[4-4] Water Bridges - Satchel Charge on Platform",
+                "[4-5] Water Room 3 - Satchel Charge in Tunnel",
+                "[4-8a] After Level Key Trap - Satchel Charge"
+            ])
+            place_items_of_type(world, "Cave Door Key", [
+                "[4-1] Whispers Drop - Cave Door Key",
+                "[4-3] Water Path - Cave Door Key",
+                "[4-4] Switch on Platform - Cave Door Key",
+                "[4-V2] Above Vent - Cave Door Key",
+                "[4-8a] Blue Cave Door Key Path - Cave Door Key",
+                "[4-V3] Huts Left - Cave Door Key",
+                "[4-V3] Huts Right - Cave Door Key"
+            ])
+                    
         if place_feathers:
             world.get_location("[4-4] Top - Eagle Feather") \
                 .place_locked_item(world.create_item("Level 4 Eagle Feather"))
@@ -418,23 +463,25 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
             .place_locked_item(world.create_item("Primagen Key 4"))
 
         # Cave door key events will always exist if this level is included
-        use_cave_door_key_event = "Cave Door Key Used"
-        world.get_location("[4-1] Whispers Drop - Unlock Cave Door") \
-            .place_locked_item(world.create_item(use_cave_door_key_event))
-        world.get_location("[4-3] Cave Door - Unlock Cave Door") \
-            .place_locked_item(world.create_item(use_cave_door_key_event))
-        world.get_location("[4-V1] Start - Unlock Cave Door") \
-            .place_locked_item(world.create_item(use_cave_door_key_event))
-        world.get_location("[4-6a] Start - Unlock Cave Door") \
-            .place_locked_item(world.create_item(use_cave_door_key_event))
-        world.get_location("[4-8a] Blue Cave Ledges 2 - Unlock Cave Door") \
-            .place_locked_item(world.create_item(use_cave_door_key_event))
-        world.get_location("[4-V3] At Cave Door - Unlock Cave Door Left") \
-            .place_locked_item(world.create_item(use_cave_door_key_event))
-        world.get_location("[4-V3] At Cave Door - Unlock Cave Door Right") \
-            .place_locked_item(world.create_item(use_cave_door_key_event))
+        place_items_of_type(world, "Cave Door Key Used", [
+            "[4-1] Whispers Drop - Unlock Cave Door",
+            "[4-3] Cave Door - Unlock Cave Door",
+            "[4-V1] Start - Unlock Cave Door",
+            "[4-6a] Start - Unlock Cave Door",
+            "[4-8a] Blue Cave Ledges 2 - Unlock Cave Door",
+            "[4-V3] At Cave Door - Unlock Cave Door Left",
+            "[4-V3] At Cave Door - Unlock Cave Door Right"
+        ])
             
     if 5 not in world.excluded_levels:
+        if place_mission_items:
+            place_items_of_type(world, "L5 Satchel Charge", [
+                "[5-9] Exit Room Ground - Satchel Charge Behind Pillar",
+                "[5-9] Exit Room Ground - Satchel Charge by Exit 1",
+                "[5-9] Exit Room Ground - Satchel Charge by Exit 2",
+                "[5-9] Exit Room Water Warp Catwalks - Satchel Charge"
+            ])
+                    
         if place_feathers:
             world.get_location("[5-6] Feather - Eagle Feather") \
                 .place_locked_item(world.create_item("Level 5 Eagle Feather"))
@@ -447,7 +494,39 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
             world.get_location("[5-10] Eye of Truth Path - Primagen Key") \
                 .place_locked_item(world.create_item("Primagen Key 5"))
     
-    if 6 not in world.excluded_levels:          
+    if 6 not in world.excluded_levels:
+        if place_mission_items:
+            place_items_of_type(world, "Ion Capacitor", [
+                "[6-1] Fan - Ion Capacitor",
+                "[6-1] Catwalks - Ion Capacitor 1",
+                "[6-1] Catwalks - Ion Capacitor 2",
+                "[6-1] Whispers Jump - Ion Capacitor",
+                "[6-2a] Laser Fans - Ion Capacitor",
+                "[6-2a] After Sewers - Ion Capacitor",
+                "[6-2b] Laser Pit Timed Door - Ion Capacitor 1",
+                "[6-2b] Laser Pit Timed Door - Ion Capacitor 2",
+                "[6-3a] Laser - Ion Capacitor",
+                "[6-3a] Door Trap - Ion Capacitor",
+                "[6-3b] Timed Room 1 - Ion Capacitor",
+                "[6-3b] Timed Room 2 - Ion Capacitor",
+                "[6-4a] Switch Loop Back - Ion Capacitor",
+                "[6-4b] Top - Ion Capacitor",
+                "[6-4c] Outer Path - Ion Capacitor",
+                "[6-4d] Generator - Ion Capacitor"
+            ])
+            place_items_of_type(world, "Blue Laser Cell", [
+                "[6-4c] Center - Blue Laser Cell 1",
+                "[6-4c] Center - Blue Laser Cell 2",
+                "[6-4d] Left Fork - Blue Laser Cell 1",
+                "[6-4d] Left Fork - Blue Laser Cell 2"
+            ])
+            place_items_of_type(world, "Red Laser Cell", [
+                "[6-4d] Fork - Red Laser Cell 1",
+                "[6-4d] Fork - Red Laser Cell 2",
+                "[6-4d] Generator - Red Laser Cell 1",
+                "[6-4d] Generator - Red Laser Cell 2"
+            ])
+
         if place_feathers:
             world.get_location("[6-4c] Outer Path - Eagle Feather") \
                 .place_locked_item(world.create_item("Level 6 Eagle Feather"))
@@ -462,15 +541,12 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
             
         # Create locked items for the level 6 switches if not randomized so they can still be tracked
         if not world.options.randomize_switches:
-            press_primagen_key_switch_event = "Primagen Key Switch Pressed"
-            world.get_location("[6-1] Whispers - Primagen Key Switch") \
-                .place_locked_item(world.create_item(press_primagen_key_switch_event))
-            world.get_location("[6-2a] Eye of Truth - Primagen Key Switch") \
-                .place_locked_item(world.create_item(press_primagen_key_switch_event))
-            world.get_location("[6-3b] Leap - Primagen Key Switch") \
-                .place_locked_item(world.create_item(press_primagen_key_switch_event))
-            world.get_location("[6-4d] Generator in River - Primagen Key Switch") \
-                .place_locked_item(world.create_item(press_primagen_key_switch_event))
+            place_items_of_type(world, "Primagen Key Switch Pressed", [
+                "[6-1] Whispers - Primagen Key Switch",
+                "[6-2a] Eye of Truth - Primagen Key Switch",
+                "[6-3b] Leap - Primagen Key Switch",
+                "[6-4d] Generator in River - Primagen Key Switch"
+            ])
 
 def prepare_weights(pairs: Iterable[tuple]) -> tuple[list, list[int]]:
     """

@@ -143,7 +143,10 @@ def create_locations(world: Turok2World) -> None:
             world.life_force_locations.append((loc_name, loc_info))
             return False
         if item_type == ItemType.MISSION_ITEM.value:
-            return world.options.randomize_mission_items
+            # Most mission items will be in locked locations
+            # The green capacitors are not included in this
+            #   So, if not including mission items, don't include them
+            return world.options.randomize_mission_items or " - Green Capacitor" not in loc_name
         if item_type == ItemType.NUKE_PART.value:
             return world.options.nuke_behavior in (
                 NukeBehavior.option_disabled,
