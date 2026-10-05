@@ -316,18 +316,34 @@ def get_settings_string(self: "Turok2World") -> str:
             "FLAME_THROWER": AmmoTypes.FLAME_THROWER_FUEL,
             "NUKE": AmmoTypes.NUKE_AMMO
         }
+        alt_suffix = "_ALT"
 
         if self.options.randomize_ammo_types == RandomizeAmmoTypes.option_shuffle:
             ammo_types = list(ammo_type_mapping.values())
-            self.random.shuffle(ammo_types)
-            ammo_type_mapping = dict(zip(ammo_type_mapping.keys(), ammo_types))
+            ammo_keys = list(ammo_type_mapping.keys())
+            while True:
+                self.random.shuffle(ammo_types)
+                ammo_type_mapping = dict(zip(ammo_keys, ammo_types))
+
+                # Only break the loop if all alt ammo types don't have the same type as the primary type
+                if all(
+                    not key.endswith(alt_suffix)
+                    or ammo_type_mapping[key] != ammo_type_mapping[key.removesuffix(alt_suffix)]
+                    for key in ammo_type_mapping
+                ):
+                    break
         elif self.options.randomize_ammo_types == RandomizeAmmoTypes.option_random:
             ammo_types = list(AmmoTypes)
             for key in ammo_type_mapping:
-                ammo_type_mapping[key] = self.random.choice(ammo_types)
+                # For alt ammo, exclude the ammo already selected by the primary ammo
+                # This relies on the primary type already being defined (it should come before the alt type)
+                if key.endswith(alt_suffix):
+                    primary_type = ammo_type_mapping[key.removesuffix(alt_suffix)]
+                    ammo_type_mapping[key] = self.random.choice(
+                        [ammo_type for ammo_type in ammo_types if ammo_type != primary_type])
+                else:
+                    ammo_type_mapping[key] = self.random.choice(ammo_types)
 
-        # TODO: don't assign the same type to the alt weapons
-            
         return "\n".join(f"#define OPTION_AMMO_TYPE_{key} \"{value}\"" for key, value in ammo_type_mapping.items()) + "\n"
 
     def format_starting_items_macro(name: str, values: list[int]) -> str:
