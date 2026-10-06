@@ -40,6 +40,22 @@ class APMessageType(Enum):
     AP_IN_MSGTYPE_GET_AMMO = 5
     AP_IN_MSGTYPE_GET_TRAP = 6
 
+class APDeathType(Enum):
+    """The set of death types that the game can send out."""
+    AP_DEATH_NONE = 0
+    AP_DEATH_TEST1 = 1 # TODO: populate these when complete
+    AP_DEATH_TEST2 = 2
+
+DEATH_TYPE_MESSAGES = {
+    APDeathType.AP_DEATH_NONE: "did not die...",
+    APDeathType.AP_DEATH_TEST1: "died due to a test!",
+    APDeathType.AP_DEATH_TEST2: "died doing what he loved."
+}
+"""
+What message should be displayed when the player does in a certain way.
+Should be used like: "{player_name} {message}"
+"""
+
 class APMemoryOffset(Enum):
     """
     The memory offsets of each block of data.
@@ -65,3 +81,6 @@ class APMemoryOffset(Enum):
     CURRENT_MAP_ID = 48
 
     VALIDATION_SEED = 52
+
+    SEND_DEATH_TYPE = 56
+    RECEIVED_DEATH = 60

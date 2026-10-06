@@ -275,6 +275,10 @@ class Turok2World(World):
         Fills the slot data with the options used, to be used by trackers and UT
         """
         slot_data = self.options.as_dict(
+            # Death Link
+            "death_link",
+            "death_link_type",
+
             # Goal
             "level_goal",
             "primagen_goal",

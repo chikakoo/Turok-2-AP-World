@@ -1,11 +1,12 @@
 import asyncio
 import pymem
 import logging
-from .ap_memory_constants import APStatus, APMemoryOffset
+from .ap_memory_constants import APStatus, APDeathType, DEATH_TYPE_MESSAGES, APMemoryOffset
 from argparse import Namespace
-from CommonClient import server_loop, gui_enabled
+from CommonClient import ClientCommandProcessor, server_loop, gui_enabled
 from ..items import map_ap_item_to_game
 from NetUtils import ClientStatus
+from Utils import async_start
 from typing import Any
 
 # Use UTs context if using UT, else use CommonContext
@@ -118,9 +119,23 @@ MAP_ID_TO_MAP_DATA = {
     8300: { "level": "Level 6", "map": "6-O", "section": "" }
 }
 
+class Turok2CommandProcessor(ClientCommandProcessor):
+    def __init__(self, ctx): 
+        super().__init__(ctx)
+
+    def _cmd_deathlink(self):
+        """Toggle deathlink from the client."""
+        if isinstance(self.ctx, Turok2Context):
+            self.ctx.deathlink_client_override = True
+            self.ctx.deathlink_enabled = not self.ctx.deathlink_enabled
+            async_start(self.ctx.update_death_link(self.ctx.deathlink_enabled), name="Update Deathlink")
+            self.ctx.logger.info(f"Deathlink {"enabled" if self.ctx.deathlink_enabled else "disabled"}.")
+
 class Turok2Context(SuperContext):
     tags = {"AP"}
     game = "Turok 2"
+    command_processor = Turok2CommandProcessor
+    logger = logger
     
     highest_processed_index = 0
     current_map_id: int  # Server state set by the client
@@ -128,6 +143,11 @@ class Turok2Context(SuperContext):
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.current_map_id = ""
+        self.deathlink_enabled = False
+        self.deathlink_pending = False
+        self.deathlink_client_override = False
+        self.game_connected = False # Really, it's when AP Base isn't found
+        self.last_connected_validation_seed = 0
 
         # 1: Our starting inventory is handled remotely
         # 0: We do NOT get sent items from our own world (as we'd get dups)
@@ -151,8 +171,6 @@ class Turok2Context(SuperContext):
         b"\xEF\xBE\x37\x13")
         
     ap_base = None
-    game_connected = False # Really, it's when AP Base isn't found
-    last_connected_validation_seed = 0
     pm = None
     
     async def connect_to_game_async(self):
@@ -187,12 +205,12 @@ class Turok2Context(SuperContext):
         # Try last known address first
         if self.ap_base is not None and self.is_ap_block_valid():
             print(f"Reusing AP block at {hex(self.ap_base)}")
-            self.game_connected = True
+            self.on_game_connected()
             return self.ap_base
             
         attempt = 0
         while True:
-            try:            
+            try:
                 self.ap_base = pymem.pattern.pattern_scan_all(
                     self.pm.process_handle,
                     self.pattern
@@ -201,7 +219,7 @@ class Turok2Context(SuperContext):
                 if not self.ap_base or not self.is_ap_block_valid():
                     raise
                 
-                self.game_connected = True
+                self.on_game_connected()
                 print(f"Found AP block at {hex(self.ap_base)}")
                 logger.info("Connected to game process!")
                 
@@ -215,8 +233,18 @@ class Turok2Context(SuperContext):
                     attempt = 0
                 
                 await asyncio.sleep(5)
+
+    def on_game_connected(self) -> None:
+        """
+        Sets the game_connected property and clears the death link flags in the game so we don't
+        send/receive any that took place while we were offline.
+        """
+        self.game_connected = True
+        self.deathlink_pending = False
+        self.write_int(APMemoryOffset.SEND_DEATH_TYPE, APDeathType.AP_DEATH_NONE) 
+        self.write_int(APMemoryOffset.RECEIVED_DEATH, 0)
                 
-    def is_ap_block_valid(self):
+    def is_ap_block_valid(self) -> bool:
         """
         Checks that the AP block is valid by validating our header, and status values.
         
@@ -240,7 +268,7 @@ class Turok2Context(SuperContext):
         except Exception:
             return False
 
-    def validate_seed(self):
+    def validate_seed(self) -> bool:
         """
         Validates the seed and returns False if it does not match what we expect.
         """
@@ -249,13 +277,13 @@ class Turok2Context(SuperContext):
         except Exception:
             return False
 
-    def read_int(self, offset: APMemoryOffset):
+    def read_int(self, offset: APMemoryOffset) -> int:
         """
         Helper to read the int for the given offset.
         """
         return self.pm.read_int(self.ap_base + getattr(offset, "value", offset))
 
-    def write_int(self, offset: APMemoryOffset, value):
+    def write_int(self, offset: APMemoryOffset, value) -> None:
         """
         Helper to write an int to the given offset.
         """
@@ -263,14 +291,15 @@ class Turok2Context(SuperContext):
         value = getattr(value, "value", value)
         self.pm.write_int(self.ap_base + offset, value)
         
-    async def bridge_loop_async(self):
+    async def bridge_loop_async(self) -> None:
         """
         This is the main execution loop.
         Each loop, checks if the AP block is not valid, throw an exception and try to connect again.
-        Tries to process outgoing messages, as well as console commands.
+        Tries to process outgoing messages, death links, and goals.
         """
         await self.connect_to_game_async()
         self.ap_base = await self.scan_for_ap_base_async()
+        self.deathlink_pending = False # Don't queue up death links if the game isn't connected
         
         while True:
             try:
@@ -286,6 +315,7 @@ class Turok2Context(SuperContext):
                     logger.warning("Unmatching seed detected. Are you using the correct patch file?")
                     logger.warning(f"Expected seed: {self.last_connected_validation_seed}")
                     logger.warning("Trying again in 15 seconds...")
+                    self.deathlink_pending = False # Don't queue up death links if the seed is invalid
                     await asyncio.sleep(15)
                     continue
                     
@@ -293,10 +323,12 @@ class Turok2Context(SuperContext):
                 await self.process_incoming() # Send the game pending items
                 await self.process_outgoing() # Game sending us checks
                 await self.process_current_map() # Send current map to trackers
+                await self.process_death_links()
 
                 await asyncio.sleep(0.1)
 
-            except Exception:
+            except Exception as e:
+                logger.exception(e)
                 logger.warning("Lost connection to game. Reconnecting...")
                 await asyncio.sleep(5) # If the game was closed, let it close completely
 
@@ -403,6 +435,26 @@ class Turok2Context(SuperContext):
                 }
                 await self.send_msgs([message])
 
+    async def process_death_links(self):
+        """
+        Process death links, if enabled. Handles both sending and receiving death links.
+        """
+        if not self.deathlink_enabled or not self.game_connected:
+            return
+
+        # Process when the player has died
+        cause_of_death = self.read_int(APMemoryOffset.SEND_DEATH_TYPE)
+        if cause_of_death != APDeathType.AP_DEATH_NONE.value:
+            player_name = self.player_names[self.slot] if self.slot is not None else "Turok"
+            message = f"{player_name} {DEATH_TYPE_MESSAGES.get(APDeathType(cause_of_death), "died.")}"
+            await self.send_death(message)
+            self.write_int(APMemoryOffset.SEND_DEATH_TYPE, APDeathType.AP_DEATH_NONE)
+            print(f"Death link sent: {message}")
+
+        # Process when others have died
+        if self.deathlink_pending:
+            self.write_int(APMemoryOffset.RECEIVED_DEATH, 1)
+
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
         """
         On a connection, clear the current map id so trackers can switch to the current map, if any.
@@ -414,8 +466,21 @@ class Turok2Context(SuperContext):
             self.current_map_id = ""
             self.last_connected_validation_seed = args["slot_data"]["validation_seed"]
 
+            # Only set deathlink from the slot data if we're not overriding it
+            self.deathlink_pending = False
+            if not self.deathlink_client_override:
+                self.deathlink_enabled = args["slot_data"]["death_link"]
+                async_start(self.update_death_link(self.deathlink_enabled))
+
+    def on_deathlink(self, data: dict):
+        """If deathlink is enabled, sets the flag to send it to the game."""
+        self.deathlink_pending = self.deathlink_enabled and \
+            self.game_connected and \
+            self.last_connected_validation_seed != 0
+        super().on_deathlink(data)
+
     def make_gui(self):
-        """ Sets the client's title. """
+        """Sets the client's title."""
         ui = super().make_gui() 
         ui.base_title = "Archipelago Turok 2 Client"
         return ui

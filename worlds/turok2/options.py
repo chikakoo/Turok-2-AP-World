@@ -1,6 +1,6 @@
 import re
 from dataclasses import dataclass
-from Options import Choice, OptionGroup, OptionList, OptionDict, \
+from Options import Choice, OptionGroup, OptionList, OptionDict, DeathLink, \
     ItemSet, PerGameCommonOptions, Range, NamedRange, Toggle
 from schema import Schema, And
 from typing import List
@@ -1098,9 +1098,28 @@ class UncheckedEnemyIndicators(Toggle):
     """
     display_name = "Unchecked Enemy Indicators"
     default = True
+
+class DeathLinkType(Choice):
+    """
+    If death link is on, what happens when a death link is received.
+
+    For any of these choices, consider turning on the infinite lives cheat if necessary, as the
+    mod does not give or disable lives.
+    - Death: Kills you.
+    - Half Health: Damages you equal to half of your current health. Does no damage if at 1 health.
+    - Low Health: Sets your current health to 1.
+    """
+    display_name = "Death Link Type"
+    option_death = 0
+    option_half_health = 1
+    option_low_health = 2
+    default = option_death
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
+    death_link: DeathLink
+    death_link_type: DeathLinkType
+
     generate_for_offline: GenerateForOffline
 
     level_goal: LevelGoal
