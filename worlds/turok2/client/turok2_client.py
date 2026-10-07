@@ -127,6 +127,7 @@ class Turok2CommandProcessor(ClientCommandProcessor):
         """Toggle deathlink from the client."""
         if isinstance(self.ctx, Turok2Context):
             self.ctx.deathlink_client_override = True
+            self.ctx.deathlink_just_toggled = True
             self.ctx.deathlink_enabled = not self.ctx.deathlink_enabled
             async_start(self.ctx.update_death_link(self.ctx.deathlink_enabled), name="Update Deathlink")
             self.ctx.logger.info(f"Deathlink {"enabled" if self.ctx.deathlink_enabled else "disabled"}.")
@@ -145,6 +146,7 @@ class Turok2Context(SuperContext):
         self.current_map_id = ""
         self.deathlink_enabled = False
         self.deathlink_pending = False
+        self.deathlink_just_toggled = False
         self.deathlink_client_override = False
         self.game_connected = False # Really, it's when AP Base isn't found
         self.last_connected_validation_seed = 0
@@ -240,6 +242,12 @@ class Turok2Context(SuperContext):
         send/receive any that took place while we were offline.
         """
         self.game_connected = True
+        self.reset_deathlink_flags()
+
+    def reset_deathlink_flags(self) -> None:
+        """
+        Resets the death link flags to clear pending death links sent from the game and received from the server.
+        """
         self.deathlink_pending = False
         self.write_int(APMemoryOffset.SEND_DEATH_TYPE, APDeathType.AP_DEATH_NONE) 
         self.write_int(APMemoryOffset.RECEIVED_DEATH, 0)
@@ -437,6 +445,11 @@ class Turok2Context(SuperContext):
     async def process_death_links(self):
         """Handles both sending and receiving death links, if enabled."""
         if not self.deathlink_enabled or not self.game_connected:
+            return
+
+        if self.deathlink_just_toggled:
+            self.reset_deathlink_flags()
+            self.deathlink_just_toggled = False
             return
 
         # Process when the player has died
