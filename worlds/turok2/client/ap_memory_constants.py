@@ -47,12 +47,13 @@ class APDeathType(Enum):
     AP_DEATH_PLAYER_GENERIC = 2
     AP_DEATH_ENEMY_MELEE = 3
     AP_DEATH_ENEMY_SHOT = 4
-    AP_DEATH_VOID = 5
-    AP_DEATH_WATER = 6
-    AP_DEATH_SWAMP = 7
-    AP_DEATH_LAVA = 8
-    AP_DEATH_EMBER = 9
-    AP_DEATH_ROCK = 10
+    AP_DEATH_TURRET = 5
+    AP_DEATH_VOID = 6
+    AP_DEATH_WATER = 7
+    AP_DEATH_SWAMP = 8
+    AP_DEATH_LAVA = 9
+    AP_DEATH_EMBER = 10
+    AP_DEATH_ROCK = 11
 
 DEATH_TYPE_MESSAGES = {
     APDeathType.AP_DEATH_NONE: "died somehow...",
@@ -60,11 +61,12 @@ DEATH_TYPE_MESSAGES = {
     APDeathType.AP_DEATH_PLAYER_GENERIC: "died from their own actions.",
     APDeathType.AP_DEATH_ENEMY_MELEE: "was mauled to death.",
     APDeathType.AP_DEATH_ENEMY_SHOT: "was blasted to death.",
-    APDeathType.AP_DEATH_VOID: "slipped into a hole.",
+    APDeathType.AP_DEATH_TURRET: "was sniped by a turret.",
+    APDeathType.AP_DEATH_VOID: "tumbled into the void.",
     APDeathType.AP_DEATH_WATER: "met with a watery grave.",
     APDeathType.AP_DEATH_SWAMP: "sunk into a swamp.",
     APDeathType.AP_DEATH_LAVA: "took a lava bath.",
-    APDeathType.AP_DEATH_EMBER: "was hit by an ember.",
+    APDeathType.AP_DEATH_EMBER: "was singed by an ember.",
     APDeathType.AP_DEATH_ROCK: "was crushed by a rock.",
 }
 """
