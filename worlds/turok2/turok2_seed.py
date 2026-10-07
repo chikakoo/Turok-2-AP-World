@@ -201,7 +201,6 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_MAX_<ammo type>: The max number of the given ammo type the player can carry
     """
     # Defaults - will result in no goal
-    death_link_type = self.options.death_link_type.value
     mark_pickups = "false"
     mark_enemies = "false"
     primagen_lair_is_goal = "false"
@@ -391,7 +390,7 @@ def get_settings_string(self: "Turok2World") -> str:
     settings_macros = (
         f"#define AP_VALIDATION_SEED {self.validation_seed}\n" +
         f"#define AP_SLOT_NAME \"{self.player_name}\"\n" +
-        f"#define OPTION_DEATH_LINK_TYPE {death_link_type}\n" +
+        f"#define OPTION_DEATH_LINK_TYPE {self.options.death_link_type.value}\n" +
 
         f"#define OPTION_MARK_PICKUPS {mark_pickups}\n" +
         f"#define OPTION_MARK_ENEMIES {mark_enemies}\n" +

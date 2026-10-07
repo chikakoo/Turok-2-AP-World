@@ -327,8 +327,7 @@ class Turok2Context(SuperContext):
 
                 await asyncio.sleep(0.1)
 
-            except Exception as e:
-                logger.exception(e)
+            except Exception:
                 logger.warning("Lost connection to game. Reconnecting...")
                 await asyncio.sleep(5) # If the game was closed, let it close completely
 
@@ -436,9 +435,7 @@ class Turok2Context(SuperContext):
                 await self.send_msgs([message])
 
     async def process_death_links(self):
-        """
-        Process death links, if enabled. Handles both sending and receiving death links.
-        """
+        """Handles both sending and receiving death links, if enabled."""
         if not self.deathlink_enabled or not self.game_connected:
             return
 
