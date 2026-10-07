@@ -43,13 +43,29 @@ class APMessageType(Enum):
 class APDeathType(Enum):
     """The set of death types that the game can send out."""
     AP_DEATH_NONE = 0
-    AP_DEATH_TEST1 = 1 # TODO: populate these when complete
-    AP_DEATH_TEST2 = 2
+    AP_DEATH_GENERIC = 1
+    AP_DEATH_PLAYER_GENERIC = 2
+    AP_DEATH_ENEMY_MELEE = 3
+    AP_DEATH_ENEMY_SHOT = 4
+    AP_DEATH_VOID = 5
+    AP_DEATH_WATER = 6
+    AP_DEATH_SWAMP = 7
+    AP_DEATH_LAVA = 8
+    AP_DEATH_EMBER = 9
+    AP_DEATH_ROCK = 10
 
 DEATH_TYPE_MESSAGES = {
-    APDeathType.AP_DEATH_NONE: "did not die...",
-    APDeathType.AP_DEATH_TEST1: "died due to a test!",
-    APDeathType.AP_DEATH_TEST2: "died doing what he loved."
+    APDeathType.AP_DEATH_NONE: "died somehow...",
+    APDeathType.AP_DEATH_GENERIC: "died from some unknown source.",
+    APDeathType.AP_DEATH_PLAYER_GENERIC: "died from their own actions.",
+    APDeathType.AP_DEATH_ENEMY_MELEE: "was mauled to death.",
+    APDeathType.AP_DEATH_ENEMY_SHOT: "was blasted to death.",
+    APDeathType.AP_DEATH_VOID: "slipped into a hole.",
+    APDeathType.AP_DEATH_WATER: "met with a watery grave.",
+    APDeathType.AP_DEATH_SWAMP: "sunk into a swamp.",
+    APDeathType.AP_DEATH_LAVA: "took a lava bath.",
+    APDeathType.AP_DEATH_EMBER: "was hit by an ember.",
+    APDeathType.AP_DEATH_ROCK: "was crushed by a rock.",
 }
 """
 What message should be displayed when the player does in a certain way.

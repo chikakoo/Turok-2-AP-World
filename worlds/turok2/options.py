@@ -5,9 +5,6 @@ from Options import Choice, OptionGroup, OptionList, OptionDict, DeathLink, \
 from schema import Schema, And
 from typing import List
 
-# TODO:
-# death link
-
 class GenerateForOffline(Toggle):
     """
     Receive starting inventory without connecting to AP. Only set to True if you want to play
