@@ -9,6 +9,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
+- Ping the AP client (if not in offline mode) and display a disconnected message if it doesn't respond
 
 ## v0.6.X
 

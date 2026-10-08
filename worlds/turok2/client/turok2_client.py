@@ -311,6 +311,10 @@ class Turok2Context(SuperContext):
         
         while True:
             try:
+                if self.disconnected_intentionally:
+                    await asyncio.sleep(0.5)
+                    continue
+
                 if not self.is_ap_block_valid():
                     self.game_connected = False
                     raise Exception("AP block disappeared")
@@ -326,12 +330,13 @@ class Turok2Context(SuperContext):
                     self.deathlink_pending = False # Don't queue up death links if the seed is invalid
                     await asyncio.sleep(15)
                     continue
-                    
-                await self.check_goal()
-                await self.process_incoming() # Send the game pending items
-                await self.process_outgoing() # Game sending us checks
-                await self.process_current_map() # Send current map to trackers
-                await self.process_death_links()
+
+                self.handle_ping()
+                await self.check_goal_async()
+                await self.process_incoming_async() # Send the game pending items
+                await self.process_outgoing_async() # Game sending us checks
+                await self.process_current_map_async() # Send current map to trackers
+                await self.process_death_links_async()
 
                 await asyncio.sleep(0.1)
 
@@ -348,8 +353,13 @@ class Turok2Context(SuperContext):
                     except Exception:
                         print("Reconnect failed, retrying...")
                         await asyncio.sleep(3)
+
+    def handle_ping(self) -> None:
+        """If the game pinged the client, acknowledge it."""
+        if self.read_int(APMemoryOffset.PING_PENDING) != 0:
+            self.write_int(APMemoryOffset.PING_PENDING, 0)
                         
-    async def check_goal(self) -> None:
+    async def check_goal_async(self) -> None:
         """
         The game will keep track of the goal and set it when reached.
         """
@@ -357,7 +367,7 @@ class Turok2Context(SuperContext):
             await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
             self.finished_game = True
         
-    async def process_incoming(self):
+    async def process_incoming_async(self):
         """
         The client will have every item received in the order it's received in self.items_received.
         Here, we use the highest processed index to get all the new items we need to get, and
@@ -375,12 +385,12 @@ class Turok2Context(SuperContext):
                 raise Exception("Game not connected")
 
             msg_type, msg_data = map_ap_item_to_game(item.item)
-            if not await self.send_next_item_async(msg_type, msg_data):
+            if not self.send_next_item(msg_type, msg_data):
                 break
             
             print(f"Processed index: {self.highest_processed_index}")
             
-    async def send_next_item_async(self, msg_type: int, data: int) -> bool:
+    def send_next_item(self, msg_type: int, data: int) -> bool:
         """
         Sends a message to the game by:
         - Checking the IN_STATUS - if not AP_READY, do nothing, as the game is currently processing one
@@ -399,7 +409,7 @@ class Turok2Context(SuperContext):
         
         return True
         
-    async def process_outgoing(self):
+    async def process_outgoing_async(self) -> None:
         """
         Process a message from the game by:
         - Checking the OUT_STATUS - if not AP_PROCESSING, do nothing, as the game hasn't sent anything.
@@ -418,7 +428,7 @@ class Turok2Context(SuperContext):
         # Mark block ready for next message
         self.write_int(APMemoryOffset.OUT_STATUS, APStatus.AP_READY)
 
-    async def process_current_map(self):
+    async def process_current_map_async(self) -> None:
         """
         Grabs the current map id and sends a message to trackers with the matching level name if it changed.
         """
@@ -442,7 +452,7 @@ class Turok2Context(SuperContext):
                 }
                 await self.send_msgs([message])
 
-    async def process_death_links(self):
+    async def process_death_links_async(self) -> None:
         """Handles both sending and receiving death links, if enabled."""
         if not self.deathlink_enabled or not self.game_connected:
             return

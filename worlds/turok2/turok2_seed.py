@@ -391,6 +391,7 @@ def get_settings_string(self: "Turok2World") -> str:
         f"#define AP_VALIDATION_SEED {self.validation_seed}\n" +
         f"#define AP_SLOT_NAME \"{self.player_name}\"\n" +
         f"#define OPTION_DEATH_LINK_TYPE {self.options.death_link_type.value}\n" +
+        f"#define OPTION_OFFLINE_MODE {generate_for_offline}\n" +
 
         f"#define OPTION_MARK_PICKUPS {mark_pickups}\n" +
         f"#define OPTION_MARK_ENEMIES {mark_enemies}\n" +
