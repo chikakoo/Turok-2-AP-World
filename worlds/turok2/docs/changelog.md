@@ -6,10 +6,13 @@ This includes changes in both the mod and AP world, in reverse order of releases
 ### v0.7.0
 - Added death link support, with a few different options for when one is received
 - Added setting to shuffle/randomize ammo types
+- Added setting for an infinite ammo upgrades
 - Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
 - Ping the AP client (if not in offline mode) and display a disconnected message if it doesn't respond
+- Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
+- Fixed the Mag 60 from not consuming extra ammo when holding down fire
 
 ## v0.6.X
 

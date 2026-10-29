@@ -198,6 +198,7 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_WEAPON_BARRIERS: Whether we're using weapon barriers
     - OPTION_WEAPON_BARRIER_<name>: The number of unique weapons to pass the weapon barrier
     - OPTION_PROGRESSIVE_AMMO_COUNT: The number of progressive weapons in the pool per weapon
+    - OPTION_INFINITE_AMMO_UPGRADES: Whether we're using infinite ammo upgrades
     - OPTION_MAX_<ammo type>: The max number of the given ammo type the player can carry
     """
     # Defaults - will result in no goal
@@ -214,6 +215,7 @@ def get_settings_string(self: "Turok2World") -> str:
     unlock_method_one_key = "false"
     unlock_method_one_warp = "false"
     weapon_barriers = "false"
+    infinite_ammo_upgrades = "false"
 
     # Set the important (!) indicators
     if self.options.unchecked_pickup_indicators:
@@ -254,6 +256,10 @@ def get_settings_string(self: "Turok2World") -> str:
     # Weapon barriers
     if self.options.use_weapon_barriers:
         weapon_barriers = "true"
+
+    # Infinite Ammo Upgrades
+    if self.options.infinite_ammo_upgrades:
+        infinite_ammo_upgrades = "true"
 
     # Starting inventory - only fill these if in offline mode, since this is handled by the server normally
     generate_for_offline = self.options.generate_for_offline.value
@@ -444,7 +450,8 @@ def get_settings_string(self: "Turok2World") -> str:
         get_weapon_barrier_macro(self, "6_END", "Level 6 End") +
         get_weapon_barrier_macro(self, "PRIMAGEN", "Primagen") +
         
-        f"#define OPTION_PROGRESSIVE_AMMO_COUNT {self.options.progressive_weapon_ammo_upgrades}\n")
+        f"#define OPTION_PROGRESSIVE_AMMO_COUNT {self.options.progressive_weapon_ammo_upgrades}\n" +
+        f"#define OPTION_INFINITE_AMMO_UPGRADES {infinite_ammo_upgrades}\n")
 
     for ammo_name, ammo_data in MaxAmmoSettings.ammo_data.items():
         settings_macros += get_ammo_macro(

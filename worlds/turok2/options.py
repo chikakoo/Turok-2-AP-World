@@ -301,6 +301,14 @@ class ProgressiveWeaponAmmoUpgrades(Range):
     range_end = 5
     default = 1
 
+class InfiniteAmmoUpgrades(Toggle):
+    """
+    Only used if randomizing weapons. Adds one more weapon that has ammo to the pool, so there will be one more than
+    the ProgressiveWeaponAmmoUpgrades setting. Getting the last weapon will give you infinite ammo in it.
+    """
+    display_name = "Infinite Ammo Upgrades"
+    default = False
+
 SPECIAL_AMMO_NAMES = {
     "quarter": 25,
     "half": 50,
@@ -1140,6 +1148,7 @@ class Turok2Options(PerGameCommonOptions):
 
     randomize_ammo_pickups: RandomizeAmmoPickups
     progressive_weapon_ammo_upgrades: ProgressiveWeaponAmmoUpgrades
+    infinite_ammo_upgrades: InfiniteAmmoUpgrades
     max_ammo_settings: MaxAmmoSettings
     randomize_ammo_types: RandomizeAmmoTypes
     min_random_ammo_percent: MinRandomAmmoPercent
@@ -1214,6 +1223,7 @@ option_groups: List[OptionGroup] = [
     OptionGroup("Ammo Options", [
         RandomizeAmmoPickups,
         ProgressiveWeaponAmmoUpgrades,
+        InfiniteAmmoUpgrades,
         MaxAmmoSettings,
         RandomizeAmmoTypes,
         MinRandomAmmoPercent,
