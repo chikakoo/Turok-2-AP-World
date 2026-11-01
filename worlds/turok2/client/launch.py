@@ -1,9 +1,8 @@
-import os
 import asyncio
 import colorama
 import settings
 from collections.abc import Sequence
-from CommonClient import get_base_parser, handle_url_arg
+from CommonClient import get_base_parser
 
 def launch_ap_turok2_client(*args: Sequence[str]) -> None:  
     from .turok2_client import main
@@ -11,17 +10,17 @@ def launch_ap_turok2_client(*args: Sequence[str]) -> None:
     """
     Set up the Turok 2 options - we need the executable name
     """
-    full_path = settings.get_settings()["turok2_options"]["turok2_path"]
-    exe_name = os.path.basename(full_path)
+    exe_path = settings.get_settings()["turok2_options"]["turok2_path"]
 
     parser = get_base_parser()
-    parser.add_argument("--name", default=None, help="Slot Name to connect as.")
-    parser.add_argument("url", nargs="?", help="Archipelago connection url")
-
-    launch_args = handle_url_arg(parser.parse_args(args))
-
+    parser.add_argument(
+        "patch_file",
+        default="",
+        type=str,
+        nargs="?",
+        help="Path to a rando.kpf Turok 2 patch file")
+    args = parser.parse_args(args)
+    
     colorama.just_fix_windows_console()
-
-    asyncio.run(main(launch_args, exe_name))
-
+    asyncio.run(main(args, exe_path))
     colorama.deinit()

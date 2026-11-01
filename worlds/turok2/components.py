@@ -1,4 +1,4 @@
-from worlds.LauncherComponents import Component, Type, components, launch, icon_paths
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch, icon_paths
 
 def run_client(*args: str) -> None:
     '''
@@ -18,5 +18,6 @@ components.append(
         component_type=Type.CLIENT,
         supports_uri=True,
         icon="turok2",
+        file_identifier=SuffixIdentifier('.apturok2')
     )
 )

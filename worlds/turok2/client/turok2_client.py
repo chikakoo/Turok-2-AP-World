@@ -1,11 +1,15 @@
+import argparse
 import asyncio
 import pymem
+import io
 import logging
+import zipfile
 from .ap_memory_constants import APStatus, APDeathType, DEATH_TYPE_MESSAGES, APMemoryOffset
 from argparse import Namespace
 from CommonClient import ClientCommandProcessor, server_loop, gui_enabled
 from ..items import map_ap_item_to_game
 from NetUtils import ClientStatus
+from pathlib import Path
 from Utils import async_start
 from typing import Any
 
@@ -298,6 +302,45 @@ class Turok2Context(SuperContext):
         offset = getattr(offset, "value", offset)
         value = getattr(value, "value", value)
         self.pm.write_int(self.ap_base + offset, value)
+
+    def handle_patch_file(self) -> None:
+        """
+        Handles when the client is opened with a provided patch file.
+        Includes checking the expected mod version.
+        This will always overwrite the rando.kpf in the mods directory.
+        """
+        if not self.patch_file:
+            return
+
+        ext = self.patch_file.split(".")[len(self.patch_file.split(".")) - 1].lower()
+        if ext != "apturok2":
+            logger.error(f"PATCH NOT INSTALLED: Unknown patch file extension: {ext}")
+            return
+        
+        with zipfile.ZipFile(self.patch_file, 'r') as patch_archive:
+            if "rando.kpf" not in patch_archive.namelist():
+                logger.error("PATCH NOT INSTALLED: rando.kpf not found in patch file...")
+                return
+                        
+            mods_dir = Path(self.exe_path).parent / "mods"
+            if not mods_dir.is_dir():
+                logger.error(
+                    f"PATCH NOT INSTALLED: Rando mod not installed at {mods_dir}")
+                return
+
+            mod_version_path = Path(mods_dir / "mod_version.meta")
+            if not mod_version_path.is_file():
+                logger.error(f"PATCH NOT INSTALLED: Rando mod is not installed or is less than 0.7.X. \
+                    Expected installation at {mod_version_path}")
+                return
+
+            with open(mod_version_path, "r") as mods_version_file:
+                mod_version = mods_version_file.readline().strip()
+                if mod_version != "0.7.X": # TODO: put this into a constant somewhere to easily modify
+                    logger.error(f"PATCH NOT INSTALLED: Expected rando mod version 0.7.X; found {mod_version}")
+                    return
+                
+            patch_archive.extract("rando.kpf", path=mods_dir)
         
     async def bridge_loop_async(self) -> None:
         """
@@ -305,6 +348,8 @@ class Turok2Context(SuperContext):
         Each loop, checks if the AP block is not valid, throw an exception and try to connect again.
         Tries to process outgoing messages, death links, and goals.
         """
+        self.handle_patch_file()
+
         await self.connect_to_game_async()
         self.ap_base = await self.scan_for_ap_base_async()
         self.deathlink_pending = False # Don't queue up death links if the game isn't connected
@@ -505,10 +550,11 @@ class Turok2Context(SuperContext):
         ui.base_title = "Archipelago Turok 2 Client"
         return ui
     
-async def main(args: Namespace, exe_name) -> None:
-    ctx = Turok2Context(args.url, None)
-    ctx.auth = args.name
-    ctx.exe_name = exe_name
+async def main(args: argparse.Namespace, exe_path: str) -> None:
+    ctx = Turok2Context(args.connect, args.password)
+    ctx.exe_path = exe_path
+    ctx.exe_name = Path(exe_path).name
+    ctx.patch_file = args.patch_file
 
     if tracker_loaded:
         ctx.run_generator()
@@ -518,6 +564,6 @@ async def main(args: Namespace, exe_name) -> None:
 
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
     asyncio.create_task(ctx.bridge_loop_async(), name="bridge loop")
-    
+
     await ctx.exit_event.wait()
     await ctx.shutdown()

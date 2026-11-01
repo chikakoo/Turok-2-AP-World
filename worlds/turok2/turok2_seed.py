@@ -46,7 +46,7 @@ def gen_turok2_seed(self: "Turok2World", output_directory: str):
     ap_version = Utils.__version__
     
     mod_name = f"AP-{seed_name}-P{self.player}-{self.multiworld.get_file_safe_player_name(self.player)}"
-    mod_dir = os.path.join(output_directory, mod_name + "_" + ap_version + ".zip")
+    mod_dir = os.path.join(output_directory, mod_name + "_" + ap_version + ".apturok2")
     mod = Turok2Container(
         get_angelscript(self),
         get_settings_string(self),

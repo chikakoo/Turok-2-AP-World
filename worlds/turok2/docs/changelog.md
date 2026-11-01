@@ -10,9 +10,12 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
-- Ping the AP client (if not in offline mode) and display a disconnected message if it doesn't respond
 - Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
-- Fixed the Mag 60 from not consuming extra ammo when holding down fire
+- AP world/connection changes:
+  - Added support to open the patch file to auto-install it and launch the client
+  - Ping the AP client (if not in offline mode) and display a disconnected message if it doesn't respond
+- Bug fixes:
+  - Fixed the Mag 60 from not consuming extra ammo when holding down fire
 
 ## v0.6.X
 
