@@ -5,10 +5,9 @@ import io
 import logging
 import zipfile
 from .ap_memory_constants import APStatus, APDeathType, DEATH_TYPE_MESSAGES, APMemoryOffset
-from argparse import Namespace
 from CommonClient import ClientCommandProcessor, server_loop, gui_enabled
 from ..items import map_ap_item_to_game
-from NetUtils import ClientStatus
+from NetUtils import ClientStatus, JSONMessagePart
 from pathlib import Path
 from Utils import async_start
 from typing import Any
@@ -178,6 +177,68 @@ class Turok2Context(SuperContext):
         
     ap_base = None
     pm = None
+
+    def print_message_in_color(self, message: str, color: str) -> None:
+        """Prints a message in the given color."""
+        message_data: list[JSONMessagePart] = [{
+            "type": "color",
+            "color": color,
+            "text": message
+        }]
+        self.on_print_json({ "data": message_data })
+
+    def print_warning(self, message: str) -> None:
+        """Prints a message in yellow."""
+        self.print_message_in_color(message, "yellow")
+
+    def print_error(self, message: str) -> None:
+        """Prints a message in red."""
+        self.print_message_in_color(message, "red")
+
+    def print_patch_file_error(self, message: str) -> None:
+        """Prints a message with the patch file error prefix included."""
+        self.print_error(f"PATCH NOT INSTALLED: {message}")
+
+    def handle_patch_file(self) -> None:
+        """
+        Handles when the client is opened with a provided patch file.
+        Includes checking the expected mod version.
+        This will always overwrite the rando.kpf in the mods directory.
+        """
+        try:
+            if not self.patch_file:
+                return
+
+            ext = self.patch_file.split(".")[len(self.patch_file.split(".")) - 1].lower()
+            if ext != "apturok2":
+                self.print_patch_file_error(f"Unknown patch file extension: {ext}")
+                return
+            
+            with zipfile.ZipFile(self.patch_file, 'r') as patch_archive:
+                if "rando.kpf" not in patch_archive.namelist():
+                    self.print_patch_file_error("rando.kpf not found in patch file...")
+                    return
+                            
+                mods_dir = Path(self.exe_path).parent / "mods"
+                if not mods_dir.is_dir():
+                    self.print_patch_file_error(f"Rando mod not installed at {mods_dir}")
+                    return
+
+                mod_version_path = Path(mods_dir / "mod_version.meta")
+                if not mod_version_path.is_file():
+                    self.print_patch_file_error(f"Rando mod is not installed or is less than 0.7.X. \
+                        Expected installation at {mod_version_path}")
+                    return
+
+                with open(mod_version_path, "r") as mods_version_file:
+                    mod_version = mods_version_file.readline().strip()
+                    if mod_version != "0.7.X": # TODO: put this into a constant somewhere to easily modify
+                        self.print_patch_file_error(f"Expected rando mod version 0.7.X; found {mod_version}")
+                        return
+                    
+                patch_archive.extract("rando.kpf", path=mods_dir)
+        except:
+            self.handle_patch_file("An uncaught error occurred while patching.")
     
     async def connect_to_game_async(self):
         """
@@ -234,7 +295,7 @@ class Turok2Context(SuperContext):
             except Exception:
                 attempt += 1
                 if attempt > 5:
-                    logger.warning("Connected to the exe, but didn't find the AP memory block. Please check that the mod and AP world are compatible versions. This can also happen if the intro cutscene plays uninterrupted. Retrying...")
+                    self.print_warning("Connected to the exe, but didn't find the AP memory block. Please check that the mod and AP world are compatible versions. This can also happen if the intro cutscene plays uninterrupted. Retrying...")
                     await self.connect_to_game_async()
                     attempt = 0
                 
@@ -303,45 +364,6 @@ class Turok2Context(SuperContext):
         value = getattr(value, "value", value)
         self.pm.write_int(self.ap_base + offset, value)
 
-    def handle_patch_file(self) -> None:
-        """
-        Handles when the client is opened with a provided patch file.
-        Includes checking the expected mod version.
-        This will always overwrite the rando.kpf in the mods directory.
-        """
-        if not self.patch_file:
-            return
-
-        ext = self.patch_file.split(".")[len(self.patch_file.split(".")) - 1].lower()
-        if ext != "apturok2":
-            logger.error(f"PATCH NOT INSTALLED: Unknown patch file extension: {ext}")
-            return
-        
-        with zipfile.ZipFile(self.patch_file, 'r') as patch_archive:
-            if "rando.kpf" not in patch_archive.namelist():
-                logger.error("PATCH NOT INSTALLED: rando.kpf not found in patch file...")
-                return
-                        
-            mods_dir = Path(self.exe_path).parent / "mods"
-            if not mods_dir.is_dir():
-                logger.error(
-                    f"PATCH NOT INSTALLED: Rando mod not installed at {mods_dir}")
-                return
-
-            mod_version_path = Path(mods_dir / "mod_version.meta")
-            if not mod_version_path.is_file():
-                logger.error(f"PATCH NOT INSTALLED: Rando mod is not installed or is less than 0.7.X. \
-                    Expected installation at {mod_version_path}")
-                return
-
-            with open(mod_version_path, "r") as mods_version_file:
-                mod_version = mods_version_file.readline().strip()
-                if mod_version != "0.7.X": # TODO: put this into a constant somewhere to easily modify
-                    logger.error(f"PATCH NOT INSTALLED: Expected rando mod version 0.7.X; found {mod_version}")
-                    return
-                
-            patch_archive.extract("rando.kpf", path=mods_dir)
-        
     async def bridge_loop_async(self) -> None:
         """
         This is the main execution loop.
@@ -369,9 +391,9 @@ class Turok2Context(SuperContext):
                     continue
 
                 if not self.validate_seed():
-                    logger.warning("Unmatching seed detected. Are you using the correct patch file?")
-                    logger.warning(f"Expected seed: {self.last_connected_validation_seed}")
-                    logger.warning("Trying again in 15 seconds...")
+                    self.print_warning("Unmatching seed detected. Are you using the correct patch file?")
+                    self.print_warning(f"Expected seed: {self.last_connected_validation_seed}")
+                    self.print_warning("Trying again in 15 seconds...")
                     self.deathlink_pending = False # Don't queue up death links if the seed is invalid
                     await asyncio.sleep(15)
                     continue
@@ -386,7 +408,7 @@ class Turok2Context(SuperContext):
                 await asyncio.sleep(0.1)
 
             except Exception:
-                logger.warning("Lost connection to game. Reconnecting...")
+                self.print_warning("Lost connection to game. Reconnecting...")
                 await asyncio.sleep(5) # If the game was closed, let it close completely
 
                 while True:
@@ -514,7 +536,6 @@ class Turok2Context(SuperContext):
             message = f"{player_name} {DEATH_TYPE_MESSAGES.get(APDeathType(cause_of_death), "died.")}"
             await self.send_death(message)
             self.write_int(APMemoryOffset.SEND_DEATH_TYPE, APDeathType.AP_DEATH_NONE)
-            print(f"Death link sent: {message}")
 
         # Process when others have died
         if self.deathlink_pending:

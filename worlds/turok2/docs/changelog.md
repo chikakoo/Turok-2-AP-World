@@ -11,9 +11,10 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added settings to randomize the sizes of enemies
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
 - Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
-- AP world/connection changes:
+- AP world client changes:
   - Added support to open the patch file to auto-install it and launch the client
   - Ping the AP client (if not in offline mode) and display a disconnected message if it doesn't respond
+  - Errors and warnings are now shown in color
 - Bug fixes:
   - Fixed the Mag 60 from not consuming extra ammo when holding down fire
 
