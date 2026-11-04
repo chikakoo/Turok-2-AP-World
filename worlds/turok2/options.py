@@ -639,6 +639,27 @@ class Enemysanity(NamedRange):
         "all": 100
     }
 
+class EnemySouls(Choice):
+    """
+    Adds an enemy soul for most enemies in the game. Until you have that soul, the
+    enemy will not be able to be killed for enemysanity checks or for map events (such
+    as doors being opened).
+
+    In all cases, you will need to reload the map to respawn the enemies once you get
+    their souls.
+
+    - Off: Do not add enemy souls
+    - No Spawns: Enemies will not spawn.
+    - No Triggers: Enemies will spawn, but will not trigger anything (enemysanity/map events).
+                   Enemies with no souls cannot be killed with the Cerebral Bore because they
+                   have no brainwaves! (Okay, it's a modding limitation, just go with it.)
+    """
+    display_name = "Enemy Souls"
+    option_off = 0
+    option_no_spawns = 1
+    option_no_triggers = 2
+    default = option_off
+
 class RandomizeEnemySizes(Choice):
     """
     Whether to resize enemies by the EnemySizeMaxPercentage setting.
@@ -1165,6 +1186,7 @@ class Turok2Options(PerGameCommonOptions):
     randomize_enemies: RandomizeEnemies
     randomize_enemy_spawners: RandomizeEnemySpawners
     enemysanity: Enemysanity
+    enemy_souls: EnemySouls
     randomize_enemy_sizes: RandomizeEnemySizes
     enemy_size_max_percentage: EnemySizeMaxPercentage
     
@@ -1242,6 +1264,7 @@ option_groups: List[OptionGroup] = [
         RandomizeEnemies,
         RandomizeEnemySpawners,
         Enemysanity,
+        EnemySouls,
         RandomizeEnemySizes,
         EnemySizeMaxPercentage
     ]),

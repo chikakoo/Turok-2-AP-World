@@ -191,7 +191,8 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_UNLOCK_METHOD_ONE_KEY: Receive all level keys at once when getting one of them
     - OPTION_UNLOCK_METHOD_ONE_WARP: Receive all level keys at once when getting one progressive warp
     - OPTION_ENEMIZER: The enemizer setting
-    - OPTION_ENEMIZER_SPAWNERS: Toe enemy spawner setting
+    - OPTION_ENEMIZER_SPAWNERS: The enemy spawner setting
+    - OPTION_ENEMY_SOULS: The enemy sould setting
     - OPTION_ENEMY_TRAP_POOL: The enemy trap pool setting
     - OPTION_RANDOMIZE_ENEMY_SIZES: Whether to randomize enemy sizes
     - OPTION_ENEMY_SIZE_MAX_PERCENTAGE: The max percentage to adjust enemy sizes by
@@ -202,6 +203,7 @@ def get_settings_string(self: "Turok2World") -> str:
     - OPTION_MAX_<ammo type>: The max number of the given ammo type the player can carry
     """
     # Defaults - will result in no goal
+    generate_for_offline = "false"
     mark_pickups = "false"
     mark_enemies = "false"
     primagen_lair_is_goal = "false"
@@ -216,6 +218,10 @@ def get_settings_string(self: "Turok2World") -> str:
     unlock_method_one_warp = "false"
     weapon_barriers = "false"
     infinite_ammo_upgrades = "false"
+
+    # Set offline mode
+    if self.options.generate_for_offline:
+        generate_for_offline = "true"
 
     # Set the important (!) indicators
     if self.options.unchecked_pickup_indicators:
@@ -262,7 +268,6 @@ def get_settings_string(self: "Turok2World") -> str:
         infinite_ammo_upgrades = "true"
 
     # Starting inventory - only fill these if in offline mode, since this is handled by the server normally
-    generate_for_offline = self.options.generate_for_offline.value
     inventory_item_ids = []
     weapon_item_ids = []
 
@@ -425,6 +430,7 @@ def get_settings_string(self: "Turok2World") -> str:
 
         f"#define OPTION_ENEMIZER {self.options.randomize_enemies.value}\n" +
         f"#define OPTION_ENEMIZER_SPAWNERS {self.options.randomize_enemy_spawners.value}\n" +
+        f"#define OPTION_ENEMY_SOULS {self.options.enemy_souls.value}\n" + 
         f"#define OPTION_ENEMY_TRAP_POOL {self.options.enemy_trap_pool.value}\n" +
         f"#define OPTION_RANDOMIZE_ENEMY_SIZES {self.options.randomize_enemy_sizes.value}\n" +
         f"#define OPTION_ENEMY_SIZE_MAX_PERCENTAGE {self.options.enemy_size_max_percentage.value}\n" +

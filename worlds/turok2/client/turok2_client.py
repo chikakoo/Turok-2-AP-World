@@ -254,6 +254,9 @@ class Turok2Context(SuperContext):
                 self.pm = pymem.Pymem(self.exe_name)
                 logger.info(f"Found Turok 2 process...")
                 return
+            except UnicodeDecodeError:
+                self.print_error("Decoding error detected. You may need to close any processes not containing UTF-8 characters.")
+                await asyncio.sleep(5)
             except Exception:
                 await asyncio.sleep(5)
                 
