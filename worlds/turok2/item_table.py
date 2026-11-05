@@ -3,9 +3,7 @@ from BaseClasses import  ItemClassification
 from .client.ap_memory_constants import APMessageType
 
 class ItemType(Enum):
-    """
-    Types used to filter the item table.
-    """
+    """Types used to filter the item table."""
     LIFE_FORCE_1 = 0
     LIFE_FORCE_10 = 1
     BLUE_HEALTH = 2
@@ -26,13 +24,48 @@ class ItemType(Enum):
     # Technically not items, but will still be used in the location table the same way
     SWITCH = 16
     MISSION_OBJECTIVE = 17
-    ENEMY = 18
     EVENT = 99 # Will not provide a real check - used for tracking purposes
+    
+class EnemyType(Enum):
+    """Types used to identify enemies (equal to their soul's actor id)."""
+    RAPTOID = 400200
+    ENDTRAIL = 400201
+    COMPY = 405000
+    RAPTOR = 400300
+
+    LEAPER = 401000
+    SPIDER_HATCHLING = 400502
+    DEADMAN = 400800
+    LORD_OF_THE_DEAD = 400803
+    SISTER_OF_DESPAIR = 400804
+
+    WAR_CLUB = 400600
+    GUNNER_SOUL = 400602
+    JUGGERNAUT = 400603
+    CAVE_WORM = 400505
+    WASP = 400604
+
+    BLIND_SENTINEL = 400500
+    GUARDIAN = 400501
+    NALA = 400507
+    CAVE_SPIDER = 400503
+    FIREBORN = 400203
+
+    DRONE = 400709
+    WORKER = 400708
+    MITE = 400707
+    SOLDIER = 400710
+
+    BIO_BOT = 400901
+    TROOPER = 400900
+    ELITE_GUARD = 400902
+
+    FLESH_SENTINEL = 400400
+    DEATH_GUARD = 400401
+    LORD_OF_THE_FLESH = 400402
 
 class WeightedItemGroup(Enum):
-    """
-    Types used to identify item groups that are related so weights can be applied.
-    """
+    """Types used to identify item groups that are related so weights can be applied."""
     NONE = 0
     LIFE_FORCE = 1
     HEALTH = 2
@@ -61,7 +94,7 @@ ITEM_TYPE_TO_NAME = {
 
     ItemType.AMMO: "Random Ammo Pack"
 }
-    
+
 class TrapType(Enum):
     """
     Trap types, so we can choose traps based on their weights.
@@ -726,6 +759,240 @@ ITEM_TABLE = {
         "count": 1,
         "exclude_from_ammo_upgrades": True,
         "groups": []
+    },
+
+    # Enemy Souls
+    "Raptoid Soul": {
+        "id": EnemyType.RAPTOID.value,
+        "actor_id": EnemyType.RAPTOID.value,
+        "type": EnemyType.RAPTOID.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Endtrail Soul": {
+        "id": EnemyType.ENDTRAIL.value,
+        "actor_id": EnemyType.ENDTRAIL.value,
+        "type": EnemyType.ENDTRAIL.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Compy Soul": {
+        "id": EnemyType.COMPY.value,
+        "actor_id": EnemyType.COMPY.value,
+        "type": EnemyType.COMPY.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Raptor Soul": {
+        "id": EnemyType.RAPTOR.value,
+        "actor_id": EnemyType.RAPTOR.value,
+        "type": EnemyType.RAPTOR.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Leaper Soul": {
+        "id": EnemyType.LEAPER.value,
+        "actor_id": EnemyType.LEAPER.value,
+        "type": EnemyType.LEAPER.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Spider Hatchling Soul": {
+        "id": EnemyType.SPIDER_HATCHLING.value,
+        "actor_id": EnemyType.SPIDER_HATCHLING.value,
+        "type": EnemyType.SPIDER_HATCHLING.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Deadman Soul": {
+        "id": EnemyType.DEADMAN.value,
+        "actor_id": EnemyType.DEADMAN.value,
+        "type": EnemyType.DEADMAN.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Lord of the Dead Soul": {
+        "id": EnemyType.LORD_OF_THE_DEAD.value,
+        "actor_id": EnemyType.LORD_OF_THE_DEAD.value,
+        "type": EnemyType.LORD_OF_THE_DEAD.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Sister of Despair Soul": {
+        "id": EnemyType.SISTER_OF_DESPAIR.value,
+        "actor_id": EnemyType.SISTER_OF_DESPAIR.value,
+        "type": EnemyType.SISTER_OF_DESPAIR.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "War Club Soul": {
+        "id": EnemyType.WAR_CLUB.value,
+        "actor_id": EnemyType.WAR_CLUB.value,
+        "type": EnemyType.WAR_CLUB.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Gunner Soul": {
+        "id": EnemyType.GUNNER_SOUL.value,
+        "actor_id": EnemyType.GUNNER_SOUL.value,
+        "type": EnemyType.GUNNER_SOUL.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Juggernaut Soul": {
+        "id": EnemyType.JUGGERNAUT.value,
+        "actor_id": EnemyType.JUGGERNAUT.value,
+        "type": EnemyType.JUGGERNAUT.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Cave Worm Soul": {
+        "id": EnemyType.CAVE_WORM.value,
+        "actor_id": EnemyType.CAVE_WORM.value,
+        "type": EnemyType.CAVE_WORM.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Wasp Soul": {
+        "id": EnemyType.WASP.value,
+        "actor_id": EnemyType.WASP.value,
+        "type": EnemyType.WASP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Blind Sentinel Soul": {
+        "id": EnemyType.BLIND_SENTINEL.value,
+        "actor_id": EnemyType.BLIND_SENTINEL.value,
+        "type": EnemyType.BLIND_SENTINEL.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Guardian Soul": {
+        "id": EnemyType.GUARDIAN.value,
+        "actor_id": EnemyType.GUARDIAN.value,
+        "type": EnemyType.GUARDIAN.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Nala Soul": {
+        "id": EnemyType.NALA.value,
+        "actor_id": EnemyType.NALA.value,
+        "type": EnemyType.NALA.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Cave Spider Soul": {
+        "id": EnemyType.CAVE_SPIDER.value,
+        "actor_id": EnemyType.CAVE_SPIDER.value,
+        "type": EnemyType.CAVE_SPIDER.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Fireborn": {
+        "id": EnemyType.FIREBORN.value,
+        "actor_id": EnemyType.FIREBORN.value,
+        "type": EnemyType.FIREBORN.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Drone Soul": {
+        "id": EnemyType.DRONE.value,
+        "actor_id": EnemyType.DRONE.value,
+        "type": EnemyType.DRONE.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Worker Soul": {
+        "id": EnemyType.WORKER.value,
+        "actor_id": EnemyType.WORKER.value,
+        "type": EnemyType.WORKER.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Mite Soul": {
+        "id": EnemyType.MITE.value,
+        "actor_id": EnemyType.MITE.value,
+        "type": EnemyType.MITE.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Soldier Soul": {
+        "id": EnemyType.SOLDIER.value,
+        "actor_id": EnemyType.SOLDIER.value,
+        "type": EnemyType.SOLDIER.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Bio-Bot Soul": {
+        "id": EnemyType.BIO_BOT.value,
+        "actor_id": EnemyType.BIO_BOT.value,
+        "type": EnemyType.BIO_BOT.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Trooper Soul": {
+        "id": EnemyType.TROOPER.value,
+        "actor_id": EnemyType.TROOPER.value,
+        "type": EnemyType.TROOPER.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Elite Guard Soul": {
+        "id": EnemyType.ELITE_GUARD.value,
+        "actor_id": EnemyType.ELITE_GUARD.value,
+        "type": EnemyType.ELITE_GUARD.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Flesh Sentinel Soul": {
+        "id": EnemyType.FLESH_SENTINEL.value,
+        "actor_id": EnemyType.FLESH_SENTINEL.value,
+        "type": EnemyType.FLESH_SENTINEL.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Death Guard Soul": {
+        "id": EnemyType.DEATH_GUARD.value,
+        "actor_id": EnemyType.DEATH_GUARD.value,
+        "type": EnemyType.DEATH_GUARD.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
+    },
+    "Lord of the Flesh Soul": {
+        "id": EnemyType.LORD_OF_THE_FLESH.value,
+        "actor_id": EnemyType.LORD_OF_THE_FLESH.value,
+        "type": EnemyType.LORD_OF_THE_FLESH.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
+        "class": ItemClassification.progression,
+        "count": 1
     },
 
     # Traps

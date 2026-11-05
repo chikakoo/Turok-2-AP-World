@@ -1,6 +1,6 @@
 {
 	"game": "Turok 2",
-	"minimum_ap_version": "0.6.7",
-	"world_version": "0.6.0",
+	"minimum_ap_version": "0.6.8",
+	"world_version": "0.7.0",
 	"authors": ["Chikakoo"]
 }

@@ -8,10 +8,10 @@ from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
 from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, NukeBehavior, \
-    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, Enemysanity, \
+    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, Enemysanity, EnemySouls, \
     FillerDistribution, RiverOfSoulsDeathJumps, JumpThroughLava
 from . import items
-from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
+from .items import ItemType, EnemyType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -116,7 +116,7 @@ def create_locations(world: Turok2World) -> None:
         # Assign item weights and distributions to support the vanilla options
         item_type_raw = loc_info.get("type", None)
         if item_type_raw is not None:
-            item_type = ItemType(item_type_raw)
+            item_type = ItemType(item_type_raw) if item_type_raw in ItemType else EnemyType(item_type_raw)
             if world.options.filler_distribution == FillerDistribution.option_vanilla:
                 world.vanilla_item_counts[item_type] += 1
     
@@ -129,7 +129,11 @@ def create_locations(world: Turok2World) -> None:
         but add the entry to the appropriate world instance variable.
         """
         item_type = loc_info.get("type", None)
-        item_group = ITEM_TYPE_TO_GROUP.get(ItemType(item_type), None)
+        if isinstance(item_type, str):
+            world.enemy_locations.append((loc_name, loc_info))
+            return False
+        
+        item_group = ITEM_TYPE_TO_GROUP.get(item_type, None)
 
         if item_type == ItemType.WEAPON.value:
             return world.options.randomize_weapons
@@ -157,9 +161,6 @@ def create_locations(world: Turok2World) -> None:
             return world.options.randomize_switches or loc_name.endswith(" - Primagen Key Switch")
         if item_type == ItemType.MISSION_OBJECTIVE.value:
             return world.options.randomize_mission_objectives
-        if item_type == ItemType.ENEMY.value:
-            world.enemy_locations.append((loc_name, loc_info))
-            return False
 
         return True
     
@@ -275,6 +276,17 @@ def create_locations(world: Turok2World) -> None:
 
         for loc_name, loc_info in selected:
             add_location(world, loc_name, loc_info)
+
+            # While we're here, apply the enemy soul rule if applicable
+            # Any enemy location rule will have to do the same in apply_location_rules
+            # The type is the name of the enemy soul item
+            enemy_soul_name = loc_info.get("type", None)
+            if not enemy_soul_name:
+                raise Exception(f"Unmapped enemy soul: {enemy_soul_name}")
+
+            location = world.get_location(loc_name)
+            rule_func = enemy_soul(world, { "soul": enemy_soul_name })
+            set_rule(location, rule_func)
 
     for loc_name, loc_info in LOCATION_TABLE.items():
         if loc_info["level"] in world.excluded_levels:
@@ -527,6 +539,27 @@ def weapon_requirement(world: Turok2World, args: dict):
         raise Exception(f"weapon_requirement passed invalid location: {location}")
     
     return compute_category_rule(world, "Barrier Weapon", count)
+
+def enemy_soul(world: Turok2World, args: dict):
+    """
+    Checks whether the player has an enemy soul.
+    Calls has_any if there's multiple souls, or has if there's one (in case there's
+    some sort of performance benefit there).
+    """
+    if world.options.enemy_souls.value == EnemySouls.option_off:
+        return lambda state: True
+
+    soul = args.get("soul", None)
+    if not soul:
+        raise Exception("enemy_soul missing 'soul'")
+
+    player = world.player
+
+    soul_list = soul.split(",")
+    if len(soul_list) > 1:
+        return lambda state: state.has_any(soul_list, player)
+    
+    return lambda state: state.has(soul, player)
 
 def has_sniper_weapon(world: Turok2World):
     """
