@@ -140,6 +140,17 @@
         },
         {
             "name": "[3-Oblivion]",
+            "exits": [{
+                "to": "[3-Oblivion] Exit",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Death Guard Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[3-Oblivion] Exit",
             "exits": []
         },
         {
@@ -198,6 +209,17 @@
         },
         {
             "name": "[3-5]",
+            "exits": [{ 
+                "to": "[3-5] Portal Room",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Juggernaut Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[3-5] Portal Room",
             "exits": [{ 
                 "to": "[3-6]",
                 "rule": {
@@ -282,6 +304,17 @@
         },
         {
             "name": "[3-8]",
+            "exits": [{
+                "to": "[3-8] Exit",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Raptor Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[3-8] Exit",
             "exits": [
                 { 
                     "to": "[3-Totem]",
