@@ -906,7 +906,7 @@ ITEM_TABLE = {
         "class": ItemClassification.progression,
         "count": 1
     },
-    "Fireborn": {
+    "Fireborn Soul": {
         "id": EnemyType.FIREBORN.value,
         "actor_id": EnemyType.FIREBORN.value,
         "type": EnemyType.FIREBORN.value,

@@ -11,6 +11,7 @@ from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup
 from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, \
     RandomizeAmmoTypes, MaxAmmoSettings, SPECIAL_AMMO_NAMES, \
     RiverOfSoulsDeathJumps, JumpThroughLava
+from .item_table import EnemyType
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -87,8 +88,7 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
         is_action_object = type in (
             ItemType.SWITCH.value, 
             ItemType.MISSION_OBJECTIVE.value, 
-            ItemType.ENEMY.value, 
-            ItemType.EVENT.value)
+            ItemType.EVENT.value) or isinstance(type, str) # Enemies are the only string type for now
         if is_action_object:
             location_tag_id = LOCATION_TABLE[location_name]["tag_id"]
             snippet = f"AddActionObject(\"{location_name}\", {location_id}, {location_tag_id}"

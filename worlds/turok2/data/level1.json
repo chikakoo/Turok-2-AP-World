@@ -18,6 +18,17 @@
 		{
 			"name": "[1-2] Lower",
 			"exits": [{ 
+				"to": "[1-2] Catwalks Switch",
+				"rule": {
+					"enemy_soul": {
+						"soul": "Endtrail Soul"
+					}
+				}
+			}]
+		},
+		{
+			"name": "[1-2] Catwalks Switch",
+			"exits": [{ 
 				"to": "[1-3]",
 				"rule": {
 					"and": [
@@ -176,6 +187,28 @@
 		},
 		{
 			"name": "[1-Oblivion]",
+			"exits": [{
+				"to": "[1-Oblivion] After Sentinels",
+				"rule": {
+					"enemy_soul": {
+						"soul": "Flesh Sentinel Soul"
+					}
+				}
+			}]
+		},
+		{
+			"name": "[1-Oblivion] After Sentinels",
+			"exits": [{
+				"to": "[1-Oblivion] End",
+				"rule": {
+					"enemy_soul": {
+						"soul": "Death Guard Soul"
+					}
+				}
+			}]
+		},
+		{
+			"name": "[1-Oblivion] End",
 			"exits": []
 		},
 		{

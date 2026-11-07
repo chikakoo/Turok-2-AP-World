@@ -296,6 +296,7 @@ class Turok2World(World):
             "randomize_weapons",
             "randomize_switches",
             "randomize_mission_objectives",
+            "enemy_souls",
             "progressive_weapon_ammo_upgrades",
             "nuke_behavior",
 
@@ -374,6 +375,7 @@ class Turok2World(World):
                 "randomize_weapons",
                 "randomize_switches",
                 "randomize_mission_objectives",
+                "enemy_souls",
                 "progressive_weapon_ammo_upgrades",
                 "nuke_behavior",
 

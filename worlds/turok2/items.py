@@ -4,7 +4,7 @@ from .item_table import *
 from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
 from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution, \
-    LevelUnlockMethod, JumpThroughLava
+    EnemySouls, LevelUnlockMethod, JumpThroughLava
 from collections import Counter
 
 if TYPE_CHECKING:
@@ -343,6 +343,10 @@ def get_required_seed_items(world: Turok2World, talisman_map: dict[str, int]):
         # Progressive warps
         if data["type"] == ItemType.PROGRESSIVE_WARP.value:
             return world.options.progressive_warps
+
+        # Enemy souls
+        if data["type"] in EnemyType:
+            return world.options.enemy_souls.value != EnemySouls.option_off
 
         return False
 

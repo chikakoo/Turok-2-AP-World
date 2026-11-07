@@ -11,7 +11,8 @@ from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, Nuk
     RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, Enemysanity, EnemySouls, \
     FillerDistribution, RiverOfSoulsDeathJumps, JumpThroughLava
 from . import items
-from .items import ItemType, EnemyType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
+from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
+from .item_table import EnemyType
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -115,8 +116,8 @@ def create_locations(world: Turok2World) -> None:
 
         # Assign item weights and distributions to support the vanilla options
         item_type_raw = loc_info.get("type", None)
-        if item_type_raw is not None:
-            item_type = ItemType(item_type_raw) if item_type_raw in ItemType else EnemyType(item_type_raw)
+        if item_type_raw is not None and not isinstance(item_type_raw, str):
+            item_type = ItemType(item_type_raw)
             if world.options.filler_distribution == FillerDistribution.option_vanilla:
                 world.vanilla_item_counts[item_type] += 1
     
@@ -558,7 +559,7 @@ def enemy_soul(world: Turok2World, args: dict):
     soul_list = soul.split(",")
     if len(soul_list) > 1:
         return lambda state: state.has_any(soul_list, player)
-    
+
     return lambda state: state.has(soul, player)
 
 def has_sniper_weapon(world: Turok2World):
@@ -623,6 +624,7 @@ NAMED_RULES = {
     "weapons_not_randomized": weapons_not_randomized,
     "progressive_warp": progressive_warp,
     "weapon_requirement": weapon_requirement,
+    "enemy_soul": enemy_soul,
     "has_sniper_weapon": has_sniper_weapon,
     "river_of_souls_death_jumps": river_of_souls_death_jumps,
     "can_jump_through_lava": can_jump_through_lava,
