@@ -36,6 +36,17 @@
         },
         {
             "name": "[2-3]",
+            "exits": [{ 
+                "to": "[2-3] After Giant Bridge",
+                "rule": { 
+                    "enemy_soul": {
+                        "soul": "Endtrail Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[2-3] After Giant Bridge",
             "exits": [
                 { 
                     "to": "[2-3] River",
@@ -104,6 +115,28 @@
         },
         {
             "name": "[2-Oblivion]",
+            "exits": [{
+                "to": "[2-Oblivion] Lava Room",
+                "rule": { 
+                    "enemy_soul": {
+                        "soul": "Death Guard Soul,Flesh Sentinel Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[2-Oblivion] Lava Room",
+            "exits": [{
+                "to": "[2-Oblivion] End",
+                "rule": { 
+                    "enemy_soul": {
+                        "soul": "Lord of the Flesh Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[2-Oblivion] End",
             "exits": []
         },
         {
@@ -162,12 +195,44 @@
         {
             "name": "[2-GY1]",
             "exits": [{
+                "to": "[2-GY1] After First Gate",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Deadman Soul"
+                    }
+                }
+                
+            }]
+        },
+        {
+            "name": "[2-GY1] After First Gate",
+            "exits": [{
+                "to": "[2-GY1] Sister Building",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Lord of the Dead Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[2-GY1] Sister Building",
+            "exits": [{
                 "to": "[2-6c]",
                 "rule": {
-					"progressive_warp": {
-						"level": 2,
-						"count": 8
-					}
+                    "and": [
+                        {
+                            "enemy_soul": {
+                                "soul": "Sister of Despair Soul"
+                            }
+                        },
+                        {
+                            "progressive_warp": {
+                                "level": 2,
+                                "count": 8
+                            }
+                        }
+                    ]
 				}
             }]
         },
