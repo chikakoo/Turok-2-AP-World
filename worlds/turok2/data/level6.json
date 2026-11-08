@@ -107,7 +107,7 @@
                     "rule": { "has": "Breath of Life" }
                 },
                 { 
-                    "to": "[6-2b] Place Capacitor",
+                    "to": "[6-2b] Generator Back",
                     "rule": { 
                         "mission_item_requirement": {
                             "item": "Ion Capacitor",
@@ -131,7 +131,29 @@
             "exits": []
         },
         {
-            "name": "[6-2b] Place Capacitor",
+            "name": "[6-2b] Generator Back",
+            "exits": [{
+                "to": "[6-2b] Generator Left",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Trooper Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[6-2b] Generator Left",
+            "exits": [{
+                "to": "[6-2b] Generator Right",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Bio-Bot Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[6-2b] Generator Right",
             "exits": []
         },
         {
@@ -286,6 +308,28 @@
         },
         {
             "name": "[6-Oblivion]",
+            "exits": [{
+                "to": "[6-Oblivion] After First Room",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Death Guard Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[6-Oblivion] After First Room",
+            "exits": [{
+                "to": "[6-Oblivion] Side Enemies and Exit",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Lord of the Flesh Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[6-Oblivion] Side Enemies and Exit",
             "exits": []
         },
         {
