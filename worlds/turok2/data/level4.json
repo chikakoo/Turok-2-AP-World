@@ -22,21 +22,29 @@
 		},
         {
             "name": "[4-1] Whispers",
-            "exits": [
-                {
-                    "to": "[4-1] Whispers Cave Door",
-                    "rule": { 
-                        "mission_item_requirement": 
-                        { 
-                            "item": "Cave Door Key",
-                            "count": 7
-                        }
+            "exits": [{
+                "to": "[4-1] Whispers Cave Door",
+                "rule": { 
+                    "mission_item_requirement": { 
+                        "item": "Cave Door Key",
+                        "count": 7
                     }
                 }
-            ]
+            }]
         },
         {
             "name": "[4-1] Whispers Cave Door",
+            "exits": [{ 
+                "to": "[4-1] Whispers Cave Spider Door",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Cave Spider Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[4-1] Whispers Cave Spider Door",
             "exits": [{ 
                 "to": "[4-1] Primagen Key",
                 "rule": {
@@ -87,12 +95,11 @@
             "exits": [
                 { "to": "[4-2] Return Room" },
                 { 
-                    "to": "[4-3] Cave Door",
+                    "to": "[4-3] After Cave Spider",
                     "rule": { 
-                        "mission_item_requirement": 
-                        { 
-                            "item": "Cave Door Key",
-                            "count": 2
+                        "enemy_soul": 
+                        {
+                            "soul": "Cave Spider Soul"
                         }
                     }
                 }
@@ -103,8 +110,31 @@
             "exits": []
         },
         {
+            "name": "[4-3] After Cave Spider",
+            "exits": [{ 
+                "to": "[4-3] Cave Door",
+                "rule": { 
+                    "mission_item_requirement": { 
+                        "item": "Cave Door Key",
+                        "count": 2
+                    }
+                }
+            }]
+        },
+        {
             "name": "[4-3] Cave Door",
             "exits": [{ 
+                "to": "[4-3] After Level Key",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Nala Soul"
+                    } 
+                }
+            }]
+        },
+        {
+            "name": "[4-3] After Level Key",
+            "exits": [{
                 "to": "[4-4]",
                 "rule": {
                     "and": [
@@ -127,6 +157,23 @@
             "name": "[4-4]",
             "exits": [
                 { "to": "[4-3] Return Room" },
+                {
+                    "to": "[4-4] Upper Bridges",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Blind Sentinel Soul"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[4-3] Return Room",
+            "exits": []
+        },
+        {
+            "name": "[4-4] Upper Bridges",
+            "exits": [
                 { 
                     "to": "[4-V1]",
                     "rule": {
@@ -146,10 +193,6 @@
                     }
                 }
             ]
-        },
-        {
-            "name": "[4-3] Return Room",
-            "exits": []
         },
         {
             "name": "[4-V1]",
@@ -244,6 +287,32 @@
         },
         {
             "name": "[4-Oblivion]",
+            "exits": [{
+                "to": "[4-Oblivion] After First Room",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Flesh Sentinel Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[4-Oblivion] After First Room",
+            "exits": [{
+                "to": "[4-Oblivion] Exit",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Lord of the Flesh Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[4-Oblivion] Exit",
+            "exits": []
+        },
+        {
+            "name": "[4-Oblivion]",
             "exits": []
         },
         {
@@ -277,6 +346,31 @@
             "name": "[4-8]",
             "exits": [
                 { "to": "[4-7] Return Room" },
+                {
+                    "to": "[4-8] Main Caves",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Cave Worm Soul"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[4-7] Return Room",
+            "exits": []
+        },
+        {
+            "name": "[4-8] Main Caves",
+            "exits": [
+                {
+                    "to": "[4-8] Cerebral Bore Path",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Guardian Soul"
+                        }
+                    }
+                },
                 { 
                     "to": "[4-8] Cave Door",
                     "rule": {
@@ -289,11 +383,33 @@
             ]
         },
         {
-            "name": "[4-7] Return Room",
+            "name": "[4-8] Cerebral Bore Path",
             "exits": []
         },
         {
             "name": "[4-8] Cave Door",
+            "exits": [{ 
+                "to": "[4-8] After Level Key Guardian",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Guardian Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[4-8] After Level Key Guardian",
+            "exits": [{ 
+                "to": "[4-8] Exit",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Endtrail Soul"
+                    }
+                }
+            }]
+        },
+        {
+            "name": "[4-8] Exit",
             "exits": [{ 
                 "to": "[4-V3]",
                 "rule": {
