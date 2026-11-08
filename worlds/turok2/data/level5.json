@@ -14,7 +14,18 @@
             }]
 		},
         {
-			"name": "[5-2]",
+            "name": "[5-2]",
+            "exits": [{
+                "to": "[5-2] Exit",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Drone Soul"
+                    }
+                }
+            }]
+        },
+        {
+			"name": "[5-2] Exit",
 			"exits": [{ 
                 "to": "[5-3]",
                 "rule": {
@@ -75,6 +86,28 @@
 		},
         {
 			"name": "[5-Oblivion]",
+			"exits": [{
+                "to": "[5-Oblivion] Left Room",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Lord of the Flesh Soul"
+                    }
+                }
+            }]
+		},
+        {
+			"name": "[5-Oblivion] Left Room",
+			"exits": [{
+                "to": "[5-Oblivion] Second Half",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Death Guard Soul"
+                    }
+                }
+            }]
+		},
+        {
+			"name": "[5-Oblivion] Second Half",
 			"exits": []
 		},
         {
@@ -101,6 +134,17 @@
 		},
         {
 			"name": "[5-7]",
+			"exits": [{
+                "to": "[5-7] After Water 1",
+                "rule": {
+                    "enemy_soul": {
+                        "soul": "Soldier Soul"
+                    }
+                }
+            }]
+		},
+        {
+			"name": "[5-7] After Water 1",
 			"exits": [{ 
                 "to": "[5-8]",
                 "rule": {
@@ -122,15 +166,29 @@
 		},
         {
 			"name": "[5-8]",
-			"exits": [{ 
-                "to": "[5-E1]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 5,
-                        "count": 8
+			"exits": [
+                {
+                    "to": "[5-8] Water Secret Rooms",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Mite Soul"
+                        }
+                    }
+                },
+                { 
+                    "to": "[5-E1]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 8
+                        }
                     }
                 }
-            }]
+            ]
+		},
+        {
+			"name": "[5-8] Water Secret Rooms",
+			"exits": []
 		},
         {
 			"name": "[5-E1]",
