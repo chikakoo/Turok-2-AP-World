@@ -227,6 +227,9 @@
         },
         {
             "name": "[2-6b]",
+            "enemies": [
+                "Leaper"
+            ],
             "exits": [
                 {
                     "to": "[2-GY1]",
