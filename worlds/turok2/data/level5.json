@@ -1,79 +1,101 @@
 {
-	"level": 5,
-	"regions": [
-		{
-			"name": "[5-1]",
-			"exits": [{ 
-                "to": "[5-2]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 5,
-                        "count": 1
-                    }
-                }
-            }]
-		},
+    "level": 5,
+    "regions": [
         {
-            "name": "[5-2]",
-            "exits": [{
-                "to": "[5-2] Exit",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Drone Soul"
+            "name": "[5-1]",
+            "enemies": [
+                "Drone"
+            ],
+            "exits": [
+                {
+                    "to": "[5-2]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 1
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
-			"name": "[5-2] Exit",
-			"exits": [{ 
-                "to": "[5-3]",
-                "rule": {
-                    "and": [
-                        {
-                            "progressive_warp": {
-                                "level": 5,
-                                "count": 2
-                            }
-                        },
-                        {
-                            "weapon_requirement": {
-                                "location": "Level 5 Start"
-                            }
+            "name": "[5-2]",
+            "enemies": [
+                "Worker"
+            ],
+            "exits": [
+                {
+                    "to": "[5-2] Exit",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Drone Soul"
                         }
-                    ]
-                }
-            }]
-		},
-        {
-			"name": "[5-3]",
-			"exits": [{ 
-                "to": "[5-4]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 5,
-                        "count": 3
                     }
                 }
-            }]
-		},
+            ]
+        },
         {
-			"name": "[5-4]",
-			"exits": [{ 
-                "to": "[5-5]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 5,
-                        "count": 4
+            "name": "[5-2] Exit",
+            "exits": [
+                {
+                    "to": "[5-3]",
+                    "rule": {
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 5,
+                                    "count": 2
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 5 Start"
+                                }
+                            }
+                        ]
                     }
                 }
-            }]
-		},
+            ]
+        },
         {
-			"name": "[5-5]",
-			"exits": [
-                { "to": "[5-Oblivion]" },
-                { 
+            "name": "[5-3]",
+            "enemies": [
+                "Mite",
+                "Soldier"
+            ],
+            "exits": [
+                {
+                    "to": "[5-4]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 3
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[5-4]",
+            "exits": [
+                {
+                    "to": "[5-5]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 4
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[5-5]",
+            "exits": [
+                {
+                    "to": "[5-Oblivion]"
+                },
+                {
                     "to": "[5-6]",
                     "rule": {
                         "progressive_warp": {
@@ -83,41 +105,54 @@
                     }
                 }
             ]
-		},
+        },
         {
-			"name": "[5-Oblivion]",
-			"exits": [{
-                "to": "[5-Oblivion] Left Room",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Lord of the Flesh Soul"
+            "name": "[5-Oblivion]",
+            "enemies": [
+                "Death Guard",
+                "Lord of the Flesh"
+            ],
+            "exits": [
+                {
+                    "to": "[5-Oblivion] Left Room",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Lord of the Flesh Soul"
+                        }
                     }
                 }
-            }]
-		},
+            ]
+        },
         {
-			"name": "[5-Oblivion] Left Room",
-			"exits": [{
-                "to": "[5-Oblivion] Second Half",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Death Guard Soul"
+            "name": "[5-Oblivion] Left Room",
+            "enemies": [
+                "Flesh Sentinel"
+            ],
+            "exits": [
+                {
+                    "to": "[5-Oblivion] Second Half",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Death Guard Soul"
+                        }
                     }
                 }
-            }]
-		},
+            ]
+        },
         {
-			"name": "[5-Oblivion] Second Half",
-			"exits": []
-		},
+            "name": "[5-Oblivion] Second Half",
+            "exits": []
+        },
         {
-			"name": "[5-6]",
-			"exits": [
-                { 
+            "name": "[5-6]",
+            "exits": [
+                {
                     "to": "[5-Talisman]",
-                    "rule": { "has": "Level 5 Eagle Feather" }
+                    "rule": {
+                        "has": "Level 5 Eagle Feather"
+                    }
                 },
-                { 
+                {
                     "to": "[5-7]",
                     "rule": {
                         "progressive_warp": {
@@ -127,46 +162,50 @@
                     }
                 }
             ]
-		},
+        },
         {
-			"name": "[5-Talisman]",
-			"exits": []
-		},
+            "name": "[5-Talisman]",
+            "exits": []
+        },
         {
-			"name": "[5-7]",
-			"exits": [{
-                "to": "[5-7] After Water 1",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Soldier Soul"
+            "name": "[5-7]",
+            "exits": [
+                {
+                    "to": "[5-7] After Water 1",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Soldier Soul"
+                        }
                     }
                 }
-            }]
-		},
+            ]
+        },
         {
-			"name": "[5-7] After Water 1",
-			"exits": [{ 
-                "to": "[5-8]",
-                "rule": {
-                    "and": [
-                        {
-                            "progressive_warp": {
-                                "level": 5,
-                                "count": 7
+            "name": "[5-7] After Water 1",
+            "exits": [
+                {
+                    "to": "[5-8]",
+                    "rule": {
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 5,
+                                    "count": 7
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 5 Mid"
+                                }
                             }
-                        },
-                        {
-                            "weapon_requirement": {
-                                "location": "Level 5 Mid"
-                            }
-                        }
-                    ]
+                        ]
+                    }
                 }
-            }]
-		},
+            ]
+        },
         {
-			"name": "[5-8]",
-			"exits": [
+            "name": "[5-8]",
+            "exits": [
                 {
                     "to": "[5-8] Water Secret Rooms",
                     "rule": {
@@ -175,7 +214,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[5-E1]",
                     "rule": {
                         "progressive_warp": {
@@ -185,27 +224,29 @@
                     }
                 }
             ]
-		},
+        },
         {
-			"name": "[5-8] Water Secret Rooms",
-			"exits": []
-		},
+            "name": "[5-8] Water Secret Rooms",
+            "exits": []
+        },
         {
-			"name": "[5-E1]",
-			"exits": [{ 
-                "to": "[5-9]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 5,
-                        "count": 9
+            "name": "[5-E1]",
+            "exits": [
+                {
+                    "to": "[5-9]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 5,
+                            "count": 9
+                        }
                     }
                 }
-            }]
-		},
+            ]
+        },
         {
-			"name": "[5-9]",
-			"exits": [
-                { 
+            "name": "[5-9]",
+            "exits": [
+                {
                     "to": "[5-E2]",
                     "rule": {
                         "progressive_warp": {
@@ -214,29 +255,35 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[5-9] Leap",
-                    "rule": { "has": "Leap of Faith" }
+                    "rule": {
+                        "has": "Leap of Faith"
+                    }
                 },
-                { 
+                {
                     "to": "[5-9] Fire",
                     "rule": {
                         "or": [
                             "can_jump_through_lava",
-                            { "has": "Heart of Fire" }
+                            {
+                                "has": "Heart of Fire"
+                            }
                         ]
                     }
                 },
-                { 
+                {
                     "to": "[5-9] River",
                     "rule": {
                         "or": [
                             "can_skip_level_5_breath_of_life",
-                            { "has": "Breath of Life" }
+                            {
+                                "has": "Breath of Life"
+                            }
                         ]
                     }
                 },
-                { 
+                {
                     "to": "[5-MC]",
                     "rule": {
                         "progressive_warp": {
@@ -245,7 +292,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[5-E3]",
                     "rule": {
                         "progressive_warp": {
@@ -254,7 +301,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[5-Boss]",
                     "rule": {
                         "and": [
@@ -279,37 +326,41 @@
                     }
                 }
             ]
-		},
+        },
         {
-			"name": "[5-E2]",
-			"exits": [
-                { 
+            "name": "[5-E2]",
+            "exits": [
+                {
                     "to": "[5-E2] Leap",
-                    "rule": { "has": "Leap of Faith" }
+                    "rule": {
+                        "has": "Leap of Faith"
+                    }
                 },
-                { "to": "[5-9] Embryo Return Path" }
+                {
+                    "to": "[5-9] Embryo Return Path"
+                }
             ]
-		},
+        },
         {
-			"name": "[5-E2] Leap",
-			"exits": []
-		},
+            "name": "[5-E2] Leap",
+            "exits": []
+        },
         {
-			"name": "[5-9] Embryo Return Path",
-			"exits": []
-		},
+            "name": "[5-9] Embryo Return Path",
+            "exits": []
+        },
         {
-			"name": "[5-9] Leap",
-			"exits": []
-		},
+            "name": "[5-9] Leap",
+            "exits": []
+        },
         {
-			"name": "[5-9] Fire",
-			"exits": []
-		},
+            "name": "[5-9] Fire",
+            "exits": []
+        },
         {
-			"name": "[5-9] River",
-			"exits": [
-                { 
+            "name": "[5-9] River",
+            "exits": [
+                {
                     "to": "[5-10]",
                     "rule": {
                         "progressive_warp": {
@@ -319,49 +370,59 @@
                     }
                 }
             ]
-		},
+        },
         {
-			"name": "[5-MC]",
-			"exits": []
-		},
+            "name": "[5-MC]",
+            "exits": []
+        },
         {
-			"name": "[5-10]",
-			"exits": [
-                { 
+            "name": "[5-10]",
+            "exits": [
+                {
                     "to": "[5-10] Eye",
-                    "rule": { "has": "Eye of Truth" }
+                    "rule": {
+                        "has": "Eye of Truth"
+                    }
                 }
             ]
-		},
+        },
         {
-			"name": "[5-10] Eye",
-			"exits": []
-		},
+            "name": "[5-10] Eye",
+            "exits": []
+        },
         {
-			"name": "[5-E3]",
-			"exits": [
-                { 
+            "name": "[5-E3]",
+            "exits": [
+                {
                     "to": "[5-E3] Fire",
                     "rule": {
                         "or": [
                             "can_jump_through_lava",
-                            { "has": "Heart of Fire" }
+                            {
+                                "has": "Heart of Fire"
+                            }
                         ]
                     }
                 }
             ]
-		},
+        },
         {
-			"name": "[5-E3] Fire",
-			"exits": []
-		},
+            "name": "[5-E3] Fire",
+            "exits": []
+        },
         {
-			"name": "[5-Boss]",
-			"exits": [{ "to": "Hub" }],
-			"events": [{
-                "name": "Level Complete",
-                "location_name": "HM Complete"
-            }]
-		}
-	]
+            "name": "[5-Boss]",
+            "exits": [
+                {
+                    "to": "Hub"
+                }
+            ],
+            "events": [
+                {
+                    "name": "Level Complete",
+                    "location_name": "HM Complete"
+                }
+            ]
+        }
+    ]
 }

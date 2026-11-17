@@ -1,30 +1,40 @@
 {
-	"level": 6,
+    "level": 6,
     "regions": [
         {
             "name": "[6-Hub]",
-            "exits": [{ 
-                "to": "[6-1]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 6,
-                        "count": 1
+            "enemies": [
+                "Trooper",
+                "Bio-Bot"
+            ],
+            "exits": [
+                {
+                    "to": "[6-1]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 1
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-1]",
             "exits": [
-                { 
+                {
                     "to": "[6-1] Whispers",
-                    "rule": { "has": "Whispers" }
+                    "rule": {
+                        "has": "Whispers"
+                    }
                 },
-                { 
+                {
                     "to": "[6-1] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[6-Hub] Wing 2",
                     "rule": {
                         "and": [
@@ -46,11 +56,16 @@
         },
         {
             "name": "[6-1] Whispers",
+            "enemies": [
+                "Elite Guard"
+            ],
             "exits": [],
-            "events": [{
-                "name": "PL Primagen Key Switch",
-                "location_name": "PL Wing 1 Primagen Key Switch"
-            }]
+            "events": [
+                {
+                    "name": "PL Primagen Key Switch",
+                    "location_name": "PL Wing 1 Primagen Key Switch"
+                }
+            ]
         },
         {
             "name": "[6-1] River",
@@ -58,25 +73,32 @@
         },
         {
             "name": "[6-Hub] Wing 2",
-            "exits": [{
-                "to": "[6-2a]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 6,
-                        "count": 3
+            "exits": [
+                {
+                    "to": "[6-2a]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 3
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-2a]",
+            "enemies": [
+                "Elite Guard"
+            ],
             "exits": [
                 {
                     "to": "[6-2a] Eye",
                     "rule": {
                         "or": [
                             "can_skip_level_6_eye_Of_truth",
-                            { "has": "Eye of Truth" }
+                            {
+                                "has": "Eye of Truth"
+                            }
                         ]
                     }
                 },
@@ -94,28 +116,32 @@
         {
             "name": "[6-2a] Eye",
             "exits": [],
-            "events": [{
-                "name": "PL Primagen Key Switch",
-                "location_name": "PL Wing 2 Primagen Key Switch"
-            }]
+            "events": [
+                {
+                    "name": "PL Primagen Key Switch",
+                    "location_name": "PL Wing 2 Primagen Key Switch"
+                }
+            ]
         },
         {
             "name": "[6-2b]",
             "exits": [
-                { 
+                {
                     "to": "[6-2b] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[6-2b] Generator Back",
-                    "rule": { 
+                    "rule": {
                         "mission_item_requirement": {
                             "item": "Ion Capacitor",
                             "count": 13
                         }
                     }
                 },
-                { 
+                {
                     "to": "[6-Hub] Wing 3",
                     "rule": {
                         "progressive_warp": {
@@ -132,25 +158,29 @@
         },
         {
             "name": "[6-2b] Generator Back",
-            "exits": [{
-                "to": "[6-2b] Generator Left",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Trooper Soul"
+            "exits": [
+                {
+                    "to": "[6-2b] Generator Left",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Trooper Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-2b] Generator Left",
-            "exits": [{
-                "to": "[6-2b] Generator Right",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Bio-Bot Soul"
+            "exits": [
+                {
+                    "to": "[6-2b] Generator Right",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Bio-Bot Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-2b] Generator Right",
@@ -158,45 +188,51 @@
         },
         {
             "name": "[6-Hub] Wing 3",
-            "exits": [{
-                "to": "[6-3a]",
-                "rule": {
-                    "and": [
-                        {
-                            "progressive_warp": {
-                                "level": 6,
-                                "count": 6
+            "exits": [
+                {
+                    "to": "[6-3a]",
+                    "rule": {
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 6,
+                                    "count": 6
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 6 Mid"
+                                }
                             }
-                        },
-                        {
-                            "weapon_requirement": {
-                                "location": "Level 6 Mid"
-                            }
-                        }
-                    ]
+                        ]
+                    }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-3a]",
-            "exits": [{ 
-                "to": "[6-3b]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 6,
-                        "count": 7
+            "exits": [
+                {
+                    "to": "[6-3b]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 7
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-3b]",
             "exits": [
-                { 
+                {
                     "to": "[6-3b] Leap",
-                    "rule": { "has": "Leap of Faith" }
+                    "rule": {
+                        "has": "Leap of Faith"
+                    }
                 },
-                { 
+                {
                     "to": "[6-Hub] Wing 4",
                     "rule": {
                         "progressive_warp": {
@@ -210,53 +246,63 @@
         {
             "name": "[6-3b] Leap",
             "exits": [],
-            "events": [{
-                "name": "PL Primagen Key Switch",
-                "location_name": "PL Wing 3 Primagen Key Switch"
-            }]
+            "events": [
+                {
+                    "name": "PL Primagen Key Switch",
+                    "location_name": "PL Wing 3 Primagen Key Switch"
+                }
+            ]
         },
         {
             "name": "[6-Hub] Wing 4",
-            "exits": [{
-                "to": "[6-4a]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 6,
-                        "count": 9
+            "exits": [
+                {
+                    "to": "[6-4a]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 9
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-4a]",
-            "exits": [{
-                "to": "[6-4b]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 6,
-                        "count": 10
+            "exits": [
+                {
+                    "to": "[6-4b]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 10
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-4b]",
-            "exits": [{
-                "to": "[6-4c]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 6,
-                        "count": 11
+            "exits": [
+                {
+                    "to": "[6-4c]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 6,
+                            "count": 11
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-4c]",
             "exits": [
-                { 
+                {
                     "to": "[6-Talisman]",
-                    "rule": { "has": "Level 6 Eagle Feather" }
+                    "rule": {
+                        "has": "Level 6 Eagle Feather"
+                    }
                 },
                 {
                     "to": "[6-4d]",
@@ -272,7 +318,7 @@
         {
             "name": "[6-4d]",
             "exits": [
-                { 
+                {
                     "to": "[6-4d] Generator",
                     "rule": {
                         "mission_item_requirement": {
@@ -299,34 +345,49 @@
         {
             "name": "[6-4d] Generator",
             "exits": [
-                { "to": "[6-Oblivion]" },
-                { 
+                {
+                    "to": "[6-Oblivion]"
+                },
+                {
                     "to": "[6-4d] Generator River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 }
             ]
         },
         {
             "name": "[6-Oblivion]",
-            "exits": [{
-                "to": "[6-Oblivion] After First Room",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Death Guard Soul"
+            "enemies": [
+                "Death Guard",
+                "Flesh Sentinel"
+            ],
+            "exits": [
+                {
+                    "to": "[6-Oblivion] After First Room",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Death Guard Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-Oblivion] After First Room",
-            "exits": [{
-                "to": "[6-Oblivion] Side Enemies and Exit",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Lord of the Flesh Soul"
+            "enemies": [
+                "Lord of the Flesh"
+            ],
+            "exits": [
+                {
+                    "to": "[6-Oblivion] Side Enemies and Exit",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Lord of the Flesh Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[6-Oblivion] Side Enemies and Exit",
@@ -335,15 +396,17 @@
         {
             "name": "[6-4d] Generator River",
             "exits": [],
-            "events": [{
-                "name": "PL Primagen Key Switch",
-                "location_name": "PL Wing 4 Primagen Key Switch"
-            }]
+            "events": [
+                {
+                    "name": "PL Primagen Key Switch",
+                    "location_name": "PL Wing 4 Primagen Key Switch"
+                }
+            ]
         },
         {
             "name": "[6-Hub] End",
             "exits": [
-                { 
+                {
                     "to": "[6-Boss]",
                     "rule": {
                         "and": [
@@ -377,11 +440,17 @@
         },
         {
             "name": "[6-Boss]",
-            "exits": [{ "to": "Hub" }],
-            "events": [{
-                "name": "Level Complete",
-                "location_name": "PL Complete"
-            }]
+            "exits": [
+                {
+                    "to": "Hub"
+                }
+            ],
+            "events": [
+                {
+                    "name": "Level Complete",
+                    "location_name": "PL Complete"
+                }
+            ]
         }
     ]
 }

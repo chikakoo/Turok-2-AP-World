@@ -24,45 +24,47 @@ class ItemType(Enum):
     # Technically not items, but will still be used in the location table the same way
     SWITCH = 16
     MISSION_OBJECTIVE = 17
+    ENEMY_SOUL = 18
+    ENEMY_SOUL_KILL = 19
     EVENT = 99 # Will not provide a real check - used for tracking purposes
     
 class EnemyType(Enum):
-    """Types used to identify enemies (equal to their soul's actor id)."""
-    RAPTOID = 400200
-    ENDTRAIL = 400201
-    COMPY = 405000
-    RAPTOR = 400300
+    """Types used to identify enemies (used for the AP kill check id)."""
+    RAPTOID = 1
+    ENDTRAIL = 2
+    COMPY = 3
+    RAPTOR = 4
 
-    LEAPER = 401000
-    SPIDER_HATCHLING = 400502
-    DEADMAN = 400800
-    LORD_OF_THE_DEAD = 400803
-    SISTER_OF_DESPAIR = 400804
+    LEAPER = 5
+    SPIDER_HATCHLING = 6
+    DEADMAN = 7
+    LORD_OF_THE_DEAD = 8
+    SISTER_OF_DESPAIR = 9
 
-    WAR_CLUB = 400600
-    GUNNER_SOUL = 400602
-    JUGGERNAUT = 400603
-    CAVE_WORM = 400505
-    WASP = 400604
+    WAR_CLUB = 10
+    GUNNER = 11
+    JUGGERNAUT = 12
+    CAVE_WORM = 13
+    WASP = 14
 
-    BLIND_SENTINEL = 400500
-    GUARDIAN = 400501
-    NALA = 400507
-    CAVE_SPIDER = 400503
-    FIREBORN = 400203
+    BLIND_SENTINEL = 15
+    GUARDIAN = 16
+    NALA = 17
+    CAVE_SPIDER = 18
+    FIREBORN = 19
 
-    DRONE = 400709
-    WORKER = 400708
-    MITE = 400707
-    SOLDIER = 400710
+    DRONE = 20
+    WORKER = 21
+    MITE = 22
+    SOLDIER = 23
 
-    BIO_BOT = 400901
-    TROOPER = 400900
-    ELITE_GUARD = 400902
+    BIO_BOT = 24
+    TROOPER = 25
+    ELITE_GUARD = 26
 
-    FLESH_SENTINEL = 400400
-    DEATH_GUARD = 400401
-    LORD_OF_THE_FLESH = 400402
+    FLESH_SENTINEL = 27
+    DEATH_GUARD = 28
+    LORD_OF_THE_FLESH = 29
 
 class WeightedItemGroup(Enum):
     """Types used to identify item groups that are related so weights can be applied."""
@@ -763,233 +765,233 @@ ITEM_TABLE = {
 
     # Enemy Souls
     "Raptoid Soul": {
-        "id": EnemyType.RAPTOID.value,
-        "actor_id": EnemyType.RAPTOID.value,
-        "type": EnemyType.RAPTOID.value,
+        "id": 400200,
+        "actor_id": 400200,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Endtrail Soul": {
-        "id": EnemyType.ENDTRAIL.value,
-        "actor_id": EnemyType.ENDTRAIL.value,
-        "type": EnemyType.ENDTRAIL.value,
+        "id": 400201,
+        "actor_id": 400201,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Compy Soul": {
-        "id": EnemyType.COMPY.value,
-        "actor_id": EnemyType.COMPY.value,
-        "type": EnemyType.COMPY.value,
+        "id": 405000,
+        "actor_id": 405000,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Raptor Soul": {
-        "id": EnemyType.RAPTOR.value,
-        "actor_id": EnemyType.RAPTOR.value,
-        "type": EnemyType.RAPTOR.value,
+        "id": 400300,
+        "actor_id": 400300,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Leaper Soul": {
-        "id": EnemyType.LEAPER.value,
-        "actor_id": EnemyType.LEAPER.value,
-        "type": EnemyType.LEAPER.value,
+        "id": 401000,
+        "actor_id": 401000,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Spider Hatchling Soul": {
-        "id": EnemyType.SPIDER_HATCHLING.value,
-        "actor_id": EnemyType.SPIDER_HATCHLING.value,
-        "type": EnemyType.SPIDER_HATCHLING.value,
+        "id": 400502,
+        "actor_id": 400502,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Deadman Soul": {
-        "id": EnemyType.DEADMAN.value,
-        "actor_id": EnemyType.DEADMAN.value,
-        "type": EnemyType.DEADMAN.value,
+        "id": 400800,
+        "actor_id": 400800,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Lord of the Dead Soul": {
-        "id": EnemyType.LORD_OF_THE_DEAD.value,
-        "actor_id": EnemyType.LORD_OF_THE_DEAD.value,
-        "type": EnemyType.LORD_OF_THE_DEAD.value,
+        "id": 400803,
+        "actor_id": 400803,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Sister of Despair Soul": {
-        "id": EnemyType.SISTER_OF_DESPAIR.value,
-        "actor_id": EnemyType.SISTER_OF_DESPAIR.value,
-        "type": EnemyType.SISTER_OF_DESPAIR.value,
+        "id": 400804,
+        "actor_id": 400804,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "War Club Soul": {
-        "id": EnemyType.WAR_CLUB.value,
-        "actor_id": EnemyType.WAR_CLUB.value,
-        "type": EnemyType.WAR_CLUB.value,
+        "id": 400600,
+        "actor_id": 400600,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Gunner Soul": {
-        "id": EnemyType.GUNNER_SOUL.value,
-        "actor_id": EnemyType.GUNNER_SOUL.value,
-        "type": EnemyType.GUNNER_SOUL.value,
+        "id": 400602,
+        "actor_id": 400602,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Juggernaut Soul": {
-        "id": EnemyType.JUGGERNAUT.value,
-        "actor_id": EnemyType.JUGGERNAUT.value,
-        "type": EnemyType.JUGGERNAUT.value,
+        "id": 400603,
+        "actor_id": 400603,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Cave Worm Soul": {
-        "id": EnemyType.CAVE_WORM.value,
-        "actor_id": EnemyType.CAVE_WORM.value,
-        "type": EnemyType.CAVE_WORM.value,
+        "id": 400505,
+        "actor_id": 400505,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Wasp Soul": {
-        "id": EnemyType.WASP.value,
-        "actor_id": EnemyType.WASP.value,
-        "type": EnemyType.WASP.value,
+        "id": 400604,
+        "actor_id": 400604,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Blind Sentinel Soul": {
-        "id": EnemyType.BLIND_SENTINEL.value,
-        "actor_id": EnemyType.BLIND_SENTINEL.value,
-        "type": EnemyType.BLIND_SENTINEL.value,
+        "id": 400500,
+        "actor_id": 400500,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Guardian Soul": {
-        "id": EnemyType.GUARDIAN.value,
-        "actor_id": EnemyType.GUARDIAN.value,
-        "type": EnemyType.GUARDIAN.value,
+        "id": 400501,
+        "actor_id": 400501,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Nala Soul": {
-        "id": EnemyType.NALA.value,
-        "actor_id": EnemyType.NALA.value,
-        "type": EnemyType.NALA.value,
+        "id": 400507,
+        "actor_id": 400507,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Cave Spider Soul": {
-        "id": EnemyType.CAVE_SPIDER.value,
-        "actor_id": EnemyType.CAVE_SPIDER.value,
-        "type": EnemyType.CAVE_SPIDER.value,
+        "id": 400503,
+        "actor_id": 400503,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Fireborn Soul": {
-        "id": EnemyType.FIREBORN.value,
-        "actor_id": EnemyType.FIREBORN.value,
-        "type": EnemyType.FIREBORN.value,
+        "id": 400203,
+        "actor_id": 400203,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Drone Soul": {
-        "id": EnemyType.DRONE.value,
-        "actor_id": EnemyType.DRONE.value,
-        "type": EnemyType.DRONE.value,
+        "id": 400709,
+        "actor_id": 400709,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Worker Soul": {
-        "id": EnemyType.WORKER.value,
-        "actor_id": EnemyType.WORKER.value,
-        "type": EnemyType.WORKER.value,
+        "id": 400708,
+        "actor_id": 400708,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Mite Soul": {
-        "id": EnemyType.MITE.value,
-        "actor_id": EnemyType.MITE.value,
-        "type": EnemyType.MITE.value,
+        "id": 400707,
+        "actor_id": 400707,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Soldier Soul": {
-        "id": EnemyType.SOLDIER.value,
-        "actor_id": EnemyType.SOLDIER.value,
-        "type": EnemyType.SOLDIER.value,
+        "id": 400710,
+        "actor_id": 400710,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Bio-Bot Soul": {
-        "id": EnemyType.BIO_BOT.value,
-        "actor_id": EnemyType.BIO_BOT.value,
-        "type": EnemyType.BIO_BOT.value,
+        "id": 400901,
+        "actor_id": 400901,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Trooper Soul": {
-        "id": EnemyType.TROOPER.value,
-        "actor_id": EnemyType.TROOPER.value,
-        "type": EnemyType.TROOPER.value,
+        "id": 400900,
+        "actor_id": 400900,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Elite Guard Soul": {
-        "id": EnemyType.ELITE_GUARD.value,
-        "actor_id": EnemyType.ELITE_GUARD.value,
-        "type": EnemyType.ELITE_GUARD.value,
+        "id": 400902,
+        "actor_id": 400902,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Flesh Sentinel Soul": {
-        "id": EnemyType.FLESH_SENTINEL.value,
-        "actor_id": EnemyType.FLESH_SENTINEL.value,
-        "type": EnemyType.FLESH_SENTINEL.value,
+        "id": 400400,
+        "actor_id": 400400,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Death Guard Soul": {
-        "id": EnemyType.DEATH_GUARD.value,
-        "actor_id": EnemyType.DEATH_GUARD.value,
-        "type": EnemyType.DEATH_GUARD.value,
+        "id": 400401,
+        "actor_id": 400401,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
     },
     "Lord of the Flesh Soul": {
-        "id": EnemyType.LORD_OF_THE_FLESH.value,
-        "actor_id": EnemyType.LORD_OF_THE_FLESH.value,
-        "type": EnemyType.LORD_OF_THE_FLESH.value,
+        "id": 400402,
+        "actor_id": 400402,
+        "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
         "count": 1
@@ -1034,6 +1036,38 @@ ITEM_TABLE = {
         "class": ItemClassification.progression
     }
 }
+
+ENEMY_NAMES = [
+    "Raptoid",
+    "Endtrail",
+    "Compy",
+    "Raptor",
+    "Leaper",
+    "Spider Hatchling",
+    "Deadman",
+    "Lord of the Dead",
+    "Sister of Despair",
+    "War Club",
+    "Gunner",
+    "Juggernaut",
+    "Cave Worm",
+    "Wasp",
+    "Blind Sentinel",
+    "Guardian",
+    "Nala",
+    "Cave Spider",
+    "Fireborn",
+    "Drone",
+    "Worker",
+    "Mite",
+    "Soldier",
+    "Bio-Bot",
+    "Trooper",
+    "Elite Guard",
+    "Flesh Sentinel",
+    "Death Guard",
+    "Lord of the Flesh"
+]
 
 ITEM_NAME_TO_ID = {
     name: data["id"]

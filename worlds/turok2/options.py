@@ -645,10 +645,13 @@ class EnemySouls(Choice):
     enemy will not be able to be killed for enemysanity checks or for map events (such
     as doors being opened).
 
+    Adds one check for killing each enemy type for the first time when you have their soul.
+
     In all cases, you will need to reload the map to respawn the enemies once you get
     their souls.
 
-    - Off: Do not add enemy souls
+    - Off: Do not add enemy souls. No new checks are added.
+    - Off Include Checks: No enemy souls, but the first enemy killed of each type still grants a check.
     - No Spawns: Enemies will not spawn.
     - No Triggers: Enemies will spawn, but will not trigger anything (enemysanity/map events).
                    Enemies with no souls cannot be killed with the Cerebral Bore because they
@@ -656,8 +659,9 @@ class EnemySouls(Choice):
     """
     display_name = "Enemy Souls"
     option_off = 0
-    option_no_spawns = 1
-    option_no_triggers = 2
+    option_off_include_checks = 1
+    option_no_spawns = 2
+    option_no_triggers = 3
     default = option_off
 
 class RandomizeEnemySizes(Choice):

@@ -1,15 +1,21 @@
 {
-	"level": 4,
-	"regions": [
-		{
-			"name": "[4-1]",
-			"locations": {},
-			"exits": [
-				{
-					"to": "[4-1] Whispers",
-					"rule": { "has": "Whispers" }
-				},
-				{ 
+    "level": 4,
+    "regions": [
+        {
+            "name": "[4-1]",
+            "enemies": [
+                "Raptoid",
+                "Endtrail",
+                "Leaper"
+            ],
+            "exits": [
+                {
+                    "to": "[4-1] Whispers",
+                    "rule": {
+                        "has": "Whispers"
+                    }
+                },
+                {
                     "to": "[4-2]",
                     "rule": {
                         "progressive_warp": {
@@ -18,42 +24,56 @@
                         }
                     }
                 }
-			]
-		},
+            ]
+        },
         {
             "name": "[4-1] Whispers",
-            "exits": [{
-                "to": "[4-1] Whispers Cave Door",
-                "rule": { 
-                    "mission_item_requirement": { 
-                        "item": "Cave Door Key",
-                        "count": 7
+            "enemies": [
+                "Blind Sentinel",
+                "Guardian",
+                "Spider Hatchling"
+            ],
+            "exits": [
+                {
+                    "to": "[4-1] Whispers Cave Door",
+                    "rule": {
+                        "mission_item_requirement": {
+                            "item": "Cave Door Key",
+                            "count": 7
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-1] Whispers Cave Door",
-            "exits": [{ 
-                "to": "[4-1] Whispers Cave Spider Door",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Cave Spider Soul"
+            "enemies": [
+                "Cave Spider"
+            ],
+            "exits": [
+                {
+                    "to": "[4-1] Whispers Cave Spider Door",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Cave Spider Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-1] Whispers Cave Spider Door",
-            "exits": [{ 
-                "to": "[4-1] Primagen Key",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 4,
-                        "count": 1
+            "exits": [
+                {
+                    "to": "[4-1] Primagen Key",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 1
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-1] Primagen Key",
@@ -61,12 +81,19 @@
         },
         {
             "name": "[4-2]",
+            "enemies": [
+                "Spider Hatchling",
+                "Cave Worm",
+                "Blind Sentinel"
+            ],
             "exits": [
-                { 
+                {
                     "to": "[4-Talisman]",
-                    "rule": { "has": "Level 4 Eagle Feather" }
+                    "rule": {
+                        "has": "Level 4 Eagle Feather"
+                    }
                 },
-                { 
+                {
                     "to": "[4-3]",
                     "rule": {
                         "and": [
@@ -93,12 +120,13 @@
         {
             "name": "[4-3]",
             "exits": [
-                { "to": "[4-2] Return Room" },
-                { 
+                {
+                    "to": "[4-2] Return Room"
+                },
+                {
                     "to": "[4-3] After Cave Spider",
-                    "rule": { 
-                        "enemy_soul": 
-                        {
+                    "rule": {
+                        "enemy_soul": {
                             "soul": "Cave Spider Soul"
                         }
                     }
@@ -107,56 +135,70 @@
         },
         {
             "name": "[4-2] Return Room",
+            "enemies": [
+                "Guardian"
+            ],
             "exits": []
         },
         {
             "name": "[4-3] After Cave Spider",
-            "exits": [{ 
-                "to": "[4-3] Cave Door",
-                "rule": { 
-                    "mission_item_requirement": { 
-                        "item": "Cave Door Key",
-                        "count": 2
+            "exits": [
+                {
+                    "to": "[4-3] Cave Door",
+                    "rule": {
+                        "mission_item_requirement": {
+                            "item": "Cave Door Key",
+                            "count": 2
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-3] Cave Door",
-            "exits": [{ 
-                "to": "[4-3] After Level Key",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Nala Soul"
-                    } 
+            "enemies": [
+                "Nala"
+            ],
+            "exits": [
+                {
+                    "to": "[4-3] After Level Key",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Nala Soul"
+                        }
+                    }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-3] After Level Key",
-            "exits": [{
-                "to": "[4-4]",
-                "rule": {
-                    "and": [
-                        {
-                            "progressive_warp": {
-                                "level": 4,
-                                "count": 3
+            "exits": [
+                {
+                    "to": "[4-4]",
+                    "rule": {
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 4,
+                                    "count": 3
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 4 Mid"
+                                }
                             }
-                        },
-                        {
-                            "weapon_requirement": {
-                                "location": "Level 4 Mid"
-                            }
-                        }
-                    ]
+                        ]
+                    }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-4]",
             "exits": [
-                { "to": "[4-3] Return Room" },
+                {
+                    "to": "[4-3] Return Room"
+                },
                 {
                     "to": "[4-4] Upper Bridges",
                     "rule": {
@@ -174,7 +216,7 @@
         {
             "name": "[4-4] Upper Bridges",
             "exits": [
-                { 
+                {
                     "to": "[4-V1]",
                     "rule": {
                         "progressive_warp": {
@@ -183,7 +225,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[4-5]",
                     "rule": {
                         "progressive_warp": {
@@ -197,7 +239,7 @@
         {
             "name": "[4-V1]",
             "exits": [
-                { 
+                {
                     "to": "[4-V1] Cave Door",
                     "rule": {
                         "mission_item_requirement": {
@@ -210,7 +252,11 @@
         },
         {
             "name": "[4-V1] Cave Door",
-            "exits": [{ "to": "[4-4] Vent Return Room" }]
+            "exits": [
+                {
+                    "to": "[4-4] Vent Return Room"
+                }
+            ]
         },
         {
             "name": "[4-4] Vent Return Room",
@@ -219,13 +265,15 @@
         {
             "name": "[4-5]",
             "exits": [
-                { 
+                {
                     "to": "[4-5] Torpedo Launcher",
                     "rule": {
                         "or": [
                             "weapons_not_randomized",
                             "not_guaranteed_torpedo_launcher",
-                            { "has": "Torpedo Launcher" }
+                            {
+                                "has": "Torpedo Launcher"
+                            }
                         ]
                     }
                 }
@@ -234,7 +282,7 @@
         {
             "name": "[4-5] Torpedo Launcher",
             "exits": [
-                { 
+                {
                     "to": "[4-V2]",
                     "rule": {
                         "progressive_warp": {
@@ -243,7 +291,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[4-6]",
                     "rule": {
                         "progressive_warp": {
@@ -260,21 +308,28 @@
         },
         {
             "name": "[4-6]",
-            "exits": [{
-                "to": "[4-6] Cave Door",
-                "rule": {
-                    "mission_item_requirement": {
-                        "item": "Cave Door Key",
-                        "count": 4
-                    } 
+            "exits": [
+                {
+                    "to": "[4-6] Cave Door",
+                    "rule": {
+                        "mission_item_requirement": {
+                            "item": "Cave Door Key",
+                            "count": 4
+                        }
+                    }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-6] Cave Door",
+            "enemies": [
+                "Fireborn"
+            ],
             "exits": [
-                { "to": "[4-Oblivion]" },
-                { 
+                {
+                    "to": "[4-Oblivion]"
+                },
+                {
                     "to": "[4-7]",
                     "rule": {
                         "progressive_warp": {
@@ -287,25 +342,36 @@
         },
         {
             "name": "[4-Oblivion]",
-            "exits": [{
-                "to": "[4-Oblivion] After First Room",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Flesh Sentinel Soul"
+            "enemies": [
+                "Flesh Sentinel"
+            ],
+            "exits": [
+                {
+                    "to": "[4-Oblivion] After First Room",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Flesh Sentinel Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-Oblivion] After First Room",
-            "exits": [{
-                "to": "[4-Oblivion] Exit",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Lord of the Flesh Soul"
+            "enemies": [
+                "Death Guard",
+                "Lord of the Flesh"
+            ],
+            "exits": [
+                {
+                    "to": "[4-Oblivion] Exit",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Lord of the Flesh Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-Oblivion] Exit",
@@ -318,16 +384,18 @@
         {
             "name": "[4-7]",
             "exits": [
-                { 
+                {
                     "to": "[4-7] Fire",
                     "rule": {
                         "or": [
                             "can_jump_through_lava",
-                            { "has": "Heart of Fire" }
+                            {
+                                "has": "Heart of Fire"
+                            }
                         ]
                     }
                 },
-                { 
+                {
                     "to": "[4-8]",
                     "rule": {
                         "progressive_warp": {
@@ -345,7 +413,9 @@
         {
             "name": "[4-8]",
             "exits": [
-                { "to": "[4-7] Return Room" },
+                {
+                    "to": "[4-7] Return Room"
+                },
                 {
                     "to": "[4-8] Main Caves",
                     "rule": {
@@ -371,7 +441,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[4-8] Cave Door",
                     "rule": {
                         "mission_item_requirement": {
@@ -388,42 +458,48 @@
         },
         {
             "name": "[4-8] Cave Door",
-            "exits": [{ 
-                "to": "[4-8] After Level Key Guardian",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Guardian Soul"
+            "exits": [
+                {
+                    "to": "[4-8] After Level Key Guardian",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Guardian Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-8] After Level Key Guardian",
-            "exits": [{ 
-                "to": "[4-8] Exit",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Endtrail Soul"
+            "exits": [
+                {
+                    "to": "[4-8] Exit",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Endtrail Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-8] Exit",
-            "exits": [{ 
-                "to": "[4-V3]",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 4,
-                        "count": 8
+            "exits": [
+                {
+                    "to": "[4-V3]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 8
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-V3]",
             "exits": [
-                { 
+                {
                     "to": "[4-V3] Cave Door",
                     "rule": {
                         "mission_item_requirement": {
@@ -432,7 +508,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[4-8] After Vent",
                     "rule": {
                         "progressive_warp": {
@@ -449,22 +525,24 @@
         },
         {
             "name": "[4-8] After Vent",
-            "exits": [{ 
-                "to": "[4-6] After Vent",
-                "rule": {
-                    "progressive_warp": {
-                        "level": 4,
-                        "count": 10
+            "exits": [
+                {
+                    "to": "[4-6] After Vent",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 4,
+                            "count": 10
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[4-6] After Vent",
             "exits": [
-                { 
+                {
                     "to": "[4-Boss]",
-					"rule": {
+                    "rule": {
                         "and": [
                             {
                                 "mission_item_requirement": {
@@ -484,17 +562,23 @@
                                 }
                             }
                         ]
-					}
+                    }
                 }
             ]
         },
         {
             "name": "[4-Boss]",
-            "exits": [{ "to": "Hub" }],
-            "events": [{
-                "name": "Level Complete",
-                "location_name": "LBO Complete"
-            }]
+            "exits": [
+                {
+                    "to": "Hub"
+                }
+            ],
+            "events": [
+                {
+                    "name": "Level Complete",
+                    "location_name": "LBO Complete"
+                }
+            ]
         }
-	]
+    ]
 }

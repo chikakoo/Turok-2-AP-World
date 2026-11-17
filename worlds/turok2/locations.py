@@ -12,7 +12,7 @@ from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, Nuk
     FillerDistribution, RiverOfSoulsDeathJumps, JumpThroughLava
 from . import items
 from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
-from .item_table import EnemyType
+from .item_table import ENEMY_NAMES
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -39,7 +39,7 @@ def _load_all_location_data():
             for _, loc_data in data.items():
                 loc_data["level"] = level
                 all_locations.update(data)
-
+                
     return all_locations
 
 LOCATION_TABLE = _load_all_location_data()
@@ -79,6 +79,10 @@ def create_regions_and_entrances(world: Turok2World) -> None:
         region_map[region_name] = region
         world.multiworld.regions.append(region)
 
+    for region_name in ENEMY_NAMES:
+        region = Region(region_name, world.player, world.multiworld)
+        world.multiworld.regions.append(region)
+
     # Connect the regions with entrances
     for region_data in regions:
         from_region = region_map[region_data["name"]]
@@ -90,11 +94,14 @@ def create_regions_and_entrances(world: Turok2World) -> None:
             to_region = region_map[exit_data["to"]]
 
             entrance_name = f"{from_region.name} -> {to_region.name}"
-            entrance = from_region.connect(
-                to_region,
-                entrance_name
-            )
+            entrance = from_region.connect(to_region, entrance_name)
             entrance.rule_json = exit_data.get("rule")
+
+        # Apply enemy regions
+        # The rule is done in locationRules
+        for enemy_region in region_data.get("enemies", []):
+            entrance_name = f"{from_region.name} -> {enemy_region}"
+            entrance = from_region.connect(to_region, entrance_name)
             
 def create_locations(world: Turok2World) -> None:
     """
@@ -118,7 +125,12 @@ def create_locations(world: Turok2World) -> None:
         item_type_raw = loc_info.get("type", None)
         if item_type_raw is not None and not isinstance(item_type_raw, str):
             item_type = ItemType(item_type_raw)
-            if world.options.filler_distribution == FillerDistribution.option_vanilla:
+            if world.options.filler_distribution == FillerDistribution.option_vanilla and \
+                ITEM_TYPE_TO_GROUP.get(item_type) in {
+                    WeightedItemGroup.HEALTH,
+                    WeightedItemGroup.AMMO,
+                    WeightedItemGroup.LIFE_FORCE
+                }:
                 world.vanilla_item_counts[item_type] += 1
     
     def try_add_location(world: Turok2World, loc_name: str, loc_info: dict) -> bool:
@@ -162,6 +174,10 @@ def create_locations(world: Turok2World) -> None:
             return world.options.randomize_switches or loc_name.endswith(" - Primagen Key Switch")
         if item_type == ItemType.MISSION_OBJECTIVE.value:
             return world.options.randomize_mission_objectives
+        if item_type == ItemType.ENEMY_SOUL_KILL:
+            # Grab the levels the enemies are in, and return false here if they're all excluded
+            return world.options.enemy_souls.value != EnemySouls.option_off and \
+                not set(loc_info.get("levels", [])).issubset(set(world.excluded_levels))
 
         return True
     
@@ -375,7 +391,7 @@ def apply_location_rules(world: Turok2World):
 
 def apply_entrance_rules(world: Turok2World) -> None:
     """
-    Set the rules grabbed from the json earlier for for each entrance.
+    Set the rules grabbed from the json earlier for each entrance.
     """
     for region in world.multiworld.get_regions(world.player):
         for entrance in region.exits:
@@ -544,10 +560,10 @@ def weapon_requirement(world: Turok2World, args: dict):
 def enemy_soul(world: Turok2World, args: dict):
     """
     Checks whether the player has an enemy soul.
-    Calls has_any if there's multiple souls, or has if there's one (in case there's
+    Calls "has_any" if there's multiple souls, or "has" if there's one (in case there's
     some sort of performance benefit there).
     """
-    if world.options.enemy_souls.value == EnemySouls.option_off:
+    if world.options.enemy_souls.value in (EnemySouls.option_off, EnemySouls.option_off_include_checks):
         return lambda state: True
 
     soul = args.get("soul", None)
@@ -555,6 +571,9 @@ def enemy_soul(world: Turok2World, args: dict):
         raise Exception("enemy_soul missing 'soul'")
 
     player = world.player
+
+    if isinstance(soul, list):
+        return lambda state: state.has_all(soul, player)
 
     soul_list = soul.split(",")
     if len(soul_list) > 1:

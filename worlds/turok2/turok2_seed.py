@@ -11,7 +11,6 @@ from .items import ITEM_TABLE, ItemType, APMessageType, get_random_health_pickup
 from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, \
     RandomizeAmmoTypes, MaxAmmoSettings, SPECIAL_AMMO_NAMES, \
     RiverOfSoulsDeathJumps, JumpThroughLava
-from .item_table import EnemyType
 
 if TYPE_CHECKING:
     from . import Turok2World
@@ -85,13 +84,15 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
 
         # Add the appropriate kind of snippet based on the type
         type = LOCATION_TABLE[location_name]["type"]
-        is_action_object = type in (
+        is_actor_location = type in (
             ItemType.SWITCH.value, 
             ItemType.MISSION_OBJECTIVE.value, 
-            ItemType.EVENT.value) or isinstance(type, str) # Enemies are the only string type for now
-        if is_action_object:
+            ItemType.EVENT.value,
+            ItemType.ENEMY_SOUL_KILL.value) or isinstance(type, str) # Enemies are the only string type for now
+        
+        if is_actor_location:
             location_tag_id = LOCATION_TABLE[location_name]["tag_id"]
-            snippet = f"AddActionObject(\"{location_name}\", {location_id}, {location_tag_id}"
+            snippet = f"AddAPActorLocation(\"{location_name}\", {location_id}, {location_tag_id}"
         else:
             location_position = LOCATION_TABLE[location_name]["position"]
             snippet = f"AddReplacement(\"{location_name}\", {location_id}, \"{location_position}\""
@@ -119,7 +120,7 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
                 '\t': ' '
             }))
 
-            if is_action_object:
+            if is_actor_location:
                 snippet += f", \"{message}\");"
             else:
                 if location.item.advancement:

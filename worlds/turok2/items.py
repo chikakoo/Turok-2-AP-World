@@ -345,8 +345,8 @@ def get_required_seed_items(world: Turok2World, talisman_map: dict[str, int]):
             return world.options.progressive_warps
 
         # Enemy souls
-        if data["type"] in EnemyType:
-            return world.options.enemy_souls.value != EnemySouls.option_off
+        if data["type"] == ItemType.ENEMY_SOUL.value:
+            return world.options.enemy_souls.value in (EnemySouls.option_no_spawns, EnemySouls.option_no_triggers)
 
         return False
 

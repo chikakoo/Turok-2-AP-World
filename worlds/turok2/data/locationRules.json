@@ -17,7 +17,6 @@
             "count": 3
         }
     },
-
     "[4-V1] By Vent - Seal Vent": {
         "mission_item_requirement": {
             "item": "L4 Satchel Charge",
@@ -36,14 +35,12 @@
             "count": 3
         }
     },
-
     "[5-MC] Main - Destroy Master Computer": {
         "mission_item_requirement": {
             "item": "L5 Satchel Charge",
             "count": 4
         }
     },
-
     "[6-1] Generator - Place Ion Capacitors": {
         "mission_item_requirement": {
             "item": "Ion Capacitor",
@@ -68,7 +65,9 @@
                 "soul": "Elite Guard Soul"
             },
             "or": [
-                { "has": "Leap of Faith" },
+                {
+                    "has": "Leap of Faith"
+                },
                 "has_sniper_weapon"
             ]
         }
@@ -89,6 +88,151 @@
         "has": {
             "item": "PL Primagen Key Switch",
             "count": 4
+        }
+    },
+    "Defeated Raptoid": {
+        "enemy_soul": {
+            "soul": "Raptoid Soul"
+        }
+    },
+    "Defeated Endtrail": {
+        "enemy_soul": {
+            "soul": "Endtrail Soul"
+        }
+    },
+    "Defeated Compy": {
+        "enemy_soul": {
+            "soul": "Compy Soul"
+        }
+    },
+    "Defeated Raptor": {
+        "enemy_soul": {
+            "soul": "Raptor Soul"
+        }
+    },
+    "Defeated Leaper": {
+        "enemy_soul": {
+            "soul": "Leaper Soul"
+        }
+    },
+    "Defeated Spider Hatchling": {
+        "enemy_soul": {
+            "soul": "Spider Hatchling Soul"
+        }
+    },
+    "Defeated Deadman": {
+        "enemy_soul": {
+            "soul": "Deadman Soul"
+        }
+    },
+    "Defeated Lord of the Dead": {
+        "enemy_soul": {
+            "soul": "Lord of the Dead Soul"
+        }
+    },
+    "Defeated Sister of Despair": {
+        "enemy_soul": {
+            "soul": "Sister of Despair Soul"
+        }
+    },
+    "Defeated War Club": {
+        "enemy_soul": {
+            "soul": "War Club Soul"
+        }
+    },
+    "Defeated Gunner": {
+        "enemy_soul": {
+            "soul": "Gunner Soul"
+        }
+    },
+    "Defeated Juggernaut": {
+        "enemy_soul": {
+            "soul": "Juggernaut Soul"
+        }
+    },
+    "Defeated Cave Worm": {
+        "enemy_soul": {
+            "soul": "Cave Worm Soul"
+        }
+    },
+    "Defeated Wasp": {
+        "enemy_soul": {
+            "soul": "Wasp Soul"
+        }
+    },
+    "Defeated Blind Sentinel": {
+        "enemy_soul": {
+            "soul": "Blind Sentinel Soul"
+        }
+    },
+    "Defeated Guardian": {
+        "enemy_soul": {
+            "soul": "Guardian Soul"
+        }
+    },
+    "Defeated Nala": {
+        "enemy_soul": {
+            "soul": "Nala Soul"
+        }
+    },
+    "Defeated Cave Spider": {
+        "enemy_soul": {
+            "soul": "Cave Spider Soul"
+        }
+    },
+    "Defeated Fireborn": {
+        "enemy_soul": {
+            "soul": "Fireborn Soul"
+        }
+    },
+    "Defeated Drone": {
+        "enemy_soul": {
+            "soul": "Drone Soul"
+        }
+    },
+    "Defeated Worker": {
+        "enemy_soul": {
+            "soul": "Worker Soul"
+        }
+    },
+    "Defeated Mite": {
+        "enemy_soul": {
+            "soul": "Mite Soul"
+        }
+    },
+    "Defeated Soldier": {
+        "enemy_soul": {
+            "soul": "Soldier Soul"
+        }
+    },
+    "Defeated Bio-Bot": {
+        "enemy_soul": {
+            "soul": "Bio-Bot Soul"
+        }
+    },
+    "Defeated Trooper": {
+        "enemy_soul": {
+            "soul": "Trooper Soul"
+        }
+    },
+    "Defeated Elite Guard": {
+        "enemy_soul": {
+            "soul": "Elite Guard Soul"
+        }
+    },
+    "Defeated Flesh Sentinel": {
+        "enemy_soul": {
+            "soul": "Flesh Sentinel Soul"
+        }
+    },
+    "Defeated Death Guard": {
+        "enemy_soul": {
+            "soul": "Death Guard Soul"
+        }
+    },
+    "Defeated Lord of the Flesh": {
+        "enemy_soul": {
+            "soul": "Lord of the Flesh Soul"
         }
     }
 }

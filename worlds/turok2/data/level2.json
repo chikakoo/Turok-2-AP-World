@@ -1,58 +1,74 @@
 {
-	"level": 2,
+    "level": 2,
     "regions": [
         {
             "name": "[2-1]",
-            "exits": [{ 
-                "to": "[2-2]",
-                "rule": {
-					"progressive_warp": {
-						"level": 2,
-						"count": 1
-					}
-				}
-            }]
+            "enemies": [
+                "Raptoid",
+                "Endtrail"
+            ],
+            "exits": [
+                {
+                    "to": "[2-2]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 2,
+                            "count": 1
+                        }
+                    }
+                }
+            ]
         },
         {
             "name": "[2-2]",
-            "exits": [{
-                "to": "[2-3]",
-                "rule": {
-                    "and": [
-                        {
-                            "progressive_warp": {
-                                "level": 2,
-                                "count": 2
+            "enemies": [
+                "Raptor",
+                "Compy"
+            ],
+            "exits": [
+                {
+                    "to": "[2-3]",
+                    "rule": {
+                        "and": [
+                            {
+                                "progressive_warp": {
+                                    "level": 2,
+                                    "count": 2
+                                }
+                            },
+                            {
+                                "weapon_requirement": {
+                                    "location": "Level 2 Start"
+                                }
                             }
-                        },
-                        {
-                            "weapon_requirement": {
-								"location": "Level 2 Start"
-							}
-                        }
-                    ]
-				}
-            }]
+                        ]
+                    }
+                }
+            ]
         },
         {
             "name": "[2-3]",
-            "exits": [{ 
-                "to": "[2-3] After Giant Bridge",
-                "rule": { 
-                    "enemy_soul": {
-                        "soul": "Endtrail Soul"
+            "exits": [
+                {
+                    "to": "[2-3] After Giant Bridge",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Endtrail Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[2-3] After Giant Bridge",
             "exits": [
-                { 
+                {
                     "to": "[2-3] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[2-4]",
                     "rule": {
                         "progressive_warp": {
@@ -70,11 +86,13 @@
         {
             "name": "[2-4]",
             "exits": [
-                { 
+                {
                     "to": "[2-4] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[2-4] Gate Key Door",
                     "rule": {
                         "mission_item_requirement": {
@@ -92,8 +110,10 @@
         {
             "name": "[2-4] Gate Key Door",
             "exits": [
-                { "to": "[2-Oblivion]" },
-                { 
+                {
+                    "to": "[2-Oblivion]"
+                },
+                {
                     "to": "[2-5]",
                     "rule": {
                         "and": [
@@ -115,25 +135,39 @@
         },
         {
             "name": "[2-Oblivion]",
-            "exits": [{
-                "to": "[2-Oblivion] Lava Room",
-                "rule": { 
-                    "enemy_soul": {
-                        "soul": "Death Guard Soul,Flesh Sentinel Soul"
+            "enemies": [
+                "Flesh Sentinel",
+                "Death Guard"
+            ],
+            "exits": [
+                {
+                    "to": "[2-Oblivion] Lava Room",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": [
+                                "Flesh Sentinel Soul",
+                                "Death Guard Soul"
+                            ]
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[2-Oblivion] Lava Room",
-            "exits": [{
-                "to": "[2-Oblivion] End",
-                "rule": { 
-                    "enemy_soul": {
-                        "soul": "Lord of the Flesh Soul"
+            "enemies": [
+                "Lord of the Flesh"
+            ],
+            "exits": [
+                {
+                    "to": "[2-Oblivion] End",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Lord of the Flesh Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[2-Oblivion] End",
@@ -141,12 +175,17 @@
         },
         {
             "name": "[2-5]",
+            "enemies": [
+                "Deadman"
+            ],
             "exits": [
-                { 
+                {
                     "to": "[2-5] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[2-6a]",
                     "rule": {
                         "progressive_warp": {
@@ -159,10 +198,14 @@
         },
         {
             "name": "[2-5] River",
-            "exits": [{
-                "to": "[2-5] River Leaps",
-                "rule": { "has": "Leap of Faith" }
-            }]
+            "exits": [
+                {
+                    "to": "[2-5] River Leaps",
+                    "rule": {
+                        "has": "Leap of Faith"
+                    }
+                }
+            ]
         },
         {
             "name": "[2-5] River Leaps",
@@ -170,96 +213,115 @@
         },
         {
             "name": "[2-6a]",
-            "exits": [{ 
-                "to": "[2-6b]",
-                "rule": {
-					"progressive_warp": {
-						"level": 2,
-						"count": 6
-					}
-				}
-            }]
+            "exits": [
+                {
+                    "to": "[2-6b]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 2,
+                            "count": 6
+                        }
+                    }
+                }
+            ]
         },
         {
             "name": "[2-6b]",
-            "exits": [{ 
-                "to": "[2-GY1]",
-                "rule": {
-					"progressive_warp": {
-						"level": 2,
-						"count": 7
-					}
-				}
-            }]
+            "exits": [
+                {
+                    "to": "[2-GY1]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 2,
+                            "count": 7
+                        }
+                    }
+                }
+            ]
         },
         {
             "name": "[2-GY1]",
-            "exits": [{
-                "to": "[2-GY1] After First Gate",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Deadman Soul"
+            "enemies": [
+                "Lord of the Dead",
+                "Sister of Despair"
+            ],
+            "exits": [
+                {
+                    "to": "[2-GY1] After First Gate",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Deadman Soul"
+                        }
                     }
                 }
-                
-            }]
+            ]
         },
         {
             "name": "[2-GY1] After First Gate",
-            "exits": [{
-                "to": "[2-GY1] Sister Building",
-                "rule": {
-                    "enemy_soul": {
-                        "soul": "Lord of the Dead Soul"
+            "exits": [
+                {
+                    "to": "[2-GY1] Sister Building",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Lord of the Dead Soul"
+                        }
                     }
                 }
-            }]
+            ]
         },
         {
             "name": "[2-GY1] Sister Building",
-            "exits": [{
-                "to": "[2-6c]",
-                "rule": {
-                    "and": [
-                        {
-                            "enemy_soul": {
-                                "soul": "Sister of Despair Soul"
+            "exits": [
+                {
+                    "to": "[2-6c]",
+                    "rule": {
+                        "and": [
+                            {
+                                "enemy_soul": {
+                                    "soul": "Sister of Despair Soul"
+                                }
+                            },
+                            {
+                                "progressive_warp": {
+                                    "level": 2,
+                                    "count": 8
+                                }
                             }
-                        },
-                        {
-                            "progressive_warp": {
-                                "level": 2,
-                                "count": 8
-                            }
-                        }
-                    ]
-				}
-            }]
+                        ]
+                    }
+                }
+            ]
         },
         {
             "name": "[2-6c]",
-            "exits": [{
-                "to": "[2-7]",
-                "rule": {
-					"progressive_warp": {
-						"level": 2,
-						"count": 9
-					}
-				}
-            }]
+            "exits": [
+                {
+                    "to": "[2-7]",
+                    "rule": {
+                        "progressive_warp": {
+                            "level": 2,
+                            "count": 9
+                        }
+                    }
+                }
+            ]
         },
         {
             "name": "[2-7]",
             "exits": [
-                { 
+                {
                     "to": "[2-7] Leap",
-                    "rule": { "has": "Leap of Faith" }
+                    "rule": {
+                        "has": "Leap of Faith"
+                    }
                 },
                 {
                     "to": "[2-7] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[2-GY2]",
                     "rule": {
                         "progressive_warp": {
@@ -268,8 +330,8 @@
                         }
                     }
                 },
-                { 
-                    "to": "[2-8]" ,
+                {
+                    "to": "[2-8]",
                     "rule": {
                         "progressive_warp": {
                             "level": 2,
@@ -294,15 +356,19 @@
         {
             "name": "[2-8]",
             "exits": [
-                { 
+                {
                     "to": "[2-8] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[2-Talisman]",
-                    "rule": { "has": "Level 2 Eagle Feather" }
+                    "rule": {
+                        "has": "Level 2 Eagle Feather"
+                    }
                 },
-                { 
+                {
                     "to": "[2-GY3]",
                     "rule": {
                         "progressive_warp": {
@@ -311,7 +377,7 @@
                         }
                     }
                 },
-                { 
+                {
                     "to": "[2-Totem]",
                     "rule": {
                         "and": [
@@ -333,17 +399,20 @@
                                 }
                             }
                         ]
-                        
                     }
                 }
             ]
         },
         {
             "name": "[2-8] River",
-            "exits": [{ 
-                "to": "[2-8] River Leaps",
-                "rule": { "has": "Leap of Faith" }
-            }]
+            "exits": [
+                {
+                    "to": "[2-8] River Leaps",
+                    "rule": {
+                        "has": "Leap of Faith"
+                    }
+                }
+            ]
         },
         {
             "name": "[2-8] River Leaps",
@@ -356,11 +425,13 @@
         {
             "name": "[2-GY3]",
             "exits": [
-                { 
+                {
                     "to": "[2-GY3] River",
-                    "rule": { "has": "Breath of Life" }
+                    "rule": {
+                        "has": "Breath of Life"
+                    }
                 },
-                { 
+                {
                     "to": "[2-GY3] Graveyard Keys",
                     "rule": {
                         "mission_item_requirement": {
@@ -381,11 +452,17 @@
         },
         {
             "name": "[2-Totem]",
-            "exits": [{ "to": "Hub" }],
-            "events": [{
-                "name": "Level Complete",
-                "location_name": "RoS Complete"
-            }]
+            "exits": [
+                {
+                    "to": "Hub"
+                }
+            ],
+            "events": [
+                {
+                    "name": "Level Complete",
+                    "location_name": "RoS Complete"
+                }
+            ]
         }
     ]
 }
