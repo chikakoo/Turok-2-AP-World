@@ -5,19 +5,21 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ### v0.7.0
 - Added death link support, with a few different options for when one is received
+- Added settings for enemy souls, including the ability to only add checks for the first time you kill an enemy type
 - Added setting to shuffle/randomize ammo types
 - Added setting for infinite ammo upgrades
 - Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
 - Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
-- Fade out randomized spawned enemies to not eat up the cap with corpses
+- The "Warp to Hub" button now leads to the checkpoint station instead of the Level 1 warp
 - AP world client changes:
   - Added support to open the patch file to auto-install it and launch the client
   - Ping the AP client (if not in offline mode) and display a disconnected message if it doesn't respond
   - Errors and warnings are now shown in color
 - Bug fixes:
   - Fixed the Mag 60 from not consuming extra ammo when holding down fire
+  - Fade out randomized spawned enemies to not eat up the cap with corpses
 
 ## v0.6.X
 
