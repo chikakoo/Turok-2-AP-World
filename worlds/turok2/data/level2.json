@@ -263,7 +263,7 @@
             "name": "[2-GY1] After First Gate",
             "exits": [
                 {
-                    "to": "[2-GY1] Sister Building",
+                    "to": "[2-GY1] Defeat Lord of the Dead",
                     "rule": {
                         "enemy_soul": {
                             "soul": "Lord of the Dead Soul"
@@ -273,24 +273,28 @@
             ]
         },
         {
-            "name": "[2-GY1] Sister Building",
+            "name": "[2-GY1] Defeat Lord of the Dead",
+            "exits": [
+                {
+                    "to": "[2-GY1] Defeat Sister of Despair",
+                    "rule": {
+                        "enemy_soul": {
+                            "soul": "Sister of Despair Soul"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[2-GY1] Defeat Sister of Despair",
             "exits": [
                 {
                     "to": "[2-6c]",
                     "rule": {
-                        "and": [
-                            {
-                                "enemy_soul": {
-                                    "soul": "Sister of Despair Soul"
-                                }
-                            },
-                            {
-                                "progressive_warp": {
-                                    "level": 2,
-                                    "count": 8
-                                }
-                            }
-                        ]
+                        "progressive_warp": {
+                            "level": 2,
+                            "count": 8
+                        }
                     }
                 }
             ]
