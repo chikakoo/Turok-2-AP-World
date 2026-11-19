@@ -550,7 +550,7 @@
     "[4-8a] Level Key Trap - Box of Shells": { "region": "[4-8] Cave Door", "ap_id": 105052, "position": "105_-5797_-3549_-2765", "type": 6 },
     "[4-8a] Level Key Trap - Charge Dart Pak": { "region": "[4-8] Cave Door", "ap_id": 105053, "position": "105_-5795_-2803_-2765", "type": 6 },
     "[4-8a] Level Key Trap - Full Health": { "region": "[4-8] After Level Key Guardian", "ap_id": 105054, "position": "105_-6066_-3181_-2761", "type": 4 },
-    "[4-8a] After Level Key Trap - Mag 60": { "region": "[4-8] After Level Key Guardian", "ap_id": 105055, "position": "105_-6625_1126_-2150", "type": 13 },
+    "[4-8a] After Level Key Trap - Mag 60": { "region": "[4-8] Exit", "ap_id": 105055, "position": "105_-6625_1126_-2150", "type": 13 },
     "[4-8a] After Level Key Trap - Satchel Charge": { "region": "[4-8] Exit", "ap_id": 105056, "position": "105_-6615_1730_-2140", "type": 12 },
     "[4-8a] After Level Key Trap - Blue Health in Left Fork": { "region": "[4-8] Exit", "ap_id": 105057, "position": "105_-7505_2169_-2148", "type": 2 },
     "[4-8a] After Level Key Trap - Blue Health by Exit": { "region": "[4-8] Exit", "ap_id": 105058, "position": "105_-6591_3521_-2148", "type": 2 },
