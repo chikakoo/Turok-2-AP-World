@@ -114,6 +114,9 @@
         },
         {
             "name": "[3-3]",
+            "enemies": [
+                "Raptor"
+            ],
             "exits": [
                 {
                     "to": "[3-3] River",

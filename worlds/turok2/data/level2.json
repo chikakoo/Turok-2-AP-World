@@ -244,10 +244,6 @@
         },
         {
             "name": "[2-GY1]",
-            "enemies": [
-                "Lord of the Dead",
-                "Sister of Despair"
-            ],
             "exits": [
                 {
                     "to": "[2-GY1] After First Gate",
@@ -261,6 +257,9 @@
         },
         {
             "name": "[2-GY1] After First Gate",
+            "enemies": [
+                "Lord of the Dead"
+            ],
             "exits": [
                 {
                     "to": "[2-GY1] Defeat Lord of the Dead",
@@ -274,6 +273,9 @@
         },
         {
             "name": "[2-GY1] Defeat Lord of the Dead",
+            "enemies": [
+                "Sister of Despair"
+            ],
             "exits": [
                 {
                     "to": "[2-GY1] Defeat Sister of Despair",
