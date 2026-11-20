@@ -5,7 +5,7 @@ import io
 import logging
 import zipfile
 from .ap_memory_constants import APStatus, APDeathType, DEATH_TYPE_MESSAGES, APMemoryOffset
-from CommonClient import ClientCommandProcessor, server_loop, gui_enabled
+from CommonClient import server_loop, gui_enabled
 from ..items import map_ap_item_to_game
 from NetUtils import ClientStatus, JSONMessagePart
 from pathlib import Path
@@ -15,10 +15,12 @@ from typing import Any
 # Use UTs context if using UT, else use CommonContext
 tracker_loaded = False
 try:
-    from worlds.tracker.TrackerClient import TrackerGameContext as SuperContext
+    from worlds.tracker.TrackerClient import (
+        TrackerGameContext as SuperContext,
+        TrackerCommandProcessor as SuperCommandProcessor)
     tracker_loaded = True
 except ModuleNotFoundError:
-    from CommonClient import CommonContext as SuperContext
+    from CommonClient import CommonContext as SuperContext, ClientCommandProcessor as SuperCommandProcessor
 
 logger = logging.getLogger("Client")
 
@@ -122,7 +124,7 @@ MAP_ID_TO_MAP_DATA = {
     8300: { "level": "Level 6", "map": "6-O", "section": "" }
 }
 
-class Turok2CommandProcessor(ClientCommandProcessor):
+class Turok2CommandProcessor(SuperCommandProcessor):
     def __init__(self, ctx): 
         super().__init__(ctx)
 

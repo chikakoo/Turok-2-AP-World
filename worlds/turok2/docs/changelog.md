@@ -21,6 +21,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Bug fixes:
   - Fixed the Mag 60 from not consuming extra ammo when holding down fire
   - Fade out randomized spawned enemies to not eat up the cap with corpses
+  - Fixed the Universal Tracker addon commands not being available
 
 ## v0.6.X
 
