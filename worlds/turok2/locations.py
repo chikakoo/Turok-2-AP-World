@@ -560,8 +560,9 @@ def weapon_requirement(world: Turok2World, args: dict):
 def enemy_soul(world: Turok2World, args: dict):
     """
     Checks whether the player has an enemy soul.
-    Calls "has_any" if there's multiple souls, or "has" if there's one (in case there's
-    some sort of performance benefit there).
+    - Use "has_any" if there's comma delimited souls
+    - Use "has_all" if there's an array of souls
+    - Use "has" if there's one soul
     """
     if world.options.enemy_souls.value in (EnemySouls.option_off, EnemySouls.option_off_include_checks):
         return lambda state: True

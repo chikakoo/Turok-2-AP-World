@@ -85,6 +85,9 @@
         },
         {
             "name": "[2-4]",
+            "enemies": [
+                "Spider Hatchling"
+            ],
             "exits": [
                 {
                     "to": "[2-4] River",

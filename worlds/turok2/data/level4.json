@@ -119,6 +119,9 @@
         },
         {
             "name": "[4-3]",
+            "enemies": [
+                "Cave Spider"
+            ],
             "exits": [
                 {
                     "to": "[4-2] Return Room"
