@@ -81,6 +81,7 @@ def create_regions_and_entrances(world: Turok2World) -> None:
 
     for region_name in ENEMY_NAMES:
         region = Region(region_name, world.player, world.multiworld)
+        region_map[region_name] = region
         world.multiworld.regions.append(region)
 
     # Connect the regions with entrances
@@ -97,10 +98,10 @@ def create_regions_and_entrances(world: Turok2World) -> None:
             entrance = from_region.connect(to_region, entrance_name)
             entrance.rule_json = exit_data.get("rule")
 
-        # Apply enemy regions
-        # The rule is done in locationRules
+        # Apply enemy regions (the rule is done in locationRules, this just makes the region)
         for enemy_region in region_data.get("enemies", []):
-            entrance_name = f"{from_region.name} -> {enemy_region}"
+            to_region = region_map[enemy_region]
+            entrance_name = f"{from_region.name} -> {to_region.name}"
             entrance = from_region.connect(to_region, entrance_name)
             
 def create_locations(world: Turok2World) -> None:
@@ -178,6 +179,10 @@ def create_locations(world: Turok2World) -> None:
             # Grab the levels the enemies are in, and return false here if they're all excluded
             return world.options.enemy_souls.value != EnemySouls.option_off and \
                 not set(loc_info.get("levels", [])).issubset(set(world.excluded_levels))
+        if item_type == ItemType.LEVEL_COMPLETED:
+            level = loc_info.get("level", None)
+            if level:
+                return level not in world.excluded_levels
 
         return True
     

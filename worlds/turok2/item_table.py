@@ -26,6 +26,7 @@ class ItemType(Enum):
     MISSION_OBJECTIVE = 17
     ENEMY_SOUL = 18
     ENEMY_SOUL_KILL = 19
+    LEVEL_COMPLETED = 20
     EVENT = 99 # Will not provide a real check - used for tracking purposes
     
 class EnemyType(Enum):

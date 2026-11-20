@@ -88,7 +88,8 @@ def get_angelscript_from_filled_locations(self: "Turok2World") -> str:
             ItemType.SWITCH.value, 
             ItemType.MISSION_OBJECTIVE.value, 
             ItemType.EVENT.value,
-            ItemType.ENEMY_SOUL_KILL.value) or isinstance(type, str) # Enemies are the only string type for now
+            ItemType.ENEMY_SOUL_KILL.value,
+            ItemType.LEVEL_COMPLETED.value) or isinstance(type, str) # Enemies are the only string type for now
         
         if is_actor_location:
             location_tag_id = LOCATION_TABLE[location_name]["tag_id"]
