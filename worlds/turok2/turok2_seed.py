@@ -173,7 +173,7 @@ def get_settings_string(self: "Turok2World") -> str:
     Sets up the macro file with any settings the game needs to know:
     - AP_VALIDATION_SEED: The seed generated to validate the slot
     - AP_SLOT_NAME: Slot name to help with save file validation
-    - OPTION_DEATH_LINK_TYPE: What should happen in case a death link is received
+    - OPTION_DEATH_LINK_SEVERITY: What should happen in case a death link is received
     - OPTION_MARK_PICKUPS: The default value for the pickup (!) indicator
     - OPTION_MARK_ENEMIES: The default value for the enemy (!) indicator
     - OPTION_GOAL_PRIMAGEN_LAIR: Whether entering the lair is the goal
@@ -403,7 +403,7 @@ def get_settings_string(self: "Turok2World") -> str:
     settings_macros = (
         f"#define AP_VALIDATION_SEED {self.validation_seed}\n" +
         f"#define AP_SLOT_NAME \"{self.player_name}\"\n" +
-        f"#define OPTION_DEATH_LINK_TYPE {self.options.death_link_type.value}\n" +
+        f"#define OPTION_DEATH_LINK_SEVERITY {self.options.death_link_severity.value}\n" +
         f"#define OPTION_OFFLINE_MODE {generate_for_offline}\n" +
 
         f"#define OPTION_MARK_PICKUPS {mark_pickups}\n" +

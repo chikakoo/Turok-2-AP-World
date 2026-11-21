@@ -281,7 +281,7 @@ class Turok2World(World):
         slot_data = self.options.as_dict(
             # Death Link
             "death_link",
-            "death_link_type",
+            "death_link_severity",
 
             # Goal
             "level_goal",

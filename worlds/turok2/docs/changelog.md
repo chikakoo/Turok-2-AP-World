@@ -4,7 +4,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
 ## v0.7.X
 
 ### v0.7.0
-- Added death link support, with a few different options for when one is received
+- Added death link support, with options to set the % of health lost when receiving one (or random)
 - Added settings for enemy souls, including the ability to only add checks for the first time you kill an enemy type
 - Added setting to shuffle/randomize ammo types
 - Added setting for infinite ammo upgrades

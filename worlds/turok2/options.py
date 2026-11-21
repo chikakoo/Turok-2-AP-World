@@ -1129,26 +1129,34 @@ class UncheckedEnemyIndicators(Toggle):
     display_name = "Unchecked Enemy Indicators"
     default = True
 
-class DeathLinkType(Choice):
+class DeathLinkSeverity(NamedRange):
     """
-    If death link is on, what happens when a death link is received.
+    WARNING: CONSIDER TURNING ON INFINITE LIVES IF USING THIS
 
-    For any of these choices, consider turning on the infinite lives cheat if necessary, as the
-    mod does not give or disable lives.
-    - Death: Kills you.
-    - Half Health: Damages you equal to half of your current health. Does no damage if at 1 health.
-    - Low Health: Sets your current health to 1.
+    If death link is on, the percentage of your current health that should be lost.
+    Any value below 100 will not kill you.
+
+    Special cases:
+    - Random (value of -1): Deals a random amount of damage on death link received (can kill you)
+    - Random (value of -2): Deals a random amount of damage on death link received (cannot kill you)
     """
     display_name = "Death Link Type"
-    option_death = 0
-    option_half_health = 1
-    option_low_health = 2
-    default = option_death
+    range_start = 1
+    range_end = 100
+    default = 100
+    special_range_names = {
+        "death": 100,
+        "high_damage": 75,
+        "medium_damage": 50,
+        "low_damage": 25,
+        "random": -1,
+        "random-no-death": -2
+    }
     
 @dataclass
 class Turok2Options(PerGameCommonOptions):
     death_link: DeathLink
-    death_link_type: DeathLinkType
+    death_link_severity: DeathLinkSeverity
 
     generate_for_offline: GenerateForOffline
 
