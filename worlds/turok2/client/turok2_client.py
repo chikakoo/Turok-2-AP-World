@@ -545,6 +545,7 @@ class Turok2Context(SuperContext):
         # Process when others have died
         if self.deathlink_pending:
             self.write_int(APMemoryOffset.RECEIVED_DEATH, 1)
+            self.deathlink_pending = False
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
         """
