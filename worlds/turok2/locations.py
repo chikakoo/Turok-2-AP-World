@@ -37,9 +37,12 @@ def _load_all_location_data():
             # Inject the level into each location
             data = json.loads(file.read_text())
             for _, loc_data in data.items():
-                loc_data["level"] = level
-                all_locations.update(data)
-                
+                existing_level = loc_data.get("level", None)
+                if existing_level is None:
+                    loc_data["level"] = level
+
+            all_locations.update(data)
+
     return all_locations
 
 LOCATION_TABLE = _load_all_location_data()
@@ -175,14 +178,9 @@ def create_locations(world: Turok2World) -> None:
             return world.options.randomize_switches or loc_name.endswith(" - Primagen Key Switch")
         if item_type == ItemType.MISSION_OBJECTIVE.value:
             return world.options.randomize_mission_objectives
-        if item_type == ItemType.ENEMY_SOUL_KILL:
-            # Grab the levels the enemies are in, and return false here if they're all excluded
+        if item_type == ItemType.ENEMY_SOUL_KILL.value:
             return world.options.enemy_souls.value != EnemySouls.option_off and \
-                not set(loc_info.get("levels", [])).issubset(set(world.excluded_levels))
-        if item_type == ItemType.LEVEL_COMPLETED:
-            level = loc_info.get("level", None)
-            if level:
-                return level not in world.excluded_levels
+                not set(loc_info.get("levels", [])).issubset(world.excluded_levels)
 
         return True
     
