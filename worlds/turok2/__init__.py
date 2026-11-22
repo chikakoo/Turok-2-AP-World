@@ -300,6 +300,9 @@ class Turok2World(World):
             "progressive_weapon_ammo_upgrades",
             "nuke_behavior",
 
+            # Traps
+            "remote_trap_setting",
+
             # Tricks
             "level_3_river_ledge_jump",
             "level_3_bridge_jump",
@@ -378,6 +381,9 @@ class Turok2World(World):
                 "enemy_souls",
                 "progressive_weapon_ammo_upgrades",
                 "nuke_behavior",
+
+                # Traps
+                "remote_trap_setting",
 
                 # Tricks
                 "level_3_river_ledge_jump",

@@ -4,7 +4,7 @@ from .item_table import *
 from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
 from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, RandomizeMissionItems, \
-    FillerDistribution, EnemySouls, LevelUnlockMethod, JumpThroughLava
+    FillerDistribution, EnemySouls, LevelUnlockMethod, JumpThroughLava, RemoteTrapSetting
 from collections import Counter
 
 if TYPE_CHECKING:
@@ -88,7 +88,9 @@ def set_local_items(world: Turok2World) -> None:
     for name, data in ITEM_TABLE.items():
         if data.get("is_local") or (
             world.options.randomize_mission_items == RandomizeMissionItems.option_on_local and
-                data.get("type") == ItemType.MISSION_ITEM.value):
+                data.get("type") == ItemType.MISSION_ITEM.value) or (
+            world.options.remote_trap_setting == RemoteTrapSetting.option_local_only and
+                data.get("type") == ItemType.TRAP.value):
             world.options.local_items.value.add(name)
 
     weapon_names = [

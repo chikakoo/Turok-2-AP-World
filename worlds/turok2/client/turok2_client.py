@@ -1,12 +1,12 @@
 import argparse
 import asyncio
 import pymem
-import io
 import logging
 import zipfile
-from .ap_memory_constants import APStatus, APDeathType, DEATH_TYPE_MESSAGES, APMemoryOffset
+from .ap_memory_constants import APStatus, APMessageType, APDeathType, DEATH_TYPE_MESSAGES, APMemoryOffset
 from CommonClient import server_loop, gui_enabled
 from ..items import map_ap_item_to_game
+from ..options import RemoteTrapSetting
 from NetUtils import ClientStatus, JSONMessagePart
 from pathlib import Path
 from Utils import async_start
@@ -149,6 +149,8 @@ class Turok2Context(SuperContext):
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.current_map_id = ""
+        self.highest_pending_items_index = -1
+        self.skip_pending_traps = False
         self.deathlink_enabled = False
         self.deathlink_pending = False
         self.deathlink_just_toggled = False
@@ -310,10 +312,13 @@ class Turok2Context(SuperContext):
         """
         Sets the game_connected property and clears the death link flags in the game so we don't
         send/receive any that took place while we were offline.
-        """
-        self.game_connected = True
-        self.reset_deathlink_flags()
 
+        Also marks the pending items flag as false, so we know to skip any traps we received if necessary.
+        """
+        self.highest_pending_items_index = -1
+        self.reset_deathlink_flags()
+        self.game_connected = True
+        
     def reset_deathlink_flags(self) -> None:
         """
         Resets the death link flags to clear pending death links sent from the game and received from the server.
@@ -418,6 +423,7 @@ class Turok2Context(SuperContext):
 
                 while True:
                     try:
+                        self.highest_pending_items_index = -1
                         await self.connect_to_game_async()
                         self.ap_base = await self.scan_for_ap_base_async()
                         logger.info("Reconnected successfully.")
@@ -449,35 +455,46 @@ class Turok2Context(SuperContext):
         self.highest_processed_index = min(
             self.read_int(APMemoryOffset.OUT_LAST_PROCESSED_ITEM_IDX),
             len(self.items_received)
-)
+        )
         new_items = self.items_received[self.highest_processed_index:]
-        for item in new_items:
+        if self.highest_pending_items_index == -1:
+            self.highest_pending_items_index = len(self.items_received) - 1
+
+        for index, item in enumerate(new_items, start=self.highest_processed_index):
             # If we're suddenly not connected, exit out
             if not self.game_connected:
                 raise Exception("Game not connected")
 
             msg_type, msg_data = map_ap_item_to_game(item.item)
-            if not self.send_next_item(msg_type, msg_data):
+            if not self.send_next_item(msg_type, msg_data, index):
                 break
             
             print(f"Processed index: {self.highest_processed_index}")
             
-    def send_next_item(self, msg_type: int, data: int) -> bool:
+    def send_next_item(self, msg_type: int, data: int, current_index: int) -> bool:
         """
         Sends a message to the game by:
         - Checking the IN_STATUS - if not AP_READY, do nothing, as the game is currently processing one
         - Writing the IN_TYPE and IN_DATA, so the game knows the type and what value to use
         - Writing the highest processed index to IN_LAST_PROCESSED_ITEM_IDX so the game can update its index
         - Writing the IN_STATUS to AP_PROCESSING so the game knows to process what we just gave it
+
+        If there are pending traps, it will only set the IN_LAST_PROCESSED_ITEM_IDX.
         """
         if self.read_int(APMemoryOffset.IN_STATUS) != APStatus.AP_READY.value:
             return False
 
         self.highest_processed_index += 1
-        self.write_int(APMemoryOffset.IN_TYPE, msg_type)
-        self.write_int(APMemoryOffset.IN_DATA, data)
-        self.write_int(APMemoryOffset.IN_LAST_PROCESSED_ITEM_IDX, self.highest_processed_index)
-        self.write_int(APMemoryOffset.IN_STATUS, APStatus.AP_PROCESSING)
+
+        if current_index <= self.highest_pending_items_index and \
+            self.skip_pending_traps and \
+            msg_type == APMessageType.AP_IN_MSGTYPE_GET_TRAP.value:
+            self.write_int(APMemoryOffset.IN_LAST_PROCESSED_ITEM_IDX, self.highest_processed_index)
+        else:
+            self.write_int(APMemoryOffset.IN_TYPE, msg_type)
+            self.write_int(APMemoryOffset.IN_DATA, data)
+            self.write_int(APMemoryOffset.IN_LAST_PROCESSED_ITEM_IDX, self.highest_processed_index)
+            self.write_int(APMemoryOffset.IN_STATUS, APStatus.AP_PROCESSING)
         
         return True
         
@@ -556,13 +573,18 @@ class Turok2Context(SuperContext):
 
         if cmd == "Connected":
             self.current_map_id = ""
-            self.last_connected_validation_seed = args["slot_data"]["validation_seed"]
 
+            # Get whether we should skip traps
+            self.skip_pending_traps = \
+                args["slot_data"]["remote_trap_setting"] == RemoteTrapSetting.option_ignore_pending
+            
             # Only set deathlink from the slot data if we're not overriding it
             self.deathlink_pending = False
             if not self.deathlink_client_override:
                 self.deathlink_enabled = args["slot_data"]["death_link"]
                 async_start(self.update_death_link(self.deathlink_enabled))
+
+            self.last_connected_validation_seed = args["slot_data"]["validation_seed"]
 
     def on_deathlink(self, data: dict):
         """If deathlink is enabled, sets the flag to send it to the game."""

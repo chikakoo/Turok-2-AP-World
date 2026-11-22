@@ -1072,6 +1072,20 @@ class TrapPercentage(Range):
     range_end = 100
     default = 0
 
+class RemoteTrapSetting(Choice):
+    """
+    How traps received from other worlds should be handled.
+    - Ignore Pending: Traps received while the game is not connected will not be processed.
+    - Receive Pending: Traps received while the game is not connected will be proccessed.
+                       This can result in a flurry of enemies upon reconnecting, if in a big async.
+    - Local Only: Traps are only found in your world. Be careful about using this if your trap percentage is high.
+    """
+    display_name = "Remote Trap Setting"
+    option_ignore_pending = 0
+    option_receive_pending = 1
+    option_local_only = 2
+    default = option_ignore_pending
+
 class EnemyTrapPool(Choice):
     """
     The pool of enemies that enemy traps will pull from.
@@ -1241,6 +1255,7 @@ class Turok2Options(PerGameCommonOptions):
     life_force_weights: LifeForceWeights
 
     trap_percentage: TrapPercentage
+    remote_trap_setting: RemoteTrapSetting
     enemy_trap_pool: EnemyTrapPool
     trap_weights: TrapWeights
 
@@ -1323,6 +1338,7 @@ option_groups: List[OptionGroup] = [
     ]),
     OptionGroup("Traps", [
         TrapPercentage,
+        RemoteTrapSetting,
         EnemyTrapPool,
         TrapWeights
     ]),

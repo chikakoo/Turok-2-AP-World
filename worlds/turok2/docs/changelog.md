@@ -5,13 +5,20 @@ This includes changes in both the mod and AP world, in reverse order of releases
 
 ### v0.7.0
 - Added death link support, with options to set the % of health lost when receiving one (or random)
-- Added settings for enemy souls, including the ability to only add checks for the first time you kill an enemy type
+- Added settings for enemy souls, which adds soul items for each enemy type
+  - This adds new checks for the first time you kill an enemy of each type
+  - Option to make enemies not appear when you don't have their soul
+  - Option to make enemies not trigger map events/work for enemy sanity checks when you don't have their soul
+  - Option to only add the checks for the first time you kill an enemy type
 - Added setting to shuffle/randomize ammo types
 - Added setting for infinite ammo upgrades
 - Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
 - Added settings to include extra mission items or to place them all locally
 - Added setting to include extra progressive warps
+- Added settings to handle remote traps:
+  - Whether or not you will get pending traps that you received while offline
+  - Whether to make all traps local to your world
 - Non-excluded level completions are now checks
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
 - Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
