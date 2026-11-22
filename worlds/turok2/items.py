@@ -239,6 +239,9 @@ def create_progression_items(
             count = math.ceil(count / strength)
             precollect_count = warp_distributions.get(level, 0)
 
+            if world.options.extra_progressive_warps:
+                count += 1
+
         # Adds extra mission items if necessary
         elif item_type == ItemType.MISSION_ITEM.value and \
             world.options.randomize_mission_items == RandomizeMissionItems.option_on_extra_items:

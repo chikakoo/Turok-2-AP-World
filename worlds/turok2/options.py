@@ -128,6 +128,14 @@ class ProgressiveWarps(Toggle):
     display_name = "Progressive Warps"
     default = True
 
+class ExtraProgressiveWarps(Toggle):
+    """
+    Used if Progressive Warps are on.
+    Adds one more copy of each progressive warp to the pool.
+    """
+    display_name = "Extra Progressive Warps"
+    default = False
+
 class ProgressiveWarpStrength(NamedRange):
     """
     Used if Progressive Warps are on.
@@ -1177,6 +1185,7 @@ class Turok2Options(PerGameCommonOptions):
     starting_levels: StartingLevels
     excluded_levels: ExcludedLevels
     progressive_warps: ProgressiveWarps
+    extra_progressive_warps: ExtraProgressiveWarps
     progressive_warp_strength: ProgressiveWarpStrength
     starting_progressive_warps: StartingProgressiveWarps
     level_unlock_method: LevelUnlockMethod
@@ -1251,6 +1260,7 @@ option_groups: List[OptionGroup] = [
         StartingLevels,
         ExcludedLevels,
         ProgressiveWarps,
+        ExtraProgressiveWarps,
         ProgressiveWarpStrength,
         StartingProgressiveWarps,
         LevelUnlockMethod

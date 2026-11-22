@@ -10,6 +10,8 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added setting for infinite ammo upgrades
 - Added setting to shuffle talismans among each other
 - Added settings to randomize the sizes of enemies
+- Added settings to include extra mission items or to place them all locally
+- Added setting to include extra progressive warps
 - Non-excluded level completions are now checks
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
 - Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
