@@ -543,12 +543,22 @@ class RandomizeTalismans(Choice):
     option_in_pool = 4
     default = option_in_pool
     
-class RandomizeMissionItems(Toggle):
+class RandomizeMissionItems(Choice):
     """
-    Whether to include items needed to finish the level. For example, the power cells
-    in level 1 or the graveyard keys in level 2.
+    Whether to include items needed to finish the level. Includes:
+    Power Cells, Gate/Graveyard/Cave Door Keys, Satchel Charges, Laser Cells, and Ion Capacitors
+    - Off: Mission items will be in their vanilla locations.
+    - On: Shuffles the items into the multiworld pool, to be found in any world.
+    - On Extra Items: Same as "On", but includes extra items to speed up the seed.
+                      Includes 1 more of each item, but with 2 more Cave Door Keys and 4 more Ion Capacitors.
+                      Exclues Laser Cells, as the vanilla count is already 2 more than is required.
+    - Local: All mission items will be found randomly in your world.
     """
     display_name = "Randomize Mission Items"
+    option_off = 0
+    option_on = 1
+    option_on_extra_items = 2
+    option_on_local = 3
     default = True
 
 class RandomizeSwitches(Toggle):

@@ -8,8 +8,8 @@ from typing import TYPE_CHECKING
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
 from .options import PrimagenGoal, RandomizePrimagenKeys, LevelUnlockMethod, NukeBehavior, \
-    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, Enemysanity, EnemySouls, \
-    FillerDistribution, RiverOfSoulsDeathJumps, JumpThroughLava
+    RandomizeHealthPickups, RandomizeAmmoPickups, RandomizeLifeForces, RandomizeMissionItems, \
+    Enemysanity, EnemySouls, FillerDistribution, RiverOfSoulsDeathJumps, JumpThroughLava
 from . import items
 from .items import ItemType, WeightedItemGroup, ITEM_TYPE_TO_GROUP
 from .item_table import ENEMY_NAMES
@@ -167,7 +167,8 @@ def create_locations(world: Turok2World) -> None:
             # Most mission items will be in locked locations
             # The green capacitors are not included in this
             #   So, if not including mission items, don't include them
-            return world.options.randomize_mission_items or " - Green Capacitor" not in loc_name
+            return world.options.randomize_mission_items != RandomizeMissionItems.option_off or \
+                " - Green Capacitor" not in loc_name
         if item_type == ItemType.NUKE_PART.value:
             return world.options.nuke_behavior in (
                 NukeBehavior.option_disabled,
@@ -504,7 +505,7 @@ def mission_item_requirement(world: Turok2World, args: dict):
     """
     Checks mission items. Returns True if we aren't shuffling them because the game logic should work here.
     """
-    if world.options.randomize_mission_items:
+    if world.options.randomize_mission_items != RandomizeMissionItems.option_off:
         count = args.get("count", 1)
         item = args.get("item")
         return lambda state: state.has(item, world.player, count)

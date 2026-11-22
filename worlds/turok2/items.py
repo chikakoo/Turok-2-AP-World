@@ -3,8 +3,8 @@ import math
 from .item_table import *
 from typing import TYPE_CHECKING, Iterable
 from BaseClasses import Item
-from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, FillerDistribution, \
-    EnemySouls, LevelUnlockMethod, JumpThroughLava
+from .options import NukeBehavior, PrimagenGoal, RandomizePrimagenKeys, RandomizeTalismans, RandomizeMissionItems, \
+    FillerDistribution, EnemySouls, LevelUnlockMethod, JumpThroughLava
 from collections import Counter
 
 if TYPE_CHECKING:
@@ -82,11 +82,13 @@ def create_item_with_correct_classification(world: Turok2World, name: str) -> Tu
 
 def set_local_items(world: Turok2World) -> None:
     """ 
-    Populate the local items, including weapons.
+    Populate the local items, including mission items and weapons.
     This cannot be called after generate_early or unit tests will fail.
     """
     for name, data in ITEM_TABLE.items():
-        if data.get("is_local"):
+        if data.get("is_local") or (
+            world.options.randomize_mission_items == RandomizeMissionItems.option_on_local and
+                data.get("type") == ItemType.MISSION_ITEM.value):
             world.options.local_items.value.add(name)
 
     weapon_names = [
@@ -237,6 +239,16 @@ def create_progression_items(
             count = math.ceil(count / strength)
             precollect_count = warp_distributions.get(level, 0)
 
+        # Adds extra mission items if necessary
+        elif item_type == ItemType.MISSION_ITEM.value and \
+            world.options.randomize_mission_items == RandomizeMissionItems.option_on_extra_items:
+            if name == "Cave Door Key":
+                count += 2
+            elif name == "Ion Capacitor":
+                count += 4
+            elif name not in ["Blue Laser Cell", "Red Laser Cell"]:
+                count += 1
+
         # Add the number of weapons to the pool based on the progressive ammo setting
         # Also push the precollected weapons
         elif item_type == ItemType.WEAPON.value:
@@ -334,7 +346,7 @@ def get_required_seed_items(world: Turok2World, talisman_map: dict[str, int]):
         
         # Mission items
         if data["type"] == ItemType.MISSION_ITEM.value:
-            return world.options.randomize_mission_items
+            return world.options.randomize_mission_items != RandomizeMissionItems.option_off
         
         # Weapons
         if data["type"] == ItemType.WEAPON.value and not name in world.options.excluded_weapons.value:
@@ -362,9 +374,9 @@ def handle_vanilla_locations(world: Turok2World, talisman_map: dict[str, int]) -
     This is done so the tracker can more accurately tell what the next thing to do is.
     It also handles placing shuffled talismans.
 
-    Currently done with feathers, talismans, and Primagen keys.
+    Currently done with mission items, feathers, talismans, and Primagen keys.
     """
-    place_mission_items = not world.options.randomize_mission_items
+    place_mission_items = world.options.randomize_mission_items == RandomizeMissionItems.option_off
     place_feathers = not world.options.randomize_eagle_feathers
     place_talismans = world.options.randomize_talismans.value in (
         RandomizeTalismans.option_vanilla_in_pool_if_level_excluded,
