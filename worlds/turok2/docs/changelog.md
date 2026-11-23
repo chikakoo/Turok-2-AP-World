@@ -16,13 +16,15 @@ This includes changes in both the mod and AP world, in reverse order of releases
 - Added settings to randomize the sizes of enemies
 - Added settings to include extra mission items or to place them all locally
 - Added setting to include extra progressive warps
-- Added settings to handle remote traps:
-  - Whether or not you will get pending traps that you received while offline
-  - Whether to make all traps local to your world
 - Non-excluded level completions are now checks
 - Lock mission items to vanilla locations if not shuffling them (for trackers)
-- Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
 - The "Warp to Hub" button now leads to the checkpoint station instead of the Level 1 warp
+- Trap changes:
+  - Added settings to handle remote traps:
+    - Whether or not you will get pending traps that you received while offline
+    - Whether to make all traps local to your world
+  - Added "Adon Trap" to display a usually insulting line from Adon
+  - Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
 - AP world client changes:
   - Added support to open the patch file to auto-install it and launch the client
   - Ping the AP client (if not in offline mode) and display a disconnected message if it doesn't respond
