@@ -346,7 +346,7 @@ def get_settings_string(self: "Turok2World") -> str:
                     for key in ammo_type_mapping
                 ):
                     break
-        elif self.options.randomize_ammo_types == RandomizeAmmoTypes.option_random:
+        elif self.options.randomize_ammo_types == RandomizeAmmoTypes.option_random_types:
             ammo_types = list(AmmoTypes)
             for key in ammo_type_mapping:
                 # For alt ammo, exclude the ammo already selected by the primary ammo

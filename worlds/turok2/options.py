@@ -439,12 +439,12 @@ class RandomizeAmmoTypes(Choice):
 
     - Off: Ammo types are unchanged.
     - Shuffle: Shuffles existing ammo types. The number of types per included weapon will stay the same.
-    - Random: Completely randomize the ammo types of each weapon. This can result in types being unused.
+    - Random Types: Completely randomize the ammo types of each weapon. This can result in types being unused.
     """
     display_name = "Randomize Ammo Types"
     option_off = 0
     option_shuffle = 1
-    option_random = 2
+    option_random_types = 2
     default = option_off
 
 class MinRandomAmmoPercent(Range):
@@ -1072,6 +1072,37 @@ class TrapPercentage(Range):
     range_end = 100
     default = 0
 
+class TrapWeights(OptionDict):
+    """
+    The weight of all trap types. Accepts values from 0-1000, inclusive.
+    - Enemy Trap: Spawns 1-3 random enemies near you.
+    - Damage Trap: Does non-lethal damage to you depending on your difficulty.
+        - Easy: 5% of your current health
+        - Normal: 10%
+        - Hard+: 20%
+    - Spam Trap: Spams your screen with useless messages.
+    - Adon Trap: Plays a (usually insulting) message from Adon
+    """
+    display_name = "Trap Weights"
+    
+    trap_data = {
+        "Enemy Trap": 30,
+        "Damage Trap": 10,
+        "Spam Trap": 10,
+        "Adon Trap": 10
+    }
+    default = trap_data
+    
+    schema = Schema(
+        {
+            key: And(int,  lambda value: 0 <= value <= 1000,
+                error=f"{key} must be an integer between 0-1000."
+            )
+            for key in trap_data.keys()
+        },
+        ignore_extra_keys=False
+    )
+
 class RemoteTrapSetting(Choice):
     """
     How traps received from other worlds should be handled.
@@ -1106,38 +1137,6 @@ class EnemyTrapPool(Choice):
     option_scale_to_weapons = 3
     option_chaos = 4
     default = option_same_level
-
-class TrapWeights(OptionDict):
-    """
-    The weight of all trap types. Accepts values from 0-1000, inclusive.
-    - Enemy Trap:
-      - Spawns 1-3 random enemies near you.
-    - Damage Trap:
-      - Does damage to you depending on your difficulty. It will never bring your health to 0.
-        - Easy: 5% of your current health
-        - Normal: 10%
-        - Hard+: 20%
-    - Spam Trap:
-      - Spams your screen with useless messages.
-    """
-    display_name = "Trap Weights"
-    
-    trap_data = {
-        "Enemy Trap": 50,
-        "Damage Trap": 25,
-        "Spam Trap": 25,
-    }
-    default = trap_data
-    
-    schema = Schema(
-        {
-            key: And(int,  lambda value: 0 <= value <= 1000,
-                error=f"{key} must be an integer between 0-1000."
-            )
-            for key in trap_data.keys()
-        },
-        ignore_extra_keys=False
-    )
 
 class UncheckedPickupIndicators(Toggle):
     """
@@ -1255,9 +1254,9 @@ class Turok2Options(PerGameCommonOptions):
     life_force_weights: LifeForceWeights
 
     trap_percentage: TrapPercentage
+    trap_weights: TrapWeights
     remote_trap_setting: RemoteTrapSetting
     enemy_trap_pool: EnemyTrapPool
-    trap_weights: TrapWeights
 
     unchecked_pickup_indicators: UncheckedPickupIndicators
     unchecked_enemy_indicators: UncheckedEnemyIndicators
@@ -1338,9 +1337,9 @@ option_groups: List[OptionGroup] = [
     ]),
     OptionGroup("Traps", [
         TrapPercentage,
+        TrapWeights,
         RemoteTrapSetting,
-        EnemyTrapPool,
-        TrapWeights
+        EnemyTrapPool
     ]),
     OptionGroup("Gameplay Options", [
         UncheckedPickupIndicators,

@@ -105,6 +105,7 @@ class TrapType(Enum):
     ENEMY = 0
     DAMAGE = 1
     SPAM = 2
+    ADON = 3
     
 ITEM_TABLE = {
     # Pickups (including local health)
@@ -1016,6 +1017,13 @@ ITEM_TABLE = {
     "Spam Trap": {
         "id": 900020,
         "actor_id": 900020,
+        "type": ItemType.TRAP.value,
+        "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
+        "class": ItemClassification.trap
+    },
+    "Adon Trap": {
+        "id": 900030,
+        "actor_id": 900030,
         "type": ItemType.TRAP.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_TRAP.value,
         "class": ItemClassification.trap
