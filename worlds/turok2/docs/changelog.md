@@ -23,7 +23,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Added settings to handle remote traps:
     - Whether or not you will get pending traps that you received while offline
     - Whether to make all traps local to your world
-  - Added "Adon Trap" to display a usually insulting line from Adon
+  - Added "Adon Trap" to play a usually insulting voice line from Adon
   - Removed "safe" enemy traps (wasps only) while using leap of faith, as this isn't necessary anymore
 - AP world client changes:
   - Added support to open the patch file to auto-install it and launch the client
