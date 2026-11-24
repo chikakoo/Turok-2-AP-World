@@ -149,8 +149,8 @@ def create_locations(world: Turok2World) -> None:
         if isinstance(item_type, str):
             world.enemy_locations.append((loc_name, loc_info))
             return False
-        
-        item_group = ITEM_TYPE_TO_GROUP.get(item_type, None)
+
+        item_group = ITEM_TYPE_TO_GROUP.get(ItemType(item_type), None)
 
         if item_type == ItemType.WEAPON.value:
             return world.options.randomize_weapons

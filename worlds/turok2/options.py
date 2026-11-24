@@ -559,7 +559,7 @@ class RandomizeMissionItems(Choice):
     - On: Shuffles the items into the multiworld pool, to be found in any world.
     - On Extra Items: Same as "On", but includes extra items to speed up the seed.
                       Includes 1 more of each item, but with 2 more Cave Door Keys and 4 more Ion Capacitors.
-                      Exclues Laser Cells, as the vanilla count is already 2 more than is required.
+                      Excludes Laser Cells, as the vanilla count is already 2 more than is required.
     - Local: All mission items will be found randomly in your world.
     """
     display_name = "Randomize Mission Items"

@@ -23,7 +23,7 @@
 			],
 			"exits": [
 				{
-					"to": "[1-2] Catwalks Switch",
+					"to": "[1-2] Endtrail Switch",
 					"rule": {
 						"enemy_soul": {
 							"soul": "Endtrail Soul"
@@ -33,7 +33,7 @@
 			]
 		},
 		{
-			"name": "[1-2] Catwalks Switch",
+			"name": "[1-2] Endtrail Switch",
 			"exits": [
 				{
 					"to": "[1-3]",
