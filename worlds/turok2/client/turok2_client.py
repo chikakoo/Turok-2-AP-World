@@ -2,6 +2,7 @@ import argparse
 import asyncio
 import pymem
 import logging
+import json
 import zipfile
 from .ap_memory_constants import APStatus, APMessageType, APDeathType, DEATH_TYPE_MESSAGES, APMemoryOffset
 from CommonClient import server_loop, gui_enabled
@@ -242,7 +243,7 @@ class Turok2Context(SuperContext):
                     
                 patch_archive.extract("rando.kpf", path=mods_dir)
         except:
-            self.handle_patch_file("An uncaught error occurred while patching.")
+            self.print_patch_file_error("An unexpected error occurred while patching.")
     
     async def connect_to_game_async(self):
         """
@@ -600,7 +601,19 @@ class Turok2Context(SuperContext):
         return ui
     
 async def main(args: argparse.Namespace, exe_path: str) -> None:
-    ctx = Turok2Context(args.connect, args.password)
+    server = args.connect
+    password = args.password
+
+    try:
+        with zipfile.ZipFile(args.patch_file, 'r') as patch_archive:
+            if "archipelago.json" in patch_archive.namelist():
+                manifest = json.loads(patch_archive.read("archipelago.json"))
+                if "server" in manifest:
+                    server = manifest["server"]
+    except Exception as ex:
+        logger.warning(f"An unexpected error occurred while parsing the patch file: {ex}")
+
+    ctx = Turok2Context(server, password)
     ctx.exe_path = exe_path
     ctx.exe_name = Path(exe_path).name
     ctx.patch_file = args.patch_file
