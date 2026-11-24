@@ -10,7 +10,9 @@
 
 First, you need a room to connect to. For this, you or someone you know has to generate a game. Check the [Archipelago Setup Guide](https://archipelago.gg/tutorial/Archipelago/setup_en) for how to do this.
 
-You also need to have [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest) installed and the [The Turok 2 apworld](https://github.com/chikakoo/Turok-2-Randomizer/releases) installed into Archipelago. You can do this by double clicking the apworld, or putting it in your "custom_worlds" folder.
+You also need to have [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest) installed and the [Turok 2 apworld](https://github.com/chikakoo/Turok-2-AP-World/releases) installed into Archipelago. You can do this by double clicking the apworld, or putting it in your "custom_worlds" folder.
+
+See the [Linux setup](#linux-setup) for how to get this to work in Linux. This setup may also be relevant for Mac (please let me know if it is).
 
 ## Installing the mod
 
@@ -18,17 +20,9 @@ Installing the mod is very simple. First, locate your Turok 2 installation folde
 
 Once there, create a _mods_ folder. Extract the files from the mod zip (the _.kpf_ files) you downloaded from the [Required Software](#required-software) section into this folder. You should have a few files like: **mods/FileNameHere.kpf**.
 
-Follow the steps in the [Patch Files](#patch-files) section to find and place the _rando.kpf_ patch file here. **The game will fail to run if you don't do this!**
+Follow the steps in the [Patch Files](https://github.com/chikakoo/Turok-2-AP-World/blob/main/worlds/turok2/docs/patch_file.md) instructions (either through AP or manually) to install _rando.kpf_ patch file here. **The game will fail to run if you don't do this!**
 
 **Test that it worked before playing. You will see a custom title screen if it worked.**
-
-## Patch files
-
-Turok 2 uses a patch file to do its randomization and apply the game-specific yaml settings to the game.
-
-When your seed is generated, acquire your patch file like you normally would _(.apturok2 if downloaded from the room, or .zip if using the generated seed zip)_. **Extract** the files from the  patch - you should see one called _rando.kpf_. Place _rando.kpf_ with the other mod files (replace it if it exists already).
-
-**Failure to install this will result in the game throwing an error when opening!** Or, if you played a previous seed, it will use that seed's randomization. If you see the client telling you that you picked up something that you didn't, make sure you installed the correct patch!
 
 ## Connecting to the client
 
@@ -51,3 +45,20 @@ The client shoudn't need to be restarted, but be sure that you disconnect and re
 That's fine! You don't actually need to use the Turok 2 client in this case. Generate your seed through Archipelago and apply the patch as instructed.
 
 You're now good to play the game without Archipelago!
+
+## Linux Setup
+Modified from [this Discord post](https://discord.com/channels/731205301247803413/1238135254947074129/1544566143203676180). Please refer to this and post there if you need help.
+
+- Set Turok 2 to a Proton compatibility tool
+  - _This'll install the Windows version. If you have the mods in the folder it shouldn't touch them._
+- Boot Turok 2 to generate the Wine prefix and close it
+- Open the Archipelago installer through Protontricks and install it
+- Open the launcher through Protontricks in the Turok 2 prefix to install the APWorld, then close it
+  - For example: `protontricks-launch --appid 405830 '~/.local/share/Steam/steamapps/compatdata/405830/pfx/drive_c/ProgramData/Archipelago/ArchipelagoLauncher.exe'` as seen in the _.desktop_ file attached
+- Open the game first, then open the launcher
+  - _If you close out of the game it shuts down everything in the prefix and the launcher gets force closed as well_
+- Find the actual location of the Turok 2 executable
+  - It'll be in `Z:\home\[username]\.local\share\Steam\steamapps\[so on and so forth]`
+    - The `S: drive` may better for this purpose
+  - If you don't see this open up Protontricks itself on your prefix, open up winecfg, and in the "drives" area there should be a "show dot files" toggle you can toggle on
+- At this point you should be able to send and receive items
