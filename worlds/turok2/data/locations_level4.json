@@ -62,7 +62,7 @@
     "[4-1] Whispers Cave Door - Cave Spider in First Room": { "region": "[4-1] Whispers Cave Door", "ap_id": 98060, "tag_id": "7", "type": "Cave Spider Soul" },
     "[4-1] Whispers Cave Door - Cave Spider in Second Room 1": { "region": "[4-1] Whispers Cave Spider Door", "ap_id": 98061, "tag_id": "8", "type": "Cave Spider Soul" },
     "[4-1] Whispers Cave Door - Cave Spider in Second Room 2": { "region": "[4-1] Whispers Cave Spider Door", "ap_id": 98062, "tag_id": "9", "type": "Cave Spider Soul" },
-    "[4-1] Whispers Drop - Unlock Cave Door": { "region": "[4-1] Whispers", "ap_id": 98063, "tag_id": "21", "type": 99 },
+    "[4-1] Whispers Drop - Unlock Cave Door": { "region": "[4-1] Whispers Cave Door", "ap_id": 98063, "tag_id": "21", "type": 99 },
     "[4-2] Start - LF1 Trail 1": { "region": "[4-2]", "ap_id": 99000, "position": "99_-1895_-3046_-2764", "type": 0 },
     "[4-2] Start - LF1 Trail 2": { "region": "[4-2]", "ap_id": 99001, "position": "99_-1895_-2914_-2764", "type": 0 },
     "[4-2] Start - LF1 Trail 3": { "region": "[4-2]", "ap_id": 99002, "position": "99_-1894_-2807_-2763", "type": 0 },
