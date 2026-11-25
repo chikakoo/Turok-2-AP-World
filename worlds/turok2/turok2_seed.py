@@ -297,7 +297,6 @@ def get_settings_string(self: "Turok2World") -> str:
             PLASMA_ROUNDS = "Ammo_Plasma"
             TRANQUILIZER_DARTS = "Ammo_Dart"
             CHARGE_DARTS = "Ammo_ChargeDart"
-            SUNFIRE_PODS = "Ammo_SunfirePod"
             BORES = "Ammo_Bore"
             MINES = "Ammo_Mine"
             GRENADES = "Ammo_Grenades"
@@ -320,7 +319,6 @@ def get_settings_string(self: "Turok2World") -> str:
             "SHREDDER_ALT": AmmoTypes.EXPLOSIVE_SHELLS,
             "PLASMA_RIFLE": AmmoTypes.PLASMA_ROUNDS,
             "FIRESTORM_CANNON": AmmoTypes.PLASMA_ROUNDS,
-            "SUNFIRE_POD": AmmoTypes.SUNFIRE_PODS,
             "CEREBRAL_BORE": AmmoTypes.BORES,
             "PFM_LAYER": AmmoTypes.MINES,
             "GRENADE_LAUNCHER": AmmoTypes.GRENADES,
@@ -358,6 +356,8 @@ def get_settings_string(self: "Turok2World") -> str:
                 else:
                     ammo_type_mapping[key] = self.random.choice(ammo_types)
 
+        # Pods can't be randomized because they are also the weapon, so hard-code it here
+        ammo_type_mapping["SUNFIRE_POD"] = "Ammo_SunfirePod" 
         return "\n".join(f"#define OPTION_AMMO_TYPE_{key} \"{value}\"" for key, value in ammo_type_mapping.items()) + "\n"
 
     def format_starting_items_macro(name: str, values: list[int]) -> str:

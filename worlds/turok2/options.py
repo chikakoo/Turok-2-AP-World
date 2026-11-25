@@ -432,10 +432,12 @@ class MaxAmmoSettings(OptionDict):
 
 class RandomizeAmmoTypes(Choice):
     """
+    WARNING: THIS CAN DRASTICALLY CHANGES THE GAME BALANCE!
+
     Randomizes which ammo type is used for each weapon. This does not change the behavior of the weapons.
     For example, shotguns might use bullets for its normal shots, and bores for its explosive shots.
 
-    Warning that this can drastically change weapon balance!
+    Sunfire Pods are excluded because the ammo is also the weapon.
 
     - Off: Ammo types are unchanged.
     - Shuffle: Shuffles existing ammo types. The number of types per included weapon will stay the same.
