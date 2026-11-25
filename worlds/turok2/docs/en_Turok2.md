@@ -2,22 +2,19 @@
 
 ## IMPORTANT
 
-**Linux and Mac are not supported. If you get it to work through VMs/Proton/etc, please let me know so we can add instructions for others.**
-
 **If "Auto-Switch New Weapon" is on and you receive a new weapon while on the Riding Gun in Level 2, you will be softlocked! Turn off that setting for this map! If you DO get softlocked in this way, press "_~_" to open the console, then type "_warp 125_" to reload the map.**
 
 ## Where is the options page?
 
 Archipelago uses yaml files for game options. You will need to get and edit the yaml with your desired options. Either download from [the release](https://github.com/chikakoo/Turok-2-Randomizer/releases), or generate it from the Archipelago Launcher.
 
-To generate it, install the AP world by downloading it and double-clicking it (or by putting it in your Archipelago's "custom worlds" directory). In the launcher, run "Generate Template Option" to generate the yaml.
+To generate it, install the AP world by downloading it and double-clicking it (or by putting it in your Archipelago's "custom worlds" directory). In the launcher, run "Generate Template Options".
 
 ## What items and locations get randomized?
 
 Static pickups (those not spawned from destructibles):
 - Health
-- Ammo
-- Max Ammo (amounts per ammo type are configurable)
+- Ammo (various options including max ammo and what types each weapon uses)
 - Weapons
 - Life Forces
 - Level Keys
@@ -36,14 +33,15 @@ Static pickups (those not spawned from destructibles):
 - What enemies are (enemizer)
 - Whether killing enemies give checks (enemysanity)
 
+See the yaml for the full set of options.
+
 ## What does randomization mean?
 
 Weapons can be randomized to single or multiple copies. If multiple, they will be progressive upgrades, with each upgrade reducing ammo consumption. See the ammo explanation later on for how ammo is changed.
 
-Life force tiles, health, and ammo can be shuffled throughout the worlds depending on settings. They can also be generated 
-based on filler items.
+Life force tiles, health, and ammo can be shuffled throughout the worlds depending on settings. They can also be generated based on filler items.
 
-Enemies have various randomization options to make the game more varied, including randomizing what they are, and/or making them checks.
+Enemies have various randomization options to make the game more varied, including randomizing what they are, making them checks, or adding their souls as items to get them to appear.
 
 ## What core changes have been made?
 
@@ -69,13 +67,13 @@ This is highly recommended to keep on if you are playing in a multiworld. If you
 
 When first spawning into a map, or picking up an item, it will show you how many checks are left there. There are two menus you can use to track progress as well:
 - While not scoping, press **zoom out** to open a UI where you can see your inventory progress. You can also click the "Warp to Hub" button to return to the hub, or the "Warp to Boss" button to warp to the boss/totem of the current level (if you've been there before).
-- While not scoping, press **zoon in** to show a quick summary of the map/level you are on.
+- While not scoping, press **zoom in** to show a quick summary of the map/level you are on.
 
 These are important, because **the randomizer breaks the in-game inventory screen.** It will not accurately show your progress.
 
 ### Pickup indicators
 
-All checks will use the in-game "important" item exclamation point to make them easier to find. There are separate options for pickups and enemies which are togglable through the UI.
+Locations will use the in-game "important" item exclamation point to make them easier to find. There are separate options for pickups and enemies which are togglable through the UI.
 
 They won't show up like this if the in-game "Show Hints" option is off, though.
 
@@ -92,12 +90,6 @@ There are settings to modify and/or randomize the max ammo of each weapon. Addit
 ### Totem Missions
 
 To prevent softlocks, totem missions will restart if you fail to save an energy totem.
-
-### Why is my Flare Gun weird/not accessible?
-
-Due to modding limitations, the Flare Gun now requires you to have explosive shells to use (it does not consume them). It otherwise behaves normally.
-
-This was a workaround so that explosive shells could be given from the random ammo pickups.
 
 ## Which items can be in another player's world?
 

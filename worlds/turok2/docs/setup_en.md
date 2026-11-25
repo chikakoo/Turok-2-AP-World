@@ -20,7 +20,7 @@ Installing the mod is very simple. First, locate your Turok 2 installation folde
 
 Once there, create a _mods_ folder. Extract the files from the mod zip (the _.kpf_ files) you downloaded from the [Required Software](#required-software) section into this folder. You should have a few files like: **mods/FileNameHere.kpf**.
 
-Follow the steps in the [Patch Files](https://github.com/chikakoo/Turok-2-AP-World/blob/main/worlds/turok2/docs/patch_file.md) instructions (either through AP or manually) to install _rando.kpf_ patch file here. **The game will fail to run if you don't do this!**
+Follow the steps in the [Patch Files](https://github.com/chikakoo/Turok-2-AP-World/blob/main/worlds/turok2/docs/patch_file.md) instructions (either through AP or manually) to install the _rando.kpf_ file here. **The game will fail to run if you don't do this!**
 
 **Test that it worked before playing. You will see a custom title screen if it worked.**
 
