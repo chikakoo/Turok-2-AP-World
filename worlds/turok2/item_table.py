@@ -772,7 +772,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [1, 2, 3, 4]
     },
     "Endtrail Soul": {
         "id": 400201,
@@ -780,7 +781,9 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [1, 2, 3, 4]
+
     },
     "Compy Soul": {
         "id": 405000,
@@ -788,7 +791,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [1, 2]
     },
     "Raptor Soul": {
         "id": 400300,
@@ -796,7 +800,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [1, 2, 3]
     },
     "Leaper Soul": {
         "id": 401000,
@@ -804,7 +809,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [2, 4]
     },
     "Spider Hatchling Soul": {
         "id": 400502,
@@ -812,7 +818,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [2, 4]
     },
     "Deadman Soul": {
         "id": 400800,
@@ -820,7 +827,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [2]
     },
     "Lord of the Dead Soul": {
         "id": 400803,
@@ -828,7 +836,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [2]
     },
     "Sister of Despair Soul": {
         "id": 400804,
@@ -836,7 +845,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [2]
     },
     "War Club Soul": {
         "id": 400600,
@@ -844,7 +854,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [3]
     },
     "Gunner Soul": {
         "id": 400602,
@@ -852,7 +863,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [3]
     },
     "Juggernaut Soul": {
         "id": 400603,
@@ -860,7 +872,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [3]
     },
     "Cave Worm Soul": {
         "id": 400505,
@@ -868,7 +881,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [3, 4]
     },
     "Wasp Soul": {
         "id": 400604,
@@ -876,7 +890,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [3]
     },
     "Blind Sentinel Soul": {
         "id": 400500,
@@ -884,7 +899,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [4]
     },
     "Guardian Soul": {
         "id": 400501,
@@ -892,7 +908,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [4]
     },
     "Nala Soul": {
         "id": 400507,
@@ -900,7 +917,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [4]
     },
     "Cave Spider Soul": {
         "id": 400503,
@@ -908,7 +926,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [4]
     },
     "Fireborn Soul": {
         "id": 400203,
@@ -916,7 +935,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [4]
     },
     "Drone Soul": {
         "id": 400709,
@@ -924,7 +944,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [5]
     },
     "Worker Soul": {
         "id": 400708,
@@ -932,7 +953,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [5]
     },
     "Mite Soul": {
         "id": 400707,
@@ -940,7 +962,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [5]
     },
     "Soldier Soul": {
         "id": 400710,
@@ -948,7 +971,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [5]
     },
     "Bio-Bot Soul": {
         "id": 400901,
@@ -956,7 +980,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [6]
     },
     "Trooper Soul": {
         "id": 400900,
@@ -964,7 +989,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [6]
     },
     "Elite Guard Soul": {
         "id": 400902,
@@ -972,7 +998,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [6]
     },
     "Flesh Sentinel Soul": {
         "id": 400400,
@@ -980,7 +1007,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [1, 2, 3, 4, 5, 6]
     },
     "Death Guard Soul": {
         "id": 400401,
@@ -988,7 +1016,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [1, 2, 3, 4, 5, 6]
     },
     "Lord of the Flesh Soul": {
         "id": 400402,
@@ -996,7 +1025,8 @@ ITEM_TABLE = {
         "type": ItemType.ENEMY_SOUL.value,
         "msg_type": APMessageType.AP_IN_MSGTYPE_GET_INVENTORY_ITEM.value,
         "class": ItemClassification.progression,
-        "count": 1
+        "count": 1,
+        "levels": [2, 3, 4, 5, 6]
     },
 
     # Traps

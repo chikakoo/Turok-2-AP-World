@@ -33,6 +33,7 @@ This includes changes in both the mod and AP world, in reverse order of releases
   - Fixed the Mag 60 from not consuming extra ammo when holding down fire
   - Fade out randomized spawned enemies to not eat up the cap with corpses
   - Fixed the Universal Tracker addon commands not being available
+  - Fixed the logic for the 4-1 Unlock Cave Door helper location
 
 ## v0.6.X
 

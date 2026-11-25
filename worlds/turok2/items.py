@@ -363,7 +363,8 @@ def get_required_seed_items(world: Turok2World, talisman_map: dict[str, int]):
 
         # Enemy souls
         if data["type"] == ItemType.ENEMY_SOUL.value:
-            return world.options.enemy_souls.value in (EnemySouls.option_no_spawns, EnemySouls.option_no_triggers)
+            return world.options.enemy_souls.value in (EnemySouls.option_no_spawns, EnemySouls.option_no_triggers) and \
+                not set(data.get("levels", [])).issubset(world.excluded_levels)
 
         return False
 
